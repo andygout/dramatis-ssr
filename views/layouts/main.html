@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			TheatreBase
-		</title>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-	</head>
+	{{> head }}
 	<body>
 		<div class='container'>
-			<header id='header' class='header'>
-				<a class="home-link" href="/">TheatreBase</a>
-			</header>
+			{{> header }}
 
-			<nav id='navigation' class='navigation'>
-				<ul class='nav-list'>
-					<li class='nav-list-item'>
-						<a href="/productions/new">New production</a>
-					</li>
-				</ul>
-			</nav>
+			{{> navigation }}
 
-			<main id='main-content' class='main-content'>
-				{{{ body }}}
-			</main>
+			{{> content }}
 
-			<footer id='footer' class='footer'>
-				<div class='footer-text-left'>TheatreBase</div>
-				<div class='footer-text-right'>Today's date is</div>
-			</footer>
+			{{> footer }}
 		</div>
 	</body>
 </html>
