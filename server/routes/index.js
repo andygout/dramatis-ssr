@@ -15,7 +15,26 @@ const handleConnectionErrors = (err, done, res) => {
 
 // Home
 router.get('/', function (req, res, next) {
-	res.render('index', { content: 'home page' });
+	const results = [];
+
+	// Get a Postgres client from the connection pool
+	pg.connect(connectionString, function (err, client, done) {
+		handleConnectionErrors(err, res, done);
+
+		// SQL Query > Select Data
+		const query = client.query(`SELECT * FROM productions ORDER BY id ASC`);
+
+		// Stream results back one row at a time
+		query.on('row', function (row) {
+			results.push(row);
+		});
+
+		// After all data is returned, close connection and return results
+		query.on('end', function () {
+			done();
+			res.render('index', { content: JSON.stringify(results) });
+		});
+	});
 });
 
 // New
@@ -155,26 +174,7 @@ router.get('/productions/:production_id', function (req, res) {
 
 // Index
 router.get('/productions', function (req, res) {
-	const results = [];
-
-	// Get a Postgres client from the connection pool
-	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
-
-		// SQL Query > Select Data
-		const query = client.query(`SELECT * FROM productions ORDER BY id ASC`);
-
-		// Stream results back one row at a time
-		query.on('row', function (row) {
-			results.push(row);
-		});
-
-		// After all data is returned, close connection and return results
-		query.on('end', function () {
-			done();
-			res.render('index', { content: JSON.stringify(results) });
-		});
-	});
+	res.redirect('/');
 });
 
 module.exports = router;
