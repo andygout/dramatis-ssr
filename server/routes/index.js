@@ -158,16 +158,15 @@ router.get('/productions/:production_id', function (req, res) {
 		// SQL Query > Select Data
 		const query = client.query(`SELECT * FROM productions WHERE id=${id}`);
 
-		// Stream results back one row at a time
+		// Set result as returned row
 		query.on('row', function (row) {
 			result = row;
-			// results.push(row);
 		});
 
 		// After all data is returned, close connection and return results
 		query.on('end', function () {
 			done();
-			res.render('index', { content: JSON.stringify(result) });
+			res.render('show', result);
 		});
 	});
 });
