@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>TheatreBase</title>
-	</head>
+	{{> head }}
 	<body>
-		<div>{{{ body }}}</div>
+		<div class='container'>
+			{{> header }}
+
+			{{> navigation }}
+
+			{{> content }}
+
+			{{> footer }}
+		</div>
 	</body>
 </html>
