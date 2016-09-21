@@ -11,10 +11,6 @@ html {
 	background-color: #F0F0F0;
 }
 
-body {
-	transition: 0.5s;
-}
-
 body.blur {
 	-webkit-filter: blur(3px);
 	filter: blur(3px);
@@ -53,7 +49,6 @@ a:hover {
 
 .home-link {
 	color: #1975A3;
-	transition: 0.5s;
 }
 
 .home-link:hover {
@@ -99,4 +94,45 @@ a:hover {
 	float: right;
 	font-size: x-small;
 	color: #1975A3;
+}
+
+.title-text {
+	margin: 0 5px 20px 5px;
+	padding-bottom: 0px;
+	font-size: xx-large;
+	color: #006699;
+}
+
+.button {
+	margin-top: 40px;
+	height: 22px;
+	width: 170px;
+	background-color: #E8E8E8;
+	cursor: pointer;
+}
+
+.fieldset {
+	margin-bottom: 20px;
+	padding: 5px 10px 20px;
+	background-color: #FEFEFE;
+	border: 2px solid #949494;
+	border-radius: 5px;
+}
+
+.form-item {
+	margin-top: 10px;
+}
+
+.label {
+	padding-left: 5px;
+	display: table-cell;
+	font-weight: bold;
+}
+
+.input {
+	display: block;
+}
+
+.text-input {
+	width: calc(100% - 5px);
 }
