@@ -6,8 +6,9 @@
 
 </form>
 
-<form method='post' action='/productions/{{id}}?_method=delete'>
+<form method='post' action='/productions/{{id}}'>
 
+	<input type='hidden' name='_method' value='delete'>
 	<input type='submit' value='Delete production' class='button'>
 
 </form>
