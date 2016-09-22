@@ -3,6 +3,9 @@ const router = express.Router();
 const path = require('path');
 const pg = require('pg');
 const connectionString = require(path.join(__dirname, '../', '../', 'config'));
+const methodOverride = require('method-override');
+
+router.use(methodOverride('_method'));
 
 const handleConnectionErrors = (err, done, res) => {
 	// Handle connection errors
@@ -140,7 +143,7 @@ router.delete('/productions/:production_id', function (req, res) {
 		// SQL Query > Delete Data
 		client.query(`DELETE FROM productions WHERE id=${id}`);
 
-		res.render('index', { content: 'home page' });
+		res.redirect('/');
 	});
 });
 
