@@ -5,6 +5,7 @@ const pg = require('pg');
 const connectionString = require(path.join(__dirname, '../', '../', 'config'));
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const format = require('pg-format');
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(methodOverride(function(req, res){
@@ -64,14 +65,16 @@ router.post('/productions', function (req, res) {
 	let result = {};
 
 	// Grab data from http request
-	const data = { title: req.body.title };
+	const data = {
+		title: format.literal(req.body.title)
+	};
 
 	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
 		handleConnectionErrors(err, res, done);
 
 		// SQL Query > Insert Data
-		const query = client.query(`INSERT INTO productions(title) VALUES('${data.title}') RETURNING id`);
+		const query = client.query(`INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`);
 
 		// Set result as returned row
 		query.on('row', function (row) {
@@ -91,7 +94,7 @@ router.get('/productions/:production_id/edit', function (req, res) {
 	let result = {};
 
 	// Grab data from the URL parameters
-	const id = req.params.production_id;
+	const id = format.literal(req.params.production_id);
 
 	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
@@ -126,14 +129,17 @@ router.post('/productions/:production_id', function (req, res) {
 	const id = req.params.production_id;
 
 	// Grab data from http request
-	const data = { title: req.body.title };
+	const data = {
+		id: 	format.literal(req.params.production_id),
+		title: 	format.literal(req.body.title)
+	};
 
 	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
 		handleConnectionErrors(err, res, done);
 
 		// SQL Query > Update Data
-		client.query(`UPDATE productions SET title='${data.title}' WHERE id=${id}`);
+		client.query(`UPDATE productions SET title=${data.title} WHERE id=${data.id}`);
 
 		res.redirect(`/productions/${id}`);
 	});
@@ -142,7 +148,7 @@ router.post('/productions/:production_id', function (req, res) {
 // Delete
 router.delete('/productions/:production_id', function (req, res) {
 	// Grab data from the URL parameters
-	const id = req.params.production_id;
+	const id = format.literal(req.params.production_id);
 
 	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
@@ -160,7 +166,7 @@ router.get('/productions/:production_id', function (req, res) {
 	let result = {};
 
 	// Grab data from the URL parameters
-	const id = req.params.production_id;
+	const id = format.literal(req.params.production_id);
 
 	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
