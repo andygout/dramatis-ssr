@@ -1,0 +1,23 @@
+.footer {
+	margin-top: 60px;
+	height: 20px;
+	background-color: black;
+	border-radius: 0 0 3px 3px;
+	font-weight: bold;
+}
+
+.footer-text-left {
+	margin-top: 3px;
+	padding-left: 10px;
+	float: left;
+	font-size: x-small;
+	color: $header-color;
+}
+
+.footer-text-right {
+	margin-top: 3px;
+	padding-left: 10px;
+	float: right;
+	font-size: x-small;
+	color: $header-color;
+}

@@ -1,0 +1,15 @@
+.header {
+	height: 75px;
+	background-color: black;
+	padding-left: 10px;
+	font-size: 400%;
+	font-weight: bold;
+}
+
+.home-link {
+	color: $header-color;
+
+	&:hover {
+		color: $header-hover-color;
+	}
+}

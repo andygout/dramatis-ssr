@@ -1,0 +1,37 @@
+.button-container {
+	display: inline;
+}
+
+.button {
+	margin-top: 40px;
+	height: 22px;
+	width: 170px;
+	background-color: $button-bg-color;
+	cursor: pointer;
+}
+
+.fieldset {
+	margin-bottom: 20px;
+	padding: 5px 10px 20px;
+	background-color: $form-bg-color;
+	border: 2px solid $border-color;
+	border-radius: 5px;
+}
+
+.form-item {
+	margin-top: 10px;
+}
+
+.label {
+	padding-left: 5px;
+	display: table-cell;
+	font-weight: bold;
+}
+
+.input {
+	display: block;
+}
+
+.text-input {
+	width: calc(100% - 5px);
+}
