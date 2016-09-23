@@ -103,6 +103,10 @@ a:hover {
 	color: #006699;
 }
 
+.button-container {
+	display: inline;
+}
+
 .button {
 	margin-top: 40px;
 	height: 22px;
