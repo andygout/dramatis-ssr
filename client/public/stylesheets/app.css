@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: arial, sans-serif;
+  color: #404040;
+  text-decoration: none; }
+
+html {
+  text-align: center;
+  background-color: #F0F0F0; }
+
+body.blur {
+  -webkit-filter: blur(3px);
+  filter: blur(3px); }
+
+body.overflow-y-hidden {
+  overflow-y: hidden; }
+
+a {
+  color: #006699; }
+
+a:hover {
+  color: #404040; }
+
+.container {
+  margin: auto;
+  width: 1000px;
+  background-color: white;
+  border: solid #949494;
+  border-width: 0 2px 2px;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 5px 5px 100px #949494, 5px 5px 100px #D0D0D0;
+  text-align: left; }
+
+.header {
+  height: 75px;
+  background-color: black;
+  padding-left: 10px;
+  font-size: 400%;
+  font-weight: bold; }
+
+.home-link {
+  color: #1975A3; }
+
+.home-link:hover {
+  color: #3083AC; }
+
+.navigation {
+  margin-bottom: 20px;
+  padding: 4px 35px 0; }
+
+.nav-list-item {
+  margin: 4em;
+  display: inline; }
+
+.main-content {
+  margin-bottom: 20px;
+  padding: 0 50px;
+  width: 900px;
+  font-size: small; }
+
+.footer {
+  margin-top: 60px;
+  height: 20px;
+  background-color: black;
+  border-radius: 0 0 3px 3px;
+  font-weight: bold; }
+
+.footer-text-left {
+  margin-top: 3px;
+  padding-left: 10px;
+  float: left;
+  font-size: x-small;
+  color: #1975A3; }
+
+.footer-text-right {
+  margin-top: 3px;
+  padding-right: 10px;
+  float: right;
+  font-size: x-small;
+  color: #1975A3; }
+
+.title-text {
+  margin: 0 5px 20px 5px;
+  padding-bottom: 0px;
+  font-size: xx-large;
+  color: #006699; }
+
+.button-container {
+  display: inline; }
+
+.button {
+  margin-top: 40px;
+  height: 22px;
+  width: 170px;
+  background-color: #E8E8E8;
+  cursor: pointer; }
+
+.fieldset {
+  margin-bottom: 20px;
+  padding: 5px 10px 20px;
+  background-color: #FEFEFE;
+  border: 2px solid #949494;
+  border-radius: 5px; }
+
+.form-item {
+  margin-top: 10px; }
+
+.label {
+  padding-left: 5px;
+  display: table-cell;
+  font-weight: bold; }
+
+.input {
+  display: block; }
+
+.text-input {
+  width: calc(100% - 5px); }
