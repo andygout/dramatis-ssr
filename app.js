@@ -21,15 +21,15 @@ app.use(cookieParser());
 
 app.use(
 	sassMiddleware({
-		src: __dirname + '/client/public/sass',
-		dest: __dirname + '/client/public/stylesheets',
+		src: __dirname + '/client/stylesheets',
+		dest: __dirname + '/client/public',
 		prefix:  '/stylesheets',
 		debug: true,
 	})
 );
 
 app.use(express.static(path.join(__dirname, './client', 'public')));
-app.use(favicon(path.join(__dirname, './client/public/favicons', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, './client/favicons', 'favicon.ico')));
 
 app.use('/', routes);
 
