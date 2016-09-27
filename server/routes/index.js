@@ -16,35 +16,15 @@ router.use(methodOverride(function(req, res){
 	}
 }))
 
-const handleConnectionErrors = (err, done, res) => {
-	// Handle connection errors
-	if(err) {
-		done();
-		console.log(err);
-		return res.status(500).json({ success: false, data: err });
-	}
-}
-
 // Home
 router.get('/', function (req, res, next) {
-	const results = [];
-
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Select Data
-		const query = client.query(`SELECT * FROM productions ORDER BY id ASC`);
-
-		// Stream results back one row at a time
-		query.on('row', function (row) {
-			results.push(row);
-		});
-
-		// After all data is returned, close connection and return results
-		query.on('end', function () {
+		client.query('SELECT * FROM productions ORDER BY id ASC', function (err, result) {
 			done();
-			res.render('index', { content: JSON.stringify(results) });
+			if (err) return next(err);
+			res.render('index', { content: JSON.stringify(result.rows) });
 		});
 	});
 });
@@ -61,129 +41,92 @@ router.get('/productions/new', function (req, res) {
 });
 
 // Create
-router.post('/productions', function (req, res) {
-	let result = {};
-
-	// Grab data from http request
+router.post('/productions', function (req, res, next) {
 	const data = {
 		title: format.literal(req.body.title)
 	};
 
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Insert Data
-		const query = client.query(`INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`);
-
-		// Set result as returned row
-		query.on('row', function (row) {
-			result = row;
-		});
-
-		// After all data is returned, close connection and return results
-		query.on('end', function () {
+		client.query(`INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`, function (err, result) {
 			done();
-			res.redirect(`/productions/${result.id}`);
+			if (err) return next(err);
+			res.redirect(`/productions/${result.rows[0].id}`);
 		});
 	});
 });
 
 // Edit
-router.get('/productions/:production_id/edit', function (req, res) {
-	let result = {};
+router.get('/productions/:id/edit', function (req, res, next) {
+	const id = format.literal(req.params.id);
 
-	// Grab data from the URL parameters
-	const id = format.literal(req.params.production_id);
-
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Select Data
-		const query = client.query(`SELECT * FROM productions WHERE id=${id}`);
-
-		// Set result as returned row
-		query.on('row', function (row) {
-			result = row;
-		});
-
-		// After all data is returned, close connection and return results
-		query.on('end', function () {
+		client.query(`SELECT * FROM productions WHERE id=${id}`, function (err, result) {
 			done();
+			if (err) return next(err);
 
 			const content = {
 				pageTitle: result.title,
-				formAction: `/productions/${result.id}`,
+				formAction: `/productions/${result.rows[0].id}`,
 				submitValue: 'Update production'
 			}
 
-			res.render('form', Object.assign({}, content, result));
+			res.render('form', Object.assign({}, content, result.rows[0]));
 		});
 	});
 });
 
 // Update
-router.post('/productions/:production_id', function (req, res) {
-	// Grab data from the URL parameters
-	const id = req.params.production_id;
+router.post('/productions/:id', function (req, res, next) {
+	const id = req.params.id;
 
-	// Grab data from http request
+			console.log('*********');
+			console.log('req.params ***: ', req.params);
 	const data = {
-		id: 	format.literal(req.params.production_id),
+		id: 	format.literal(req.params.id),
 		title: 	format.literal(req.body.title)
 	};
 
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Update Data
-		client.query(`UPDATE productions SET title=${data.title} WHERE id=${data.id}`);
-
-		res.redirect(`/productions/${id}`);
+		client.query(`UPDATE productions SET title=${data.title} WHERE id=${data.id}`, function (err, result) {
+			done();
+			if (err) return next(err);
+			res.redirect(`/productions/${id}`);
+		});
 	});
 });
 
 // Delete
-router.delete('/productions/:production_id', function (req, res) {
-	// Grab data from the URL parameters
-	const id = format.literal(req.params.production_id);
+router.delete('/productions/:id', function (req, res, next) {
+	const id = format.literal(req.params.id);
 
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Delete Data
-		client.query(`DELETE FROM productions WHERE id=${id}`);
-
-		res.redirect('/');
+		client.query(`DELETE FROM productions WHERE id=${id}`, function (err, result) {
+			done();
+			if (err) return next(err);
+			res.redirect('/');
+		});
 	});
 });
 
 // Show
-router.get('/productions/:production_id', function (req, res) {
-	let result = {};
+router.get('/productions/:id', function (req, res, next) {
+	const id = format.literal(req.params.id);
 
-	// Grab data from the URL parameters
-	const id = format.literal(req.params.production_id);
-
-	// Get a Postgres client from the connection pool
 	pg.connect(connectionString, function (err, client, done) {
-		handleConnectionErrors(err, res, done);
+		if (err) return next(err);
 
-		// SQL Query > Select Data
-		const query = client.query(`SELECT * FROM productions WHERE id=${id}`);
-
-		// Set result as returned row
-		query.on('row', function (row) {
-			result = row;
-		});
-
-		// After all data is returned, close connection and return results
-		query.on('end', function () {
+		client.query(`SELECT * FROM productions WHERE id=${id}`, function (err, result) {
 			done();
-			res.render('show', result);
+			if (err) return next(err);
+			res.render('show', result.rows[0]);
 		});
 	});
 });
