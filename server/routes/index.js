@@ -18,12 +18,17 @@ router.use(methodOverride(function(req, res){
 
 // Home
 router.get('/', function (req, res, next) {
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
 
-		client.query('SELECT * FROM productions ORDER BY id ASC', function (err, result) {
+		const query = client.query('SELECT * FROM productions ORDER BY id ASC');
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('row', function (row, result) { result.addRow(row); });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
 			res.render('index', { content: JSON.stringify(result.rows) });
 		});
 	});
@@ -42,17 +47,24 @@ router.get('/productions/new', function (req, res) {
 
 // Create
 router.post('/productions', function (req, res, next) {
+	let production;
+
 	const data = {
 		title: format.literal(req.body.title)
 	};
 
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
 
-		client.query(`INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`, function (err, result) {
+		const query = client.query(`INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`);
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('row', function (row) { production = row; });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
-			res.redirect(`/productions/${result.rows[0].id}`);
+			res.redirect(`/productions/${production.id}`);
 		});
 	});
 });
@@ -61,20 +73,27 @@ router.post('/productions', function (req, res, next) {
 router.get('/productions/:id/edit', function (req, res, next) {
 	const id = format.literal(req.params.id);
 
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	let production;
 
-		client.query(`SELECT * FROM productions WHERE id=${id}`, function (err, result) {
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
+
+		const query = client.query(`SELECT * FROM productions WHERE id=${id}`);
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('row', function (row) { production = row; });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
 
 			const content = {
 				pageTitle: result.title,
-				formAction: `/productions/${result.rows[0].id}`,
+				formAction: `/productions/${production.id}`,
 				submitValue: 'Update production'
 			}
 
-			res.render('form', Object.assign({}, content, result.rows[0]));
+			res.render('form', Object.assign({}, content, production));
 		});
 	});
 });
@@ -83,19 +102,22 @@ router.get('/productions/:id/edit', function (req, res, next) {
 router.post('/productions/:id', function (req, res, next) {
 	const id = req.params.id;
 
-			console.log('*********');
-			console.log('req.params ***: ', req.params);
 	const data = {
 		id: 	format.literal(req.params.id),
 		title: 	format.literal(req.body.title)
 	};
 
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
 
-		client.query(`UPDATE productions SET title=${data.title} WHERE id=${data.id}`, function (err, result) {
+		const query = client.query(`UPDATE productions SET title=${data.title} WHERE id=${data.id}`);
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('row', function (row) { production = row; });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
 			res.redirect(`/productions/${id}`);
 		});
 	});
@@ -105,12 +127,15 @@ router.post('/productions/:id', function (req, res, next) {
 router.delete('/productions/:id', function (req, res, next) {
 	const id = format.literal(req.params.id);
 
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
 
-		client.query(`DELETE FROM productions WHERE id=${id}`, function (err, result) {
+		const query = client.query(`DELETE FROM productions WHERE id=${id}`);
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
 			res.redirect('/');
 		});
 	});
@@ -120,13 +145,20 @@ router.delete('/productions/:id', function (req, res, next) {
 router.get('/productions/:id', function (req, res, next) {
 	const id = format.literal(req.params.id);
 
-	pg.connect(connectionString, function (err, client, done) {
-		if (err) return next(err);
+	let production;
 
-		client.query(`SELECT * FROM productions WHERE id=${id}`, function (err, result) {
+	pg.connect(connectionString, function (error, client, done) {
+		if (error) return next(error);
+
+		const query = client.query(`SELECT * FROM productions WHERE id=${id}`);
+
+		query.on('error', function(error) { return next(error); });
+
+		query.on('row', function (row) { production = row; });
+
+		query.on('end', function (result) {
 			done();
-			if (err) return next(err);
-			res.render('show', result.rows[0]);
+			res.render('show', production);
 		});
 	});
 });
