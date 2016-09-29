@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 
 	query(queryText, function (error, rows, result) {
 		if (error) return next(error);
-		res.render('index', { content: JSON.stringify(result.rows) });
+		res.render('index', { content: JSON.stringify(rows) });
 	});
 });
 
@@ -43,9 +43,9 @@ router.post('/productions', function (req, res, next) {
 
 	const queryText = `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`;
 
-	query(queryText, function (error, rows, result) {
+	query(queryText, function (error, row, result) {
 		if (error) return next(error);
-		res.redirect(`/productions/${rows[0].id}`);
+		res.redirect(`/productions/${row.id}`);
 	});
 });
 
@@ -55,16 +55,16 @@ router.get('/productions/:id/edit', function (req, res, next) {
 
 	const queryText = `SELECT * FROM productions WHERE id=${id}`;
 
-	query(queryText, function (error, rows, result) {
+	query(queryText, function (error, row, result) {
 		if (error) return next(error);
 
 		const content = {
 			pageTitle: result.title,
-			formAction: `/productions/${rows[0].id}`,
+			formAction: `/productions/${row.id}`,
 			submitValue: 'Update production'
 		}
 
-		res.render('form', Object.assign({}, content, rows[0]));
+		res.render('form', Object.assign({}, content, row));
 	});
 });
 
@@ -103,9 +103,9 @@ router.get('/productions/:id', function (req, res, next) {
 
 	const queryText = `SELECT * FROM productions WHERE id=${id}`;
 
-	query(queryText, function (error, rows, result) {
+	query(queryText, function (error, row, result) {
 		if (error) return next(error);
-		res.render('show', rows[0]);
+		res.render('show', row);
 	});
 });
 
