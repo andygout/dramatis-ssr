@@ -18,7 +18,7 @@ router.use(methodOverride(function(req, res){
 router.get('/', function (req, res, next) {
 	const queryText = 'SELECT * FROM productions ORDER BY id ASC';
 
-	query(queryText, function (error, productions, result) {
+	query(queryText, function (error, productions) {
 		if (error) return next(error);
 		res.render('index', { content: JSON.stringify(productions) });
 	});
@@ -43,7 +43,7 @@ router.post('/productions', function (req, res, next) {
 
 	const queryText = `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`;
 
-	query(queryText, function (error, production, result) {
+	query(queryText, function (error, production) {
 		if (error) return next(error);
 		res.redirect(`/productions/${production.id}`);
 	});
@@ -55,11 +55,11 @@ router.get('/productions/:id/edit', function (req, res, next) {
 
 	const queryText = `SELECT * FROM productions WHERE id=${id}`;
 
-	query(queryText, function (error, production, result) {
+	query(queryText, function (error, production) {
 		if (error) return next(error);
 
 		const content = {
-			pageTitle: result.title,
+			pageTitle: production.title,
 			formAction: `/productions/${production.id}`,
 			submitValue: 'Update production'
 		}
@@ -79,7 +79,7 @@ router.post('/productions/:id', function (req, res, next) {
 
 	const queryText = `UPDATE productions SET title=${data.title} WHERE id=${data.id}`;
 
-	query(queryText, function (error, rows, result) {
+	query(queryText, function (error) {
 		if (error) return next(error);
 		res.redirect(`/productions/${id}`);
 	});
@@ -91,7 +91,7 @@ router.delete('/productions/:id', function (req, res, next) {
 
 	const queryText = `DELETE FROM productions WHERE id=${id}`;
 
-	query(queryText, function (error, rows, result) {
+	query(queryText, function (error) {
 		if (error) return next(error);
 		res.redirect('/');
 	});
@@ -103,7 +103,7 @@ router.get('/productions/:id', function (req, res, next) {
 
 	const queryText = `SELECT * FROM productions WHERE id=${id}`;
 
-	query(queryText, function (error, production, result) {
+	query(queryText, function (error, production) {
 		if (error) return next(error);
 		res.render('show', production);
 	});
