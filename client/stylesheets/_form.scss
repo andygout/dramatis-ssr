@@ -35,3 +35,7 @@
 .text-input {
 	width: calc(100% - 5px);
 }
+
+.mandatory:after {
+	content: ' *';
+}
