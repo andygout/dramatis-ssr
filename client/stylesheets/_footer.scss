@@ -6,18 +6,17 @@
 	font-weight: bold;
 }
 
-.footer-text-left {
-	margin-top: 3px;
-	padding-left: 10px;
-	float: left;
+.footer-text {
+	margin-top: 4px;
+	padding: 0 10px;
 	font-size: x-small;
 	color: $header-color;
 }
 
+.footer-text-left {
+	float: left;
+}
+
 .footer-text-right {
-	margin-top: 3px;
-	padding-right: 10px;
 	float: right;
-	font-size: x-small;
-	color: $header-color;
 }
