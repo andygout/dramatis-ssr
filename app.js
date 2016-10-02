@@ -1,23 +1,26 @@
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const exphbs = require('express-handlebars');
-const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const path = require('path');
 const routes = require('./server/routes/index');
 const sassMiddleware = require('node-sass-middleware');
 
 const app = express();
-
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' })
 
 app.engine('html', hbs.engine);
+
 app.set('view engine', 'html');
-app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, './client', 'public')));
+app.use(favicon(path.join(__dirname, './client/favicons', 'favicon.ico')));
+app.use(logger('dev'));
 
 app.use(
 	sassMiddleware({
@@ -27,9 +30,6 @@ app.use(
 		debug: true,
 	})
 );
-
-app.use(express.static(path.join(__dirname, './client', 'public')));
-app.use(favicon(path.join(__dirname, './client/favicons', 'favicon.ico')));
 
 app.use('/', routes);
 

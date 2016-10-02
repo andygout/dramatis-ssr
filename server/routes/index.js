@@ -1,6 +1,7 @@
 const express = require('express');
-const router = express.Router();
 const methodOverride = require('method-override');
+
+const router = express.Router();
 
 router.use(methodOverride(function (req, res) {
 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
