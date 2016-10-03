@@ -33,7 +33,8 @@
 }
 
 .text-input {
-	width: calc(100% - 5px);
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .mandatory:after {
