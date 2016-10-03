@@ -1,16 +1,15 @@
 const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
-router.use(bodyParser.urlencoded({ extended: true }))
-router.use(methodOverride(function(req, res){
+const router = express.Router();
+
+router.use(methodOverride(function (req, res) {
 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
 		const method = req.body._method;
 		delete req.body._method;
 		return method;
 	}
-}))
+}));
 
 // Home
 router.get('/', require('../controllers/productions/index'));

@@ -24,8 +24,8 @@ a {
 	width: 1000px;
 	background-color: white;
 	border: solid $border-color;
-	border-width: 0 2px 2px;
-	border-radius: 0 0 5px 5px;
+	border-width: 0 $border-width $border-width;
+	border-radius: 0 0 $container-border-radius $container-border-radius;
 	box-shadow:  5px 5px 100px $border-color, 5px 5px 100px $box-shadow-color;
 	text-align: left;
 }

@@ -2,22 +2,21 @@
 	margin-top: 60px;
 	height: 20px;
 	background-color: black;
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 $footer-border-radius $footer-border-radius;
 	font-weight: bold;
 }
 
-.footer-text-left {
-	margin-top: 3px;
-	padding-left: 10px;
-	float: left;
+.footer__text {
+	margin-top: 4px;
+	padding: 0 10px;
 	font-size: x-small;
 	color: $header-color;
 }
 
-.footer-text-right {
-	margin-top: 3px;
-	padding-left: 10px;
+.footer__text--left {
+	float: left;
+}
+
+.footer__text--right {
 	float: right;
-	font-size: x-small;
-	color: $header-color;
 }

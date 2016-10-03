@@ -14,7 +14,7 @@
 	margin-bottom: 20px;
 	padding: 5px 10px 20px;
 	background-color: $form-bg-color;
-	border: 2px solid $border-color;
+	border: $border-width solid $border-color;
 	border-radius: 5px;
 }
 
@@ -33,5 +33,10 @@
 }
 
 .text-input {
-	width: calc(100% - 5px);
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.mandatory:after {
+	content: ' *';
 }
