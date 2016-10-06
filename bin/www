@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Module dependencies.
-const app = require('../app');
+const app = require('../init');
 const http = require('http');
 
 // Normalize a port into a number, string, or false.

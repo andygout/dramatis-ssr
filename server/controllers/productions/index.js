@@ -1,10 +1,9 @@
-const query = require('../../../lib/query');
+import newRoute from './new';
+import createRoute from './create';
+import editRoute from './edit';
+import updateRoute from './update';
+import deleteRoute from './delete';
+import showRoute from './show';
+import listRoute from './list';
 
-module.exports = (req, res, next) => {
-	const queryText = 'SELECT * FROM productions ORDER BY id ASC';
-
-	query(queryText, function (err, productions) {
-		if (err) return next(err);
-		res.render('index', { content: JSON.stringify(productions) });
-	});
-};
+export { newRoute, createRoute, editRoute, updateRoute, deleteRoute, showRoute, listRoute }

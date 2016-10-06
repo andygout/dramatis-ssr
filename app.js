@@ -1,12 +1,12 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const exphbs = require('express-handlebars');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const path = require('path');
-const routes = require('./server/routes/index');
-const sassMiddleware = require('node-sass-middleware');
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import exphbs from 'express-handlebars';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import path from 'path';
+import sassMiddleware from 'node-sass-middleware';
+import { router } from './server/routes';
 
 const app = express();
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' })
@@ -31,7 +31,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, './client', 'public')));
 
-app.use('/', routes);
+app.use('/', router);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,6 +1,5 @@
-const pg = require('pg');
-const path = require('path');
-const connectionString = require(path.join(__dirname, '../', '../', 'config'));
+import pg from 'pg';
+import connectionString from '../../config';
 
 const client = new pg.Client(connectionString);
 client.connect();

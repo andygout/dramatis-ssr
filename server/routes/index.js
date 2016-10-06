@@ -1,5 +1,6 @@
-const express = require('express');
-const methodOverride = require('method-override');
+import express from 'express';
+import methodOverride from 'method-override';
+import * as controllers from '../controllers';
 
 const router = express.Router();
 
@@ -12,15 +13,15 @@ router.use(methodOverride(function (req, res) {
 }));
 
 // Home
-router.get('/', require('../controllers/productions/index'));
+router.get('/', controllers.productions.listRoute);
 
 // Productions
-router.get('/productions/new', require('../controllers/productions/new'));
-router.post('/productions', require('../controllers/productions/create'));
-router.get('/productions/:id/edit', require('../controllers/productions/edit'));
-router.post('/productions/:id', require('../controllers/productions/update'));
-router.delete('/productions/:id', require('../controllers/productions/delete'));
-router.get('/productions/:id', require('../controllers/productions/show'));
-router.get('/productions', require('../controllers/productions/index'));
+router.get('/productions/new', controllers.productions.newRoute);
+router.post('/productions', controllers.productions.createRoute);
+router.get('/productions/:id/edit', controllers.productions.editRoute);
+router.post('/productions/:id', controllers.productions.updateRoute);
+router.delete('/productions/:id', controllers.productions.deleteRoute);
+router.get('/productions/:id', controllers.productions.showRoute);
+router.get('/productions', controllers.productions.listRoute);
 
-module.exports = router;
+export { router };
