@@ -1,6 +1,6 @@
-const query = require('../../../lib/query');
+import query from '../../../lib/query';
 
-module.exports = (req, res) => {
+export default function (req, res) {
 	const content = {
 		pageTitle: 'New production',
 		formAction: '/productions',
@@ -8,4 +8,4 @@ module.exports = (req, res) => {
 	}
 
 	res.render('form', content);
-};
+}

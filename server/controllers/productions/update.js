@@ -1,7 +1,7 @@
-const format = require('pg-format');
-const query = require('../../../lib/query');
+import format from 'pg-format';
+import query from '../../../lib/query';
 
-module.exports = (req, res, next) => {
+export default function (req, res, next) {
 	const id = req.params.id;
 
 	const data = {
@@ -15,4 +15,4 @@ module.exports = (req, res, next) => {
 		if (err) return next(err);
 		res.redirect(`/productions/${id}`);
 	});
-};
+}
