@@ -1,3 +1,2 @@
 require('./setup');
-
-module.exports = require('./app');
+require('./app');

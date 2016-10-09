@@ -4,7 +4,7 @@
 	"description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon ./bin/www"
+		"start": "nodemon ./init"
 	},
 	"author": "https://github.com/andygout",
 	"license": "MS-RSL",
