@@ -17,18 +17,18 @@ app.set('view engine', 'html');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(favicon(path.join(__dirname, './client/favicons', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
 app.use(logger('dev'));
 
 app.use(
 	sassMiddleware({
-		src: __dirname + '/client/stylesheets',
-		dest: __dirname + '/client/public',
+		src: path.join(__dirname, 'client', 'stylesheets'),
+		dest: path.join(__dirname, 'client', 'public'),
 		prefix:  '/stylesheets',
 		debug: true,
 	})
 );
-app.use(express.static(path.join(__dirname, './client', 'public')));
+app.use(express.static(path.join(__dirname, 'client', 'public')));
 
 app.use('/', router);
 
