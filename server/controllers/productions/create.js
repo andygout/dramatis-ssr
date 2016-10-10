@@ -1,15 +1,10 @@
-import format from 'pg-format';
-import query from '../../../lib/query';
+import Production from '../../models/production';
 
 export default function (req, res, next) {
-	const data = {
-		title: format.literal(req.body.title)
-	};
+	const production = new Production(req.body);
 
-	const queryText = `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`;
-
-	query(queryText, function (err, production) {
+	production.create(function (err, id) {
 		if (err) return next(err);
-		res.redirect(`/productions/${production.id}`);
+		res.redirect(`/productions/${id}`);
 	});
 }

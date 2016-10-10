@@ -1,11 +1,9 @@
-import query from '../../../lib/query';
+import Production from '../../models/production';
 
-export default function (req, res) {
-	const content = {
-		pageTitle: 'New production',
-		formAction: '/productions',
-		submitValue: 'Create production'
-	}
+export default function (req, res, next) {
+	const production = new Production();
 
-	res.render('form', content);
+	production.new(function (data) {
+		res.render('form', data);
+	});
 }
