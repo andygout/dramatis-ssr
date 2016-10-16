@@ -1,7 +1,7 @@
 import Production from '../../models/production';
 
 export default function (req, res, next) {
-	const data = Object.assign({}, req.params, req.body)
+	const data = Object.assign({}, req.body)
 
 	const production = new Production(data);
 
