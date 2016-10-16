@@ -1,17 +1,11 @@
-import format from 'pg-format';
-import query from '../../../lib/query';
+import Production from '../../models/production';
 
 export default function (req, res, next) {
-	const id = req.params.id;
+	const data = Object.assign({}, req.params, req.body)
 
-	const data = {
-		id: 	format.literal(req.params.id),
-		title: 	format.literal(req.body.title)
-	};
+	const production = new Production(data);
 
-	const queryText = `UPDATE productions SET title=${data.title} WHERE id=${data.id}`;
-
-	query(queryText, function (err) {
+	production.update(function (err, id) {
 		if (err) return next(err);
 		res.redirect(`/productions/${id}`);
 	});

@@ -1,13 +1,10 @@
-import format from 'pg-format';
-import query from '../../../lib/query';
+import Production from '../../models/production';
 
 export default function (req, res, next) {
-	const id = format.literal(req.params.id);
+	const production = new Production(req.params);
 
-	const queryText = `SELECT * FROM productions WHERE id=${id}`;
-
-	query(queryText, function (err, production) {
+	production.show(function (err, data) {
 		if (err) return next(err);
-		res.render('show', production);
+		res.render('show', data);
 	});
 }
