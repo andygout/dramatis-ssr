@@ -66,18 +66,19 @@ export default class Production {
 	}
 
 	update (callback) {
-		const id = this.id;
-
 		const data = {
 			id: format.literal(this.id),
 			title: format.literal(this.title)
 		};
 
-		const text = `UPDATE productions SET title=${data.title} WHERE id=${data.id}`;
+		const queryData = {
+			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
+			isSingleRowResult: true
+		}
 
-		query({ text }, function (err) {
+		query(queryData, function (err, productionRow) {
 			if (err) return callback(err);
-			return callback(null, id);
+			return callback(null, productionRow.id);
 		});
 	}
 
