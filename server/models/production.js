@@ -102,7 +102,6 @@ export default class Production {
 		});
 	}
 
-
 	static list (callback) {
 		const queryText = 'SELECT * FROM productions ORDER BY id ASC';
 
