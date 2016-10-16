@@ -29,9 +29,12 @@ export default class Production {
 			title: format.literal(this.title)
 		};
 
-		const queryText = `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`;
+		const queryData = {
+			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
+			isSingleRowResult: true
+		}
 
-		query(queryText, function (err, productionRow) {
+		query(queryData, function (err, productionRow) {
 			if (err) return callback(err);
 			return callback(null, productionRow.id);
 		});
@@ -42,9 +45,12 @@ export default class Production {
 
 		const id = format.literal(this.id);
 
-		const queryText = `SELECT * FROM productions WHERE id=${id}`;
+		const queryData = {
+			text: `SELECT * FROM productions WHERE id=${id}`,
+			isSingleRowResult: true
+		}
 
-		query(queryText, function (err, productionRow) {
+		query(queryData, function (err, productionRow) {
 			if (err) return callback(err);
 
 			_this.renewValues(productionRow);
@@ -67,9 +73,9 @@ export default class Production {
 			title: format.literal(this.title)
 		};
 
-		const queryText = `UPDATE productions SET title=${data.title} WHERE id=${data.id}`;
+		const text = `UPDATE productions SET title=${data.title} WHERE id=${data.id}`;
 
-		query(queryText, function (err) {
+		query({ text }, function (err) {
 			if (err) return callback(err);
 			return callback(null, id);
 		});
@@ -78,9 +84,9 @@ export default class Production {
 	delete (callback) {
 		const id = format.literal(this.id);
 
-		const queryText = `DELETE FROM productions WHERE id=${id}`;
+		const text = `DELETE FROM productions WHERE id=${id}`;
 
-		query(queryText, function (err) {
+		query({ text }, function (err) {
 			if (err) return callback(err);
 			return callback(null);
 		});
@@ -91,9 +97,12 @@ export default class Production {
 
 		const id = format.literal(this.id);
 
-		const queryText = `SELECT * FROM productions WHERE id=${id}`;
+		const queryData = {
+			text: `SELECT * FROM productions WHERE id=${id}`,
+			isSingleRowResult: true
+		}
 
-		query(queryText, function (err, productionRow) {
+		query(queryData, function (err, productionRow) {
 			if (err) return callback(err);
 
 			_this.renewValues(productionRow);
@@ -103,9 +112,9 @@ export default class Production {
 	}
 
 	static list (callback) {
-		const queryText = 'SELECT * FROM productions ORDER BY id ASC';
+		const text = 'SELECT * FROM productions ORDER BY id ASC';
 
-		query(queryText, function (err, productionsRows) {
+		query({ text }, function (err, productionsRows) {
 			if (err) return callback(err);
 
 			const productions = productionsRows.map(productionRow => new Production(productionRow));
