@@ -111,7 +111,7 @@ export default class Production {
 
 			const productions = productionsRows.map(productionRow => new Production(productionRow));
 
-			return callback(null, { productions: JSON.stringify(productions) });
+			return callback(null, { productions });
 		});
 	}
 

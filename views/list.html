@@ -1,3 +1,9 @@
 <h1 class='title-text'>Home:</h1>
 
-<div>{{productions}}</div>
+<ul>
+	{{#each productions}}
+		<li><a href='/productions/{{this.id}}'>{{this.title}}</a></li>
+	{{else}}
+		<p>No productions</p>
+	{{/each}}
+</ul>
