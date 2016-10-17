@@ -5,6 +5,7 @@ export default function (req, res, next) {
 
 	production.show(function (err, data) {
 		if (err) return next(err);
-		res.render('show', data);
+		const flashMsg = req.flash('info');
+		res.render('show', Object.assign({}, data, { flashMsg }));
 	});
 }

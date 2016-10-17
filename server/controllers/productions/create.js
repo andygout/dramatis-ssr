@@ -5,6 +5,7 @@ export default function (req, res, next) {
 
 	production.create(function (err, id) {
 		if (err) return next(err);
+		req.flash('info', 'PRODUCTION CREATED');
 		res.redirect(`/productions/${id}`);
 	});
 }
