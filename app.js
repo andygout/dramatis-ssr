@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
 app.use(logger('dev'));
 
-app.use(session({ secret: 'secret' }));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 app.use(flash());
 
 app.use(
