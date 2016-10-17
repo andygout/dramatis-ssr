@@ -7,6 +7,7 @@ export default function (req, res, next) {
 
 	production.update(function (err, id) {
 		if (err) return next(err);
+		req.flash('info', 'PRODUCTION UPDATED');
 		res.redirect(`/productions/${id}`);
 	});
 }

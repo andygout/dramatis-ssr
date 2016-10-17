@@ -2,10 +2,12 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import exphbs from 'express-handlebars';
 import favicon from 'serve-favicon';
+import flash from 'connect-flash';
 import http from 'http';
 import logger from 'morgan';
 import path from 'path';
 import sassMiddleware from 'node-sass-middleware';
+import session from 'express-session';
 import { router } from './server/routes';
 
 const app = express();
@@ -19,6 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
 app.use(logger('dev'));
+
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+app.use(flash());
 
 app.use(
 	sassMiddleware({

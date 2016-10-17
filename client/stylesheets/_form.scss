@@ -1,3 +1,13 @@
+.head-alert {
+  margin: 0 5px 5px 5px;
+  min-height: 15px;
+}
+
+.alert-success {
+  color: $positive-color;
+  font-weight: bold;
+}
+
 .button-container {
 	display: inline;
 }
