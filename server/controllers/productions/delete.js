@@ -5,7 +5,8 @@ export default function (req, res, next) {
 
 	production.delete(function (err) {
 		if (err) return next(err);
-		req.flash('info', 'PRODUCTION DELETED');
+		req.flash('text', 'PRODUCTION DELETED');
+		req.flash('type', 'success');
 		res.redirect('/');
 	});
 }
