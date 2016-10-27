@@ -5,7 +5,32 @@ export default class Production {
 
 	constructor (props = {}) {
 		this.id = props.id || null;
-		this.title = props.title || null;
+		this.title = props.title;
+		this.preEditedTitle = props.preEditedTitle;
+	}
+
+	trimStrings () {
+		for (const property in this) {
+			if (this.hasOwnProperty(property) && typeof this[property] === 'string') {
+				this[property] = this[property].trim();
+			}
+		}
+	}
+
+	validateTitle () {
+		const titleErrors = [];
+		if (!this.title.length) titleErrors.push('Title is too short');
+		if (this.title.length > 255) titleErrors.push('Title is too long');
+		return titleErrors;
+	}
+
+	validate () {
+		this.trimStrings();
+
+		this.errors = {};
+
+		const titleErrors = this.validateTitle();
+		if (titleErrors.length) this.errors.title = titleErrors;
 	}
 
 	renewValues (row) {
@@ -25,6 +50,18 @@ export default class Production {
 	}
 
 	create (callback) {
+		this.validate();
+
+		if (Object.keys(this.errors).length) {
+			const page = {
+				title: 'New production',
+				formAction: '/productions',
+				submitValue: 'Create production'
+			}
+
+			return callback(null, { page, production: this });
+		}
+
 		const data = {
 			title: format.literal(this.title)
 		};
@@ -34,9 +71,9 @@ export default class Production {
 			isSingleRowResult: true
 		}
 
-		query(queryData, function (err, productionRow) {
+		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null, productionRow.id);
+			return callback(null, { production });
 		});
 	}
 
@@ -50,10 +87,10 @@ export default class Production {
 			isSingleRowResult: true
 		}
 
-		query(queryData, function (err, productionRow) {
+		query(queryData, function (err, production) {
 			if (err) return callback(err);
 
-			_this.renewValues(productionRow);
+			_this.renewValues(production);
 
 			const page = {
 				title: _this.title,
@@ -66,6 +103,18 @@ export default class Production {
 	}
 
 	update (callback) {
+		this.validate();
+
+		if (Object.keys(this.errors).length) {
+			const page = {
+				title: this.preEditedTitle,
+				formAction: `/productions/${this.id}`,
+				submitValue: 'Update production'
+			}
+
+			return callback(null, { page, production: this });
+		}
+
 		const data = {
 			id: format.literal(this.id),
 			title: format.literal(this.title)
@@ -76,9 +125,10 @@ export default class Production {
 			isSingleRowResult: true
 		}
 
-		query(queryData, function (err, productionRow) {
+		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null, productionRow.id);
+
+			return callback(null, { production });
 		});
 	}
 
@@ -103,10 +153,10 @@ export default class Production {
 			isSingleRowResult: true
 		}
 
-		query(queryData, function (err, productionRow) {
+		query(queryData, function (err, production) {
 			if (err) return callback(err);
 
-			_this.renewValues(productionRow);
+			_this.renewValues(production);
 
 			return callback(null, { production: _this });
 		});
@@ -118,7 +168,7 @@ export default class Production {
 		query({ text }, function (err, productionsRows) {
 			if (err) return callback(err);
 
-			const productions = productionsRows.map(productionRow => new Production(productionRow));
+			const productions = productionsRows.map(production => new Production(production));
 
 			return callback(null, { productions });
 		});

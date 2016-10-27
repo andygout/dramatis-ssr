@@ -1,5 +1,5 @@
 <div class='head-alert'>
-	{{#if flashMsg}}
-		<p class='alert-success'>{{flashMsg}}</p>
-	{{/if}}
+	{{#with flashMsg}}
+		<p class='alert-{{type}}'>{{text}}</p>
+	{{/with}}
 </div>

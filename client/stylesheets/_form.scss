@@ -8,6 +8,11 @@
   font-weight: bold;
 }
 
+.alert-error {
+	color: $negative-color;
+	font-weight: bold;
+}
+
 .button-container {
 	display: inline;
 }
@@ -45,6 +50,14 @@
 .text-input {
 	box-sizing: border-box;
 	width: 100%;
+}
+
+.text-input--has-error {
+	border-color: $negative-color;
+}
+
+.text-input__error-description {
+	color: $negative-color;
 }
 
 .mandatory:after {
