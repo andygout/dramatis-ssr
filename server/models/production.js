@@ -127,7 +127,6 @@ export default class Production {
 
 		query(queryData, function (err, production) {
 			if (err) return callback(err);
-
 			return callback(null, { production });
 		});
 	}
