@@ -1,4 +1,5 @@
 import Production from '../../models/production';
+import { setAlert, getAlert } from '../../../lib/alert';
 
 export default function (req, res, next) {
 	const production = new Production(req.body);
@@ -7,13 +8,10 @@ export default function (req, res, next) {
 		if (err) return next(err);
 
 		if (data.production.errors) {
-			req.flash('text', 'PRODUCTION ERRORS');
-			req.flash('type', 'error');
-			const alert = { text: req.flash('text'), type: req.flash('type') };
-			res.render('form', Object.assign({}, data, { alert }));
+			setAlert(req, 'PRODUCTION ERRORS', 'error');
+			res.render('form', Object.assign({}, data, { alert: getAlert(req) }));
 		} else {
-			req.flash('text', `PRODUCTION CREATED: ${production.title}`);
-			req.flash('type', 'success');
+			setAlert(req, `PRODUCTION CREATED: ${production.title}`, 'success');
 			res.redirect(`/productions/${data.production.id}`);
 		}
 	});

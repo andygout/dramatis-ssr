@@ -1,11 +1,11 @@
 import Production from '../../models/production';
+import { getAlert } from '../../../lib/alert';
 
 export default function (req, res, next) {
 	const production = new Production(req.params);
 
 	production.show(function (err, data) {
 		if (err) return next(err);
-		const alert = { text: req.flash('text'), type: req.flash('type') };
-		res.render('show', Object.assign({}, data, { alert }));
+		res.render('show', Object.assign({}, data, { alert: getAlert(req) }));
 	});
 }
