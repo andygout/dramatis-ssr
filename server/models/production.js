@@ -133,13 +133,21 @@ export default class Production {
 	}
 
 	delete (callback) {
+		const _this = this;
+
 		const id = format.literal(this.id);
 
-		const text = `DELETE FROM productions WHERE id=${id}`;
+		const queryData = {
+			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
+			isSingleRowResult: true
+		}
 
-		query({ text }, function (err) {
+		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null);
+
+			_this.renewValues(production);
+
+			return callback(null, { production: _this });
 		});
 	}
 

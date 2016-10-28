@@ -12,7 +12,7 @@ export default function (req, res, next) {
 			const alert = { text: req.flash('text'), type: req.flash('type') };
 			res.render('form', Object.assign({}, data, { alert }));
 		} else {
-			req.flash('text', 'PRODUCTION UPDATED');
+			req.flash('text', `PRODUCTION UPDATED: ${production.title}`);
 			req.flash('type', 'success');
 			res.redirect(`/productions/${data.production.id}`);
 		}
