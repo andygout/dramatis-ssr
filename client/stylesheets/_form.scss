@@ -43,20 +43,16 @@
 	font-weight: bold;
 }
 
-.input {
-	display: block;
-}
-
-.text-input {
+.field__input {
 	box-sizing: border-box;
 	width: 100%;
 }
 
-.text-input--has-error {
+.field__input--has-error {
 	border-color: $negative-color;
 }
 
-.text-input__error-description {
+.field__error-description {
 	color: $negative-color;
 }
 
