@@ -2,7 +2,7 @@
 
 <form method='post' action='{{page.formAction}}'>
 	<fieldset class='fieldset'>
-		<div class='form-item'>
+		<div class='field'>
 			{{#with production}}
 				<label for='title' class='label mandatory'>Title</label>
 				<input value='{{title}}' name='title' type='text' maxlength='255'
@@ -12,10 +12,10 @@
 					<li class='text-input__error-description'>{{this}}</li>
 				{{/each}}
 			{{/with}}
-
-			<input type='hidden' name='id' value='{{production.id}}'>
-			<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
-			<input type='submit' value='{{page.submitValue}}' class='button'>
 		</div>
+
+		<input type='hidden' name='id' value='{{production.id}}'>
+		<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
+		<input type='submit' value='{{page.submitValue}}' class='button'>
 	</fieldset>
 </form>
