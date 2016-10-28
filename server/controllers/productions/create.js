@@ -9,8 +9,8 @@ export default function (req, res, next) {
 		if (data.production.errors) {
 			req.flash('text', 'PRODUCTION ERRORS');
 			req.flash('type', 'error');
-			const flashMsg = { text: req.flash('text'), type: req.flash('type') };
-			res.render('form', Object.assign({}, data, { flashMsg }));
+			const alert = { text: req.flash('text'), type: req.flash('type') };
+			res.render('form', Object.assign({}, data, { alert }));
 		} else {
 			req.flash('text', 'PRODUCTION CREATED');
 			req.flash('type', 'success');
