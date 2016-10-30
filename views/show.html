@@ -5,6 +5,7 @@
 </form>
 
 <form method='post' action='/productions/{{production.id}}' class='button-container'>
+	<input type='hidden' name='id' value='{{production.id}}'>
 	<input type='hidden' name='_method' value='delete'>
 	<input type='submit' value='Delete production' class='button'>
 </form>
