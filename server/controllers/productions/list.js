@@ -1,5 +1,5 @@
 import Production from '../../models/production';
-import { getAlert } from '../../../lib/alert';
+import { getAlert } from '../../lib/alert';
 
 export default function (req, res, next) {
 	Production.list(function (err, data) {
