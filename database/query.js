@@ -9,7 +9,7 @@ export default function (queryData, callback) {
 
 			if (err) return callback(err);
 
-			if (result.rowCount === 0 && queryData.isSingleRowResult) {
+			if (!result.rowCount && queryData.isSingleRowResult) {
 				const err = new Error('Not Found');
 				err.status = 404;
 				return callback(err);
