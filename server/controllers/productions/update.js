@@ -11,7 +11,7 @@ export default function (req, res, next) {
 			setAlert(req, 'PRODUCTION ERRORS', 'error');
 			res.render('form', Object.assign({}, data, { alert: getAlert(req) }));
 		} else {
-			setAlert(req, `PRODUCTION UPDATED: ${production.title}`, 'success');
+			setAlert(req, `PRODUCTION UPDATED: ${data.production.title}`, 'success');
 			res.redirect(`/productions/${data.production.id}`);
 		}
 	});

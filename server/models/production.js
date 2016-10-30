@@ -67,7 +67,7 @@ export default class Production {
 		};
 
 		const queryData = {
-			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
+			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING *`,
 			isSingleRowResult: true
 		}
 
@@ -121,7 +121,7 @@ export default class Production {
 		};
 
 		const queryData = {
-			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
+			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING *`,
 			isSingleRowResult: true
 		}
 
