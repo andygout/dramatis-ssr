@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import query from '../../lib/query';
+import query from '../../database/query';
 
 export default class Production {
 
