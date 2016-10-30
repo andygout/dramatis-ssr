@@ -15,7 +15,7 @@ export default function (queryData, callback) {
 				return callback(err);
 			}
 
-			const rows = result.rowCount === 1 && queryData.isSingleRowResult ? result.rows[0] : result.rows;
+			const rows = queryData.isSingleRowResult ? result.rows[0] : result.rows;
 
 			return callback(null, rows);
 		});
