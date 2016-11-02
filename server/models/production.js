@@ -68,7 +68,7 @@ export default class Production {
 
 		const queryData = {
 			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING *`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -84,7 +84,7 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -122,7 +122,7 @@ export default class Production {
 
 		const queryData = {
 			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING *`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -138,7 +138,7 @@ export default class Production {
 
 		const queryData = {
 			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -157,7 +157,7 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {

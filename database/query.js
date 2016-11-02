@@ -9,13 +9,13 @@ export default function (queryData, callback) {
 
 			if (err) return callback(err);
 
-			if (!result.rowCount && queryData.isSingleRowResult) {
+			if (!result.rowCount && queryData.isSingleReqdResult) {
 				const err = new Error('Not Found');
 				err.status = 404;
 				return callback(err);
 			}
 
-			const rows = queryData.isSingleRowResult ? result.rows[0] : result.rows;
+			const rows = queryData.isSingleReqdResult ? result.rows[0] : result.rows;
 
 			return callback(null, rows);
 		});
