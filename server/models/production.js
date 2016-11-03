@@ -1,6 +1,6 @@
 import format from 'pg-format';
 import query from '../../database/query';
-import { newFormPageData, editFormPageData, deletePageData } from '../lib/page-data.js';
+import { newCreatePageData, editUpdatePageData, deletePageData } from '../lib/page-data.js';
 
 export default class Production {
 
@@ -41,14 +41,14 @@ export default class Production {
 	}
 
 	new (callback) {
-		const page = newFormPageData(this);
+		const page = newCreatePageData(this);
 		return callback({ page, production: this });
 	}
 
 	create (callback) {
 		this.validate();
 
-		const page = newFormPageData(this);
+		const page = newCreatePageData(this);
 
 		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
@@ -82,7 +82,7 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			const page = editFormPageData(_this);
+			const page = editUpdatePageData(_this);
 
 			return callback(null, { page, production: _this });
 		});
@@ -91,7 +91,7 @@ export default class Production {
 	update (callback) {
 		this.validate();
 
-		const page = editFormPageData(this);
+		const page = editUpdatePageData(this);
 
 		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 

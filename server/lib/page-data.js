@@ -7,7 +7,7 @@ const getAlertText = (model, instance, action) =>
 
 const getAlertType = instance => hasErrors(instance) ? 'error' : 'success'
 
-const newFormPageData = instance => {
+const newCreatePageData = instance => {
 	const model = getModelName(instance);
 	return {
 		title: `New ${model}`,
@@ -18,7 +18,7 @@ const newFormPageData = instance => {
 	}
 }
 
-const editFormPageData = instance => {
+const editUpdatePageData = instance => {
 	const model = getModelName(instance);
 	return {
 		title: `${instance.preEditedTitle || instance.title}`,
@@ -37,4 +37,4 @@ const deletePageData = instance => {
 	}
 }
 
-export { newFormPageData, editFormPageData, deletePageData }
+export { newCreatePageData, editUpdatePageData, deletePageData }
