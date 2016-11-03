@@ -1,6 +1,6 @@
 import format from 'pg-format';
 import query from '../../database/query';
-import { newFormPageData, editFormPageData } from '../lib/page-data.js';
+import { newFormPageData, editFormPageData, deletePageData } from '../lib/page-data.js';
 
 export default class Production {
 
@@ -48,23 +48,22 @@ export default class Production {
 	create (callback) {
 		this.validate();
 
-		if (Object.keys(this.errors).length) {
-			const page = newFormPageData(this);
-			return callback(null, { page, production: this });
-		}
+		const page = newFormPageData(this);
+
+		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
 		const data = {
 			title: format.literal(this.title)
 		};
 
 		const queryData = {
-			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING *`,
+			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
 			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null, { production });
+			return callback(null, { page, production });
 		});
 	}
 
@@ -92,10 +91,9 @@ export default class Production {
 	update (callback) {
 		this.validate();
 
-		if (Object.keys(this.errors).length) {
-			const page = editFormPageData(this);
-			return callback(null, { page, production: this });
-		}
+		const page = editFormPageData(this);
+
+		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
 		const data = {
 			id: format.literal(this.id),
@@ -103,13 +101,13 @@ export default class Production {
 		};
 
 		const queryData = {
-			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING *`,
+			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
 			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null, { production });
+			return callback(null, { page, production });
 		});
 	}
 
@@ -128,7 +126,9 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			return callback(null, { production: _this });
+			const page = deletePageData(_this);
+
+			return callback(null, { page, production: _this });
 		});
 	}
 

@@ -1,6 +1,6 @@
-const setAlert = (req, text, type) => {
-	req.flash('text', text);
-	req.flash('type', type);
+const setAlert = (req, pageData) => {
+	req.flash('text', pageData.alertText);
+	req.flash('type', pageData.alertType);
 }
 
 const getAlert = req => ({ text: req.flash('text'), type: req.flash('type') })

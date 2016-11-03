@@ -7,12 +7,10 @@ export default function (req, res, next) {
 	production.create(function (err, data) {
 		if (err) return next(err);
 
-		if (data.production.errors) {
-			setAlert(req, 'PRODUCTION ERRORS', 'error');
-			res.render('form', Object.assign({}, data, { alert: getAlert(req) }));
-		} else {
-			setAlert(req, `PRODUCTION CREATED: ${data.production.title}`, 'success');
+		setAlert(req, data.page);
+
+		data.production.errors ?
+			res.render('form', Object.assign({}, data, { alert: getAlert(req) })) :
 			res.redirect(`/productions/${data.production.id}`);
-		}
 	});
 }

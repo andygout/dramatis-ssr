@@ -6,7 +6,9 @@ export default function (req, res, next) {
 
 	production.delete(function (err, data) {
 		if (err) return next(err);
-		setAlert(req, `PRODUCTION DELETED: ${data.production.title}`, 'success');
+
+		setAlert(req, data.page);
+
 		res.redirect('/');
 	});
 }
