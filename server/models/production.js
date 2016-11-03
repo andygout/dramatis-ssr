@@ -1,5 +1,6 @@
 import format from 'pg-format';
 import query from '../../database/query';
+import { newFormPageData, editFormPageData } from '../lib/page-data.js';
 
 const MODEL = 'production';
 
@@ -42,12 +43,7 @@ export default class Production {
 	}
 
 	new (callback) {
-		const page = {
-			title: `New ${MODEL}`,
-			formAction: `/${MODEL}s`,
-			submitValue: `Create ${MODEL}`
-		}
-
+		const page = newFormPageData(MODEL);
 		return callback({ page, production: this });
 	}
 
@@ -55,12 +51,7 @@ export default class Production {
 		this.validate();
 
 		if (Object.keys(this.errors).length) {
-			const page = {
-				title: `New ${MODEL}`,
-				formAction: `/${MODEL}s`,
-				submitValue: `Create ${MODEL}`
-			}
-
+			const page = newFormPageData(MODEL);
 			return callback(null, { page, production: this });
 		}
 
@@ -94,11 +85,7 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			const page = {
-				title: _this.title,
-				formAction: `/${MODEL}s/${_this.id}`,
-				submitValue: `Update ${MODEL}`
-			}
+			const page = editFormPageData(MODEL, _this);
 
 			return callback(null, { page, production: _this });
 		});
@@ -108,12 +95,7 @@ export default class Production {
 		this.validate();
 
 		if (Object.keys(this.errors).length) {
-			const page = {
-				title: this.preEditedTitle,
-				formAction: `/${MODEL}s/${this.id}`,
-				submitValue: `Update ${MODEL}`
-			}
-
+			const page = editFormPageData(MODEL, this);
 			return callback(null, { page, production: this });
 		}
 
