@@ -2,8 +2,6 @@ import format from 'pg-format';
 import query from '../../database/query';
 import { newFormPageData, editFormPageData } from '../lib/page-data.js';
 
-const MODEL = 'production';
-
 export default class Production {
 
 	constructor (props = {}) {
@@ -43,7 +41,7 @@ export default class Production {
 	}
 
 	new (callback) {
-		const page = newFormPageData(MODEL);
+		const page = newFormPageData(this);
 		return callback({ page, production: this });
 	}
 
@@ -51,7 +49,7 @@ export default class Production {
 		this.validate();
 
 		if (Object.keys(this.errors).length) {
-			const page = newFormPageData(MODEL);
+			const page = newFormPageData(this);
 			return callback(null, { page, production: this });
 		}
 
@@ -85,7 +83,7 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			const page = editFormPageData(MODEL, _this);
+			const page = editFormPageData(_this);
 
 			return callback(null, { page, production: _this });
 		});
@@ -95,7 +93,7 @@ export default class Production {
 		this.validate();
 
 		if (Object.keys(this.errors).length) {
-			const page = editFormPageData(MODEL, this);
+			const page = editFormPageData(this);
 			return callback(null, { page, production: this });
 		}
 
