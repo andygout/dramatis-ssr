@@ -1,6 +1,8 @@
 import format from 'pg-format';
 import query from '../../database/query';
 
+const MODEL = 'production';
+
 export default class Production {
 
 	constructor (props = {}) {
@@ -41,9 +43,9 @@ export default class Production {
 
 	new (callback) {
 		const page = {
-			title: 'New production',
-			formAction: '/productions',
-			submitValue: 'Create production'
+			title: `New ${MODEL}`,
+			formAction: `/${MODEL}s`,
+			submitValue: `Create ${MODEL}`
 		}
 
 		return callback({ page, production: this });
@@ -54,9 +56,9 @@ export default class Production {
 
 		if (Object.keys(this.errors).length) {
 			const page = {
-				title: 'New production',
-				formAction: '/productions',
-				submitValue: 'Create production'
+				title: `New ${MODEL}`,
+				formAction: `/${MODEL}s`,
+				submitValue: `Create ${MODEL}`
 			}
 
 			return callback(null, { page, production: this });
@@ -94,8 +96,8 @@ export default class Production {
 
 			const page = {
 				title: _this.title,
-				formAction: `/productions/${_this.id}`,
-				submitValue: 'Update production'
+				formAction: `/${MODEL}s/${_this.id}`,
+				submitValue: `Update ${MODEL}`
 			}
 
 			return callback(null, { page, production: _this });
@@ -108,8 +110,8 @@ export default class Production {
 		if (Object.keys(this.errors).length) {
 			const page = {
 				title: this.preEditedTitle,
-				formAction: `/productions/${this.id}`,
-				submitValue: 'Update production'
+				formAction: `/${MODEL}s/${this.id}`,
+				submitValue: `Update ${MODEL}`
 			}
 
 			return callback(null, { page, production: this });
