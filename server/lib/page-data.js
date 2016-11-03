@@ -1,40 +1,24 @@
 const getModelName = instance => instance.constructor.name.toLowerCase();
 
+const checkIfCreateAction = action => action === 'create';
+
 const hasErrors = instance => instance.errors && Object.keys(instance.errors).length;
 
 const getAlertText = (model, instance, action) =>
-	`${model.toUpperCase()} ${hasErrors(instance) ? 'ERRORS' : action + ': ' + instance.title}`
+	`${model} ${hasErrors(instance) ? 'ERRORS' : action + 'd: ' + instance.title}`.toUpperCase()
 
 const getAlertType = instance => hasErrors(instance) ? 'error' : 'success'
 
-const newCreatePageData = instance => {
+const getPageData = (instance, action) => {
 	const model = getModelName(instance);
+	const isCreateAction = checkIfCreateAction(action);
 	return {
-		title: `New ${model}`,
-		formAction: `/${model}s`,
-		submitValue: `Create ${model}`,
-		alertText: getAlertText(model, instance, 'CREATED'),
+		title: isCreateAction ? `New ${model}` : `${instance.preEditedTitle || instance.title}`,
+		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
+		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
+		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
 	}
 }
 
-const editUpdatePageData = instance => {
-	const model = getModelName(instance);
-	return {
-		title: `${instance.preEditedTitle || instance.title}`,
-		formAction: `/${model}s/${instance.id}`,
-		submitValue: `Update ${model}`,
-		alertText: getAlertText(model, instance, 'UPDATED'),
-		alertType: getAlertType(instance)
-	}
-}
-
-const deletePageData = instance => {
-	const model = getModelName(instance);
-	return {
-		alertText: getAlertText(model, instance, 'DELETED'),
-		alertType: getAlertType(instance)
-	}
-}
-
-export { newCreatePageData, editUpdatePageData, deletePageData }
+export { getPageData }
