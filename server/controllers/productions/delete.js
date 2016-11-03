@@ -1,14 +1,11 @@
 import Production from '../../models/production';
-import { setAlert } from '../../lib/alert';
+import { handleModelResponse } from '../../lib/handle-model-response';
 
 export default function (req, res, next) {
 	const production = new Production(req.body);
 
 	production.delete(function (err, data) {
-		if (err) return next(err);
-
-		setAlert(req, data.page);
-
-		res.redirect('/');
+		const redirectRoute = '/';
+		handleModelResponse(req, res, err, data, redirectRoute);
 	});
 }

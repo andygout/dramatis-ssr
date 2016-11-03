@@ -1,16 +1,11 @@
 import Production from '../../models/production';
-import { setAlert, getAlert } from '../../lib/alert';
+import { handleModelResponse } from '../../lib/handle-model-response';
 
 export default function (req, res, next) {
 	const production = new Production(req.body);
 
 	production.create(function (err, data) {
-		if (err) return next(err);
-
-		setAlert(req, data.page);
-
-		data.production.errors ?
-			res.render('form', Object.assign({}, data, { alert: getAlert(req) })) :
-			res.redirect(`/productions/${data.production.id}`);
+		const redirectRoute = `/productions/${data.production.id}`;
+		handleModelResponse(req, res, err, data, redirectRoute);
 	});
 }
