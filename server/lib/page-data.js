@@ -14,6 +14,7 @@ const getPageData = (instance, action) => {
 	const isCreateAction = checkIfCreateAction(action);
 	return {
 		title: isCreateAction ? `New ${model}` : `${instance.preEditedTitle || instance.title}`,
+		modelName: model.toUpperCase(),
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),

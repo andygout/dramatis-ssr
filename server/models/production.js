@@ -147,7 +147,9 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			return callback(null, { production: _this });
+			const page = getPageData(_this, 'show');
+
+			return callback(null, { page, production: _this });
 		});
 	}
 
