@@ -5,7 +5,7 @@ const checkIfCreateAction = action => action === 'create';
 const hasErrors = instance => instance.errors && Object.keys(instance.errors).length;
 
 const getAlertText = (model, instance, action) =>
-	`${model} ${hasErrors(instance) ? 'ERRORS' : action + 'd: ' + instance.title}`.toUpperCase()
+	`${model.toUpperCase()} ${hasErrors(instance) ? 'ERRORS' : action.toUpperCase() + 'D: ' + instance.title}`
 
 const getAlertType = instance => hasErrors(instance) ? 'error' : 'success'
 
