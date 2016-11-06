@@ -11,7 +11,9 @@ const getAlertType = instance => hasErrors(instance) ? 'error' : 'success'
 
 const getPageData = (instance, action) => {
 	const model = getModelName(instance);
+
 	const isCreateAction = checkIfCreateAction(action);
+
 	return {
 		title: isCreateAction ? `New ${model}` : `${instance.preEditedTitle || instance.title}`,
 		modelName: model.toUpperCase(),
