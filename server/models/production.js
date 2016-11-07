@@ -34,6 +34,14 @@ export default class Production {
 		if (titleErrors.length) this.errors.title = titleErrors;
 	}
 
+	pgFormatValues () {
+		const thisPgFormatted = this;
+
+		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
+
+		return thisPgFormatted;
+	}
+
 	renewValues (row) {
 		for (const property in this) {
 			if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
@@ -52,9 +60,7 @@ export default class Production {
 
 		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
-		const data = {
-			title: format.literal(this.title)
-		};
+		const data = this.pgFormatValues();
 
 		const queryData = {
 			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
@@ -95,10 +101,7 @@ export default class Production {
 
 		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
-		const data = {
-			id: format.literal(this.id),
-			title: format.literal(this.title)
-		};
+		const data = this.pgFormatValues();
 
 		const queryData = {
 			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
