@@ -43,9 +43,7 @@ export default class Production {
 	}
 
 	renewValues (row) {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
-		}
+		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
 	new (callback) {
