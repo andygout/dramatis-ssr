@@ -22,6 +22,8 @@ router.get('/productions/:id/edit', controllers.productions.editRoute);
 router.post('/productions/:id', controllers.productions.updateRoute);
 router.delete('/productions/:id', controllers.productions.deleteRoute);
 router.get('/productions/:id', controllers.productions.showRoute);
-router.get('/productions', controllers.productions.listRoute);
+router.get('/productions', function (req, res) {
+	res.redirect('/');
+});
 
 export { router };

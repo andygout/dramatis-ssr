@@ -1,14 +1,14 @@
 .head-alert {
-  margin: 0 5px 5px 5px;
-  min-height: 15px;
+	margin: 5px;
+	min-height: 15px;
 }
 
-.alert-success {
-  color: $positive-color;
-  font-weight: bold;
+.head-alert--success {
+	color: $positive-color;
+	font-weight: bold;
 }
 
-.alert-error {
+.head-alert--error {
 	color: $negative-color;
 	font-weight: bold;
 }
@@ -26,14 +26,14 @@
 }
 
 .fieldset {
-	margin-bottom: 20px;
+	margin: 0 0 20px 0;
 	padding: 5px 10px 20px;
 	background-color: $form-bg-color;
 	border: $border-width solid $border-color;
 	border-radius: 5px;
 }
 
-.form-item {
+.field {
 	margin-top: 10px;
 }
 
@@ -43,20 +43,16 @@
 	font-weight: bold;
 }
 
-.input {
-	display: block;
-}
-
-.text-input {
+.field__input {
 	box-sizing: border-box;
 	width: 100%;
 }
 
-.text-input--has-error {
+.field__input--has-error {
 	border-color: $negative-color;
 }
 
-.text-input__error-description {
+.field__error-description {
 	color: $negative-color;
 }
 

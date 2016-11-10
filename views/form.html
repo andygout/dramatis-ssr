@@ -2,20 +2,20 @@
 
 <form method='post' action='{{page.formAction}}'>
 	<fieldset class='fieldset'>
-		<div class='form-item'>
+		<div class='field'>
 			{{#with production}}
 				<label for='title' class='label mandatory'>Title</label>
 				<input value='{{title}}' name='title' type='text' maxlength='255'
-					class='input text-input{{#if errors.title}} text-input--has-error{{/if}}'
+					class='field__input{{#if errors.title}} field__input--has-error{{/if}}'
 				/>
 				{{#each errors.title}}
-					<li class='text-input__error-description'>{{this}}</li>
+					<li class='field__error-description'>{{this}}</li>
 				{{/each}}
 			{{/with}}
-
-			<input type='hidden' name='id' value='{{production.id}}'>
-			<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
-			<input type='submit' value='{{page.submitValue}}' class='button'>
 		</div>
 	</fieldset>
+
+	<input type='hidden' name='id' value='{{production.id}}'>
+	<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
+	<input type='submit' value='{{page.submitValue}}' class='button'>
 </form>

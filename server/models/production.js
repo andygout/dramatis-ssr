@@ -1,5 +1,6 @@
 import format from 'pg-format';
-import query from '../../lib/query';
+import query from '../../database/query';
+import { getPageData } from '../lib/page-data.js';
 
 export default class Production {
 
@@ -33,47 +34,40 @@ export default class Production {
 		if (titleErrors.length) this.errors.title = titleErrors;
 	}
 
+	pgFormatValues () {
+		const thisPgFormatted = this;
+
+		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
+
+		return thisPgFormatted;
+	}
+
 	renewValues (row) {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
-		}
+		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
 	new (callback) {
-		const page = {
-			title: 'New production',
-			formAction: '/productions',
-			submitValue: 'Create production'
-		}
-
+		const page = getPageData(this, 'create');
 		return callback({ page, production: this });
 	}
 
 	create (callback) {
 		this.validate();
 
-		if (Object.keys(this.errors).length) {
-			const page = {
-				title: 'New production',
-				formAction: '/productions',
-				submitValue: 'Create production'
-			}
+		const page = getPageData(this, 'create');
 
-			return callback(null, { page, production: this });
-		}
+		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
-		const data = {
-			title: format.literal(this.title)
-		};
+		const data = this.pgFormatValues();
 
 		const queryData = {
 			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
 			if (err) return callback(err);
-			return callback(null, { production });
+			return callback(null, { page, production });
 		});
 	}
 
@@ -84,7 +78,7 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -92,11 +86,7 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			const page = {
-				title: _this.title,
-				formAction: `/productions/${_this.id}`,
-				submitValue: 'Update production'
-			}
+			const page = getPageData(_this, 'update');
 
 			return callback(null, { page, production: _this });
 		});
@@ -105,41 +95,41 @@ export default class Production {
 	update (callback) {
 		this.validate();
 
-		if (Object.keys(this.errors).length) {
-			const page = {
-				title: this.preEditedTitle,
-				formAction: `/productions/${this.id}`,
-				submitValue: 'Update production'
-			}
+		const page = getPageData(this, 'update');
 
-			return callback(null, { page, production: this });
-		}
+		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
 
-		const data = {
-			id: format.literal(this.id),
-			title: format.literal(this.title)
-		};
+		const data = this.pgFormatValues();
 
 		const queryData = {
 			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
+		}
+
+		query(queryData, function (err, production) {
+			if (err) return callback(err);
+			return callback(null, { page, production });
+		});
+	}
+
+	delete (callback) {
+		const _this = this;
+
+		const id = format.literal(this.id);
+
+		const queryData = {
+			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
 			if (err) return callback(err);
 
-			return callback(null, { production });
-		});
-	}
+			_this.renewValues(production);
 
-	delete (callback) {
-		const id = format.literal(this.id);
+			const page = getPageData(_this, 'delete');
 
-		const text = `DELETE FROM productions WHERE id=${id}`;
-
-		query({ text }, function (err) {
-			if (err) return callback(err);
-			return callback(null);
+			return callback(null, { page, production: _this });
 		});
 	}
 
@@ -150,7 +140,7 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleRowResult: true
+			isSingleReqdResult: true
 		}
 
 		query(queryData, function (err, production) {
@@ -158,7 +148,9 @@ export default class Production {
 
 			_this.renewValues(production);
 
-			return callback(null, { production: _this });
+			const page = getPageData(_this, 'show');
+
+			return callback(null, { page, production: _this });
 		});
 	}
 

@@ -1,10 +1,11 @@
-<h1 class='title-text'>{{production.title}}</h1>
+<h1 class='title-text'>{{page.title}}</h1>
 
 <form method='get' action='/productions/{{production.id}}/edit' class='button-container'>
 	<input type='submit' value='Edit production' class='button'>
 </form>
 
 <form method='post' action='/productions/{{production.id}}' class='button-container'>
+	<input type='hidden' name='id' value='{{production.id}}'>
 	<input type='hidden' name='_method' value='delete'>
 	<input type='submit' value='Delete production' class='button'>
 </form>
