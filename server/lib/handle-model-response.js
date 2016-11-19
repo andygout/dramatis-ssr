@@ -1,8 +1,6 @@
 import { setAlert, getAlert } from './alert';
 
-const handleModelResponse = (req, res, err, data, redirectRoute) => {
-	if (err) return next(err);
-
+const handleModelResponse = (req, res, data, redirectRoute) => {
 	setAlert(req, data.page);
 
 	data.production.errors ?

@@ -46,17 +46,17 @@ export default class Production {
 		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
-	new (callback) {
+	new () {
 		const page = getPageData(this, 'create');
-		return callback({ page, production: this });
+		return { page, production: this };
 	}
 
-	create (callback) {
+	create () {
 		this.validate();
 
 		const page = getPageData(this, 'create');
 
-		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
+		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
 
 		const data = this.pgFormatValues();
 
@@ -65,13 +65,11 @@ export default class Production {
 			isSingleReqdResult: true
 		}
 
-		query(queryData, function (err, production) {
-			if (err) return callback(err);
-			return callback(null, { page, production });
-		});
+		return query(queryData)
+			.then(production => ({ page, production }));
 	}
 
-	edit (callback) {
+	edit () {
 		const _this = this;
 
 		const id = format.literal(this.id);
@@ -81,23 +79,22 @@ export default class Production {
 			isSingleReqdResult: true
 		}
 
-		query(queryData, function (err, production) {
-			if (err) return callback(err);
+		return query(queryData)
+			.then(production => {
+				_this.renewValues(production);
 
-			_this.renewValues(production);
+				const page = getPageData(_this, 'update');
 
-			const page = getPageData(_this, 'update');
-
-			return callback(null, { page, production: _this });
-		});
+				return { page, production: _this };
+			});
 	}
 
-	update (callback) {
+	update () {
 		this.validate();
 
 		const page = getPageData(this, 'update');
 
-		if (Object.keys(this.errors).length) return callback(null, { page, production: this });
+		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
 
 		const data = this.pgFormatValues();
 
@@ -106,13 +103,11 @@ export default class Production {
 			isSingleReqdResult: true
 		}
 
-		query(queryData, function (err, production) {
-			if (err) return callback(err);
-			return callback(null, { page, production });
-		});
+		return query(queryData)
+			.then(production => ({ page, production }));
 	}
 
-	delete (callback) {
+	delete () {
 		const _this = this;
 
 		const id = format.literal(this.id);
@@ -122,18 +117,17 @@ export default class Production {
 			isSingleReqdResult: true
 		}
 
-		query(queryData, function (err, production) {
-			if (err) return callback(err);
+		return query(queryData)
+			.then(production => {
+				_this.renewValues(production);
 
-			_this.renewValues(production);
+				const page = getPageData(_this, 'delete');
 
-			const page = getPageData(_this, 'delete');
-
-			return callback(null, { page, production: _this });
-		});
+				return { page, production: _this };
+			});
 	}
 
-	show (callback) {
+	show () {
 		const _this = this;
 
 		const id = format.literal(this.id);
@@ -143,27 +137,24 @@ export default class Production {
 			isSingleReqdResult: true
 		}
 
-		query(queryData, function (err, production) {
-			if (err) return callback(err);
+		return query(queryData)
+			.then(production => {
+				_this.renewValues(production);
 
-			_this.renewValues(production);
+				const page = getPageData(_this, 'show');
 
-			const page = getPageData(_this, 'show');
-
-			return callback(null, { page, production: _this });
-		});
+				return { page, production: _this };
+			});
 	}
 
-	static list (callback) {
+	static list () {
 		const text = 'SELECT * FROM productions ORDER BY id ASC';
 
-		query({ text }, function (err, productionsRows) {
-			if (err) return callback(err);
-
-			const productions = productionsRows.map(production => new Production(production));
-
-			return callback(null, { productions });
-		});
+		return query({ text })
+			.then(productionsRows => {
+				const productions = productionsRows.map(production => new Production(production));
+				return { productions };
+			});
 	}
 
 }
