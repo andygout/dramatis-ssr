@@ -62,11 +62,11 @@ export default class Production {
 
 		const queryData = {
 			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
-			isSingleReqdResult: true
+			isReqdResult: true
 		}
 
 		return query(queryData)
-			.then(production => ({ page, production }));
+			.then(([production] = production) => ({ page, production }));
 	}
 
 	edit () {
@@ -76,11 +76,11 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleReqdResult: true
+			isReqdResult: true
 		}
 
 		return query(queryData)
-			.then(production => {
+			.then(([production] = production) => {
 				_this.renewValues(production);
 
 				const page = getPageData(_this, 'update');
@@ -100,11 +100,11 @@ export default class Production {
 
 		const queryData = {
 			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
-			isSingleReqdResult: true
+			isReqdResult: true
 		}
 
 		return query(queryData)
-			.then(production => ({ page, production }));
+			.then(([production] = production) => ({ page, production }));
 	}
 
 	delete () {
@@ -114,11 +114,11 @@ export default class Production {
 
 		const queryData = {
 			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
-			isSingleReqdResult: true
+			isReqdResult: true
 		}
 
 		return query(queryData)
-			.then(production => {
+			.then(([production] = production) => {
 				_this.renewValues(production);
 
 				const page = getPageData(_this, 'delete');
@@ -134,11 +134,11 @@ export default class Production {
 
 		const queryData = {
 			text: `SELECT * FROM productions WHERE id=${id}`,
-			isSingleReqdResult: true
+			isReqdResult: true
 		}
 
 		return query(queryData)
-			.then(production => {
+			.then(([production] = production) => {
 				_this.renewValues(production);
 
 				const page = getPageData(_this, 'show');
