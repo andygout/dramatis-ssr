@@ -10,15 +10,13 @@ export default function (queryData) {
 
 				if (err) return reject(err);
 
-				if (!result.rowCount && queryData.isSingleReqdResult) {
+				if (!result.rowCount && queryData.isReqdResult) {
 					const err = new Error('Not Found');
 					err.status = 404;
 					return reject(err);
 				}
 
-				const rows = queryData.isSingleReqdResult ? result.rows[0] : result.rows;
-
-				return resolve(rows);
+				return resolve(result.rows);
 			});
 		});
 
