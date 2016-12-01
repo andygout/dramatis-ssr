@@ -1,9 +1,9 @@
-import Production from '../../models/production';
+const Production = require('../../models/production');
 
-export default function (req, res, next) {
+module.exports = function (req, res, next) {
 	const production = new Production(req.params);
 
 	production.edit()
 		.then(data => res.render('form', data))
 		.catch(err => next(err));
-}
+};

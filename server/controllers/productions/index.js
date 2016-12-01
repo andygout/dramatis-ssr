@@ -1,9 +1,7 @@
-import newRoute from './new';
-import createRoute from './create';
-import editRoute from './edit';
-import updateRoute from './update';
-import deleteRoute from './delete';
-import showRoute from './show';
-import listRoute from './list';
-
-export { newRoute, createRoute, editRoute, updateRoute, deleteRoute, showRoute, listRoute }
+exports.newRoute = require('./new');
+exports.createRoute = require('./create');
+exports.editRoute = require('./edit');
+exports.updateRoute = require('./update');
+exports.deleteRoute = require('./delete');
+exports.showRoute = require('./show');
+exports.listRoute = require('./list');

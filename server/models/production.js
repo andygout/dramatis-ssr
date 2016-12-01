@@ -1,8 +1,8 @@
-import format from 'pg-format';
-import query from '../../database/query';
-import { getPageData } from '../lib/page-data.js';
+const format = require('pg-format');
+const query = require('../../database/query');
+const getPageData = require('../lib/page-data.js');
 
-export default class Production {
+module.exports = class Production {
 
 	constructor (props = {}) {
 		this.id = props.id || null;

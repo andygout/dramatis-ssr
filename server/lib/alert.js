@@ -1,8 +1,6 @@
-const setAlert = (req, pageData) => {
+exports.set = (req, pageData) => {
 	req.flash('text', pageData.alertText);
 	req.flash('type', pageData.alertType);
-}
+};
 
-const getAlert = req => ({ text: req.flash('text'), type: req.flash('type') })
-
-export { setAlert, getAlert }
+exports.get = req => ({ text: req.flash('text'), type: req.flash('type') });

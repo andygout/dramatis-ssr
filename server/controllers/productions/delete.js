@@ -1,7 +1,7 @@
-import Production from '../../models/production';
-import { handleModelResponse } from '../../lib/handle-model-response';
+const Production = require('../../models/production');
+const handleModelResponse = require('../../lib/handle-model-response');
 
-export default function (req, res, next) {
+module.exports = function (req, res, next) {
 	const production = new Production(req.body);
 
 	production.delete()
@@ -10,4 +10,4 @@ export default function (req, res, next) {
 			handleModelResponse(req, res, data, redirectRoute);
 		})
 		.catch(err => next(err));
-}
+};

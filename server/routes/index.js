@@ -1,6 +1,6 @@
-import express from 'express';
-import methodOverride from 'method-override';
-import * as controllers from '../controllers';
+const express = require('express');
+const methodOverride = require('method-override');
+const controllers = require('../controllers');
 
 const router = express.Router();
 
@@ -26,4 +26,4 @@ router.get('/productions', function (req, res) {
 	res.redirect('/');
 });
 
-export { router };
+module.exports = router;
