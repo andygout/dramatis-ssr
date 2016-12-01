@@ -5,11 +5,11 @@ const checkIfCreateAction = action => action === 'create';
 const hasErrors = instance => instance.errors && Object.keys(instance.errors).length;
 
 const getAlertText = (model, instance, action) =>
-	`${model.toUpperCase()} ${hasErrors(instance) ? 'ERRORS' : action.toUpperCase() + 'D: ' + instance.title}`
+	`${model.toUpperCase()} ${hasErrors(instance) ? 'ERRORS' : action.toUpperCase() + 'D: ' + instance.title}`;
 
-const getAlertType = instance => hasErrors(instance) ? 'error' : 'success'
+const getAlertType = instance => hasErrors(instance) ? 'error' : 'success';
 
-const getPageData = (instance, action) => {
+module.exports = function (instance, action) {
 	const model = getModelName(instance);
 
 	const isCreateAction = checkIfCreateAction(action);
@@ -22,6 +22,4 @@ const getPageData = (instance, action) => {
 		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
 	}
-}
-
-export { getPageData }
+};

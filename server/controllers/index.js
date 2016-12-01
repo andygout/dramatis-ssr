@@ -1,3 +1,2 @@
-import * as productions from './productions';
+exports.productions = require('./productions');
 
-export { productions }

@@ -1,8 +1,9 @@
-import Production from '../../models/production';
-import { getAlert } from '../../lib/alert';
+const Production = require('../../models/production');
+const handleModelResponse = require('../../lib/handle-model-response');
+const getAlert = require('../../lib/alert').get;
 
-export default function (req, res, next) {
+module.exports = function (req, res, next) {
 	Production.list()
 		.then(data => res.render('list', Object.assign({}, data, { alert: getAlert(req) })))
 		.catch(err => next(err));
-}
+};

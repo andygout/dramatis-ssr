@@ -1,11 +1,9 @@
-import { setAlert, getAlert } from './alert';
+const alert = require('./alert');
 
-const handleModelResponse = (req, res, data, redirectRoute) => {
-	setAlert(req, data.page);
+module.exports = function (req, res, data, redirectRoute) {
+	alert.set(req, data.page);
 
 	data.production.errors ?
-		res.render('form', Object.assign({}, data, { alert: getAlert(req) })) :
+		res.render('form', Object.assign({}, data, { alert: alert.get(req) })) :
 		res.redirect(redirectRoute);
-}
-
-export { handleModelResponse }
+};

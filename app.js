@@ -1,14 +1,14 @@
-import bodyParser from 'body-parser';
-import express from 'express';
-import exphbs from 'express-handlebars';
-import favicon from 'serve-favicon';
-import flash from 'connect-flash';
-import http from 'http';
-import logger from 'morgan';
-import path from 'path';
-import sassMiddleware from 'node-sass-middleware';
-import session from 'express-session';
-import { router } from './server/routes';
+const bodyParser = require('body-parser');
+const express = require('express');
+const exphbs = require('express-handlebars');
+const favicon = require('serve-favicon');
+const flash = require('connect-flash');
+const http = require('http');
+const logger = require('morgan');
+const path = require('path');
+const sassMiddleware = require('node-sass-middleware');
+const session = require('express-session');
+const router = require('./server/routes');
 
 const app = express();
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' })
