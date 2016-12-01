@@ -4,14 +4,12 @@
 	"description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon ./init",
+		"start": "nodemon ./app",
 		"test": "find ./spec -name '*.spec.js' | xargs mocha -R spec"
 	},
 	"author": "https://github.com/andygout",
 	"license": "MS-RSL",
 	"dependencies": {
-		"babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
-		"babel-register": "^6.16.3",
 		"body-parser": "^1.10.2",
 		"connect-flash": "^0.1.1",
 		"express": "^4.14.0",
