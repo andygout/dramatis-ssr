@@ -4,7 +4,8 @@
 	"description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon ./init"
+		"start": "nodemon ./init",
+		"test": "find ./spec -name '*.spec.js' | xargs mocha -R spec"
 	},
 	"author": "https://github.com/andygout",
 	"license": "MS-RSL",
@@ -22,6 +23,12 @@
 		"pg": "^6.1.0",
 		"pg-format": "^1.0.3",
 		"serve-favicon": "^2.2.0"
+	},
+	"devDependencies": {
+		"chai": "^3.5.0",
+		"proxyquire": "^1.7.10",
+		"sinon": "^1.17.6",
+		"sinon-as-promised": "^4.0.2"
 	},
 	"engines": {
 		"node": "6.5.0"

@@ -1,3 +1,6 @@
+[![Circle CI](https://circleci.com/gh/andygout/theatrebase_nodejs/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase_nodejs)
+
+
 TheatreBase
 =================
 
@@ -17,3 +20,10 @@ Site setup
 - Run script `$ node database/schema.js` to implement database schema.
 - Run PostgreSQL server on port 5432 (using [Postgres.app](http://postgresapp.com)).
 - Run server using: `$ npm start` and visit homepage: `localhost:3000`.
+
+
+Testing
+-------
+
+- Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`
+- `$ npm test`
