@@ -1,0 +1,11 @@
+{
+	"page": {
+		"title": ""
+	},
+	"production": {
+		"id": 1,
+		"errors": {
+			"title": ["Title is too short"]
+		}
+	}
+}
