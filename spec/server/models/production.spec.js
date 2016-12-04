@@ -122,6 +122,11 @@ describe('Production model', () => {
 			expect(instancePgFormatted.title).to.eq('pg-formatted value');
 		});
 
+		it('will not mutate shallow property values of instance', () => {
+			instance = new subject({ title: validLengthString });
+			expect(instance.pgFormatValues().title).not.to.eq(instance.title);
+		});
+
 	});
 
 	describe('renewValues method', () => {
