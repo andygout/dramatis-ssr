@@ -1,5 +1,6 @@
 const format = require('pg-format');
 const query = require('../../database/query');
+const constants = require('../lib/constants');
 const getPageData = require('../lib/page-data.js');
 
 module.exports = class Production {
@@ -20,8 +21,8 @@ module.exports = class Production {
 
 	validateTitle () {
 		const titleErrors = [];
-		if (!this.title.length) titleErrors.push('Title is too short');
-		if (this.title.length > 255) titleErrors.push('Title is too long');
+		if (this.title.length < constants.STRING_MIN_LENGTH) titleErrors.push('Title is too short');
+		if (this.title.length > constants.STRING_MAX_LENGTH) titleErrors.push('Title is too long');
 		return titleErrors;
 	}
 
