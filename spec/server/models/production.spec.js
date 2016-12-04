@@ -115,11 +115,17 @@ describe('Production model', () => {
 
 		it('will return an object with same keys modified by format.literal() function', () => {
 			instance = new subject({ title: validLengthString });
-			const propsAmount = Object.keys(instance).length;
 			const instancePgFormatted = instance.pgFormatValues();
 			expect(instancePgFormatted).to.be.an('object');
-			expect(Object.keys(instancePgFormatted).length).to.eq(propsAmount);
-			expect(instancePgFormatted.title).to.eq('pg-formatted value');
+			expect(instancePgFormatted).to.have.property('title').that.eq('pg-formatted value');
+			const instanceKeys = Object.keys(instance).sort();
+			const instancePgFormattedKeys = Object.keys(instancePgFormatted).sort();
+			expect(JSON.stringify(instancePgFormattedKeys)).to.eq(JSON.stringify(instanceKeys));
+		});
+
+		it('will not mutate shallow property values of instance', () => {
+			instance = new subject({ title: validLengthString });
+			expect(instance.pgFormatValues().title).not.to.eq(instance.title);
 		});
 
 	});

@@ -36,7 +36,7 @@ module.exports = class Production {
 	}
 
 	pgFormatValues () {
-		const thisPgFormatted = this;
+		const thisPgFormatted = Object.assign({}, this);
 
 		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
 
