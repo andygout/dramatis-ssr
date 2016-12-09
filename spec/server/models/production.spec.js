@@ -87,7 +87,7 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will add errors property to class instance', () => {
+			it('will not add properties to errors property', () => {
 				instance = new subject({ title: validLengthString });
 				instance.validate();
 				expect(instance.errors).not.to.have.property('title');
@@ -98,7 +98,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will add errors property to class instance', () => {
+			it('will add properties that are arrays to errors property', () => {
 				instance = new subject({ title: subMinLengthString });
 				instance.validate();
 				expect(instance.errors)
