@@ -85,6 +85,14 @@ describe('Production model', () => {
 			expect(instance).to.have.property('errors');
 		});
 
+		it('will trim strings before validating title', () => {
+			instance = new subject({ title: validLengthString });
+			sinon.spy(instance, 'trimStrings');
+			sinon.spy(instance, 'validateTitle');
+			instance.validate();
+			expect(instance.trimStrings.calledBefore(instance.validateTitle)).to.be.true;
+		});
+
 		context('valid data', () => {
 
 			it('will not add properties to errors property', () => {
