@@ -85,9 +85,17 @@ describe('Production model', () => {
 			expect(instance).to.have.property('errors');
 		});
 
+		it('will trim strings before validating title', () => {
+			instance = new subject({ title: validLengthString });
+			sinon.spy(instance, 'trimStrings');
+			sinon.spy(instance, 'validateTitle');
+			instance.validate();
+			expect(instance.trimStrings.calledBefore(instance.validateTitle)).to.be.true;
+		});
+
 		context('valid data', () => {
 
-			it('will add errors property to class instance', () => {
+			it('will not add properties to errors property', () => {
 				instance = new subject({ title: validLengthString });
 				instance.validate();
 				expect(instance.errors).not.to.have.property('title');
@@ -98,7 +106,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will add errors property to class instance', () => {
+			it('will add properties that are arrays to errors property', () => {
 				instance = new subject({ title: subMinLengthString });
 				instance.validate();
 				expect(instance.errors)
