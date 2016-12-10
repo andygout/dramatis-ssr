@@ -3,7 +3,7 @@ const handleModelResponse = require('../../lib/handle-model-response');
 const getAlert = require('../../lib/alert').get;
 
 module.exports = function (req, res, next) {
-	Production.list()
+	return Production.list()
 		.then(data => res.render('list', Object.assign({}, data, { alert: getAlert(req) })))
 		.catch(err => next(err));
 };
