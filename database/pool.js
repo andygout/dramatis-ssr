@@ -1,7 +1,7 @@
 const pg = require('pg');
 
 const config = {
-	database: process.env.PG_DATABASE || 'theatrebase_nodejs'
+	database: process.env.DEV_DATABASE_NAME
 }
 
 const pool = new pg.Pool(config);

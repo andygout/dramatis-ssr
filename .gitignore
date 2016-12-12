@@ -1,3 +1,4 @@
+.env
 client/favicons
 client/public
 node_modules/
