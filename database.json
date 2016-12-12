@@ -1,8 +1,8 @@
 {
 	"dev": {
 		"driver": "pg",
-		"port": "5432",
-		"host": "localhost",
-		"database": "theatrebase_nodejs"
+		"port": { "ENV": "DEV_DATABASE_PORT" },
+		"host": { "ENV": "DEV_DATABASE_HOST" },
+		"database": { "ENV": "DEV_DATABASE_NAME" }
 	}
 }
