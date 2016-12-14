@@ -1,5 +1,4 @@
 const Production = require('../../models/production');
-const handleModelResponse = require('../../lib/handle-model-response');
 const getAlert = require('../../lib/alert').get;
 
 module.exports = function (req, res, next) {
