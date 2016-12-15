@@ -1,7 +1,7 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
-const getPageData = require('../lib/page-data.js');
+const getPageData = require('../lib/page-data');
 
 module.exports = class Production {
 

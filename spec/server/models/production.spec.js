@@ -19,7 +19,7 @@ const stubs = {
 const subject = proxyquire('../../../server/models/production', {
 	'pg-format': stubs.format,
 	'../../database/query': stubs.query,
-	'../lib/page-data.js': stubs.getPageData
+	'../lib/page-data': stubs.getPageData
 });
 
 const resetStubs = () => {
