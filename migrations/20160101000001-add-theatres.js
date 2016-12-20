@@ -1,11 +1,11 @@
 exports.up = function(db, done) {
-	db.createTable('productions', {
+	db.createTable('theatres', {
 		id: {
 			type: 'int',
 			primaryKey: 'true',
 			autoIncrement: true
 		},
-		title: {
+		name: {
 			type: 'string',
 			length: 255,
 			notNull: true
@@ -14,5 +14,5 @@ exports.up = function(db, done) {
 };
 
 exports.down = function(db, done) {
-	db.dropTable('productions', done)
+	db.dropTable('theatres', done)
 };
