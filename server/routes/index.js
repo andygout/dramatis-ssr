@@ -26,4 +26,13 @@ router.get('/productions', function (req, res) {
 	res.redirect('/');
 });
 
+// Theatres
+router.get('/theatres/new', controllers.theatres.newRoute);
+router.post('/theatres', controllers.theatres.createRoute);
+router.get('/theatres/:id/edit', controllers.theatres.editRoute);
+router.post('/theatres/:id', controllers.theatres.updateRoute);
+router.delete('/theatres/:id', controllers.theatres.deleteRoute);
+router.get('/theatres/:id', controllers.theatres.showRoute);
+router.get('/theatres', controllers.theatres.listRoute);
+
 module.exports = router;
