@@ -12,10 +12,25 @@
 					<li class='field__error-description'>{{this}}</li>
 				{{/each}}
 			{{/with}}
+			{{#with theatre}}
+				<label for='name' class='label mandatory'>Name</label>
+				<input value='{{name}}' name='name' type='text' maxlength='255'
+					class='field__input{{#if errors.name}} field__input--has-error{{/if}}'
+				/>
+				{{#each errors.name}}
+					<li class='field__error-description'>{{this}}</li>
+				{{/each}}
+			{{/with}}
 		</div>
 	</fieldset>
 
-	<input type='hidden' name='id' value='{{production.id}}'>
-	<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
+	{{#if production}}
+		<input type='hidden' name='id' value='{{production.id}}'>
+		<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
+	{{/if}}
+	{{#if theatre}}
+		<input type='hidden' name='id' value='{{theatre.id}}'>
+		<input type='hidden' name='preEditedName' value='{{page.title}}'>
+	{{/if}}
 	<input type='submit' value='{{page.submitValue}}' class='button'>
 </form>
