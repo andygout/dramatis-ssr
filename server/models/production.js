@@ -1,7 +1,10 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
+const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
+
+const Theatre = require('./theatre');
 
 module.exports = class Production {
 
@@ -9,6 +12,7 @@ module.exports = class Production {
 		this.id = props.id || null;
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
+		this.theatre = new Theatre({ name: props.theatreName });
 	}
 
 	trimStrings () {
@@ -54,10 +58,13 @@ module.exports = class Production {
 
 	create () {
 		this.validate();
+		this.theatre.validate();
+
+		this.hasError = verifyErrorPresence(this);
 
 		const page = getPageData(this, 'create');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve({ page, production: this });
 
 		const data = this.pgFormatValues();
 

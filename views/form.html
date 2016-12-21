@@ -24,6 +24,20 @@
 		</div>
 	</fieldset>
 
+	{{#with production.theatre}}
+		<fieldset class='fieldset'>
+			<div class='field'>
+				<label for='theatreName' class='label mandatory'>Theatre</label>
+				<input value='{{name}}' name='theatreName' type='text' maxlength='255'
+					class='field__input{{#if errors.name}} field__input--has-error{{/if}}'
+				/>
+				{{#each errors.name}}
+					<li class='field__error-description'>{{this}}</li>
+				{{/each}}
+			</div>
+		</fieldset>
+	{{/with}}
+
 	{{#if production}}
 		<input type='hidden' name='id' value='{{production.id}}'>
 		<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
