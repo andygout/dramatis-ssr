@@ -96,13 +96,17 @@ module.exports = class Production {
 		const id = format.literal(this.id);
 
 		const queryData = {
-			text: `SELECT * FROM productions WHERE id=${id}`,
+			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
+					FROM productions
+					INNER JOIN theatres ON theatre_id = theatres.id
+					WHERE productions.id = ${id}`,
 			isReqdResult: true
 		}
 
 		return query(queryData)
 			.then(([production] = production) => {
 				_this.renewValues(production);
+				_this.theatre.renewValues({ id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'update');
 
