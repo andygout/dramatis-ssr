@@ -2,6 +2,7 @@ const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
 const pgFormatValues = require('../lib/pg-format-values');
+const trimStrings = require('../lib/trim-strings');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
 
@@ -16,14 +17,6 @@ module.exports = class Production {
 		this.theatre = new Theatre({ name: props.theatreName });
 	}
 
-	trimStrings () {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) && typeof this[property] === 'string') {
-				this[property] = this[property].trim();
-			}
-		}
-	}
-
 	validateTitle () {
 		const titleErrors = [];
 		if (this.title.length < constants.STRING_MIN_LENGTH) titleErrors.push('Title is too short');
@@ -32,7 +25,7 @@ module.exports = class Production {
 	}
 
 	validate () {
-		this.trimStrings();
+		trimStrings(this);
 
 		this.errors = {};
 
