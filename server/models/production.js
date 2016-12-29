@@ -1,6 +1,7 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
+const pgFormatValues = require('../lib/pg-format-values');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
 
@@ -39,14 +40,6 @@ module.exports = class Production {
 		if (titleErrors.length) this.errors.title = titleErrors;
 	}
 
-	pgFormatValues () {
-		const thisPgFormatted = Object.assign({}, this);
-
-		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
-
-		return thisPgFormatted;
-	}
-
 	renewValues (row) {
 		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
@@ -66,15 +59,42 @@ module.exports = class Production {
 
 		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
-		const queryData = {
-			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
+		const theatreQueryData = {
+			text:	`WITH
+					i AS (
+						INSERT INTO theatres (name)
+						SELECT ${data.theatre.name}
+						WHERE NOT EXISTS (
+							SELECT id
+							FROM theatres
+							WHERE name = ${data.theatre.name}
+						)
+						RETURNING id
+					),
+					s AS (
+						SELECT id FROM theatres
+						WHERE name = ${data.theatre.name}
+					)
+					SELECT id FROM i
+					UNION ALL
+					SELECT id FROM s`,
 			isReqdResult: true
 		}
 
-		return query(queryData)
-			.then(([production] = production) => ({ page, production }));
+		return query(theatreQueryData)
+			.then(([theatre] = theatre) => {
+				const productionQueryData = {
+					text:	`INSERT INTO productions (title, theatre_id)
+							VALUES (${data.title}, ${theatre.id})
+							RETURNING id`,
+					isReqdResult: true
+				}
+
+				return query(productionQueryData)
+					.then(([production] = production) => ({ page, production }));
+			});
 	}
 
 	edit () {
