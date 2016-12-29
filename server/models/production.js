@@ -116,20 +116,52 @@ module.exports = class Production {
 
 	update () {
 		this.validate();
+		this.theatre.validate();
+
+		this.hasError = verifyErrorPresence(this);
 
 		const page = getPageData(this, 'update');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
-		const queryData = {
-			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
+		const theatreQueryData = {
+			text:	`WITH
+					i AS (
+						INSERT INTO theatres (name)
+						SELECT ${data.theatre.name}
+						WHERE NOT EXISTS (
+							SELECT id
+							FROM theatres
+							WHERE name = ${data.theatre.name}
+						)
+						RETURNING id
+					),
+					s AS (
+						SELECT id FROM theatres
+						WHERE name = ${data.theatre.name}
+					)
+					SELECT id FROM i
+					UNION ALL
+					SELECT id FROM s`,
 			isReqdResult: true
 		}
 
-		return query(queryData)
-			.then(([production] = production) => ({ page, production }));
+		return query(theatreQueryData)
+			.then(([theatre] = theatre) => {
+				const productionQueryData = {
+					text:	`UPDATE productions SET
+							title = ${data.title},
+							theatre_id = ${theatre.id}
+							WHERE id = ${data.id}
+							RETURNING id`,
+					isReqdResult: true
+				}
+
+				return query(productionQueryData)
+					.then(([production] = production) => ({ page, production }));
+			});
 	}
 
 	delete () {
