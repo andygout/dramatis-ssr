@@ -27,8 +27,8 @@
 	{{#with production.theatre}}
 		<fieldset class='fieldset'>
 			<div class='field'>
-				<label for='theatreName' class='label mandatory'>Theatre</label>
-				<input value='{{name}}' name='theatreName' type='text' maxlength='255'
+				<label for='theatre_name' class='label mandatory'>Theatre</label>
+				<input value='{{name}}' name='theatre_name' type='text' maxlength='255'
 					class='field__input{{#if errors.name}} field__input--has-error{{/if}}'
 				/>
 				{{#each errors.name}}

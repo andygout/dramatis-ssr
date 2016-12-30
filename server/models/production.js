@@ -14,7 +14,7 @@ module.exports = class Production {
 		this.id = props.id || null;
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
-		this.theatre = new Theatre({ name: props.theatreName });
+		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
 	}
 
 	validateTitle () {
@@ -209,7 +209,14 @@ module.exports = class Production {
 	}
 
 	static list () {
-		const text = 'SELECT * FROM productions ORDER BY id ASC';
+		const text =	`SELECT
+						productions.id,
+						productions.title,
+						theatres.id AS theatre_id,
+						theatres.name AS theatre_name
+						FROM productions
+						INNER JOIN theatres ON theatre_id = theatres.id
+						ORDER BY id ASC`;
 
 		return query({ text })
 			.then(productionsRows => {
