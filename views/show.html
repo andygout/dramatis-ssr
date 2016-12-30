@@ -1,5 +1,9 @@
 <h1 class='title-text'>{{page.title}}</h1>
 
+{{#if production.theatre}}
+	<a href="/theatres/{{production.theatre.id}}">{{production.theatre.name}}</a>
+{{/if}}
+
 {{#with production}}
 	<form method='get' action='/productions/{{id}}/edit' class='button-container'>
 		<input type='submit' value='Edit production' class='button'>
