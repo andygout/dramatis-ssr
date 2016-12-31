@@ -2,6 +2,7 @@ const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
 const getPageData = require('../lib/page-data');
+const trimStrings = require('../lib/trim-strings');
 
 module.exports = class Theatre {
 
@@ -9,14 +10,6 @@ module.exports = class Theatre {
 		this.id = props.id || null;
 		this.name = props.name;
 		this.preEditedName = props.preEditedName;
-	}
-
-	trimStrings () {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) && typeof this[property] === 'string') {
-				this[property] = this[property].trim();
-			}
-		}
 	}
 
 	validateName () {
@@ -27,7 +20,7 @@ module.exports = class Theatre {
 	}
 
 	validate () {
-		this.trimStrings();
+		trimStrings(this);
 
 		this.errors = {};
 
