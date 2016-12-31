@@ -1,0 +1,9 @@
+{
+	"page": {
+		"title": ""
+	},
+	"theatre": {
+		"id": 1,
+		"errors": { "name": ["Name is too short"] }
+	}
+}
