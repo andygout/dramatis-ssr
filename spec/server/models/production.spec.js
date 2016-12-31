@@ -21,7 +21,7 @@ const stubs = {
 	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
-	Theatre: TheatreStub,
+	Theatre: TheatreStub
 };
 
 const resetStubs = () => {
