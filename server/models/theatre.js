@@ -2,7 +2,9 @@ const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
 const getPageData = require('../lib/page-data');
+const pgFormatValues = require('../lib/pg-format-values');
 const trimStrings = require('../lib/trim-strings');
+const verifyErrorPresence = require('../lib/verify-error-presence');
 
 module.exports = class Theatre {
 
@@ -28,14 +30,6 @@ module.exports = class Theatre {
 		if (nameErrors.length) this.errors.name = nameErrors;
 	}
 
-	pgFormatValues () {
-		const thisPgFormatted = Object.assign({}, this);
-
-		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
-
-		return thisPgFormatted;
-	}
-
 	renewValues (row) {
 		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
@@ -48,11 +42,13 @@ module.exports = class Theatre {
 	create () {
 		this.validate();
 
+		this.hasError = verifyErrorPresence(this);
+
 		const page = getPageData(this, 'create');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, theatre: this });
+		if (this.hasError) return Promise.resolve({ page, theatre: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
 		const queryData = {
 			text: `INSERT INTO theatres(name) VALUES(${data.name}) RETURNING id`,
@@ -86,11 +82,13 @@ module.exports = class Theatre {
 	update () {
 		this.validate();
 
+		this.hasError = verifyErrorPresence(this);
+
 		const page = getPageData(this, 'update');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, theatre: this });
+		if (this.hasError) return Promise.resolve({ page, theatre: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
 		const queryData = {
 			text: `UPDATE theatres SET name=${data.name} WHERE id=${data.id} RETURNING id`,

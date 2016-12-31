@@ -19,6 +19,7 @@ const stubs = {
 	},
 	query: sinon.stub().resolves(queryFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
+	pgFormatValues: sinon.stub().returns(theatreInstanceFixture),
 	trimStrings: sinon.stub().returns(theatreInstanceFixture)
 };
 
@@ -26,6 +27,7 @@ const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.getPageData.reset();
+	stubs.pgFormatValues.reset();
 	stubs.trimStrings.reset();
 };
 
@@ -40,17 +42,19 @@ describe('Theatre model', () => {
 	const surMaxLengthString = `${'a'.repeat(constants.STRING_MAX_LENGTH + 1)}`;
 	const validLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH)}`;
 
-	function createSubject () {
+	function createSubject (stubOverrides) {
 		return proxyquire('../../../server/models/theatre', {
 			'pg-format': stubs.format,
 			'../../database/query': stubs.query,
 			'../lib/page-data': stubs.getPageData,
-			'../lib/trim-strings': stubs.trimStrings
+			'../lib/pg-format-values': stubs.pgFormatValues,
+			'../lib/trim-strings': stubs.trimStrings,
+			'../lib/verify-error-presence': sinon.stub().returns(stubOverrides.verifyErrorPresence || false)
 		});
 	}
 
-	function createInstance (props) {
-		const subject = createSubject();
+	function createInstance (props, stubOverrides = {}) {
+		const subject = createSubject(stubOverrides);
 		return new subject(props);
 	}
 
