@@ -12,5 +12,5 @@ const trimStrings = instance => {
 }
 
 module.exports = function (instance) {
-	return trimStrings(instance);
+	trimStrings(instance);
 };
