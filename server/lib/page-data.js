@@ -2,6 +2,15 @@ const getModelName = instance => instance.constructor.name.toLowerCase();
 
 const checkIfCreateAction = action => action === 'create';
 
+const getPageTitleText = (model, instance) => {
+	const pageTitleTextMap = {
+		'production': instance.preEditedTitle || instance.title,
+		'theatre': instance.preEditedName || instance.name
+	};
+
+	return pageTitleTextMap[model];
+}
+
 const getAlertText = (model, instance, action) => {
 	const instanceText = instance.title || instance.name;
 
@@ -15,14 +24,8 @@ module.exports = function (instance, action) {
 
 	const isCreateAction = checkIfCreateAction(action);
 
-	const pageTitleText =
-		instance.preEditedTitle ||
-		instance.title ||
-		instance.preEditedName ||
-		instance.name;
-
 	return {
-		title: isCreateAction ? `New ${model}` : pageTitleText,
+		title: isCreateAction ? `New ${model}` : getPageTitleText(model, instance),
 		modelName: model.toUpperCase(),
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
