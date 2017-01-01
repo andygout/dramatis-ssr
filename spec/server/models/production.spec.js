@@ -21,6 +21,7 @@ const stubs = {
 	renewValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	validateString: sinon.stub().returns([]),
+	verifyErrorPresence: sinon.stub().returns(false),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	Theatre: TheatreStub
 };
@@ -32,6 +33,7 @@ const resetStubs = () => {
 	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
+	stubs.verifyErrorPresence.reset();
 	stubs.getPageData.reset();
 };
 
@@ -51,7 +53,7 @@ describe('Production model', () => {
 			'../lib/renew-values': stubs.renewValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': sinon.stub().returns(stubOverrides.verifyErrorPresence || false),
+			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 			'../lib/page-data': stubs.getPageData,
 			'./theatre': stubOverrides.Theatre || stubs.Theatre
 		});
@@ -144,14 +146,14 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
 			});
 
 			it('will return page and production data without calling query', done => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create().then(result => {
 					expect(stubs.query.called).to.be.false;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
@@ -210,14 +212,14 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 			});
 
 			it('will return page and production data without calling query', done => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update().then(result => {
 					expect(stubs.query.called).to.be.false;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });

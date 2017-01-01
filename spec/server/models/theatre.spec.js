@@ -16,7 +16,8 @@ const stubs = {
 	pgFormatValues: sinon.stub().returns(theatreInstanceFixture),
 	renewValues: sinon.stub().returns(theatreInstanceFixture),
 	trimStrings: sinon.stub().returns(theatreInstanceFixture),
-	validateString: sinon.stub().returns([])
+	validateString: sinon.stub().returns([]),
+	verifyErrorPresence: sinon.stub().returns(false),
 };
 
 const resetStubs = () => {
@@ -27,6 +28,7 @@ const resetStubs = () => {
 	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
+	stubs.verifyErrorPresence.reset();
 };
 
 beforeEach(function() {
@@ -46,7 +48,7 @@ describe('Theatre model', () => {
 			'../lib/renew-values': stubs.renewValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': sinon.stub().returns(stubOverrides.verifyErrorPresence || false)
+			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
 		});
 	}
 
@@ -156,14 +158,14 @@ describe('Theatre model', () => {
 		context('invalid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 			});
 
 			it('will return page and theatre data without calling query', done => {
-				instance = createInstance({ verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update().then(result => {
 					expect(stubs.query.called).to.be.false;
 					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
