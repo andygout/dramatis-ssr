@@ -1,10 +1,10 @@
 const format = require('pg-format');
 const query = require('../../database/query');
-const constants = require('../lib/constants');
 const getPageData = require('../lib/page-data');
 const pgFormatValues = require('../lib/pg-format-values');
 const renewValues = require('../lib/renew-values');
 const trimStrings = require('../lib/trim-strings');
+const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 
 module.exports = class Theatre {
@@ -15,19 +15,12 @@ module.exports = class Theatre {
 		this.preEditedName = props.preEditedName;
 	}
 
-	validateName () {
-		const nameErrors = [];
-		if (this.name.length < constants.STRING_MIN_LENGTH) nameErrors.push('Name is too short');
-		if (this.name.length > constants.STRING_MAX_LENGTH) nameErrors.push('Name is too long');
-		return nameErrors;
-	}
-
 	validate () {
 		trimStrings(this);
 
 		this.errors = {};
 
-		const nameErrors = this.validateName();
+		const nameErrors = validateString(this.name, 'Name');
 		if (nameErrors.length) this.errors.name = nameErrors;
 	}
 
