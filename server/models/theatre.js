@@ -3,6 +3,7 @@ const query = require('../../database/query');
 const constants = require('../lib/constants');
 const getPageData = require('../lib/page-data');
 const pgFormatValues = require('../lib/pg-format-values');
+const renewValues = require('../lib/renew-values');
 const trimStrings = require('../lib/trim-strings');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 
@@ -28,10 +29,6 @@ module.exports = class Theatre {
 
 		const nameErrors = this.validateName();
 		if (nameErrors.length) this.errors.name = nameErrors;
-	}
-
-	renewValues (row) {
-		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
 	create () {
@@ -72,7 +69,7 @@ module.exports = class Theatre {
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
-				_this.renewValues(theatre);
+				renewValues(_this, theatre);
 
 				const page = getPageData(_this, 'update');
 
@@ -112,7 +109,7 @@ module.exports = class Theatre {
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
-				_this.renewValues(theatre);
+				renewValues(_this, theatre);
 
 				const page = getPageData(_this, 'delete');
 
@@ -132,7 +129,7 @@ module.exports = class Theatre {
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
-				_this.renewValues(theatre);
+				renewValues(_this, theatre);
 
 				const page = getPageData(_this, 'show');
 

@@ -20,6 +20,7 @@ const stubs = {
 	},
 	query: sinon.stub().resolves(queryFixture),
 	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
+	renewValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	Theatre: TheatreStub
@@ -29,6 +30,7 @@ const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.pgFormatValues.reset();
+	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
 	stubs.getPageData.reset();
 };
@@ -49,6 +51,7 @@ describe('Production model', () => {
 			'pg-format': stubs.format,
 			'../../database/query': stubs.query,
 			'../lib/pg-format-values': stubs.pgFormatValues,
+			'../lib/renew-values': stubs.renewValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/verify-error-presence': sinon.stub().returns(stubOverrides.verifyErrorPresence || false),
 			'../lib/page-data': stubs.getPageData,
@@ -125,22 +128,6 @@ describe('Production model', () => {
 					.that.deep.eq(['Title is too short']);
 			});
 
-		});
-
-	});
-
-	describe('renewValues method', () => {
-
-		it('will use arguments to renew property values of instance', () => {
-			instance = createInstance({ title: 'foo' });
-			instance.renewValues({ title: 'bar' });
-			expect(instance.title).to.eq('bar');
-		});
-
-		it('will not use arguments to add non-existent properties to instance', () => {
-			instance = createInstance({ title: 'foo' });
-			instance.renewValues({ nonExistentProperty: 'bar' });
-			expect(instance).not.to.have.property('nonExistentProperty');
 		});
 
 	});
