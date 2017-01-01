@@ -1,9 +1,5 @@
 const format = require('pg-format');
-
-const propIsObject = instanceProp =>
-	instanceProp !== null &&
-	typeof instanceProp === 'object' &&
-	Object.keys(instanceProp).length;
+const propIsObject = require('./prop-is-object');
 
 const convertToPgFormat = instance => {
 	for (const prop in instance) {
