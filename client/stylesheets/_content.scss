@@ -8,3 +8,21 @@
 	background-color: $box-shadow-color;
 	font-weight: bold;
 }
+
+.content-wrapper {
+	margin-bottom: 20px;
+}
+
+.content-label {
+	margin-bottom: 5px;
+	padding: 0 5px;
+	display: inline-block;
+	border-radius: 2px;
+	background-color: $box-shadow-color;
+	font-weight: bold;
+	border: 1px solid $border-color;
+}
+
+.content {
+	margin: 0 5px;
+}
