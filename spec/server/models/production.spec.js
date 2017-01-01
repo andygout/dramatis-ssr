@@ -11,6 +11,7 @@ const queryFixture = require('../../fixtures/query');
 
 const TheatreStub = function () {
 	this.validate = sinon.stub();
+	this.create = sinon.stub().resolves(queryFixture);
 };
 
 const stubs = {
@@ -174,7 +175,7 @@ describe('Production model', () => {
 			it('will call query then return page and query result data', done => {
 				instance = createInstance({ title: validLengthString });
 				instance.create().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.query.calledOnce).to.be.true;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
 					done();
 				});
@@ -240,7 +241,7 @@ describe('Production model', () => {
 			it('will call query then return page and query result data', done => {
 				instance = createInstance({ title: validLengthString });
 				instance.update().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.query.calledOnce).to.be.true;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
 					done();
 				});

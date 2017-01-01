@@ -40,23 +40,29 @@ module.exports = class Theatre {
 	}
 
 	create () {
-		this.validate();
-
-		this.hasError = verifyErrorPresence(this);
-
-		const page = getPageData(this, 'create');
-
-		if (this.hasError) return Promise.resolve({ page, theatre: this });
-
-		const data = pgFormatValues(this);
-
 		const queryData = {
-			text: `INSERT INTO theatres(name) VALUES(${data.name}) RETURNING id`,
+			text:	`WITH
+					i AS (
+						INSERT INTO theatres (name)
+						SELECT ${this.name}
+						WHERE NOT EXISTS (
+							SELECT id
+							FROM theatres
+							WHERE name = ${this.name}
+						)
+						RETURNING id
+					),
+					s AS (
+						SELECT id FROM theatres
+						WHERE name = ${this.name}
+					)
+					SELECT id FROM i
+					UNION ALL
+					SELECT id FROM s`,
 			isReqdResult: true
 		}
 
-		return query(queryData)
-			.then(([theatre] = theatre) => ({ page, theatre }));
+		return query(queryData);
 	}
 
 	edit () {

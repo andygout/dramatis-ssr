@@ -160,44 +160,13 @@ describe('Theatre model', () => {
 
 	describe('create method', () => {
 
-		context('valid data', () => {
-
-			it('will call pageData function once', () => {
-				instance = createInstance({ name: validLengthString });
-				instance.create();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
+		it('will call query then return page and query result data', done => {
+			instance = createInstance({ name: validLengthString });
+			instance.create().then(result => {
+				expect(stubs.query.calledOnce).to.be.true;
+				expect(result).to.deep.eq(queryFixture);
+				done();
 			});
-
-			it('will call query then return page and query result data', done => {
-				instance = createInstance({ name: validLengthString });
-				instance.create().then(result => {
-					expect(stubs.query.calledOnce).to.be.true;
-					expect(result).to.deep.eq({ page: pageDataFixture, theatre: queryFixture[0] });
-					done();
-				});
-			});
-
-		});
-
-		context('invalid data', () => {
-
-			it('will call pageData function once', () => {
-				instance = createInstance({ name: subMinLengthString }, { verifyErrorPresence: true });
-				instance.create();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
-			});
-
-			it('will return page and theatre data without calling query', done => {
-				instance = createInstance({ name: subMinLengthString }, { verifyErrorPresence: true });
-				instance.create().then(result => {
-					expect(stubs.query.called).to.be.false;
-					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
-					done();
-				});
-			});
-
 		});
 
 	});

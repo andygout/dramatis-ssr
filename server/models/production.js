@@ -54,29 +54,7 @@ module.exports = class Production {
 
 		const data = pgFormatValues(this);
 
-		const theatreQueryData = {
-			text:	`WITH
-					i AS (
-						INSERT INTO theatres (name)
-						SELECT ${data.theatre.name}
-						WHERE NOT EXISTS (
-							SELECT id
-							FROM theatres
-							WHERE name = ${data.theatre.name}
-						)
-						RETURNING id
-					),
-					s AS (
-						SELECT id FROM theatres
-						WHERE name = ${data.theatre.name}
-					)
-					SELECT id FROM i
-					UNION ALL
-					SELECT id FROM s`,
-			isReqdResult: true
-		}
-
-		return query(theatreQueryData)
+		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`INSERT INTO productions (title, theatre_id)
@@ -126,29 +104,7 @@ module.exports = class Production {
 
 		const data = pgFormatValues(this);
 
-		const theatreQueryData = {
-			text:	`WITH
-					i AS (
-						INSERT INTO theatres (name)
-						SELECT ${data.theatre.name}
-						WHERE NOT EXISTS (
-							SELECT id
-							FROM theatres
-							WHERE name = ${data.theatre.name}
-						)
-						RETURNING id
-					),
-					s AS (
-						SELECT id FROM theatres
-						WHERE name = ${data.theatre.name}
-					)
-					SELECT id FROM i
-					UNION ALL
-					SELECT id FROM s`,
-			isReqdResult: true
-		}
-
-		return query(theatreQueryData)
+		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`UPDATE productions SET

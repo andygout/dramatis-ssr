@@ -65,55 +65,6 @@ describe('Theatre controller', () => {
 
 	});
 
-	describe('create method', () => {
-
-		beforeEach(function() {
-			method = 'create';
-		});
-
-		context('resolves with data with no model errors', () => {
-
-			it('will return status code 302 (redirect)', done => {
-				methodStub = sinon.stub().resolves(dataFixture);
-				createInstance(method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRenderData()).to.deep.eq({});
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			it('will return status code 200 (OK)', done => {
-				methodStub = sinon.stub().resolves(dataWithErrorsFixture);
-				createInstance(method, methodStub).then(() => {
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderData()).to.deep.eq(Object.assign(dataWithErrorsFixture, alertFixture));
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with error', () => {
-
-			it('will call next() with error', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(method, methodStub).then(() => {
-					expect(next.calledOnce).to.be.true;
-					expect(next.calledWithExactly(err)).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-	});
-
 	describe('edit method', () => {
 
 		beforeEach(function() {
