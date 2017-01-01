@@ -27,7 +27,6 @@ router.get('/productions', function (req, res) {
 });
 
 // Theatres
-router.get('/theatres/new', controllers.theatres.newRoute);
 router.get('/theatres/:id/edit', controllers.theatres.editRoute);
 router.post('/theatres/:id', controllers.theatres.updateRoute);
 router.delete('/theatres/:id', controllers.theatres.deleteRoute);

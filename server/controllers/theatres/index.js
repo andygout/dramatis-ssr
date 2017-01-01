@@ -1,4 +1,3 @@
-exports.newRoute = require('./new');
 exports.editRoute = require('./edit');
 exports.updateRoute = require('./update');
 exports.deleteRoute = require('./delete');

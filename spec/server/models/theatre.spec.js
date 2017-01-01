@@ -142,22 +142,6 @@ describe('Theatre model', () => {
 
 	});
 
-	describe('new method', () => {
-
-		it('will call pageData function once', () => {
-			instance = createInstance();
-			instance.new();
-			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
-		});
-
-		it('will return page and theatre data', () => {
-			instance = createInstance();
-			expect(instance.new()).to.deep.eq({ page: pageDataFixture, theatre: instance });
-		});
-
-	});
-
 	describe('create method', () => {
 
 		it('will call query then return page and query result data', done => {

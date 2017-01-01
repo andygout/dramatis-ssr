@@ -34,11 +34,6 @@ module.exports = class Theatre {
 		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
-	new () {
-		const page = getPageData(this, 'create');
-		return { page, theatre: this };
-	}
-
 	create () {
 		const queryData = {
 			text:	`WITH

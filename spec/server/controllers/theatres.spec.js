@@ -50,21 +50,6 @@ describe('Theatre controller', () => {
 		return subject(request, response, next);
 	}
 
-	describe('new method', () => {
-
-		beforeEach(function() {
-			method = 'new';
-		});
-
-		it('will return status code 200 (OK)', () => {
-			methodStub = sinon.stub().returns(dataFixture);
-			createInstance(method, methodStub);
-			expect(response.statusCode).to.eq(200);
-			expect(response._getRenderData()).to.deep.eq(dataFixture);
-		});
-
-	});
-
 	describe('edit method', () => {
 
 		beforeEach(function() {
