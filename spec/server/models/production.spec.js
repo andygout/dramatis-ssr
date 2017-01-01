@@ -280,7 +280,7 @@ describe('Production model', () => {
 		it('will call query then return query result data as array', done => {
 			const subject = createSubject({ Theatre: sinon.stub() });
 			subject.list().then(result => {
-				instance = new subject(queryFixture[0], { hasError: true })
+				instance = new subject(queryFixture[0])
 				expect(stubs.query.calledOnce).to.be.true;
 				expect(result).to.deep.eq({ productions: [instance] });
 				done();
