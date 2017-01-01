@@ -141,7 +141,7 @@ describe('Page data module', () => {
 			context('create action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.errors = { title: ['Title is too short'] };
+					productionStub.hasError = true;
 					const pageData = subject(productionStub, 'create');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
@@ -151,7 +151,7 @@ describe('Page data module', () => {
 			context('update action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.errors = { title: ['Title is too short'] };
+					productionStub.hasError = true;
 					const pageData = subject(productionStub, 'update');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
@@ -161,7 +161,7 @@ describe('Page data module', () => {
 			context('delete action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.errors = { title: ['Title is too short'] };
+					productionStub.hasError = true;
 					const pageData = subject(productionStub, 'delete');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
@@ -186,7 +186,7 @@ describe('Page data module', () => {
 		context('instance has errors', () => {
 
 			it('will be \'error\'', () => {
-				productionStub.errors = { title: ['Title is too short'] };
+				productionStub.hasError = true;
 				const pageData = subject(productionStub, 'create');
 				expect(pageData.alertType).to.eq('error');
 			});

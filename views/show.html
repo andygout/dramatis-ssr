@@ -1,11 +1,28 @@
 <h1 class='title-text'>{{page.title}}</h1>
 
-<form method='get' action='/productions/{{production.id}}/edit' class='button-container'>
-	<input type='submit' value='Edit production' class='button'>
-</form>
+{{#if production.theatre}}
+	<a href="/theatres/{{production.theatre.id}}">{{production.theatre.name}}</a>
+{{/if}}
 
-<form method='post' action='/productions/{{production.id}}' class='button-container'>
-	<input type='hidden' name='id' value='{{production.id}}'>
-	<input type='hidden' name='_method' value='delete'>
-	<input type='submit' value='Delete production' class='button'>
-</form>
+{{#with production}}
+	<form method='get' action='/productions/{{id}}/edit' class='button-container'>
+		<input type='submit' value='Edit production' class='button'>
+	</form>
+
+	<form method='post' action='/productions/{{id}}' class='button-container'>
+		<input type='hidden' name='id' value='{{id}}'>
+		<input type='hidden' name='_method' value='delete'>
+		<input type='submit' value='Delete production' class='button'>
+	</form>
+{{/with}}
+{{#with theatre}}
+	<form method='get' action='/theatres/{{id}}/edit' class='button-container'>
+		<input type='submit' value='Edit production' class='button'>
+	</form>
+
+	<form method='post' action='/theatres/{{id}}' class='button-container'>
+		<input type='hidden' name='id' value='{{id}}'>
+		<input type='hidden' name='_method' value='delete'>
+		<input type='submit' value='Delete theatre' class='button'>
+	</form>
+{{/with}}

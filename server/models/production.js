@@ -1,7 +1,12 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const constants = require('../lib/constants');
+const pgFormatValues = require('../lib/pg-format-values');
+const trimStrings = require('../lib/trim-strings');
+const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
+
+const Theatre = require('./theatre');
 
 module.exports = class Production {
 
@@ -9,14 +14,7 @@ module.exports = class Production {
 		this.id = props.id || null;
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
-	}
-
-	trimStrings () {
-		for (const property in this) {
-			if (this.hasOwnProperty(property) && typeof this[property] === 'string') {
-				this[property] = this[property].trim();
-			}
-		}
+		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
 	}
 
 	validateTitle () {
@@ -27,20 +25,12 @@ module.exports = class Production {
 	}
 
 	validate () {
-		this.trimStrings();
+		trimStrings(this);
 
 		this.errors = {};
 
 		const titleErrors = this.validateTitle();
 		if (titleErrors.length) this.errors.title = titleErrors;
-	}
-
-	pgFormatValues () {
-		const thisPgFormatted = Object.assign({}, this);
-
-		for (const property in thisPgFormatted) thisPgFormatted[property] = format.literal(thisPgFormatted[property]);
-
-		return thisPgFormatted;
 	}
 
 	renewValues (row) {
@@ -54,20 +44,50 @@ module.exports = class Production {
 
 	create () {
 		this.validate();
+		this.theatre.validate();
+
+		this.hasError = verifyErrorPresence(this);
 
 		const page = getPageData(this, 'create');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
-		const queryData = {
-			text: `INSERT INTO productions(title) VALUES(${data.title}) RETURNING id`,
+		const theatreQueryData = {
+			text:	`WITH
+					i AS (
+						INSERT INTO theatres (name)
+						SELECT ${data.theatre.name}
+						WHERE NOT EXISTS (
+							SELECT id
+							FROM theatres
+							WHERE name = ${data.theatre.name}
+						)
+						RETURNING id
+					),
+					s AS (
+						SELECT id FROM theatres
+						WHERE name = ${data.theatre.name}
+					)
+					SELECT id FROM i
+					UNION ALL
+					SELECT id FROM s`,
 			isReqdResult: true
 		}
 
-		return query(queryData)
-			.then(([production] = production) => ({ page, production }));
+		return query(theatreQueryData)
+			.then(([theatre] = theatre) => {
+				const productionQueryData = {
+					text:	`INSERT INTO productions (title, theatre_id)
+							VALUES (${data.title}, ${theatre.id})
+							RETURNING id`,
+					isReqdResult: true
+				}
+
+				return query(productionQueryData)
+					.then(([production] = production) => ({ page, production }));
+			});
 	}
 
 	edit () {
@@ -76,13 +96,17 @@ module.exports = class Production {
 		const id = format.literal(this.id);
 
 		const queryData = {
-			text: `SELECT * FROM productions WHERE id=${id}`,
+			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
+					FROM productions
+					INNER JOIN theatres ON theatre_id = theatres.id
+					WHERE productions.id = ${id}`,
 			isReqdResult: true
 		}
 
 		return query(queryData)
 			.then(([production] = production) => {
 				_this.renewValues(production);
+				_this.theatre.renewValues({ id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'update');
 
@@ -92,20 +116,52 @@ module.exports = class Production {
 
 	update () {
 		this.validate();
+		this.theatre.validate();
+
+		this.hasError = verifyErrorPresence(this);
 
 		const page = getPageData(this, 'update');
 
-		if (Object.keys(this.errors).length) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = this.pgFormatValues();
+		const data = pgFormatValues(this);
 
-		const queryData = {
-			text: `UPDATE productions SET title=${data.title} WHERE id=${data.id} RETURNING id`,
+		const theatreQueryData = {
+			text:	`WITH
+					i AS (
+						INSERT INTO theatres (name)
+						SELECT ${data.theatre.name}
+						WHERE NOT EXISTS (
+							SELECT id
+							FROM theatres
+							WHERE name = ${data.theatre.name}
+						)
+						RETURNING id
+					),
+					s AS (
+						SELECT id FROM theatres
+						WHERE name = ${data.theatre.name}
+					)
+					SELECT id FROM i
+					UNION ALL
+					SELECT id FROM s`,
 			isReqdResult: true
 		}
 
-		return query(queryData)
-			.then(([production] = production) => ({ page, production }));
+		return query(theatreQueryData)
+			.then(([theatre] = theatre) => {
+				const productionQueryData = {
+					text:	`UPDATE productions SET
+							title = ${data.title},
+							theatre_id = ${theatre.id}
+							WHERE id = ${data.id}
+							RETURNING id`,
+					isReqdResult: true
+				}
+
+				return query(productionQueryData)
+					.then(([production] = production) => ({ page, production }));
+			});
 	}
 
 	delete () {
@@ -134,13 +190,17 @@ module.exports = class Production {
 		const id = format.literal(this.id);
 
 		const queryData = {
-			text: `SELECT * FROM productions WHERE id=${id}`,
+			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
+					FROM productions
+					INNER JOIN theatres ON theatre_id = theatres.id
+					WHERE productions.id = ${id}`,
 			isReqdResult: true
 		}
 
 		return query(queryData)
 			.then(([production] = production) => {
 				_this.renewValues(production);
+				_this.theatre.renewValues({ id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'show');
 
@@ -149,7 +209,14 @@ module.exports = class Production {
 	}
 
 	static list () {
-		const text = 'SELECT * FROM productions ORDER BY id ASC';
+		const text =	`SELECT
+						productions.id,
+						productions.title,
+						theatres.id AS theatre_id,
+						theatres.name AS theatre_name
+						FROM productions
+						INNER JOIN theatres ON theatre_id = theatres.id
+						ORDER BY id ASC`;
 
 		return query({ text })
 			.then(productionsRows => {
