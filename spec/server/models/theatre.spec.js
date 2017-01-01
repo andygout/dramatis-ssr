@@ -9,10 +9,6 @@ const theatreInstanceFixture = require('../../fixtures/theatres/instance');
 const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 
-const TheatreStub = function () {
-	this.validate = sinon.stub();
-};
-
 const stubs = {
 	format: {
 		literal: sinon.stub().returns('pg-formatted value')
