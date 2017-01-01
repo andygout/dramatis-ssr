@@ -6,8 +6,9 @@ module.exports = function (req, res, next) {
 
 	return theatre.update()
 		.then(data => {
+			const hasError = data.theatre.hasError || false;
 			const redirectRoute = `/theatres/${data.theatre.id}`;
-			handleModelResponse(req, res, data, redirectRoute);
+			handleModelResponse(req, res, Object.assign(data, { hasError, redirectRoute }));
 		})
 		.catch(err => next(err));
 };
