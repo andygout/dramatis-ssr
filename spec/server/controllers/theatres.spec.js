@@ -6,9 +6,9 @@ require('sinon-as-promised');
 
 const Theatre = require('../../../server/models/theatre');
 
-const dataFixture = require('../../fixtures/theatre-data');
-const dataWithErrorsFixture = require('../../fixtures/theatre-data-with-errors');
-const dataListFixture = require('../../fixtures/data-list');
+const dataFixture = require('../../fixtures/theatres/data');
+const dataWithErrorsFixture = require('../../fixtures/theatres/data-with-errors');
+const dataListFixture = require('../../fixtures/theatres/data-list');
 const alertFixture = require('../../fixtures/alert');
 
 const err = new Error('errorText');

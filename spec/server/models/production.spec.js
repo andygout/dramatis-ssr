@@ -5,7 +5,7 @@ require('sinon-as-promised');
 
 const constants = require('../../../server/lib/constants');
 
-const productionInstanceFixture = require('../../fixtures/production-instance');
+const productionInstanceFixture = require('../../fixtures/productions/instance');
 const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 

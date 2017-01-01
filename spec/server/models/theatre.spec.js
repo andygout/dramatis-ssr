@@ -5,7 +5,7 @@ require('sinon-as-promised');
 
 const constants = require('../../../server/lib/constants');
 
-const theatreInstanceFixture = require('../../fixtures/theatre-instance');
+const theatreInstanceFixture = require('../../fixtures/theatres/instance');
 const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 

@@ -6,9 +6,9 @@ require('sinon-as-promised');
 
 const Production = require('../../../server/models/production');
 
-const dataFixture = require('../../fixtures/data');
-const dataWithErrorsFixture = require('../../fixtures/data-with-errors');
-const dataListFixture = require('../../fixtures/data-list');
+const dataFixture = require('../../fixtures/productions/data');
+const dataWithErrorsFixture = require('../../fixtures/productions/data-with-errors');
+const dataListFixture = require('../../fixtures/productions/data-list');
 const alertFixture = require('../../fixtures/alert');
 
 const err = new Error('errorText');
