@@ -1,13 +1,13 @@
 <h1 class='title-text'>{{page.title}}</h1>
 
-{{#if production.theatre}}
+{{#with production.theatre}}
 	<div id="theatre" class="content-wrapper">
 		<div class="content-label">Theatre</div>
 		<div class="content">
-			<a href="/theatres/{{production.theatre.id}}">{{production.theatre.name}}</a>
+			<a href="/theatres/{{id}}">{{name}}</a>
 		</div>
 	</div>
-{{/if}}
+{{/with}}
 
 {{#with production}}
 	<form method='get' action='/productions/{{id}}/edit' class='button-container'>
