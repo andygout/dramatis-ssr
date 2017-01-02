@@ -8,7 +8,8 @@ exports.up = function(db, done) {
 		name: {
 			type: 'string',
 			length: 255,
-			notNull: true
+			notNull: true,
+			unique: true
 		}
 	}, done)
 };

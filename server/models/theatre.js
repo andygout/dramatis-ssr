@@ -13,15 +13,26 @@ module.exports = class Theatre {
 		this.id = props.id || null;
 		this.name = props.name;
 		this.preEditedName = props.preEditedName;
+		this.errors = {};
 	}
 
 	validate () {
 		trimStrings(this);
 
-		this.errors = {};
-
 		const nameErrors = validateString(this.name, 'Name');
 		if (nameErrors.length) this.errors.name = nameErrors;
+	}
+
+	validateInDb () {
+		const text = 	`SELECT 1
+						FROM theatres
+						WHERE name = ${format.literal(this.name)}
+						AND id != ${format.literal(this.id)}`;
+
+		return query({ text })
+			.then(result => {
+				if (result.length) this.errors.name = ['Name already exists'];
+			});
 	}
 
 	create () {
@@ -73,21 +84,24 @@ module.exports = class Theatre {
 	update () {
 		this.validate();
 
-		this.hasError = verifyErrorPresence(this);
+		return this.validateInDb()
+			.then(() => {
+				this.hasError = verifyErrorPresence(this);
 
-		const page = getPageData(this, 'update');
+				const page = getPageData(this, 'update');
 
-		if (this.hasError) return Promise.resolve({ page, theatre: this });
+				if (this.hasError) return Promise.resolve({ page, theatre: this });
 
-		const data = pgFormatValues(this);
+				const data = pgFormatValues(this);
 
-		const queryData = {
-			text: `UPDATE theatres SET name=${data.name} WHERE id=${data.id} RETURNING id`,
-			isReqdResult: true
-		}
+				const queryData = {
+					text: `UPDATE theatres SET name=${data.name} WHERE id=${data.id} RETURNING id`,
+					isReqdResult: true
+				}
 
-		return query(queryData)
-			.then(([theatre] = theatre) => ({ page, theatre }));
+				return query(queryData)
+					.then(([theatre] = theatre) => ({ page, theatre }));
+			});
 	}
 
 	delete () {
