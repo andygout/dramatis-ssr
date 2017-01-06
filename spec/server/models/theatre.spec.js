@@ -3,6 +3,8 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
+const Production = require('../../../server/models/production');
+
 const theatreInstanceFixture = require('../../fixtures/theatres/instance');
 const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
@@ -18,6 +20,7 @@ const stubs = {
 	trimStrings: sinon.stub().returns(theatreInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
+	Production: sinon.stub().returns(sinon.createStubInstance(Production))
 };
 
 const resetStubs = () => {
@@ -29,6 +32,7 @@ const resetStubs = () => {
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
+	stubs.Production.reset();
 };
 
 beforeEach(function() {
@@ -48,7 +52,8 @@ describe('Theatre model', () => {
 			'../lib/renew-values': stubs.renewValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
+			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+			'./production': stubs.Production
 		});
 	}
 
@@ -117,6 +122,37 @@ describe('Theatre model', () => {
 						.that.deep.eq(['Name already exists']);
 					done();
 				});
+			});
+
+		});
+
+	});
+
+	describe('renewValues method', () => {
+
+		it('will call renew values module (to renew top level values)', () => {
+			instance = createInstance();
+			instance.renewValues();
+			expect(stubs.renewValues.calledOnce).to.be.true;
+		});
+
+		context('props argument contains productions property', () => {
+
+			it('will set instance productions property as array of Production instances', () => {
+				instance = createInstance();
+				instance.renewValues({ productions: [{}] });
+				expect(instance.productions).to.deep.eq([{}]);
+				expect(instance.productions[0].constructor.name).to.eq('Production');
+			});
+
+		});
+
+		context('props argument does not contain productions property', () => {
+
+			it('will retain instance productions property as empty array', () => {
+				instance = createInstance();
+				instance.renewValues();
+				expect(instance.productions).to.deep.eq([]);
 			});
 
 		});
@@ -252,7 +288,7 @@ describe('Theatre model', () => {
 		it('will call query then return page and query result data', done => {
 			instance = createInstance();
 			instance.show().then(result => {
-				expect(stubs.query.calledOnce).to.be.true;
+				expect(stubs.query.calledTwice).to.be.true;
 				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
 				done();
 			});

@@ -9,6 +9,17 @@
 	</div>
 {{/with}}
 
+{{#with theatre.productions}}
+	<div id="productions" class="content-wrapper">
+		<div class="content-label">Productions</div>
+		{{#each this}}
+			<ul>
+				<li><a href='/productions/{{id}}'>{{title}}</a></li>
+			</ul>
+		{{/each}}
+	</div>
+{{/with}}
+
 {{#with production}}
 	<form method='get' action='/productions/{{id}}/edit' class='button-container'>
 		<input type='submit' value='Edit production' class='button'>

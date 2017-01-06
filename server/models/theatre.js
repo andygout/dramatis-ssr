@@ -13,6 +13,7 @@ module.exports = class Theatre {
 		this.id = props.id || null;
 		this.name = props.name;
 		this.preEditedName = props.preEditedName;
+		this.productions = [];
 		this.errors = {};
 	}
 
@@ -33,6 +34,14 @@ module.exports = class Theatre {
 			.then(result => {
 				if (result.length) this.errors.name = ['Name already exists'];
 			});
+	}
+
+	renewValues (props = {}) {
+		const Production = require('./production');
+
+		renewValues(this, props);
+
+		this.productions = props.productions ? props.productions.map(production => new Production(production)) : [];
 	}
 
 	create () {
@@ -129,14 +138,18 @@ module.exports = class Theatre {
 
 		const id = format.literal(this.id);
 
-		const queryData = {
-			text: `SELECT * FROM theatres WHERE id=${id}`,
+		const theatre = query({
+			text: `SELECT * FROM theatres WHERE id = ${id}`,
 			isReqdResult: true
-		}
+		});
 
-		return query(queryData)
-			.then(([theatre] = theatre) => {
-				renewValues(_this, theatre);
+		const productions = query({
+			text: `SELECT * FROM productions WHERE theatre_id = ${id}`
+		});
+
+		return Promise.all([theatre, productions])
+			.then(([[theatre], productions] = [theatre, productions]) => {
+				_this.renewValues(Object.assign(theatre, { productions }));
 
 				const page = getPageData(_this, 'show');
 
