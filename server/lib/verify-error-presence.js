@@ -1,10 +1,7 @@
+const propIsObject = require('./prop-is-object');
+
 const propHasErrors = (prop, instanceProp) =>
 	prop === 'errors' &&
-	typeof instanceProp === 'object' &&
-	Object.keys(instanceProp).length;
-
-const propIsObject = instanceProp =>
-	instanceProp !== null &&
 	typeof instanceProp === 'object' &&
 	Object.keys(instanceProp).length;
 

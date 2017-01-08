@@ -1,7 +1,4 @@
-const propIsObject = instanceProp =>
-	instanceProp !== null &&
-	typeof instanceProp === 'object' &&
-	Object.keys(instanceProp).length;
+const propIsObject = require('./prop-is-object');
 
 const trimStrings = instance => {
 	for (const prop in instance) {
@@ -15,5 +12,5 @@ const trimStrings = instance => {
 }
 
 module.exports = function (instance) {
-	return trimStrings(instance);
+	trimStrings(instance);
 };

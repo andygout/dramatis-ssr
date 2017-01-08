@@ -6,8 +6,9 @@ module.exports = function (req, res, next) {
 
 	return production.delete()
 		.then(data => {
+			const hasError = data.production.hasError || false;
 			const redirectRoute = '/';
-			handleModelResponse(req, res, data, redirectRoute);
+			handleModelResponse(req, res, Object.assign(data, { hasError, redirectRoute }));
 		})
 		.catch(err => next(err));
 };

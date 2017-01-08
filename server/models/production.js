@@ -1,8 +1,9 @@
 const format = require('pg-format');
 const query = require('../../database/query');
-const constants = require('../lib/constants');
 const pgFormatValues = require('../lib/pg-format-values');
+const renewValues = require('../lib/renew-values');
 const trimStrings = require('../lib/trim-strings');
+const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
 
@@ -17,24 +18,13 @@ module.exports = class Production {
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
 	}
 
-	validateTitle () {
-		const titleErrors = [];
-		if (this.title.length < constants.STRING_MIN_LENGTH) titleErrors.push('Title is too short');
-		if (this.title.length > constants.STRING_MAX_LENGTH) titleErrors.push('Title is too long');
-		return titleErrors;
-	}
-
 	validate () {
 		trimStrings(this);
 
 		this.errors = {};
 
-		const titleErrors = this.validateTitle();
+		const titleErrors = validateString(this.title, 'Title');
 		if (titleErrors.length) this.errors.title = titleErrors;
-	}
-
-	renewValues (row) {
-		for (const property in this) if (this.hasOwnProperty(property) && row[property]) this[property] = row[property];
 	}
 
 	new () {
@@ -54,29 +44,7 @@ module.exports = class Production {
 
 		const data = pgFormatValues(this);
 
-		const theatreQueryData = {
-			text:	`WITH
-					i AS (
-						INSERT INTO theatres (name)
-						SELECT ${data.theatre.name}
-						WHERE NOT EXISTS (
-							SELECT id
-							FROM theatres
-							WHERE name = ${data.theatre.name}
-						)
-						RETURNING id
-					),
-					s AS (
-						SELECT id FROM theatres
-						WHERE name = ${data.theatre.name}
-					)
-					SELECT id FROM i
-					UNION ALL
-					SELECT id FROM s`,
-			isReqdResult: true
-		}
-
-		return query(theatreQueryData)
+		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`INSERT INTO productions (title, theatre_id)
@@ -105,8 +73,8 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				_this.renewValues(production);
-				_this.theatre.renewValues({ id: production.theatre_id, name: production.theatre_name });
+				renewValues(_this, production);
+				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'update');
 
@@ -126,29 +94,7 @@ module.exports = class Production {
 
 		const data = pgFormatValues(this);
 
-		const theatreQueryData = {
-			text:	`WITH
-					i AS (
-						INSERT INTO theatres (name)
-						SELECT ${data.theatre.name}
-						WHERE NOT EXISTS (
-							SELECT id
-							FROM theatres
-							WHERE name = ${data.theatre.name}
-						)
-						RETURNING id
-					),
-					s AS (
-						SELECT id FROM theatres
-						WHERE name = ${data.theatre.name}
-					)
-					SELECT id FROM i
-					UNION ALL
-					SELECT id FROM s`,
-			isReqdResult: true
-		}
-
-		return query(theatreQueryData)
+		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`UPDATE productions SET
@@ -176,7 +122,7 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				_this.renewValues(production);
+				renewValues(_this, production);
 
 				const page = getPageData(_this, 'delete');
 
@@ -199,8 +145,8 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				_this.renewValues(production);
-				_this.theatre.renewValues({ id: production.theatre_id, name: production.theatre_name });
+				renewValues(_this, production);
+				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'show');
 

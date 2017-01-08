@@ -3,14 +3,13 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const constants = require('../../../server/lib/constants');
-
-const productionInstanceFixture = require('../../fixtures/production-instance');
+const productionInstanceFixture = require('../../fixtures/productions/instance');
 const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 
 const TheatreStub = function () {
 	this.validate = sinon.stub();
+	this.create = sinon.stub().resolves(queryFixture);
 };
 
 const stubs = {
@@ -19,7 +18,10 @@ const stubs = {
 	},
 	query: sinon.stub().resolves(queryFixture),
 	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
+	renewValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
+	validateString: sinon.stub().returns([]),
+	verifyErrorPresence: sinon.stub().returns(false),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	Theatre: TheatreStub
 };
@@ -28,7 +30,10 @@ const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.pgFormatValues.reset();
+	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
+	stubs.validateString.reset();
+	stubs.verifyErrorPresence.reset();
 	stubs.getPageData.reset();
 };
 
@@ -39,73 +44,45 @@ beforeEach(function() {
 describe('Production model', () => {
 
 	let instance;
-	const subMinLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH - 1)}`;
-	const surMaxLengthString = `${'a'.repeat(constants.STRING_MAX_LENGTH + 1)}`;
-	const validLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH)}`;
 
 	function createSubject (stubOverrides) {
 		return proxyquire('../../../server/models/production', {
 			'pg-format': stubs.format,
 			'../../database/query': stubs.query,
 			'../lib/pg-format-values': stubs.pgFormatValues,
+			'../lib/renew-values': stubs.renewValues,
 			'../lib/trim-strings': stubs.trimStrings,
-			'../lib/verify-error-presence': sinon.stub().returns(stubOverrides.verifyErrorPresence || false),
+			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
+			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 			'../lib/page-data': stubs.getPageData,
 			'./theatre': stubOverrides.Theatre || stubs.Theatre
 		});
 	}
 
-	function createInstance (props, stubOverrides = {}) {
+	function createInstance (stubOverrides = {}) {
 		const subject = createSubject(stubOverrides);
-		return new subject(props);
+		return new subject();
 	}
-
-	describe('validateTitle method', () => {
-
-		context('valid data', () => {
-
-			it('will not add error to titleErrors array if title string is acceptable length', () => {
-				instance = createInstance({ title: validLengthString });
-				expect(instance.validateTitle()).to.deep.eq([]);
-			});
-
-		});
-
-		context('invalid data', () => {
-
-			it('will add error to titleErrors array if title string is too short', () => {
-				instance = createInstance({ title: subMinLengthString });
-				expect(instance.validateTitle()).to.deep.eq(['Title is too short']);
-			});
-
-			it('will add error to titleErrors array if title string is too long', () => {
-				instance = createInstance({ title: surMaxLengthString });
-				expect(instance.validateTitle()).to.deep.eq(['Title is too long']);
-			});
-
-		});
-
-	});
 
 	describe('validate method', () => {
 
 		it('will add errors property to class instance', () => {
-			instance = createInstance({ title: validLengthString });
+			instance = createInstance();
 			expect(instance).not.to.have.property('errors');
 			instance.validate();
 			expect(instance).to.have.property('errors');
 		});
 
 		it('will trim strings before validating title', () => {
-			instance = createInstance({ title: validLengthString });
+			instance = createInstance();
 			instance.validate();
-			expect(stubs.trimStrings.calledBefore(instance.validateTitle)).to.be.true;
+			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 		});
 
 		context('valid data', () => {
 
 			it('will not add properties to errors property', () => {
-				instance = createInstance({ title: validLengthString });
+				instance = createInstance();
 				instance.validate();
 				expect(instance.errors).not.to.have.property('title');
 				expect(instance.errors).to.deep.eq({});
@@ -116,7 +93,7 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will add properties that are arrays to errors property', () => {
-				instance = createInstance({ title: subMinLengthString });
+				instance = createInstance({ validateString: sinon.stub().returns(['Title is too short']) });
 				instance.validate();
 				expect(instance.errors)
 					.to.have.property('title')
@@ -124,22 +101,6 @@ describe('Production model', () => {
 					.that.deep.eq(['Title is too short']);
 			});
 
-		});
-
-	});
-
-	describe('renewValues method', () => {
-
-		it('will use arguments to renew property values of instance', () => {
-			instance = createInstance({ title: 'foo' });
-			instance.renewValues({ title: 'bar' });
-			expect(instance.title).to.eq('bar');
-		});
-
-		it('will not use arguments to add non-existent properties to instance', () => {
-			instance = createInstance({ title: 'foo' });
-			instance.renewValues({ nonExistentProperty: 'bar' });
-			expect(instance).not.to.have.property('nonExistentProperty');
 		});
 
 	});
@@ -165,16 +126,16 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ title: validLengthString });
+				instance = createInstance();
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
 			});
 
 			it('will call query then return page and query result data', done => {
-				instance = createInstance({ title: validLengthString });
+				instance = createInstance();
 				instance.create().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.query.calledOnce).to.be.true;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
 					done();
 				});
@@ -185,14 +146,14 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ title: subMinLengthString }, { verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
 			});
 
 			it('will return page and production data without calling query', done => {
-				instance = createInstance({ title: subMinLengthString }, { verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create().then(result => {
 					expect(stubs.query.called).to.be.false;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
@@ -231,16 +192,16 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ title: validLengthString });
+				instance = createInstance();
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 			});
 
 			it('will call query then return page and query result data', done => {
-				instance = createInstance({ title: validLengthString });
+				instance = createInstance();
 				instance.update().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.query.calledOnce).to.be.true;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
 					done();
 				});
@@ -251,14 +212,14 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will call pageData function once', () => {
-				instance = createInstance({ title: subMinLengthString }, { verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 			});
 
 			it('will return page and production data without calling query', done => {
-				instance = createInstance({ title: subMinLengthString }, { verifyErrorPresence: true });
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update().then(result => {
 					expect(stubs.query.called).to.be.false;
 					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
@@ -319,7 +280,7 @@ describe('Production model', () => {
 		it('will call query then return query result data as array', done => {
 			const subject = createSubject({ Theatre: sinon.stub() });
 			subject.list().then(result => {
-				instance = new subject(queryFixture[0], { hasError: true })
+				instance = new subject(queryFixture[0])
 				expect(stubs.query.calledOnce).to.be.true;
 				expect(result).to.deep.eq({ productions: [instance] });
 				done();
