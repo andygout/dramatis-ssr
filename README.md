@@ -28,3 +28,8 @@ Testing
 
 - Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`
 - `$ npm test`
+
+
+Database
+-------
+- [db-migrate: The commands](https://db-migrate.readthedocs.io/en/latest/Getting%20Started/the%20commands) (or `$ db-migrate --help`).
