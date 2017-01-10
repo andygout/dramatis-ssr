@@ -16,12 +16,12 @@ module.exports = class Production {
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
+		this.hasError = false;
+		this.errors = {};
 	}
 
 	validate () {
 		trimStrings(this);
-
-		this.errors = {};
 
 		const titleErrors = validateString(this.title, 'Title');
 		if (titleErrors.length) this.errors.title = titleErrors;

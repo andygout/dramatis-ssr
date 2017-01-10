@@ -14,6 +14,7 @@ module.exports = class Theatre {
 		this.name = props.name;
 		this.preEditedName = props.preEditedName;
 		this.productions = [];
+		this.hasError = false;
 		this.errors = {};
 	}
 

@@ -66,13 +66,6 @@ describe('Production model', () => {
 
 	describe('validate method', () => {
 
-		it('will add errors property to class instance', () => {
-			instance = createInstance();
-			expect(instance).not.to.have.property('errors');
-			instance.validate();
-			expect(instance).to.have.property('errors');
-		});
-
 		it('will trim strings before validating title', () => {
 			instance = createInstance();
 			instance.validate();
