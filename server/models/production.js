@@ -27,6 +27,11 @@ module.exports = class Production {
 		if (titleErrors.length) this.errors.title = titleErrors;
 	}
 
+	renewValues (props = {}) {
+		renewTopLevelValues(this, props);
+		renewTopLevelValues(this.theatre, { id: props.theatre_id, name: props.theatre_name });
+	}
+
 	new () {
 		const page = getPageData(this, 'create');
 		return { page, production: this };
@@ -73,8 +78,7 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				renewTopLevelValues(_this, production);
-				renewTopLevelValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				_this.renewValues(production);
 
 				const page = getPageData(_this, 'update');
 
@@ -145,8 +149,7 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				renewTopLevelValues(_this, production);
-				renewTopLevelValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				_this.renewValues(production);
 
 				const page = getPageData(_this, 'show');
 

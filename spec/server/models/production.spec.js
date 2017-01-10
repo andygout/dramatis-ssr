@@ -105,6 +105,16 @@ describe('Production model', () => {
 
 	});
 
+	describe('renewValues method', () => {
+
+		it('will call renew top level values module', () => {
+			instance = createInstance();
+			instance.renewValues();
+			expect(stubs.renewTopLevelValues.calledTwice).to.be.true;
+		});
+
+	});
+
 	describe('new method', () => {
 
 		it('will call pageData function once', () => {
