@@ -68,6 +68,7 @@ describe('Theatre model', () => {
 			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
+			expect(stubs.validateString.calledOnce).to.be.true;
 		});
 
 		context('valid data', () => {
@@ -202,6 +203,7 @@ describe('Theatre model', () => {
 			sinon.spy(instance, 'validateInDb');
 			instance.update().then(() => {
 				expect(instance.validate.calledBefore(instance.validateInDb)).to.be.true;
+				expect(instance.validateInDb.calledOnce).to.be.true;
 				done();
 			});
 		});

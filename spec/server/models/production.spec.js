@@ -77,6 +77,7 @@ describe('Production model', () => {
 			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
+			expect(stubs.validateString.calledOnce).to.be.true;
 		});
 
 		context('valid data', () => {
