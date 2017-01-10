@@ -10,7 +10,7 @@ const verifyErrorPresence = require('../lib/verify-error-presence');
 module.exports = class Theatre {
 
 	constructor (props = {}) {
-		this.id = props.id || null;
+		this.id = props.id;
 		this.name = props.name;
 		this.preEditedName = props.preEditedName;
 		this.productions = [];

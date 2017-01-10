@@ -12,7 +12,7 @@ module.exports = class Production {
 	constructor (props = {}) {
 		const Theatre = require('./theatre');
 
-		this.id = props.id || null;
+		this.id = props.id;
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
