@@ -7,11 +7,11 @@ const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
 const getPageData = require('../lib/page-data');
 
-const Theatre = require('./theatre');
-
 module.exports = class Production {
 
 	constructor (props = {}) {
+		const Theatre = require('./theatre');
+
 		this.id = props.id || null;
 		this.title = props.title;
 		this.preEditedTitle = props.preEditedTitle;
