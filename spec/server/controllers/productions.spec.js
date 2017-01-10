@@ -19,7 +19,7 @@ const resetStubs = () => {
 	alertStub.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 
@@ -52,7 +52,7 @@ describe('Production controller', () => {
 
 	describe('new method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'new';
 		});
 
@@ -67,7 +67,7 @@ describe('Production controller', () => {
 
 	describe('create method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'create';
 		});
 
@@ -116,7 +116,7 @@ describe('Production controller', () => {
 
 	describe('edit method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'edit';
 		});
 
@@ -151,7 +151,7 @@ describe('Production controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'update';
 		});
 
@@ -200,7 +200,7 @@ describe('Production controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'delete';
 		});
 
@@ -249,7 +249,7 @@ describe('Production controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'show';
 		});
 
@@ -284,11 +284,11 @@ describe('Production controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'list';
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			Production.list.restore();
 		});
 

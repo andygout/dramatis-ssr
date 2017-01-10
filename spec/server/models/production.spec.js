@@ -37,7 +37,7 @@ const resetStubs = () => {
 	stubs.verifyErrorPresence.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 

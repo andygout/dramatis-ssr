@@ -19,7 +19,7 @@ const resetStubs = () => {
 	alertStub.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 
@@ -52,7 +52,7 @@ describe('Theatre controller', () => {
 
 	describe('edit method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'edit';
 		});
 
@@ -87,7 +87,7 @@ describe('Theatre controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'update';
 		});
 
@@ -136,7 +136,7 @@ describe('Theatre controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'delete';
 		});
 
@@ -185,7 +185,7 @@ describe('Theatre controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'show';
 		});
 
@@ -220,11 +220,11 @@ describe('Theatre controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'list';
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			Theatre.list.restore();
 		});
 

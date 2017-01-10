@@ -35,7 +35,7 @@ const resetStubs = () => {
 	stubs.Production.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 

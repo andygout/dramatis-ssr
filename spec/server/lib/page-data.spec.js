@@ -9,7 +9,7 @@ const createStubs = () => {
 	productionStub = sinon.createStubInstance(Production);
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	createStubs();
 });
 
