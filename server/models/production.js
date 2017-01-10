@@ -1,6 +1,6 @@
 const format = require('pg-format');
 const query = require('../../database/query');
-const getPageData = require('../lib/page-data');
+const getPageData = require('../lib/get-page-data');
 const pgFormatValues = require('../lib/pg-format-values');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');

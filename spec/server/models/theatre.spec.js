@@ -45,7 +45,7 @@ function createSubject (stubOverrides) {
 	return proxyquire('../../../server/models/theatre', {
 		'pg-format': stubs.format,
 		'../../database/query': stubOverrides.query || stubs.query,
-		'../lib/page-data': stubs.getPageData,
+		'../lib/get-page-data': stubs.getPageData,
 		'../lib/pg-format-values': stubs.pgFormatValues,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/trim-strings': stubs.trimStrings,

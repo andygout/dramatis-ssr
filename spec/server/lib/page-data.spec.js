@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const subject = require('../../../server/lib/page-data');
+const subject = require('../../../server/lib/get-page-data');
 const Production = require('../../../server/models/production');
 let productionStub;
 
