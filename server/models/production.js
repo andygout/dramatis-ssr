@@ -48,14 +48,14 @@ module.exports = class Production {
 
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
-				const productionQueryData = {
+				const queryData = {
 					text:	`INSERT INTO productions (title, theatre_id)
 							VALUES (${format.literal(this.title)}, ${format.literal(theatre.id)})
 							RETURNING id`,
 					isReqdResult: true
 				}
 
-				return query(productionQueryData)
+				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
 	}
@@ -93,7 +93,7 @@ module.exports = class Production {
 
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
-				const productionQueryData = {
+				const queryData = {
 					text:	`UPDATE productions SET
 							title = ${format.literal(this.title)},
 							theatre_id = ${format.literal(theatre.id)}
@@ -102,7 +102,7 @@ module.exports = class Production {
 					isReqdResult: true
 				}
 
-				return query(productionQueryData)
+				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
 	}
