@@ -13,7 +13,7 @@ const searchForErrors = instance => {
 		}
 	}
 	return false;
-}
+};
 
 module.exports = function (instance) {
 	return searchForErrors(instance);

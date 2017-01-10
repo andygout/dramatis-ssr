@@ -10,7 +10,7 @@ const convertToPgFormat = instance => {
 		}
 	}
 	return instance;
-}
+};
 
 module.exports = function (instance) {
 	return convertToPgFormat(instance);

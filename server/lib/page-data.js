@@ -9,13 +9,13 @@ const getPageTitleText = (model, instance) => {
 	};
 
 	return pageTitleTextMap[model];
-}
+};
 
 const getAlertText = (model, instance, action) => {
 	const instanceText = instance.title || instance.name;
 
 	return `${model.toUpperCase()} ${instance.hasError ? 'ERRORS' : action.toUpperCase() + 'D: ' + instanceText}`;
-}
+};
 
 const getAlertType = instance => instance.hasError ? 'error' : 'success';
 
@@ -31,5 +31,5 @@ module.exports = function (instance, action) {
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
-	}
+	};
 };
