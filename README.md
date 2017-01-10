@@ -15,7 +15,7 @@ Site setup
 -------
 
 - Install [Nodemon](http://nodemon.io): `$ npm install -g nodemon`.
-- Add favicon: `$ touch ./client/favicons/favicon.ico`
+- Add favicon: `$ touch ./client/favicons/favicon.ico`.
 - Copy development environment variables from `.dev-env` into `.env` by running command: `$ node transfer-dev-env`.
 - Create PostgreSQL database called `theatrebase_nodejs`: `$ psql` -> `$ CREATE DATABASE theatrebase_nodejs`.
 - Install [`db-migrate`](https://www.npmjs.com/package/db-migrate) globally (`npm install -g db-migrate`) then run command `$ db-migrate up` to run migration files.
@@ -26,8 +26,8 @@ Site setup
 Testing
 -------
 
-- Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`
-- `$ npm test`
+- Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`.
+- `$ npm test`.
 
 
 Database
