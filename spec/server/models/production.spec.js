@@ -41,28 +41,28 @@ beforeEach(function() {
 	resetStubs();
 });
 
+let instance;
+
+function createSubject (stubOverrides) {
+	return proxyquire('../../../server/models/production', {
+		'pg-format': stubs.format,
+		'../../database/query': stubs.query,
+		'../lib/pg-format-values': stubs.pgFormatValues,
+		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
+		'../lib/trim-strings': stubs.trimStrings,
+		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
+		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+		'../lib/page-data': stubs.getPageData,
+		'./theatre': stubOverrides.Theatre || stubs.Theatre
+	});
+}
+
+function createInstance (stubOverrides = {}) {
+	const subject = createSubject(stubOverrides);
+	return new subject();
+}
+
 describe('Production model', () => {
-
-	let instance;
-
-	function createSubject (stubOverrides) {
-		return proxyquire('../../../server/models/production', {
-			'pg-format': stubs.format,
-			'../../database/query': stubs.query,
-			'../lib/pg-format-values': stubs.pgFormatValues,
-			'../lib/renew-top-level-values': stubs.renewTopLevelValues,
-			'../lib/trim-strings': stubs.trimStrings,
-			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-			'../lib/page-data': stubs.getPageData,
-			'./theatre': stubOverrides.Theatre || stubs.Theatre
-		});
-	}
-
-	function createInstance (stubOverrides = {}) {
-		const subject = createSubject(stubOverrides);
-		return new subject();
-	}
 
 	describe('validate method', () => {
 

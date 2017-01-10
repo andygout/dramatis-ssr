@@ -39,28 +39,28 @@ beforeEach(function() {
 	resetStubs();
 });
 
+let instance;
+
+function createSubject (stubOverrides) {
+	return proxyquire('../../../server/models/theatre', {
+		'pg-format': stubs.format,
+		'../../database/query': stubOverrides.query || stubs.query,
+		'../lib/page-data': stubs.getPageData,
+		'../lib/pg-format-values': stubs.pgFormatValues,
+		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
+		'../lib/trim-strings': stubs.trimStrings,
+		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
+		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+		'./production': stubs.Production
+	});
+}
+
+function createInstance (stubOverrides = {}) {
+	const subject = createSubject(stubOverrides);
+	return new subject();
+}
+
 describe('Theatre model', () => {
-
-	let instance;
-
-	function createSubject (stubOverrides) {
-		return proxyquire('../../../server/models/theatre', {
-			'pg-format': stubs.format,
-			'../../database/query': stubOverrides.query || stubs.query,
-			'../lib/page-data': stubs.getPageData,
-			'../lib/pg-format-values': stubs.pgFormatValues,
-			'../lib/renew-top-level-values': stubs.renewTopLevelValues,
-			'../lib/trim-strings': stubs.trimStrings,
-			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-			'./production': stubs.Production
-		});
-	}
-
-	function createInstance (stubOverrides = {}) {
-		const subject = createSubject(stubOverrides);
-		return new subject();
-	}
 
 	describe('validate method', () => {
 

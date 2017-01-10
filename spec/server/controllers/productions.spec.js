@@ -23,32 +23,32 @@ beforeEach(function() {
 	resetStubs();
 });
 
+let method;
+let methodStub;
+let request;
+let response;
+let next;
+
+function createSubject (method, ProductionStub) {
+	return proxyquire(`../../../server/controllers/productions/${method}`, {
+		'../../models/production': ProductionStub
+	});
+}
+
+function createInstance (method, methodStub) {
+	request = httpMocks.createRequest({ flash: alertStub });
+	response = httpMocks.createResponse();
+	next = sinon.stub();
+
+	const ProductionStub = (method !== 'list') ?
+		function () { this[method] = methodStub; } :
+		sinon.stub(Production, 'list', function () { return methodStub });
+
+	const subject = createSubject(method, ProductionStub);
+	return subject(request, response, next);
+}
+
 describe('Production controller', () => {
-
-	let method;
-	let methodStub;
-	let request;
-	let response;
-	let next;
-
-	function createSubject (method, ProductionStub) {
-		return proxyquire(`../../../server/controllers/productions/${method}`, {
-			'../../models/production': ProductionStub
-		});
-	}
-
-	function createInstance (method, methodStub) {
-		request = httpMocks.createRequest({ flash: alertStub });
-		response = httpMocks.createResponse();
-		next = sinon.stub();
-
-		const ProductionStub = (method !== 'list') ?
-			function () { this[method] = methodStub; } :
-			sinon.stub(Production, 'list', function () { return methodStub });
-
-		const subject = createSubject(method, ProductionStub);
-		return subject(request, response, next);
-	}
 
 	describe('new method', () => {
 

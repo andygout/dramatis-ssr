@@ -23,32 +23,32 @@ beforeEach(function() {
 	resetStubs();
 });
 
+let method;
+let methodStub;
+let request;
+let response;
+let next;
+
+function createSubject (method, TheatreStub) {
+	return proxyquire(`../../../server/controllers/theatres/${method}`, {
+		'../../models/theatre': TheatreStub
+	});
+}
+
+function createInstance (method, methodStub) {
+	request = httpMocks.createRequest({ flash: alertStub });
+	response = httpMocks.createResponse();
+	next = sinon.stub();
+
+	const TheatreStub = (method !== 'list') ?
+		function () { this[method] = methodStub; } :
+		sinon.stub(Theatre, 'list', function () { return methodStub });
+
+	const subject = createSubject(method, TheatreStub);
+	return subject(request, response, next);
+}
+
 describe('Theatre controller', () => {
-
-	let method;
-	let methodStub;
-	let request;
-	let response;
-	let next;
-
-	function createSubject (method, TheatreStub) {
-		return proxyquire(`../../../server/controllers/theatres/${method}`, {
-			'../../models/theatre': TheatreStub
-		});
-	}
-
-	function createInstance (method, methodStub) {
-		request = httpMocks.createRequest({ flash: alertStub });
-		response = httpMocks.createResponse();
-		next = sinon.stub();
-
-		const TheatreStub = (method !== 'list') ?
-			function () { this[method] = methodStub; } :
-			sinon.stub(Theatre, 'list', function () { return methodStub });
-
-		const subject = createSubject(method, TheatreStub);
-		return subject(request, response, next);
-	}
 
 	describe('edit method', () => {
 
