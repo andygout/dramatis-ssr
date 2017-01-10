@@ -1,11 +1,11 @@
 const format = require('pg-format');
 const query = require('../../database/query');
+const getPageData = require('../lib/page-data');
 const pgFormatValues = require('../lib/pg-format-values');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
-const getPageData = require('../lib/page-data');
 
 module.exports = class Production {
 

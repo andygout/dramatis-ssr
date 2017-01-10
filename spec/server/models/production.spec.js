@@ -17,24 +17,24 @@ const stubs = {
 		literal: sinon.stub().returns('pg-formatted value')
 	},
 	query: sinon.stub().resolves(queryFixture),
+	getPageData: sinon.stub().returns(pageDataFixture),
 	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
 	renewTopLevelValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
-	getPageData: sinon.stub().returns(pageDataFixture),
 	Theatre: TheatreStub
 };
 
 const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
+	stubs.getPageData.reset();
 	stubs.pgFormatValues.reset();
 	stubs.renewTopLevelValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
-	stubs.getPageData.reset();
 };
 
 beforeEach(function() {
@@ -47,12 +47,12 @@ function createSubject (stubOverrides) {
 	return proxyquire('../../../server/models/production', {
 		'pg-format': stubs.format,
 		'../../database/query': stubs.query,
+		'../lib/page-data': stubs.getPageData,
 		'../lib/pg-format-values': stubs.pgFormatValues,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-		'../lib/page-data': stubs.getPageData,
 		'./theatre': stubOverrides.Theatre || stubs.Theatre
 	});
 }
