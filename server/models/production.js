@@ -1,7 +1,6 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const getPageData = require('../lib/get-page-data');
-const pgFormatValues = require('../lib/pg-format-values');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
@@ -47,13 +46,11 @@ module.exports = class Production {
 
 		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = pgFormatValues(this);
-
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`INSERT INTO productions (title, theatre_id)
-							VALUES (${data.title}, ${theatre.id})
+							VALUES (${format.literal(this.title)}, ${format.literal(theatre.id)})
 							RETURNING id`,
 					isReqdResult: true
 				}
@@ -64,17 +61,15 @@ module.exports = class Production {
 	}
 
 	edit () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
 			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${id}`,
+					WHERE productions.id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		}
+
+		const _this = this;
 
 		return query(queryData)
 			.then(([production] = production) => {
@@ -96,15 +91,13 @@ module.exports = class Production {
 
 		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = pgFormatValues(this);
-
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const productionQueryData = {
 					text:	`UPDATE productions SET
-							title = ${data.title},
-							theatre_id = ${theatre.id}
-							WHERE id = ${data.id}
+							title = ${format.literal(this.title)},
+							theatre_id = ${format.literal(theatre.id)}
+							WHERE id = ${format.literal(this.id)}
 							RETURNING id`,
 					isReqdResult: true
 				}
@@ -115,14 +108,12 @@ module.exports = class Production {
 	}
 
 	delete () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
-			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
+			text: `DELETE FROM productions WHERE id=${format.literal(this.id)} RETURNING title`,
 			isReqdResult: true
 		}
+
+		const _this = this;
 
 		return query(queryData)
 			.then(([production] = production) => {
@@ -135,17 +126,15 @@ module.exports = class Production {
 	}
 
 	show () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
 			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${id}`,
+					WHERE productions.id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		}
+
+		const _this = this;
 
 		return query(queryData)
 			.then(([production] = production) => {

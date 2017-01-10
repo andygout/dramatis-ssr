@@ -15,7 +15,6 @@ const stubs = {
 	},
 	query: sinon.stub().resolves(queryFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
-	pgFormatValues: sinon.stub().returns(theatreInstanceFixture),
 	renewTopLevelValues: sinon.stub().returns(theatreInstanceFixture),
 	trimStrings: sinon.stub().returns(theatreInstanceFixture),
 	validateString: sinon.stub().returns([]),
@@ -27,7 +26,6 @@ const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.getPageData.reset();
-	stubs.pgFormatValues.reset();
 	stubs.renewTopLevelValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
@@ -46,7 +44,6 @@ function createSubject (stubOverrides) {
 		'pg-format': stubs.format,
 		'../../database/query': stubOverrides.query || stubs.query,
 		'../lib/get-page-data': stubs.getPageData,
-		'../lib/pg-format-values': stubs.pgFormatValues,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,

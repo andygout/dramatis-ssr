@@ -1,7 +1,6 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const getPageData = require('../lib/get-page-data');
-const pgFormatValues = require('../lib/pg-format-values');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
@@ -50,17 +49,17 @@ module.exports = class Theatre {
 			text:	`WITH
 					i AS (
 						INSERT INTO theatres (name)
-						SELECT ${this.name}
+						SELECT ${format.literal(this.name)}
 						WHERE NOT EXISTS (
 							SELECT id
 							FROM theatres
-							WHERE name = ${this.name}
+							WHERE name = ${format.literal(this.name)}
 						)
 						RETURNING id
 					),
 					s AS (
 						SELECT id FROM theatres
-						WHERE name = ${this.name}
+						WHERE name = ${format.literal(this.name)}
 					)
 					SELECT id FROM i
 					UNION ALL
@@ -72,14 +71,12 @@ module.exports = class Theatre {
 	}
 
 	edit () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
-			text: `SELECT * FROM theatres WHERE id=${id}`,
+			text: `SELECT * FROM theatres WHERE id=${format.literal(this.id)}`,
 			isReqdResult: true
 		}
+
+		const _this = this;
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
@@ -102,10 +99,11 @@ module.exports = class Theatre {
 
 				if (this.hasError) return Promise.resolve({ page, theatre: this });
 
-				const data = pgFormatValues(this);
-
 				const queryData = {
-					text: `UPDATE theatres SET name=${data.name} WHERE id=${data.id} RETURNING id`,
+					text:	`UPDATE theatres SET
+							name=${format.literal(this.name)}
+							WHERE id=${format.literal(this.id)}
+							RETURNING id`,
 					isReqdResult: true
 				}
 
@@ -115,14 +113,12 @@ module.exports = class Theatre {
 	}
 
 	delete () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
-			text: `DELETE FROM theatres WHERE id=${id} RETURNING name`,
+			text: `DELETE FROM theatres WHERE id=${format.literal(this.id)} RETURNING name`,
 			isReqdResult: true
 		}
+
+		const _this = this;
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
@@ -135,17 +131,15 @@ module.exports = class Theatre {
 	}
 
 	show () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const theatre = query({
-			text: `SELECT * FROM theatres WHERE id = ${id}`,
+			text: `SELECT * FROM theatres WHERE id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		});
 
+		const _this = this;
+
 		const productions = query({
-			text: `SELECT * FROM productions WHERE theatre_id = ${id}`
+			text: `SELECT * FROM productions WHERE theatre_id = ${format.literal(this.id)}`
 		});
 
 		return Promise.all([theatre, productions])
