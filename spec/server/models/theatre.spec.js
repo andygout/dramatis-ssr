@@ -16,7 +16,7 @@ const stubs = {
 	query: sinon.stub().resolves(queryFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	pgFormatValues: sinon.stub().returns(theatreInstanceFixture),
-	renewValues: sinon.stub().returns(theatreInstanceFixture),
+	renewTopLevelValues: sinon.stub().returns(theatreInstanceFixture),
 	trimStrings: sinon.stub().returns(theatreInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -28,7 +28,7 @@ const resetStubs = () => {
 	stubs.query.reset();
 	stubs.getPageData.reset();
 	stubs.pgFormatValues.reset();
-	stubs.renewValues.reset();
+	stubs.renewTopLevelValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -49,7 +49,7 @@ describe('Theatre model', () => {
 			'../../database/query': stubOverrides.query || stubs.query,
 			'../lib/page-data': stubs.getPageData,
 			'../lib/pg-format-values': stubs.pgFormatValues,
-			'../lib/renew-values': stubs.renewValues,
+			'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
@@ -130,10 +130,10 @@ describe('Theatre model', () => {
 
 	describe('renewValues method', () => {
 
-		it('will call renew values module (to renew top level values)', () => {
+		it('will call renew top level values module', () => {
 			instance = createInstance();
 			instance.renewValues();
-			expect(stubs.renewValues.calledOnce).to.be.true;
+			expect(stubs.renewTopLevelValues.calledOnce).to.be.true;
 		});
 
 		context('props argument contains productions property', () => {

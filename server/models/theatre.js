@@ -2,7 +2,7 @@ const format = require('pg-format');
 const query = require('../../database/query');
 const getPageData = require('../lib/page-data');
 const pgFormatValues = require('../lib/pg-format-values');
-const renewValues = require('../lib/renew-values');
+const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
@@ -39,7 +39,7 @@ module.exports = class Theatre {
 	renewValues (props = {}) {
 		const Production = require('./production');
 
-		renewValues(this, props);
+		renewTopLevelValues(this, props);
 
 		this.productions = props.productions ? props.productions.map(production => new Production(production)) : [];
 	}
@@ -82,7 +82,7 @@ module.exports = class Theatre {
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
-				renewValues(_this, theatre);
+				renewTopLevelValues(_this, theatre);
 
 				const page = getPageData(_this, 'update');
 
@@ -125,7 +125,7 @@ module.exports = class Theatre {
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
-				renewValues(_this, theatre);
+				renewTopLevelValues(_this, theatre);
 
 				const page = getPageData(_this, 'delete');
 

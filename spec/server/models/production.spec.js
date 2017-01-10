@@ -18,7 +18,7 @@ const stubs = {
 	},
 	query: sinon.stub().resolves(queryFixture),
 	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
-	renewValues: sinon.stub().returns(productionInstanceFixture),
+	renewTopLevelValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -30,7 +30,7 @@ const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.pgFormatValues.reset();
-	stubs.renewValues.reset();
+	stubs.renewTopLevelValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -50,7 +50,7 @@ describe('Production model', () => {
 			'pg-format': stubs.format,
 			'../../database/query': stubs.query,
 			'../lib/pg-format-values': stubs.pgFormatValues,
-			'../lib/renew-values': stubs.renewValues,
+			'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 			'../lib/trim-strings': stubs.trimStrings,
 			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,

@@ -1,7 +1,7 @@
 const format = require('pg-format');
 const query = require('../../database/query');
 const pgFormatValues = require('../lib/pg-format-values');
-const renewValues = require('../lib/renew-values');
+const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
@@ -73,8 +73,8 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
-				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				renewTopLevelValues(_this, production);
+				renewTopLevelValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'update');
 
@@ -122,7 +122,7 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
+				renewTopLevelValues(_this, production);
 
 				const page = getPageData(_this, 'delete');
 
@@ -145,8 +145,8 @@ module.exports = class Production {
 
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
-				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				renewTopLevelValues(_this, production);
+				renewTopLevelValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
 
 				const page = getPageData(_this, 'show');
 
