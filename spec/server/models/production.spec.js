@@ -173,7 +173,7 @@ describe('Production model', () => {
 
 		it('will call pageData function once', done => {
 			instance = createInstance();
-			instance.edit().then(result => {
+			instance.edit().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 				done();
@@ -239,7 +239,7 @@ describe('Production model', () => {
 
 		it('will call pageData function once', done => {
 			instance = createInstance();
-			instance.delete().then(result => {
+			instance.delete().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
 				done();
@@ -261,7 +261,7 @@ describe('Production model', () => {
 
 		it('will call pageData function once', done => {
 			instance = createInstance();
-			instance.show().then(result => {
+			instance.show().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
 				done();
