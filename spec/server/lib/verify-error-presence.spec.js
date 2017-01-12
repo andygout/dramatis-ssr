@@ -22,7 +22,7 @@ function createSubject (stubOverrides = {}) {
 	});
 };
 
-describe('Verify error presence module', () => {
+describe('Verify Error Presence module', () => {
 
 	it('will return false if no error values present', () => {
 		const propIsObjectStub = sinon.stub();

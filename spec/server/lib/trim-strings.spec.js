@@ -24,7 +24,7 @@ function createSubject (stubOverrides = {}) {
 	});
 };
 
-describe('Trim strings module', () => {
+describe('Trim Strings module', () => {
 
 	it('will trim leading and trailing whitespace from top level string values', () => {
 		const subject = createSubject();

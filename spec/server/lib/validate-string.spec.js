@@ -8,7 +8,7 @@ const validLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH)}`;
 const subMinLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH - 1)}`;
 const surMaxLengthString = `${'a'.repeat(constants.STRING_MAX_LENGTH + 1)}`;
 
-describe('Validate string module', () => {
+describe('Validate String module', () => {
 
 	context('valid data', () => {
 

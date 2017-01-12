@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 const subject = require('../../../server/lib/prop-is-object');
 
-describe('Prop is object module', () => {
+describe('Prop Is Object module', () => {
 
 	it('will consider object with keys as valid object', () => {
 		expect(subject({ key: 'value' })).to.be.true;
