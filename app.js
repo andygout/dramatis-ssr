@@ -31,7 +31,7 @@ app.use(
 		src: path.join(__dirname, 'client', 'stylesheets'),
 		dest: path.join(__dirname, 'client', 'public'),
 		prefix: '/stylesheets',
-		debug: true,
+		debug: true
 	})
 );
 app.use(express.static(path.join(__dirname, 'client', 'public')));
