@@ -33,7 +33,7 @@ function createSubject (method, ProductionStub) {
 	return proxyquire(`../../../server/controllers/productions/${method}`, {
 		'../../models/production': ProductionStub
 	});
-}
+};
 
 function createInstance (method, methodStub) {
 	request = httpMocks.createRequest({ flash: alertStub });
@@ -46,7 +46,7 @@ function createInstance (method, methodStub) {
 
 	const subject = createSubject(method, ProductionStub);
 	return subject(request, response, next);
-}
+};
 
 describe('Production controller', () => {
 

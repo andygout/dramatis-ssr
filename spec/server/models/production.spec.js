@@ -52,12 +52,12 @@ function createSubject (stubOverrides) {
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./theatre': stubOverrides.Theatre || stubs.Theatre
 	});
-}
+};
 
 function createInstance (stubOverrides = {}) {
 	const subject = createSubject(stubOverrides);
 	return new subject();
-}
+};
 
 describe('Production model', () => {
 

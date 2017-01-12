@@ -33,7 +33,7 @@ function createSubject (method, TheatreStub) {
 	return proxyquire(`../../../server/controllers/theatres/${method}`, {
 		'../../models/theatre': TheatreStub
 	});
-}
+};
 
 function createInstance (method, methodStub) {
 	request = httpMocks.createRequest({ flash: alertStub });
@@ -46,7 +46,7 @@ function createInstance (method, methodStub) {
 
 	const subject = createSubject(method, TheatreStub);
 	return subject(request, response, next);
-}
+};
 
 describe('Theatre controller', () => {
 
