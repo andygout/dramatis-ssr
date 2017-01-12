@@ -108,7 +108,7 @@ describe('Production model', () => {
 
 	describe('new method', () => {
 
-		it('will call pageData function once', () => {
+		it('will call getPageData function once', () => {
 			instance = createInstance();
 			instance.new();
 			expect(stubs.getPageData.calledOnce).to.be.true;
@@ -126,7 +126,7 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance();
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -146,7 +146,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -168,7 +168,7 @@ describe('Production model', () => {
 
 	describe('edit method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
 			instance.edit().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -192,7 +192,7 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance();
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -212,7 +212,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -234,7 +234,7 @@ describe('Production model', () => {
 
 	describe('delete method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
 			instance.delete().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -256,7 +256,7 @@ describe('Production model', () => {
 
 	describe('show method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
 			instance.show().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;

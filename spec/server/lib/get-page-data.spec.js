@@ -13,7 +13,7 @@ beforeEach(function () {
 	createStubs();
 });
 
-describe('Page data module', () => {
+describe('Get page data module', () => {
 
 	describe('title property', () => {
 
