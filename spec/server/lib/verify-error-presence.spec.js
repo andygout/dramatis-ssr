@@ -5,7 +5,7 @@ const sinon = require('sinon');
 let instance;
 
 const stubs = {
-	propIsObject: sinon.stub()
+	propIsObject: sinon.stub().returns(false)
 };
 
 const resetStubs = () => {
@@ -24,11 +24,29 @@ function createSubject (stubOverrides = {}) {
 
 describe('Verify error presence module', () => {
 
-	it('will return false if no errors present', () => {
+	it('will return false if no error values present', () => {
 		const propIsObjectStub = sinon.stub();
 		propIsObjectStub.onFirstCall().returns(false).onSecondCall().returns(true).onThirdCall().returns(false);
 		const subject = createSubject({ propIsObject: propIsObjectStub });
 		instance = { errors: {}, theatre: { errors: {} } };
+		expect(subject(instance)).to.be.false;
+	});
+
+	it('will return false if no error properties present', () => {
+		const subject = createSubject();
+		instance = { notErrors: {} };
+		expect(subject(instance)).to.be.false;
+	});
+
+	it('will return false if errors present in form of null value', () => {
+		const subject = createSubject();
+		instance = { errors: null };
+		expect(subject(instance)).to.be.false;
+	});
+
+	it('will return false if errors present in form of array', () => {
+		const subject = createSubject();
+		instance = { errors: ['Title is too short'] };
 		expect(subject(instance)).to.be.false;
 	});
 
