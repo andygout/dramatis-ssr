@@ -13,7 +13,7 @@ module.exports = class Production {
 
 		this.id = props.id;
 		this.title = props.title;
-		this.preEditedTitle = props.preEditedTitle;
+		this.pageTitleText = props.pageTitleText;
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
 		this.hasError = false;
 		this.errors = {};

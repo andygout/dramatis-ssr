@@ -40,11 +40,10 @@
 
 	{{#if production}}
 		<input type='hidden' name='id' value='{{production.id}}'>
-		<input type='hidden' name='preEditedTitle' value='{{page.title}}'>
 	{{/if}}
 	{{#if theatre}}
 		<input type='hidden' name='id' value='{{theatre.id}}'>
-		<input type='hidden' name='preEditedName' value='{{page.title}}'>
 	{{/if}}
+	<input type='hidden' name='pageTitleText' value='{{page.title}}'>
 	<input type='submit' value='{{page.submitValue}}' class='button'>
 </form>

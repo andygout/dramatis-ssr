@@ -4,11 +4,11 @@ const checkIfCreateAction = action => action === 'create';
 
 const getPageTitleText = (model, instance) => {
 	const pageTitleTextMap = {
-		'production': instance.preEditedTitle || instance.title,
-		'theatre': instance.preEditedName || instance.name
+		'production': instance.title,
+		'theatre': instance.name
 	};
 
-	return pageTitleTextMap[model];
+	return instance.pageTitleText || pageTitleTextMap[model];
 };
 
 const getAlertText = (model, instance, action) => {

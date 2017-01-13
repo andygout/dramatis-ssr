@@ -28,16 +28,16 @@ describe('Get Page Data module', () => {
 
 		context('update action', () => {
 
-			it('will prioritise use of preEditedTitle over title', () => {
+			it('will prioritise use of pageTitleText over title', () => {
 				productionStub.title = 'Foo';
-				productionStub.preEditedTitle = 'Bar';
+				productionStub.pageTitleText = 'Bar';
 				const pageData = subject(productionStub, 'update');
 				expect(pageData.title).to.eq('Bar');
 			});
 
-			it('will use title when preEditedTitle absent', () => {
+			it('will use title when pageTitleText absent', () => {
 				productionStub.title = 'Foo';
-				productionStub.preEditedTitle = undefined;
+				productionStub.pageTitleText = undefined;
 				const pageData = subject(productionStub, 'update');
 				expect(pageData.title).to.eq('Foo');
 			});
