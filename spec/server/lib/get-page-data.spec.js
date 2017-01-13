@@ -2,11 +2,16 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const subject = require('../../../server/lib/get-page-data');
+
 const Production = require('../../../server/models/production');
+const Theatre = require('../../../server/models/theatre');
+
 let productionStub;
+let theatreStub;
 
 const createStubs = () => {
 	productionStub = sinon.createStubInstance(Production);
+	theatreStub = sinon.createStubInstance(Theatre);
 };
 
 beforeEach(function () {
@@ -28,18 +33,40 @@ describe('Get Page Data module', () => {
 
 		context('update action', () => {
 
-			it('will prioritise use of pageTitleText over title', () => {
-				productionStub.title = 'Foo';
-				productionStub.pageTitleText = 'Bar';
-				const pageData = subject(productionStub, 'update');
-				expect(pageData.title).to.eq('Bar');
+			context('production instance', () => {
+
+				it('will prioritise use of pageTitleText over title', () => {
+					productionStub.title = 'Foo';
+					productionStub.pageTitleText = 'Bar';
+					const pageData = subject(productionStub, 'update');
+					expect(pageData.title).to.eq('Bar');
+				});
+
+				it('will use title when pageTitleText absent', () => {
+					productionStub.title = 'Foo';
+					productionStub.pageTitleText = undefined;
+					const pageData = subject(productionStub, 'update');
+					expect(pageData.title).to.eq('Foo');
+				});
+
 			});
 
-			it('will use title when pageTitleText absent', () => {
-				productionStub.title = 'Foo';
-				productionStub.pageTitleText = undefined;
-				const pageData = subject(productionStub, 'update');
-				expect(pageData.title).to.eq('Foo');
+			context('theatre instance', () => {
+
+				it('will prioritise use of pageTitleText over name', () => {
+					theatreStub.name = 'Foo';
+					theatreStub.pageTitleText = 'Bar';
+					const pageData = subject(theatreStub, 'update');
+					expect(pageData.title).to.eq('Bar');
+				});
+
+				it('will use name when pageTitleText absent', () => {
+					theatreStub.name = 'Foo';
+					theatreStub.pageTitleText = undefined;
+					const pageData = subject(theatreStub, 'update');
+					expect(pageData.title).to.eq('Foo');
+				});
+
 			});
 
 		});
