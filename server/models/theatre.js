@@ -91,6 +91,12 @@ module.exports = class Theatre {
 	update () {
 		this.validate();
 
+		if (verifyErrorPresence(this)) {
+			this.hasError = true;
+			const page = getPageData(this, 'update');
+			return Promise.resolve({ page, theatre: this });
+		}
+
 		return this.validateInDb()
 			.then(() => {
 				this.hasError = verifyErrorPresence(this);

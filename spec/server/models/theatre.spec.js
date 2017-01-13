@@ -216,7 +216,7 @@ describe('Theatre model', () => {
 				});
 			});
 
-			it('will call query then return page and query result data', done => {
+			it('will call query twice then return page and query result data', done => {
 				instance = createInstance();
 				instance.update().then(result => {
 					expect(stubs.query.calledTwice).to.be.true;
@@ -229,22 +229,52 @@ describe('Theatre model', () => {
 
 		context('invalid data', () => {
 
-			it('will call getPageData function once', done => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
-				instance.update().then(() => {
-					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
-					done();
+			context('initial validation errors caused by values submitted', () => {
+
+				it('will call getPageData function once', done => {
+					instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+					instance.update().then(() => {
+						expect(stubs.getPageData.calledOnce).to.be.true;
+						expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
+						done();
+					});
 				});
+
+				it('will return page and theatre data without calling query', done => {
+					instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+					instance.update().then(result => {
+						expect(stubs.query.called).to.be.false;
+						expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+						done();
+					});
+				});
+
 			});
 
-			it('will return page and theatre data without calling query', done => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
-				instance.update().then(result => {
-					expect(stubs.query.calledOnce).to.be.true;
-					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
-					done();
+			context('secondary validation errors caused by database checks', () => {
+
+				it('will call getPageData function once', done => {
+					const verifyErrorPresenceStub = sinon.stub();
+					verifyErrorPresenceStub.onFirstCall().returns(false).onSecondCall().returns(true);
+					instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
+					instance.update().then(() => {
+						expect(stubs.getPageData.calledOnce).to.be.true;
+						expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
+						done();
+					});
 				});
+
+				it('will return page and theatre data only calling query once (for DB validation)', done => {
+					const verifyErrorPresenceStub = sinon.stub();
+					verifyErrorPresenceStub.onFirstCall().returns(false).onSecondCall().returns(true);
+					instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
+					instance.update().then(result => {
+						expect(stubs.query.calledOnce).to.be.true;
+						expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+						done();
+					});
+				});
+
 			});
 
 		});
