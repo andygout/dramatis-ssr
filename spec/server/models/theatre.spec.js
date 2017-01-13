@@ -314,7 +314,7 @@ describe('Theatre model', () => {
 			});
 		});
 
-		it('will call query then return page and query result data', done => {
+		it('will call query twice then return page and query result data', done => {
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.query.calledTwice).to.be.true;
