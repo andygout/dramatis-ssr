@@ -142,11 +142,11 @@ module.exports = class Theatre {
 			isReqdResult: true
 		});
 
-		const _this = this;
-
 		const productions = query({
 			text: `SELECT * FROM productions WHERE theatre_id = ${format.literal(this.id)}`
 		});
+
+		const _this = this;
 
 		return Promise.all([theatre, productions])
 			.then(([[theatre], productions] = [theatre, productions]) => {
