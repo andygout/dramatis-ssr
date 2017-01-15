@@ -1,7 +1,7 @@
-const format = require('pg-format');
 const query = require('../../database/query');
 const getPageData = require('../lib/get-page-data');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
+const sqlTemplates = require('../lib/sql-templates');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
@@ -25,10 +25,7 @@ module.exports = class Theatre {
 	}
 
 	validateInDb () {
-		const text = 	`SELECT 1
-						FROM theatres
-						WHERE name = ${format.literal(this.name)}
-						AND id != ${format.literal(this.id)}`;
+		const text = sqlTemplates.checkIfExists(this);
 
 		return query({ text })
 			.then(result => {
@@ -46,27 +43,7 @@ module.exports = class Theatre {
 
 	create () {
 		const queryData = {
-			text:	`WITH
-					i AS (
-						INSERT INTO theatres (name)
-						SELECT ${format.literal(this.name)}
-						WHERE NOT EXISTS (
-							SELECT id
-							FROM theatres
-							WHERE name = ${format.literal(this.name)}
-						)
-						RETURNING id
-					),
-					s AS (
-						SELECT id
-						FROM theatres
-						WHERE name = ${format.literal(this.name)}
-					)
-					SELECT id
-					FROM i
-					UNION ALL
-					SELECT id
-					FROM s`,
+			text: sqlTemplates.insertIfNotExists(this),
 			isReqdResult: true
 		}
 
@@ -75,9 +52,7 @@ module.exports = class Theatre {
 
 	edit () {
 		const queryData = {
-			text:	`SELECT *
-					FROM theatres
-					WHERE id = ${format.literal(this.id)}`,
+			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
 		}
 
@@ -111,10 +86,7 @@ module.exports = class Theatre {
 				if (this.hasError) return Promise.resolve({ page, theatre: this });
 
 				const queryData = {
-					text:	`UPDATE theatres SET
-							name = ${format.literal(this.name)}
-							WHERE id = ${format.literal(this.id)}
-							RETURNING id`,
+					text: sqlTemplates.update(this, { name: this.name }),
 					isReqdResult: true
 				}
 
@@ -125,9 +97,7 @@ module.exports = class Theatre {
 
 	delete () {
 		const queryData = {
-			text:	`DELETE FROM theatres
-					WHERE id = ${format.literal(this.id)}
-					RETURNING name`,
+			text: sqlTemplates.delete(this, { pageTitleText: 'name' }),
 			isReqdResult: true
 		}
 
@@ -145,16 +115,12 @@ module.exports = class Theatre {
 
 	show () {
 		const theatre = query({
-			text:	`SELECT *
-					FROM theatres
-					WHERE id = ${format.literal(this.id)}`,
+			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
 		});
 
 		const productions = query({
-			text:	`SELECT *
-					FROM productions
-					WHERE theatre_id = ${format.literal(this.id)}`
+			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
 		});
 
 		const _this = this;
@@ -170,9 +136,7 @@ module.exports = class Theatre {
 	}
 
 	static list () {
-		const text =	`SELECT *
-						FROM theatres
-						ORDER BY id ASC`;
+		const text = sqlTemplates.select(this, { table: 'theatres', order: true });
 
 		return query({ text })
 			.then(theatresRows => {

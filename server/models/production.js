@@ -1,7 +1,7 @@
-const format = require('pg-format');
 const query = require('../../database/query');
 const getPageData = require('../lib/get-page-data');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
+const sqlTemplates = require('../lib/sql-templates');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
@@ -49,9 +49,7 @@ module.exports = class Production {
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const queryData = {
-					text:	`INSERT INTO productions (title, theatre_id)
-							VALUES (${format.literal(this.title)}, ${format.literal(theatre.id)})
-							RETURNING id`,
+					text: sqlTemplates.create(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				}
 
@@ -62,14 +60,7 @@ module.exports = class Production {
 
 	edit () {
 		const queryData = {
-			text:	`SELECT
-					productions.id,
-					productions.title,
-					theatres.id AS theatre_id,
-					theatres.name AS theatre_name
-					FROM productions
-					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${format.literal(this.id)}`,
+			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		}
 
@@ -98,11 +89,7 @@ module.exports = class Production {
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
 				const queryData = {
-					text:	`UPDATE productions SET
-							title = ${format.literal(this.title)},
-							theatre_id = ${format.literal(theatre.id)}
-							WHERE id = ${format.literal(this.id)}
-							RETURNING id`,
+					text: sqlTemplates.update(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				}
 
@@ -113,9 +100,7 @@ module.exports = class Production {
 
 	delete () {
 		const queryData = {
-			text:	`DELETE FROM productions
-					WHERE id = ${format.literal(this.id)}
-					RETURNING title`,
+			text: sqlTemplates.delete(this, { pageTitleText: 'title' }),
 			isReqdResult: true
 		}
 
@@ -133,14 +118,7 @@ module.exports = class Production {
 
 	show () {
 		const queryData = {
-			text:	`SELECT
-					productions.id,
-					productions.title,
-					theatres.id AS theatre_id,
-					theatres.name AS theatre_name
-					FROM productions
-					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${format.literal(this.id)}`,
+			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		}
 
@@ -157,14 +135,12 @@ module.exports = class Production {
 	}
 
 	static list () {
-		const text =	`SELECT
-						productions.id,
-						productions.title,
-						theatres.id AS theatre_id,
-						theatres.name AS theatre_name
-						FROM productions
-						INNER JOIN theatres ON theatre_id = theatres.id
-						ORDER BY id ASC`;
+		const text = sqlTemplates.select(this, {
+			table: 'productions',
+			selectCols: true,
+			join: 'theatre',
+			order: true
+		});
 
 		return query({ text })
 			.then(productionsRows => {
