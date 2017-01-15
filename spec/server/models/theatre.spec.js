@@ -10,12 +10,16 @@ const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 
 const stubs = {
-	format: {
-		literal: sinon.stub().returns('pg-formatted value')
-	},
 	query: sinon.stub().resolves(queryFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	renewTopLevelValues: sinon.stub().returns(theatreInstanceFixture),
+	sqlTemplates: {
+		checkIfExists: sinon.stub(),
+		insertIfNotExists: sinon.stub(),
+		select: sinon.stub(),
+		update: sinon.stub(),
+		delete: sinon.stub()
+	},
 	trimStrings: sinon.stub().returns(theatreInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -23,10 +27,14 @@ const stubs = {
 };
 
 const resetStubs = () => {
-	stubs.format.literal.reset();
 	stubs.query.reset();
 	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
+	stubs.sqlTemplates.checkIfExists.reset();
+	stubs.sqlTemplates.insertIfNotExists.reset();
+	stubs.sqlTemplates.select.reset();
+	stubs.sqlTemplates.update.reset();
+	stubs.sqlTemplates.delete.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -41,10 +49,10 @@ let instance;
 
 function createSubject (stubOverrides) {
 	return proxyquire('../../../server/models/theatre', {
-		'pg-format': stubs.format,
 		'../../database/query': stubOverrides.query || stubs.query,
 		'../lib/get-page-data': stubs.getPageData,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
+		'../lib/sql-templates': stubs.sqlTemplates,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
