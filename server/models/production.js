@@ -62,7 +62,11 @@ module.exports = class Production {
 
 	edit () {
 		const queryData = {
-			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
+			text:	`SELECT
+					productions.id,
+					productions.title,
+					theatres.id AS theatre_id,
+					theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
 					WHERE productions.id = ${format.literal(this.id)}`,
@@ -109,7 +113,9 @@ module.exports = class Production {
 
 	delete () {
 		const queryData = {
-			text: `DELETE FROM productions WHERE id=${format.literal(this.id)} RETURNING title`,
+			text:	`DELETE FROM productions
+					WHERE id = ${format.literal(this.id)}
+					RETURNING title`,
 			isReqdResult: true
 		}
 
@@ -127,7 +133,11 @@ module.exports = class Production {
 
 	show () {
 		const queryData = {
-			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
+			text:	`SELECT
+					productions.id,
+					productions.title,
+					theatres.id AS theatre_id,
+					theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
 					WHERE productions.id = ${format.literal(this.id)}`,

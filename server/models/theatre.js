@@ -58,12 +58,15 @@ module.exports = class Theatre {
 						RETURNING id
 					),
 					s AS (
-						SELECT id FROM theatres
+						SELECT id
+						FROM theatres
 						WHERE name = ${format.literal(this.name)}
 					)
-					SELECT id FROM i
+					SELECT id
+					FROM i
 					UNION ALL
-					SELECT id FROM s`,
+					SELECT id
+					FROM s`,
 			isReqdResult: true
 		}
 
@@ -72,7 +75,9 @@ module.exports = class Theatre {
 
 	edit () {
 		const queryData = {
-			text: `SELECT * FROM theatres WHERE id=${format.literal(this.id)}`,
+			text:	`SELECT *
+					FROM theatres
+					WHERE id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		}
 
@@ -107,8 +112,8 @@ module.exports = class Theatre {
 
 				const queryData = {
 					text:	`UPDATE theatres SET
-							name=${format.literal(this.name)}
-							WHERE id=${format.literal(this.id)}
+							name = ${format.literal(this.name)}
+							WHERE id = ${format.literal(this.id)}
 							RETURNING id`,
 					isReqdResult: true
 				}
@@ -120,7 +125,9 @@ module.exports = class Theatre {
 
 	delete () {
 		const queryData = {
-			text: `DELETE FROM theatres WHERE id=${format.literal(this.id)} RETURNING name`,
+			text:	`DELETE FROM theatres
+					WHERE id = ${format.literal(this.id)}
+					RETURNING name`,
 			isReqdResult: true
 		}
 
@@ -138,12 +145,16 @@ module.exports = class Theatre {
 
 	show () {
 		const theatre = query({
-			text: `SELECT * FROM theatres WHERE id = ${format.literal(this.id)}`,
+			text:	`SELECT *
+					FROM theatres
+					WHERE id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		});
 
 		const productions = query({
-			text: `SELECT * FROM productions WHERE theatre_id = ${format.literal(this.id)}`
+			text:	`SELECT *
+					FROM productions
+					WHERE theatre_id = ${format.literal(this.id)}`
 		});
 
 		const _this = this;
@@ -159,7 +170,9 @@ module.exports = class Theatre {
 	}
 
 	static list () {
-		const text = 'SELECT * FROM theatres ORDER BY id ASC';
+		const text =	`SELECT *
+						FROM theatres
+						ORDER BY id ASC`;
 
 		return query({ text })
 			.then(theatresRows => {
