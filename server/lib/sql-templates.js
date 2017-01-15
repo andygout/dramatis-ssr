@@ -88,7 +88,7 @@ exports.delete = instance => {
 	`;
 };
 
-exports.insertIfNotExists = instance => {
+exports.createIfNotExists = instance => {
 	const table = getTableName(instance);
 
 	return `

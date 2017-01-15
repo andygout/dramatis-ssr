@@ -43,7 +43,7 @@ module.exports = class Theatre {
 
 	create () {
 		const queryData = {
-			text: sqlTemplates.insertIfNotExists(this),
+			text: sqlTemplates.createIfNotExists(this),
 			isReqdResult: true
 		}
 

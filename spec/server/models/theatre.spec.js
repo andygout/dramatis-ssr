@@ -15,7 +15,7 @@ const stubs = {
 	renewTopLevelValues: sinon.stub().returns(theatreInstanceFixture),
 	sqlTemplates: {
 		checkIfExists: sinon.stub(),
-		insertIfNotExists: sinon.stub(),
+		createIfNotExists: sinon.stub(),
 		select: sinon.stub(),
 		update: sinon.stub(),
 		delete: sinon.stub()
@@ -31,7 +31,7 @@ const resetStubs = () => {
 	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
 	stubs.sqlTemplates.checkIfExists.reset();
-	stubs.sqlTemplates.insertIfNotExists.reset();
+	stubs.sqlTemplates.createIfNotExists.reset();
 	stubs.sqlTemplates.select.reset();
 	stubs.sqlTemplates.update.reset();
 	stubs.sqlTemplates.delete.reset();
