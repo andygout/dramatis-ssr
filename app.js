@@ -12,7 +12,7 @@ const session = require('express-session');
 const router = require('./server/routes');
 
 const app = express();
-const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' })
+const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' });
 
 app.engine('html', hbs.engine);
 
@@ -31,7 +31,7 @@ app.use(
 		src: path.join(__dirname, 'client', 'stylesheets'),
 		dest: path.join(__dirname, 'client', 'public'),
 		prefix: '/stylesheets',
-		debug: true,
+		debug: true
 	})
 );
 app.use(express.static(path.join(__dirname, 'client', 'public')));

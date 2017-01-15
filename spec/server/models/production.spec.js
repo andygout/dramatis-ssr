@@ -17,66 +17,57 @@ const stubs = {
 		literal: sinon.stub().returns('pg-formatted value')
 	},
 	query: sinon.stub().resolves(queryFixture),
-	pgFormatValues: sinon.stub().returns(productionInstanceFixture),
-	renewValues: sinon.stub().returns(productionInstanceFixture),
+	getPageData: sinon.stub().returns(pageDataFixture),
+	renewTopLevelValues: sinon.stub().returns(productionInstanceFixture),
 	trimStrings: sinon.stub().returns(productionInstanceFixture),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
-	getPageData: sinon.stub().returns(pageDataFixture),
 	Theatre: TheatreStub
 };
 
 const resetStubs = () => {
 	stubs.format.literal.reset();
 	stubs.query.reset();
-	stubs.pgFormatValues.reset();
-	stubs.renewValues.reset();
+	stubs.getPageData.reset();
+	stubs.renewTopLevelValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
-	stubs.getPageData.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 
+let instance;
+
+function createSubject (stubOverrides) {
+	return proxyquire('../../../server/models/production', {
+		'pg-format': stubs.format,
+		'../../database/query': stubs.query,
+		'../lib/get-page-data': stubs.getPageData,
+		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
+		'../lib/trim-strings': stubs.trimStrings,
+		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
+		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+		'./theatre': stubOverrides.Theatre || stubs.Theatre
+	});
+};
+
+function createInstance (stubOverrides = {}) {
+	const subject = createSubject(stubOverrides);
+	return new subject();
+};
+
 describe('Production model', () => {
 
-	let instance;
-
-	function createSubject (stubOverrides) {
-		return proxyquire('../../../server/models/production', {
-			'pg-format': stubs.format,
-			'../../database/query': stubs.query,
-			'../lib/pg-format-values': stubs.pgFormatValues,
-			'../lib/renew-values': stubs.renewValues,
-			'../lib/trim-strings': stubs.trimStrings,
-			'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
-			'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-			'../lib/page-data': stubs.getPageData,
-			'./theatre': stubOverrides.Theatre || stubs.Theatre
-		});
-	}
-
-	function createInstance (stubOverrides = {}) {
-		const subject = createSubject(stubOverrides);
-		return new subject();
-	}
-
 	describe('validate method', () => {
-
-		it('will add errors property to class instance', () => {
-			instance = createInstance();
-			expect(instance).not.to.have.property('errors');
-			instance.validate();
-			expect(instance).to.have.property('errors');
-		});
 
 		it('will trim strings before validating title', () => {
 			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
+			expect(stubs.validateString.calledOnce).to.be.true;
 		});
 
 		context('valid data', () => {
@@ -105,9 +96,19 @@ describe('Production model', () => {
 
 	});
 
+	describe('renewValues method', () => {
+
+		it('will call renew top level values module', () => {
+			instance = createInstance();
+			instance.renewValues();
+			expect(stubs.renewTopLevelValues.calledTwice).to.be.true;
+		});
+
+	});
+
 	describe('new method', () => {
 
-		it('will call pageData function once', () => {
+		it('will call getPageData function once', () => {
 			instance = createInstance();
 			instance.new();
 			expect(stubs.getPageData.calledOnce).to.be.true;
@@ -125,7 +126,7 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance();
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -145,7 +146,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -167,9 +168,9 @@ describe('Production model', () => {
 
 	describe('edit method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
-			instance.edit().then(result => {
+			instance.edit().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
 				done();
@@ -191,7 +192,7 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance();
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -211,7 +212,7 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call pageData function once', () => {
+			it('will call getPageData function once', () => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update();
 				expect(stubs.getPageData.calledOnce).to.be.true;
@@ -233,9 +234,9 @@ describe('Production model', () => {
 
 	describe('delete method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
-			instance.delete().then(result => {
+			instance.delete().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
 				done();
@@ -255,9 +256,9 @@ describe('Production model', () => {
 
 	describe('show method', () => {
 
-		it('will call pageData function once', done => {
+		it('will call getPageData function once', done => {
 			instance = createInstance();
-			instance.show().then(result => {
+			instance.show().then(() => {
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
 				done();

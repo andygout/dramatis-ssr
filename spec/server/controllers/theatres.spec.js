@@ -19,40 +19,40 @@ const resetStubs = () => {
 	alertStub.reset();
 };
 
-beforeEach(function() {
+beforeEach(function () {
 	resetStubs();
 });
 
+let method;
+let methodStub;
+let request;
+let response;
+let next;
+
+function createSubject (method, TheatreStub) {
+	return proxyquire(`../../../server/controllers/theatres/${method}`, {
+		'../../models/theatre': TheatreStub
+	});
+};
+
+function createInstance (method, methodStub) {
+	request = httpMocks.createRequest({ flash: alertStub });
+	response = httpMocks.createResponse();
+	next = sinon.stub();
+
+	const TheatreStub = (method !== 'list') ?
+		function () { this[method] = methodStub; } :
+		sinon.stub(Theatre, 'list', function () { return methodStub });
+
+	const subject = createSubject(method, TheatreStub);
+	return subject(request, response, next);
+};
+
 describe('Theatre controller', () => {
-
-	let method;
-	let methodStub;
-	let request;
-	let response;
-	let next;
-
-	function createSubject (method, TheatreStub) {
-		return proxyquire(`../../../server/controllers/theatres/${method}`, {
-			'../../models/theatre': TheatreStub
-		});
-	}
-
-	function createInstance (method, methodStub) {
-		request = httpMocks.createRequest({ flash: alertStub });
-		response = httpMocks.createResponse();
-		next = sinon.stub();
-
-		const TheatreStub = (method !== 'list') ?
-			function () { this[method] = methodStub; } :
-			sinon.stub(Theatre, 'list', function () { return methodStub });
-
-		const subject = createSubject(method, TheatreStub);
-		return subject(request, response, next);
-	}
 
 	describe('edit method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'edit';
 		});
 
@@ -87,7 +87,7 @@ describe('Theatre controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'update';
 		});
 
@@ -136,7 +136,7 @@ describe('Theatre controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'delete';
 		});
 
@@ -185,7 +185,7 @@ describe('Theatre controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'show';
 		});
 
@@ -220,11 +220,11 @@ describe('Theatre controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function() {
+		beforeEach(function () {
 			method = 'list';
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			Theatre.list.restore();
 		});
 

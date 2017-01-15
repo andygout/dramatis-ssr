@@ -1,11 +1,11 @@
 const expect = require('chai').expect;
 
-const subject = require('../../../server/lib/renew-values');
+const subject = require('../../../server/lib/renew-top-level-values');
 
 let instance;
 let newValues;
 
-describe('Renew values module', () => {
+describe('Renew Top Level Values module', () => {
 
 	it('will use arguments to renew top level property values of instance', () => {
 		instance = { title: 'Hamlet' };

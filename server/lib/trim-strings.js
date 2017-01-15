@@ -9,7 +9,7 @@ const trimStrings = instance => {
 		}
 	}
 	return instance;
-}
+};
 
 module.exports = function (instance) {
 	trimStrings(instance);

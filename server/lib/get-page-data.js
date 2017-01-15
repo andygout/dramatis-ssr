@@ -4,18 +4,18 @@ const checkIfCreateAction = action => action === 'create';
 
 const getPageTitleText = (model, instance) => {
 	const pageTitleTextMap = {
-		'production': instance.preEditedTitle || instance.title,
-		'theatre': instance.preEditedName || instance.name
+		'production': instance.title,
+		'theatre': instance.name
 	};
 
-	return pageTitleTextMap[model];
-}
+	return instance.pageTitleText || pageTitleTextMap[model];
+};
 
 const getAlertText = (model, instance, action) => {
 	const instanceText = instance.title || instance.name;
 
 	return `${model.toUpperCase()} ${instance.hasError ? 'ERRORS' : action.toUpperCase() + 'D: ' + instanceText}`;
-}
+};
 
 const getAlertType = instance => instance.hasError ? 'error' : 'success';
 
@@ -31,5 +31,5 @@ module.exports = function (instance, action) {
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
-	}
+	};
 };

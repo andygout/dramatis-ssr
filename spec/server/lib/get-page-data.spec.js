@@ -1,26 +1,33 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const subject = require('../../../server/lib/page-data');
-const Production = require('../../../server/models/production');
-let productionStub;
+const subject = require('../../../server/lib/get-page-data');
 
-const createStubs = () => {
-	productionStub = sinon.createStubInstance(Production);
+const Production = require('../../../server/models/production');
+const Theatre = require('../../../server/models/theatre');
+
+const stubs = {
+	Production: null,
+	Theatre: null
 };
 
-beforeEach(function() {
-	createStubs();
+const resetStubs = () => {
+	stubs.Production = sinon.createStubInstance(Production);
+	stubs.Theatre = sinon.createStubInstance(Theatre);
+};
+
+beforeEach(function () {
+	resetStubs();
 });
 
-describe('Page data module', () => {
+describe('Get Page Data module', () => {
 
 	describe('title property', () => {
 
 		context('create action', () => {
 
 			it('will read \'New <model>\'', () => {
-				const pageData = subject(productionStub, 'create');
+				const pageData = subject(stubs.Production, 'create');
 				expect(pageData.title).to.eq('New production');
 			});
 
@@ -28,18 +35,40 @@ describe('Page data module', () => {
 
 		context('update action', () => {
 
-			it('will prioritise use of preEditedTitle over title', () => {
-				productionStub.title = 'Foo';
-				productionStub.preEditedTitle = 'Bar';
-				const pageData = subject(productionStub, 'update');
-				expect(pageData.title).to.eq('Bar');
+			context('production instance', () => {
+
+				it('will prioritise use of pageTitleText over title', () => {
+					stubs.Production.title = 'Foo';
+					stubs.Production.pageTitleText = 'Bar';
+					const pageData = subject(stubs.Production, 'update');
+					expect(pageData.title).to.eq('Bar');
+				});
+
+				it('will use title when pageTitleText absent', () => {
+					stubs.Production.title = 'Foo';
+					stubs.Production.pageTitleText = undefined;
+					const pageData = subject(stubs.Production, 'update');
+					expect(pageData.title).to.eq('Foo');
+				});
+
 			});
 
-			it('will use title when preEditedTitle absent', () => {
-				productionStub.title = 'Foo';
-				productionStub.preEditedTitle = undefined;
-				const pageData = subject(productionStub, 'update');
-				expect(pageData.title).to.eq('Foo');
+			context('theatre instance', () => {
+
+				it('will prioritise use of pageTitleText over name', () => {
+					stubs.Theatre.name = 'Foo';
+					stubs.Theatre.pageTitleText = 'Bar';
+					const pageData = subject(stubs.Theatre, 'update');
+					expect(pageData.title).to.eq('Bar');
+				});
+
+				it('will use name when pageTitleText absent', () => {
+					stubs.Theatre.name = 'Foo';
+					stubs.Theatre.pageTitleText = undefined;
+					const pageData = subject(stubs.Theatre, 'update');
+					expect(pageData.title).to.eq('Foo');
+				});
+
 			});
 
 		});
@@ -49,7 +78,7 @@ describe('Page data module', () => {
 	describe('modelName property', () => {
 
 		it('will be the model name of the instance argument', () => {
-			const pageData = subject(productionStub, 'create');
+			const pageData = subject(stubs.Production, 'create');
 			expect(pageData.modelName).to.eq('PRODUCTION');
 		});
 
@@ -60,7 +89,7 @@ describe('Page data module', () => {
 		context('create action', () => {
 
 			it('will be path comprised of pluralised model name', () => {
-				const pageData = subject(productionStub, 'create');
+				const pageData = subject(stubs.Production, 'create');
 				expect(pageData.formAction).to.eq('/productions');
 			});
 
@@ -69,8 +98,8 @@ describe('Page data module', () => {
 		context('update action', () => {
 
 			it('will be path comprised of pluralised model name and instance id', () => {
-				productionStub.id = 1;
-				const pageData = subject(productionStub, 'update');
+				stubs.Production.id = 1;
+				const pageData = subject(stubs.Production, 'update');
 				expect(pageData.formAction).to.eq('/productions/1');
 			});
 
@@ -83,7 +112,7 @@ describe('Page data module', () => {
 		context('create action', () => {
 
 			it('will be comprised of action (\'Create\') and model name', () => {
-				const pageData = subject(productionStub, 'create');
+				const pageData = subject(stubs.Production, 'create');
 				expect(pageData.submitValue).to.eq('Create production');
 			});
 
@@ -92,7 +121,7 @@ describe('Page data module', () => {
 		context('update action', () => {
 
 			it('will be comprised of action (\'Update\') and model name', () => {
-				const pageData = subject(productionStub, 'update');
+				const pageData = subject(stubs.Production, 'update');
 				expect(pageData.submitValue).to.eq('Update production');
 			});
 
@@ -107,8 +136,8 @@ describe('Page data module', () => {
 			context('create action', () => {
 
 				it('will be path comprised of past tense of action (\'Create\') and instance title', () => {
-					productionStub.title = 'Foo';
-					const pageData = subject(productionStub, 'create');
+					stubs.Production.title = 'Foo';
+					const pageData = subject(stubs.Production, 'create');
 					expect(pageData.alertText).to.eq('PRODUCTION CREATED: Foo');
 				});
 
@@ -117,8 +146,8 @@ describe('Page data module', () => {
 			context('update action', () => {
 
 				it('will be path comprised of past tense of action (\'Update\') and instance title', () => {
-					productionStub.title = 'Foo';
-					const pageData = subject(productionStub, 'update');
+					stubs.Production.title = 'Foo';
+					const pageData = subject(stubs.Production, 'update');
 					expect(pageData.alertText).to.eq('PRODUCTION UPDATED: Foo');
 				});
 
@@ -127,8 +156,8 @@ describe('Page data module', () => {
 			context('delete action', () => {
 
 				it('will be path comprised of past tense of action (\'Delete\') and instance title', () => {
-					productionStub.title = 'Foo';
-					const pageData = subject(productionStub, 'delete');
+					stubs.Production.title = 'Foo';
+					const pageData = subject(stubs.Production, 'delete');
 					expect(pageData.alertText).to.eq('PRODUCTION DELETED: Foo');
 				});
 
@@ -141,8 +170,8 @@ describe('Page data module', () => {
 			context('create action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.hasError = true;
-					const pageData = subject(productionStub, 'create');
+					stubs.Production.hasError = true;
+					const pageData = subject(stubs.Production, 'create');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
 
@@ -151,8 +180,8 @@ describe('Page data module', () => {
 			context('update action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.hasError = true;
-					const pageData = subject(productionStub, 'update');
+					stubs.Production.hasError = true;
+					const pageData = subject(stubs.Production, 'update');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
 
@@ -161,8 +190,8 @@ describe('Page data module', () => {
 			context('delete action', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					productionStub.hasError = true;
-					const pageData = subject(productionStub, 'delete');
+					stubs.Production.hasError = true;
+					const pageData = subject(stubs.Production, 'delete');
 					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
 				});
 
@@ -177,7 +206,7 @@ describe('Page data module', () => {
 		context('instance does not have errors', () => {
 
 			it('will be \'success\'', () => {
-				const pageData = subject(productionStub, 'create');
+				const pageData = subject(stubs.Production, 'create');
 				expect(pageData.alertType).to.eq('success');
 			});
 
@@ -186,8 +215,8 @@ describe('Page data module', () => {
 		context('instance has errors', () => {
 
 			it('will be \'error\'', () => {
-				productionStub.hasError = true;
-				const pageData = subject(productionStub, 'create');
+				stubs.Production.hasError = true;
+				const pageData = subject(stubs.Production, 'create');
 				expect(pageData.alertType).to.eq('error');
 			});
 

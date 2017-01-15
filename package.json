@@ -1,8 +1,8 @@
 {
-	"name": "express-app",
+	"name": "theatrebase_nodejs",
 	"version": "0.0.0",
 	"description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
-	"main": "index.js",
+	"main": "app.js",
 	"scripts": {
 		"start": "nodemon app",
 		"test": "find spec -name '*.spec.js' | xargs mocha -R spec"

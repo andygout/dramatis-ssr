@@ -1,30 +1,34 @@
 const format = require('pg-format');
 const query = require('../../database/query');
-const pgFormatValues = require('../lib/pg-format-values');
-const renewValues = require('../lib/renew-values');
+const getPageData = require('../lib/get-page-data');
+const renewTopLevelValues = require('../lib/renew-top-level-values');
 const trimStrings = require('../lib/trim-strings');
 const validateString = require('../lib/validate-string');
 const verifyErrorPresence = require('../lib/verify-error-presence');
-const getPageData = require('../lib/page-data');
-
-const Theatre = require('./theatre');
 
 module.exports = class Production {
 
 	constructor (props = {}) {
-		this.id = props.id || null;
+		const Theatre = require('./theatre');
+
+		this.id = props.id;
 		this.title = props.title;
-		this.preEditedTitle = props.preEditedTitle;
+		this.pageTitleText = props.pageTitleText;
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
+		this.hasError = false;
+		this.errors = {};
 	}
 
 	validate () {
 		trimStrings(this);
 
-		this.errors = {};
-
 		const titleErrors = validateString(this.title, 'Title');
 		if (titleErrors.length) this.errors.title = titleErrors;
+	}
+
+	renewValues (props = {}) {
+		renewTopLevelValues(this, props);
+		renewTopLevelValues(this.theatre, { id: props.theatre_id, name: props.theatre_name });
 	}
 
 	new () {
@@ -42,39 +46,34 @@ module.exports = class Production {
 
 		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = pgFormatValues(this);
-
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
-				const productionQueryData = {
+				const queryData = {
 					text:	`INSERT INTO productions (title, theatre_id)
-							VALUES (${data.title}, ${theatre.id})
+							VALUES (${format.literal(this.title)}, ${format.literal(theatre.id)})
 							RETURNING id`,
 					isReqdResult: true
 				}
 
-				return query(productionQueryData)
+				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
 	}
 
 	edit () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
 			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${id}`,
+					WHERE productions.id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		}
 
+		const _this = this;
+
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
-				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				_this.renewValues(production);
 
 				const page = getPageData(_this, 'update');
 
@@ -92,37 +91,33 @@ module.exports = class Production {
 
 		if (this.hasError) return Promise.resolve({ page, production: this });
 
-		const data = pgFormatValues(this);
-
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
-				const productionQueryData = {
+				const queryData = {
 					text:	`UPDATE productions SET
-							title = ${data.title},
-							theatre_id = ${theatre.id}
-							WHERE id = ${data.id}
+							title = ${format.literal(this.title)},
+							theatre_id = ${format.literal(theatre.id)}
+							WHERE id = ${format.literal(this.id)}
 							RETURNING id`,
 					isReqdResult: true
 				}
 
-				return query(productionQueryData)
+				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
 	}
 
 	delete () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
-			text: `DELETE FROM productions WHERE id=${id} RETURNING title`,
+			text: `DELETE FROM productions WHERE id=${format.literal(this.id)} RETURNING title`,
 			isReqdResult: true
 		}
 
+		const _this = this;
+
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
+				renewTopLevelValues(_this, production);
 
 				const page = getPageData(_this, 'delete');
 
@@ -131,22 +126,19 @@ module.exports = class Production {
 	}
 
 	show () {
-		const _this = this;
-
-		const id = format.literal(this.id);
-
 		const queryData = {
 			text:	`SELECT productions.id, productions.title, theatres.id AS theatre_id, theatres.name AS theatre_name
 					FROM productions
 					INNER JOIN theatres ON theatre_id = theatres.id
-					WHERE productions.id = ${id}`,
+					WHERE productions.id = ${format.literal(this.id)}`,
 			isReqdResult: true
 		}
 
+		const _this = this;
+
 		return query(queryData)
 			.then(([production] = production) => {
-				renewValues(_this, production);
-				renewValues(_this.theatre, { id: production.theatre_id, name: production.theatre_name });
+				_this.renewValues(production);
 
 				const page = getPageData(_this, 'show');
 
