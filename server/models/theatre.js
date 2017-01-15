@@ -97,7 +97,7 @@ module.exports = class Theatre {
 
 	delete () {
 		const queryData = {
-			text: sqlTemplates.delete(this, { pageTitleText: 'name' }),
+			text: sqlTemplates.delete(this),
 			isReqdResult: true
 		}
 

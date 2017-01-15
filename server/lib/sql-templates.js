@@ -1,4 +1,5 @@
 const format = require('pg-format');
+const pageTitleTextMap = require('./page-title-text-map');
 
 const selectColumnsMap = {
 	productions: `
@@ -14,6 +15,8 @@ const uniqueColumnMap = {
 };
 
 const getTableName = instance => `${instance.constructor.name.toLowerCase()}s`;
+
+const getModelName = instance => instance.constructor.name.toLowerCase();
 
 const createJoin = model => {
 	const table = `${model}s`;
@@ -74,13 +77,14 @@ exports.update = (instance, updateValues) => {
 	`;
 };
 
-exports.delete = (instance, opts) => {
+exports.delete = instance => {
 	const table = getTableName(instance);
+	const model = getModelName(instance);
 
 	return `
 		DELETE FROM ${table}
 		WHERE id = ${format.literal(instance.id)}
-		RETURNING ${opts.pageTitleText}
+		RETURNING ${pageTitleTextMap[model]}
 	`;
 };
 

@@ -100,7 +100,7 @@ module.exports = class Production {
 
 	delete () {
 		const queryData = {
-			text: sqlTemplates.delete(this, { pageTitleText: 'title' }),
+			text: sqlTemplates.delete(this),
 			isReqdResult: true
 		}
 
