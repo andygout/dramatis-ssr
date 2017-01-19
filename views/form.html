@@ -1,49 +1,49 @@
-<h1 class='title-text'>{{page.title}}</h1>
+<h1 class="title-text">{{page.title}}</h1>
 
-<form method='post' action='{{page.formAction}}'>
-	<fieldset class='fieldset'>
-		<div class='field'>
+<form method="post" action="{{page.formAction}}">
+	<fieldset class="fieldset">
+		<div class="field">
 			{{#with production}}
-				<label for='title' class='label mandatory'>Title</label>
-				<input value='{{title}}' name='title' type='text' maxlength='255'
-					class='field__input{{#if errors.title}} field__input--has-error{{/if}}'
+				<label for="title" class="label mandatory">Title</label>
+				<input value="{{title}}" name="title" type="text" maxlength="255"
+					class="field__input{{#if errors.title}} field__input--has-error{{/if}}"
 				/>
 				{{#each errors.title}}
-					<li class='field__error-description'>{{this}}</li>
+					<li class="field__error-description">{{this}}</li>
 				{{/each}}
 			{{/with}}
 			{{#with theatre}}
-				<label for='name' class='label mandatory'>Name</label>
-				<input value='{{name}}' name='name' type='text' maxlength='255'
-					class='field__input{{#if errors.name}} field__input--has-error{{/if}}'
+				<label for="name" class="label mandatory">Name</label>
+				<input value="{{name}}" name="name" type="text" maxlength="255"
+					class="field__input{{#if errors.name}} field__input--has-error{{/if}}"
 				/>
 				{{#each errors.name}}
-					<li class='field__error-description'>{{this}}</li>
+					<li class="field__error-description">{{this}}</li>
 				{{/each}}
 			{{/with}}
 		</div>
 	</fieldset>
 
 	{{#with production.theatre}}
-		<fieldset class='fieldset'>
-			<div class='field'>
-				<label for='theatre_name' class='label mandatory'>Theatre</label>
-				<input value='{{name}}' name='theatre_name' type='text' maxlength='255'
-					class='field__input{{#if errors.name}} field__input--has-error{{/if}}'
+		<fieldset class="fieldset">
+			<div class="field">
+				<label for="theatre_name" class="label mandatory">Theatre</label>
+				<input value="{{name}}" name="theatre_name" type="text" maxlength="255"
+					class="field__input{{#if errors.name}} field__input--has-error{{/if}}"
 				/>
 				{{#each errors.name}}
-					<li class='field__error-description'>{{this}}</li>
+					<li class="field__error-description">{{this}}</li>
 				{{/each}}
 			</div>
 		</fieldset>
 	{{/with}}
 
 	{{#if production}}
-		<input type='hidden' name='id' value='{{production.id}}'>
+		<input type="hidden" name="id" value="{{production.id}}">
 	{{/if}}
 	{{#if theatre}}
-		<input type='hidden' name='id' value='{{theatre.id}}'>
+		<input type="hidden" name="id" value="{{theatre.id}}">
 	{{/if}}
-	<input type='hidden' name='pageTitleText' value='{{page.title}}'>
-	<input type='submit' value='{{page.submitValue}}' class='button'>
+	<input type="hidden" name="pageTitleText" value="{{page.title}}">
+	<input type="submit" value="{{page.submitValue}}" class="button">
 </form>
