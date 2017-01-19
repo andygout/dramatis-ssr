@@ -1,15 +1,10 @@
+const pageTitleTextMap = require('./page-title-text-map');
+
 const getModelName = instance => instance.constructor.name.toLowerCase();
 
 const checkIfCreateAction = action => action === 'create';
 
-const getPageTitleText = (model, instance) => {
-	const pageTitleTextMap = {
-		'production': instance.title,
-		'theatre': instance.name
-	};
-
-	return instance.pageTitleText || pageTitleTextMap[model];
-};
+const getPageTitleText = (model, instance) => instance.pageTitleText || instance[pageTitleTextMap[model]];
 
 const getAlertText = (model, instance, action) => {
 	const instanceText = instance.title || instance.name;
