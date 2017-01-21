@@ -2,7 +2,7 @@
 
 {{#with production}}
 	{{#with theatre}}
-		{{>content-wrapper}}
+		<div id="{{modelLowerCase this}}" class="content-wrapper">
 			{{>content-label}}
 			<div class="content">
 				{{>instance-link instance=this}}
@@ -14,7 +14,7 @@
 
 {{#with theatre}}
 	{{#with productions}}
-		{{>content-wrapper}}
+		<div id="{{modelLowerCase this}}" class="content-wrapper">
 			{{>content-label}}
 			<div class="content">
 				{{#each this}}
