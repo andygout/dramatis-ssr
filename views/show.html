@@ -5,7 +5,7 @@
 		{{>content-wrapper}}
 			{{>content-label}}
 			<div class="content">
-				<a href="/{{modelRoute this}}/{{id}}">{{name}}</a>
+				{{>instance-link instance=this}}
 			</div>
 		</div>
 	{{/with}}
@@ -20,7 +20,7 @@
 				{{#each this}}
 					<ul>
 						<li>
-							<a href="/{{modelRoute this}}/{{id}}">{{title}}</a>
+							{{>instance-link instance=this}}
 						</li>
 					</ul>
 				{{/each}}

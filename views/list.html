@@ -4,8 +4,7 @@
 	<ul>
 		{{#each this}}
 			<li>
-				<a href="/{{modelRoute this}}/{{id}}">{{title}}</a> -
-				<a href="/{{modelRoute theatre}}/{{theatre.id}}">{{theatre.name}}</a>
+				{{>instance-link instance=this}} - {{>instance-link instance=theatre}}
 			</li>
 		{{/each}}
 	</ul>
@@ -15,7 +14,7 @@
 	<ul>
 		{{#each this}}
 			<li>
-				<a href="{{modelRoute this}}/{{id}}">{{name}}</a>
+				{{>instance-link instance=this}}
 			</li>
 		{{/each}}
 	</ul>
