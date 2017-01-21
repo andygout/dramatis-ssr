@@ -55,9 +55,12 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
 	app.use(function (err, req, res, next) {
 		console.log(err);
-		res.status(err.status || 500);
+		const errStatus = err.status || 500;
+		const errMsg = `${errStatus} Error: ${err.message}`;
+		res.status(errStatus);
 		res.render('error', {
-			message: `${err.status || 500} Error: ${err.message}`,
+			page: { title: errMsg },
+			message: errMsg,
 			error: err
 		});
 	});
@@ -65,9 +68,12 @@ if (app.get('env') === 'development') {
 
 // Production error handler - no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-	res.status(err.status || 500);
+	const errStatus = err.status || 500;
+	const errMsg = `${errStatus} Error: ${err.message}`;
+	res.status(errStatus);
 	res.render('error', {
-		message: `${err.status || 500} Error: ${err.message}`,
+		page: { title: errMsg },
+		message: errMsg,
 		error: {}
 	});
 });

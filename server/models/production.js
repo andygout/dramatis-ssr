@@ -145,7 +145,10 @@ module.exports = class Production {
 		return query({ text })
 			.then(productionsRows => {
 				const productions = productionsRows.map(production => new Production(production));
-				return { productions };
+
+				const page = { title: 'Productions' };
+
+				return { page, productions };
 			});
 	}
 
