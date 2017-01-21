@@ -1,5 +1,5 @@
 const format = require('pg-format');
-const pageTitleTextMap = require('./page-title-text-map');
+const modelNamingPropMap = require('./model-naming-prop-map');
 
 const selectColumnsMap = {
 	productions: `
@@ -84,7 +84,7 @@ exports.delete = instance => {
 	return `
 		DELETE FROM ${table}
 		WHERE id = ${format.literal(instance.id)}
-		RETURNING ${pageTitleTextMap[model]}
+		RETURNING ${modelNamingPropMap[model]}
 	`;
 };
 
