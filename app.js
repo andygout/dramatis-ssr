@@ -2,6 +2,8 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
+const handlebarsHelpers = require('./server/lib/handlebars-helpers');
 const favicon = require('serve-favicon');
 const flash = require('connect-flash');
 const http = require('http');
@@ -12,6 +14,9 @@ const session = require('express-session');
 const router = require('./server/routes');
 
 const app = express();
+
+Handlebars.registerHelper(handlebarsHelpers);
+
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' });
 
 app.engine('html', hbs.engine);
