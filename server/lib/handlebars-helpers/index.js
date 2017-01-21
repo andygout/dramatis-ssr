@@ -1,5 +1,7 @@
 module.exports = {
 
-	modelName: require('./model-name')
+	model: require('./model'),
+	modelLowerCase: require('./model-lower-case'),
+	modelRoute: require('./model-route')
 
 };

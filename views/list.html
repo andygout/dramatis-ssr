@@ -1,21 +1,21 @@
 {{#with productions}}
-	<h1 class="title-text">Home:</h1>
+	<h1 class="title-text">{{model this}}</h1>
 	<ul>
 		{{#each this}}
 			<li>
-				<a href="/productions/{{id}}">{{title}}</a> -
-				<a href="/theatres/{{theatre.id}}">{{theatre.name}}</a>
+				<a href="/{{modelRoute this}}/{{id}}">{{title}}</a> -
+				<a href="/{{modelRoute theatre}}/{{theatre.id}}">{{theatre.name}}</a>
 			</li>
 		{{/each}}
 	</ul>
 {{/with}}
 
 {{#with theatres}}
-	<h1 class="title-text">Theatres</h1>
+	<h1 class="title-text">{{model this}}</h1>
 	<ul>
 		{{#each this}}
 			<li>
-				<a href="theatres/{{id}}">{{name}}</a>
+				<a href="{{modelRoute this}}/{{id}}">{{name}}</a>
 			</li>
 		{{/each}}
 	</ul>

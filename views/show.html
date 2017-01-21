@@ -1,44 +1,31 @@
 <h1 class="title-text">{{page.title}}</h1>
 
-{{#with production.theatre}}
-	<div id="theatre" class="content-wrapper">
-		<div class="content-label">Theatre</div>
-		<div class="content">
-			<a href="/theatres/{{id}}">{{name}}</a>
-		</div>
-	</div>
-{{/with}}
-
-{{#with theatre.productions}}
-	<div id="productions" class="content-wrapper">
-		<div class="content-label">Productions</div>
-		{{#each this}}
-			<ul>
-				<li><a href="/productions/{{id}}">{{title}}</a></li>
-			</ul>
-		{{/each}}
-	</div>
-{{/with}}
-
 {{#with production}}
-	<form method="get" action="/productions/{{id}}/edit" class="button-container">
-		<input type="submit" value="Edit production" class="button">
-	</form>
-
-	<form method="post" action="/productions/{{id}}" class="button-container">
-		<input type="hidden" name="id" value="{{id}}">
-		<input type="hidden" name="_method" value="delete">
-		<input type="submit" value="Delete production" class="button">
-	</form>
+	{{#with theatre}}
+		{{>content-wrapper}}
+			{{>content-label}}
+			<div class="content">
+				<a href="/{{modelRoute this}}/{{id}}">{{name}}</a>
+			</div>
+		</div>
+	{{/with}}
+	{{>edit-delete-buttons}}
 {{/with}}
-{{#with theatre}}
-	<form method="get" action="/theatres/{{id}}/edit" class="button-container">
-		<input type="submit" value="Edit theatre" class="button">
-	</form>
 
-	<form method="post" action="/theatres/{{id}}" class="button-container">
-		<input type="hidden" name="id" value="{{id}}">
-		<input type="hidden" name="_method" value="delete">
-		<input type="submit" value="Delete theatre" class="button">
-	</form>
+{{#with theatre}}
+	{{#with productions}}
+		{{>content-wrapper}}
+			{{>content-label}}
+			<div class="content">
+				{{#each this}}
+					<ul>
+						<li>
+							<a href="/{{modelRoute this}}/{{id}}">{{title}}</a>
+						</li>
+					</ul>
+				{{/each}}
+			</div>
+		</div>
+	{{/with}}
+	{{>edit-delete-buttons}}
 {{/with}}

@@ -27,8 +27,8 @@
 	{{#with production.theatre}}
 		<fieldset class="fieldset">
 			<div class="field">
-				<label for="theatre_name" class="label mandatory">Theatre</label>
-				<input value="{{name}}" name="theatre_name" type="text" maxlength="255"
+				<label for="{{modelLowerCase this}}_name" class="label mandatory">{{model this}}</label>
+				<input value="{{name}}" name="{{modelLowerCase this}}_name" type="text" maxlength="255"
 					class="field__input{{#if errors.name}} field__input--has-error{{/if}}"
 				/>
 				{{#each errors.name}}
@@ -39,10 +39,14 @@
 	{{/with}}
 
 	{{#if production}}
-		<input type="hidden" name="id" value="{{production.id}}">
+		{{#with production}}
+			{{>input-hidden-id}}
+		{{/with}}
 	{{/if}}
 	{{#if theatre}}
-		<input type="hidden" name="id" value="{{theatre.id}}">
+		{{#with theatre}}
+			{{>input-hidden-id}}
+		{{/with}}
 	{{/if}}
 	<input type="hidden" name="pageTitleText" value="{{page.title}}">
 	<input type="submit" value="{{page.submitValue}}" class="button">
