@@ -340,7 +340,7 @@ describe('Theatre model', () => {
 			subject.list().then(result => {
 				instance = new subject(queryFixture[0])
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ theatres: [instance] });
+				expect(result).to.deep.eq({ page: { title: 'Theatres' }, theatres: [instance] });
 				done();
 			});
 		});

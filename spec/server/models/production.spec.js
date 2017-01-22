@@ -289,7 +289,7 @@ describe('Production model', () => {
 			subject.list().then(result => {
 				instance = new subject(queryFixture[0])
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ productions: [instance] });
+				expect(result).to.deep.eq({ page: { title: 'Productions' }, productions: [instance] });
 				done();
 			});
 		});

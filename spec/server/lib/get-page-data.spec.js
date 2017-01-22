@@ -77,9 +77,9 @@ describe('Get Page Data module', () => {
 
 	describe('modelName property', () => {
 
-		it('will be the model name of the instance argument', () => {
+		it('will be the model name of the instance argument in lower case', () => {
 			const pageData = subject(stubs.Production, 'create');
-			expect(pageData.modelName).to.eq('PRODUCTION');
+			expect(pageData.modelName).to.eq('production');
 		});
 
 	});

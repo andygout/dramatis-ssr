@@ -1,0 +1,17 @@
+{{#with theatre}}
+	{{#with productions}}
+		<div id="{{modelLowerCase this}}" class="content-wrapper">
+			{{>content-label}}
+			<div class="content">
+				<ul class="list">
+					{{#each this}}
+						<li>
+							{{>instance-link instance=this}}
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+	{{/with}}
+	{{>edit-delete-buttons}}
+{{/with}}

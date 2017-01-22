@@ -2,6 +2,8 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
+const handlebarsHelpers = require('./server/lib/handlebars-helpers');
 const favicon = require('serve-favicon');
 const flash = require('connect-flash');
 const http = require('http');
@@ -12,6 +14,9 @@ const session = require('express-session');
 const router = require('./server/routes');
 
 const app = express();
+
+Handlebars.registerHelper(handlebarsHelpers);
+
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' });
 
 app.engine('html', hbs.engine);
@@ -50,9 +55,12 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
 	app.use(function (err, req, res, next) {
 		console.log(err);
-		res.status(err.status || 500);
+		const errStatus = err.status || 500;
+		const errMsg = `${errStatus} Error: ${err.message}`;
+		res.status(errStatus);
 		res.render('error', {
-			message: `${err.status || 500} Error: ${err.message}`,
+			page: { title: errMsg },
+			message: errMsg,
 			error: err
 		});
 	});
@@ -60,9 +68,12 @@ if (app.get('env') === 'development') {
 
 // Production error handler - no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-	res.status(err.status || 500);
+	const errStatus = err.status || 500;
+	const errMsg = `${errStatus} Error: ${err.message}`;
+	res.status(errStatus);
 	res.render('error', {
-		message: `${err.status || 500} Error: ${err.message}`,
+		page: { title: errMsg },
+		message: errMsg,
 		error: {}
 	});
 });

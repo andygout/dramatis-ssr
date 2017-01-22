@@ -141,7 +141,10 @@ module.exports = class Theatre {
 		return query({ text })
 			.then(theatresRows => {
 				const theatres = theatresRows.map(theatre => new Theatre(theatre));
-				return { theatres };
+
+				const page = { title: 'Theatres' };
+
+				return { page, theatres };
 			});
 	}
 
