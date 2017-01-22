@@ -1,19 +1,17 @@
-{{#with productions}}
-	<ul class="list">
+<ul class="list">
+	{{#with productions}}
 		{{#each this}}
 			<li>
 				{{>instance-link instance=this}} - {{>instance-link instance=theatre}}
 			</li>
 		{{/each}}
-	</ul>
-{{/with}}
+	{{/with}}
 
-{{#with theatres}}
-	<ul class="list">
+	{{#with theatres}}
 		{{#each this}}
 			<li>
 				{{>instance-link instance=this}}
 			</li>
 		{{/each}}
-	</ul>
-{{/with}}
+	{{/with}}
+</ul>
