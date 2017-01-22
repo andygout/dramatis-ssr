@@ -5,7 +5,7 @@ const subject = require('../../../../server/lib/handlebars-helpers/upper-case');
 
 describe('Upper Case handlebars helper', () => {
 
-	it('will return string with initial letter as capital', () => {
+	it('will return string in upper case', () => {
 		expect(subject('string')).to.eq('STRING');
 	});
 
