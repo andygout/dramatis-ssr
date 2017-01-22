@@ -15,13 +15,13 @@
 		<div id="{{modelLowerCase this}}" class="content-wrapper">
 			{{>content-label}}
 			<div class="content">
-				{{#each this}}
-					<ul>
+				<ul>
+					{{#each this}}
 						<li>
 							{{>instance-link instance=this}}
 						</li>
-					</ul>
-				{{/each}}
+					{{/each}}
+				</ul>
 			</div>
 		</div>
 	{{/with}}
