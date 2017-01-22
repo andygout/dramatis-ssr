@@ -1,15 +1,3 @@
-{{#with production}}
-	{{#with theatre}}
-		<div id="{{modelLowerCase this}}" class="content-wrapper">
-			{{>content-label}}
-			<div class="content">
-				{{>instance-link instance=this}}
-			</div>
-		</div>
-	{{/with}}
-	{{>edit-delete-buttons}}
-{{/with}}
-
 {{#with theatre}}
 	{{#with productions}}
 		<div id="{{modelLowerCase this}}" class="content-wrapper">

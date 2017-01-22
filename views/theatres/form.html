@@ -1,0 +1,11 @@
+<form method="post" action="{{page.formAction}}">
+	{{#with theatre}}
+		<fieldset class="fieldset">
+			{{>input-text name='name' value=name errors=errors.name}}
+		</fieldset>
+
+		{{>input-hidden-id}}
+	{{/with}}
+	<input type="hidden" name="pageTitleText" value="{{page.title}}">
+	<input type="submit" value="{{page.submitValue}}" class="button">
+</form>

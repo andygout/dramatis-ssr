@@ -2,5 +2,5 @@ const Production = require('../../models/production');
 
 module.exports = function (req, res, next) {
 	const production = new Production();
-	res.render('form', production.new());
+	res.render('productions/form', production.new());
 };

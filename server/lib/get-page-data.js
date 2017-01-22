@@ -21,7 +21,7 @@ module.exports = function (instance, action) {
 
 	return {
 		title: isCreateAction ? `New ${model}` : getPageTitleText(model, instance),
-		modelName: model.toUpperCase(),
+		modelName: model,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),
