@@ -1,0 +1,17 @@
+<div class="field">
+	<label for="{{#if instance}}{{modelLowerCase instance}}_{{name}}{{else}}{{name}}{{/if}}" class="label mandatory">
+		{{~#if instance}}{{model instance}}{{else}}{{capitalise name}}{{/if~}}
+	</label>
+	<input
+		value="{{value}}"
+		name="{{#if instance}}{{modelLowerCase instance}}_{{name}}{{else}}{{name}}{{/if}}"
+		type="text"
+		maxlength="255"
+		class="field__input{{#if errors}} field__input--has-error{{/if}}"
+	/>
+	{{#each errors}}
+		<li class="field__error-description">
+			{{~this~}}
+		</li>
+	{{/each}}
+</div>
