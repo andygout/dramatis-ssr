@@ -1,5 +1,8 @@
 <div class="field">
-	<label for="{{#if instance}}{{modelLowerCase instance}}_{{name}}{{else}}{{name}}{{/if}}" class="label mandatory">
+	<label
+		for="{{#if instance}}{{modelLowerCase instance}}_{{name}}{{else}}{{name}}{{/if}}"
+		class="label mandatory"
+	>
 		{{~#if instance}}{{model instance}}{{else}}{{capitalise name}}{{/if~}}
 	</label>
 	<input
