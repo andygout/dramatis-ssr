@@ -1,13 +1,13 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const subject = require('../../../../server/lib/handlebars-helpers/model-route');
-
 const Production = require('../../../../server/models/production');
 
 const stubs = {
 	Production: sinon.createStubInstance(Production)
 };
+
+const subject = require('../../../../server/lib/handlebars-helpers/model-route');
 
 describe('Model Route handlebars helper', () => {
 

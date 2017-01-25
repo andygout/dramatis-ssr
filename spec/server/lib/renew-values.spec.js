@@ -1,9 +1,9 @@
 const expect = require('chai').expect;
 
-const subject = require('../../../server/lib/renew-top-level-values');
-
 let instance;
 let newValues;
+
+const subject = require('../../../server/lib/renew-top-level-values');
 
 describe('Renew Top Level Values module', () => {
 
