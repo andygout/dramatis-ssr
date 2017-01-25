@@ -1,9 +1,9 @@
 require('dotenv').config();
+
 const bodyParser = require('body-parser');
-const express = require('express');
 const exphbs = require('express-handlebars');
+const express = require('express');
 const Handlebars = require('handlebars');
-const handlebarsHelpers = require('./server/lib/handlebars-helpers');
 const favicon = require('serve-favicon');
 const flash = require('connect-flash');
 const http = require('http');
@@ -11,6 +11,8 @@ const logger = require('morgan');
 const path = require('path');
 const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
+
+const handlebarsHelpers = require('./server/lib/handlebars-helpers');
 const router = require('./server/routes');
 
 const app = express();
@@ -24,11 +26,15 @@ app.engine('html', hbs.engine);
 app.set('view engine', 'html');
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
+
 app.use(logger('dev'));
 
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+
 app.use(flash());
 
 app.use(
@@ -39,6 +45,7 @@ app.use(
 		debug: true
 	})
 );
+
 app.use(express.static(path.join(__dirname, 'client', 'public')));
 
 app.use('/', router);
@@ -139,9 +146,13 @@ const onListening = () => {
 };
 
 const port = normalizePort(process.env.PORT || '3000');
+
 app.set('port', port);
 
 const server = http.createServer(app);
+
 server.listen(port);
+
 server.on('error', onError);
+
 server.on('listening', onListening);
