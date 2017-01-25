@@ -1,5 +1,5 @@
 {
-	"name": "theatrebase_nodejs",
+	"name": "theatrebase",
 	"version": "0.0.0",
 	"description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
 	"main": "app.js",
