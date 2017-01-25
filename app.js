@@ -27,7 +27,7 @@ app.set('view engine', 'html');
 
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
 
