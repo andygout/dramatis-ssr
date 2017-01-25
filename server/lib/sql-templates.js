@@ -19,14 +19,17 @@ const getTableName = instance => `${instance.constructor.name.toLowerCase()}s`;
 const getModelName = instance => instance.constructor.name.toLowerCase();
 
 const createJoin = model => {
+
 	const table = `${model}s`;
 	const foreignKey = `${model}_id`;
 	const nativeKey = `${model}s.id`;
 
 	return `INNER JOIN ${table} ON ${foreignKey} = ${nativeKey}`;
+
 };
 
 exports.select = (instance, opts) => {
+
 	const table = opts.table || getTableName(instance);
 	const columns = opts.selectCols ? selectColumnsMap[table] : '*';
 	const id = opts.id || 'id';
@@ -38,18 +41,21 @@ exports.select = (instance, opts) => {
 		${opts.where ? 'WHERE ' + id + ' = ' + format.literal(instance.id) : ''}
 		${opts.order ? 'ORDER BY id ASC' : ''}
 	`;
+
 };
 
 exports.create = (instance, createValues) => {
-	const table = getTableName(instance);
 
+	const table = getTableName(instance);
 	const columns = [];
 	const values = [];
 
 	for (const prop in createValues) {
 		if (createValues.hasOwnProperty(prop)) {
+
 			columns.push(prop);
 			values.push(format.literal(createValues[prop]));
+
 		}
 	}
 
@@ -58,15 +64,18 @@ exports.create = (instance, createValues) => {
 		VALUES (${values.join(', ')})
 		RETURNING id
 	`;
-}
+
+};
 
 exports.update = (instance, updateValues) => {
-	const table = getTableName(instance);
 
+	const table = getTableName(instance);
 	const assignments = [];
 
 	for (const prop in updateValues) {
+
 		if (updateValues.hasOwnProperty(prop)) assignments.push(`${prop} = ${format.literal(updateValues[prop])}`);
+
 	}
 
 	return `
@@ -75,9 +84,11 @@ exports.update = (instance, updateValues) => {
 		WHERE id = ${format.literal(instance.id)}
 		RETURNING id
 	`;
+
 };
 
 exports.delete = instance => {
+
 	const table = getTableName(instance);
 	const model = getModelName(instance);
 
@@ -86,9 +97,11 @@ exports.delete = instance => {
 		WHERE id = ${format.literal(instance.id)}
 		RETURNING ${modelNamingPropMap[model]}
 	`;
+
 };
 
 exports.createIfNotExists = instance => {
+
 	const table = getTableName(instance);
 
 	return `
@@ -114,9 +127,11 @@ exports.createIfNotExists = instance => {
 		SELECT id
 		FROM s
 	`;
+
 };
 
 exports.checkIfExists = instance => {
+
 	const table = getTableName(instance);
 
 	return `
@@ -125,4 +140,5 @@ exports.checkIfExists = instance => {
 		WHERE ${uniqueColumnMap[table]} = ${format.literal(instance[uniqueColumnMap[table]])}
 		AND id != ${format.literal(instance.id)}
 	`;
+
 };

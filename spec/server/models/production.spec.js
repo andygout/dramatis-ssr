@@ -8,8 +8,11 @@ const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 
 const TheatreStub = function () {
+
 	this.validate = sinon.stub();
+
 	this.create = sinon.stub().resolves(queryFixture);
+
 };
 
 const stubs = {
@@ -29,6 +32,7 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.query.reset();
 	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
@@ -39,16 +43,19 @@ const resetStubs = () => {
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 let instance;
 
-function createSubject (stubOverrides) {
-	return proxyquire('../../../server/models/production', {
+const createSubject = stubOverrides =>
+	proxyquire('../../../server/models/production', {
 		'../../database/query': stubs.query,
 		'../lib/get-page-data': stubs.getPageData,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
@@ -58,11 +65,13 @@ function createSubject (stubOverrides) {
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./theatre': stubOverrides.Theatre || stubs.Theatre
 	});
-};
 
-function createInstance (stubOverrides = {}) {
+const createInstance = (stubOverrides = {}) => {
+
 	const subject = createSubject(stubOverrides);
+
 	return new subject();
+
 };
 
 describe('Production model', () => {

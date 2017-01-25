@@ -27,6 +27,7 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.query.reset();
 	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
@@ -39,16 +40,19 @@ const resetStubs = () => {
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
 	stubs.Production.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 let instance;
 
-function createSubject (stubOverrides) {
-	return proxyquire('../../../server/models/theatre', {
+const createSubject = stubOverrides =>
+	proxyquire('../../../server/models/theatre', {
 		'../../database/query': stubOverrides.query || stubs.query,
 		'../lib/get-page-data': stubs.getPageData,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
@@ -58,11 +62,13 @@ function createSubject (stubOverrides) {
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./production': stubs.Production
 	});
-};
 
-function createInstance (stubOverrides = {}) {
+const createInstance = (stubOverrides = {}) => {
+
 	const subject = createSubject(stubOverrides);
+
 	return new subject();
+
 };
 
 describe('Theatre model', () => {

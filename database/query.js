@@ -1,11 +1,15 @@
 const pool = require('./pool');
 
 module.exports = function (queryData) {
+
 	return new Promise(function (resolve, reject) {
+
 		pool.connect(function (err, client, release) {
+
 			if (err) return reject(err);
 
 			client.query(queryData.text, function (err, result) {
+
 				release();
 
 				if (err) return reject(err);
@@ -17,11 +21,17 @@ module.exports = function (queryData) {
 				}
 
 				return resolve(result.rows);
+
 			});
+
 		});
 
 		pool.on('error', function (err, client) {
+
 			console.error('Idle client error', err.message, err.stack);
+
 		});
+
 	});
-}
+
+};

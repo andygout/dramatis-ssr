@@ -9,76 +9,99 @@ const verifyErrorPresence = require('../lib/verify-error-presence');
 module.exports = class Theatre {
 
 	constructor (props = {}) {
+
 		this.id = props.id;
 		this.name = props.name;
 		this.pageTitleText = props.pageTitleText;
 		this.productions = [];
 		this.hasError = false;
 		this.errors = {};
-	}
+
+	};
 
 	validate () {
+
 		trimStrings(this);
 
 		const nameErrors = validateString(this.name, 'Name');
+
 		if (nameErrors.length) this.errors.name = nameErrors;
-	}
+
+	};
 
 	validateInDb () {
+
 		const text = sqlTemplates.checkIfExists(this);
 
 		return query({ text })
 			.then(result => {
+
 				if (result.length) this.errors.name = ['Name already exists'];
+
 			});
-	}
+
+	};
 
 	renewValues (props = {}) {
+
 		const Production = require('./production');
 
 		renewTopLevelValues(this, props);
 
 		this.productions = props.productions ? props.productions.map(production => new Production(production)) : [];
-	}
+
+	};
 
 	create () {
+
 		const queryData = {
 			text: sqlTemplates.createIfNotExists(this),
 			isReqdResult: true
-		}
+		};
 
 		return query(queryData);
-	}
+
+	};
 
 	edit () {
+
 		const queryData = {
 			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
+
 				renewTopLevelValues(_this, theatre);
 
 				const page = getPageData(_this, 'update');
 
 				return { page, theatre: _this };
+
 			});
-	}
+
+	};
 
 	update () {
+
 		this.validate();
 
 		if (verifyErrorPresence(this)) {
+
 			this.hasError = true;
+
 			const page = getPageData(this, 'update');
+
 			return Promise.resolve({ page, theatre: this });
+
 		}
 
 		return this.validateInDb()
 			.then(() => {
+
 				this.hasError = verifyErrorPresence(this);
 
 				const page = getPageData(this, 'update');
@@ -88,32 +111,39 @@ module.exports = class Theatre {
 				const queryData = {
 					text: sqlTemplates.update(this, { name: this.name }),
 					isReqdResult: true
-				}
+				};
 
 				return query(queryData)
 					.then(([theatre] = theatre) => ({ page, theatre }));
+
 			});
-	}
+
+	};
 
 	delete () {
+
 		const queryData = {
 			text: sqlTemplates.delete(this),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
 		return query(queryData)
 			.then(([theatre] = theatre) => {
+
 				renewTopLevelValues(_this, theatre);
 
 				const page = getPageData(_this, 'delete');
 
 				return { page, theatre: _this };
+
 			});
-	}
+
+	};
 
 	show () {
+
 		const theatre = query({
 			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
@@ -127,25 +157,32 @@ module.exports = class Theatre {
 
 		return Promise.all([theatre, productions])
 			.then(([[theatre], productions] = [theatre, productions]) => {
+
 				_this.renewValues(Object.assign(theatre, { productions }));
 
 				const page = getPageData(_this, 'show');
 
 				return { page, theatre: _this };
+
 			});
-	}
+
+	};
 
 	static list () {
+
 		const text = sqlTemplates.select(this, { table: 'theatres', order: true });
 
 		return query({ text })
 			.then(theatresRows => {
+
 				const theatres = theatresRows.map(theatre => new Theatre(theatre));
 
 				const page = { title: 'Theatres' };
 
 				return { page, theatres };
+
 			});
-	}
+
+	};
 
 }

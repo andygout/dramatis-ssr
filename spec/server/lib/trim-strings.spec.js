@@ -11,18 +11,21 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.propIsObject.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
-function createSubject (stubOverrides = {}) {
-	return proxyquire('../../../server/lib/trim-strings', {
+const createSubject = (stubOverrides = {}) =>
+	proxyquire('../../../server/lib/trim-strings', {
 		'./prop-is-object': stubOverrides.propIsObject || stubs.propIsObject
 	});
-};
 
 describe('Trim Strings module', () => {
 

@@ -9,18 +9,21 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.propIsObject.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
-function createSubject (stubOverrides = {}) {
-	return proxyquire('../../../server/lib/verify-error-presence', {
+const createSubject = (stubOverrides = {}) =>
+	proxyquire('../../../server/lib/verify-error-presence', {
 		'./prop-is-object': stubOverrides.propIsObject || stubs.propIsObject
 	});
-};
 
 describe('Verify Error Presence module', () => {
 

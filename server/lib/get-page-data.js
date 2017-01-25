@@ -7,14 +7,17 @@ const checkIfCreateAction = action => action === 'create';
 const getPageTitleText = (model, instance) => instance.pageTitleText || instance[modelNamingPropMap[model]];
 
 const getAlertText = (model, instance, action) => {
+
 	const instanceText = instance.title || instance.name;
 
 	return `${model.toUpperCase()} ${instance.hasError ? 'ERRORS' : action.toUpperCase() + 'D: ' + instanceText}`;
+
 };
 
 const getAlertType = instance => instance.hasError ? 'error' : 'success';
 
 module.exports = function (instance, action) {
+
 	const model = getModelName(instance);
 
 	const isCreateAction = checkIfCreateAction(action);
@@ -27,4 +30,5 @@ module.exports = function (instance, action) {
 		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
 	};
+
 };

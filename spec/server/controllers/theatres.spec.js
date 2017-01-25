@@ -16,11 +16,15 @@ const err = new Error('errorText');
 const alertStub = sinon.stub().returns('alertStub');
 
 const resetStubs = () => {
+
 	alertStub.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 let method;
@@ -29,15 +33,17 @@ let request;
 let response;
 let next;
 
-function createSubject (method, TheatreStub) {
-	return proxyquire(`../../../server/controllers/theatres/${method}`, {
+const createSubject = (method, TheatreStub) =>
+	proxyquire(`../../../server/controllers/theatres/${method}`, {
 		'../../models/theatre': TheatreStub
 	});
-};
 
-function createInstance (method, methodStub) {
+const createInstance = (method, methodStub) => {
+
 	request = httpMocks.createRequest({ flash: alertStub });
+
 	response = httpMocks.createResponse();
+
 	next = sinon.stub();
 
 	const TheatreStub = (method !== 'list') ?
@@ -45,7 +51,9 @@ function createInstance (method, methodStub) {
 		sinon.stub(Theatre, 'list', function () { return methodStub });
 
 	const subject = createSubject(method, TheatreStub);
+
 	return subject(request, response, next);
+
 };
 
 describe('Theatre controller', () => {

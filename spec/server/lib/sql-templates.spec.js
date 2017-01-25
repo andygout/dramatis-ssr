@@ -9,18 +9,20 @@ const stubs = {
 	format: {
 		literal: sinon.stub().returns('\'pgFormatValue\'')
 	},
-	Production: null,
-	Theatre: null
+	Production: sinon.createStubInstance(Production),
+	Theatre: sinon.createStubInstance(Theatre)
 };
 
 const resetStubs = () => {
+
 	stubs.format.literal.reset();
-	stubs.Production = sinon.createStubInstance(Production);
-	stubs.Theatre = sinon.createStubInstance(Theatre);
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 const subject = proxyquire('../../../server/lib/sql-templates', {

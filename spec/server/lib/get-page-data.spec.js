@@ -1,8 +1,6 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const subject = require('../../../server/lib/get-page-data');
-
 const Production = require('../../../server/models/production');
 const Theatre = require('../../../server/models/theatre');
 
@@ -12,12 +10,18 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.Production = sinon.createStubInstance(Production);
 	stubs.Theatre = sinon.createStubInstance(Theatre);
+
 };
 
+const subject = require('../../../server/lib/get-page-data');
+
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 describe('Get Page Data module', () => {
