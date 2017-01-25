@@ -47,8 +47,8 @@ beforeEach(function () {
 
 let instance;
 
-function createSubject (stubOverrides) {
-	return proxyquire('../../../server/models/production', {
+const createSubject = stubOverrides =>
+	proxyquire('../../../server/models/production', {
 		'../../database/query': stubs.query,
 		'../lib/get-page-data': stubs.getPageData,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
@@ -58,9 +58,8 @@ function createSubject (stubOverrides) {
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./theatre': stubOverrides.Theatre || stubs.Theatre
 	});
-};
 
-function createInstance (stubOverrides = {}) {
+const createInstance = (stubOverrides = {}) => {
 	const subject = createSubject(stubOverrides);
 	return new subject();
 };

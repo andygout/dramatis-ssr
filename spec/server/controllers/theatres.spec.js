@@ -29,13 +29,12 @@ let request;
 let response;
 let next;
 
-function createSubject (method, TheatreStub) {
-	return proxyquire(`../../../server/controllers/theatres/${method}`, {
+const createSubject = (method, TheatreStub) =>
+	proxyquire(`../../../server/controllers/theatres/${method}`, {
 		'../../models/theatre': TheatreStub
 	});
-};
 
-function createInstance (method, methodStub) {
+const createInstance = (method, methodStub) => {
 	request = httpMocks.createRequest({ flash: alertStub });
 	response = httpMocks.createResponse();
 	next = sinon.stub();
