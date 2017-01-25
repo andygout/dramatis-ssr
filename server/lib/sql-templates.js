@@ -58,7 +58,7 @@ exports.create = (instance, createValues) => {
 		VALUES (${values.join(', ')})
 		RETURNING id
 	`;
-}
+};
 
 exports.update = (instance, updateValues) => {
 	const table = getTableName(instance);

@@ -17,24 +17,24 @@ module.exports = class Production {
 		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
 		this.hasError = false;
 		this.errors = {};
-	}
+	};
 
 	validate () {
 		trimStrings(this);
 
 		const titleErrors = validateString(this.title, 'Title');
 		if (titleErrors.length) this.errors.title = titleErrors;
-	}
+	};
 
 	renewValues (props = {}) {
 		renewTopLevelValues(this, props);
 		renewTopLevelValues(this.theatre, { id: props.theatre_id, name: props.theatre_name });
-	}
+	};
 
 	new () {
 		const page = getPageData(this, 'create');
 		return { page, production: this };
-	}
+	};
 
 	create () {
 		this.validate();
@@ -51,18 +51,18 @@ module.exports = class Production {
 				const queryData = {
 					text: sqlTemplates.create(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
-				}
+				};
 
 				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
-	}
+	};
 
 	edit () {
 		const queryData = {
 			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
@@ -74,7 +74,7 @@ module.exports = class Production {
 
 				return { page, production: _this };
 			});
-	}
+	};
 
 	update () {
 		this.validate();
@@ -91,18 +91,18 @@ module.exports = class Production {
 				const queryData = {
 					text: sqlTemplates.update(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
-				}
+				};
 
 				return query(queryData)
 					.then(([production] = production) => ({ page, production }));
 			});
-	}
+	};
 
 	delete () {
 		const queryData = {
 			text: sqlTemplates.delete(this),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
@@ -114,13 +114,13 @@ module.exports = class Production {
 
 				return { page, production: _this };
 			});
-	}
+	};
 
 	show () {
 		const queryData = {
 			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
@@ -132,7 +132,7 @@ module.exports = class Production {
 
 				return { page, production: _this };
 			});
-	}
+	};
 
 	static list () {
 		const text = sqlTemplates.select(this, {
@@ -150,6 +150,6 @@ module.exports = class Production {
 
 				return { page, productions };
 			});
-	}
+	};
 
 }

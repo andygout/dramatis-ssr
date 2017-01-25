@@ -15,14 +15,14 @@ module.exports = class Theatre {
 		this.productions = [];
 		this.hasError = false;
 		this.errors = {};
-	}
+	};
 
 	validate () {
 		trimStrings(this);
 
 		const nameErrors = validateString(this.name, 'Name');
 		if (nameErrors.length) this.errors.name = nameErrors;
-	}
+	};
 
 	validateInDb () {
 		const text = sqlTemplates.checkIfExists(this);
@@ -31,7 +31,7 @@ module.exports = class Theatre {
 			.then(result => {
 				if (result.length) this.errors.name = ['Name already exists'];
 			});
-	}
+	};
 
 	renewValues (props = {}) {
 		const Production = require('./production');
@@ -39,22 +39,22 @@ module.exports = class Theatre {
 		renewTopLevelValues(this, props);
 
 		this.productions = props.productions ? props.productions.map(production => new Production(production)) : [];
-	}
+	};
 
 	create () {
 		const queryData = {
 			text: sqlTemplates.createIfNotExists(this),
 			isReqdResult: true
-		}
+		};
 
 		return query(queryData);
-	}
+	};
 
 	edit () {
 		const queryData = {
 			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
@@ -66,7 +66,7 @@ module.exports = class Theatre {
 
 				return { page, theatre: _this };
 			});
-	}
+	};
 
 	update () {
 		this.validate();
@@ -88,18 +88,18 @@ module.exports = class Theatre {
 				const queryData = {
 					text: sqlTemplates.update(this, { name: this.name }),
 					isReqdResult: true
-				}
+				};
 
 				return query(queryData)
 					.then(([theatre] = theatre) => ({ page, theatre }));
 			});
-	}
+	};
 
 	delete () {
 		const queryData = {
 			text: sqlTemplates.delete(this),
 			isReqdResult: true
-		}
+		};
 
 		const _this = this;
 
@@ -111,7 +111,7 @@ module.exports = class Theatre {
 
 				return { page, theatre: _this };
 			});
-	}
+	};
 
 	show () {
 		const theatre = query({
@@ -133,7 +133,7 @@ module.exports = class Theatre {
 
 				return { page, theatre: _this };
 			});
-	}
+	};
 
 	static list () {
 		const text = sqlTemplates.select(this, { table: 'theatres', order: true });
@@ -146,6 +146,6 @@ module.exports = class Theatre {
 
 				return { page, theatres };
 			});
-	}
+	};
 
 }

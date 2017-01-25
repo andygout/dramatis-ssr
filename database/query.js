@@ -24,4 +24,4 @@ module.exports = function (queryData) {
 			console.error('Idle client error', err.message, err.stack);
 		});
 	});
-}
+};

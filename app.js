@@ -83,7 +83,7 @@ const normalizePort = val => {
 	if (isNaN(port)) return val;
 	if (port >= 0) return port;
 	return false;
-}
+};
 
 const onError = error => {
 	if (error.syscall !== 'listen') throw error;
@@ -101,13 +101,13 @@ const onError = error => {
 		default:
 			throw error;
 	}
-}
+};
 
 const onListening = () => {
 	const addr = server.address();
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
 	console.log('Listening on ' + bind);
-}
+};
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
