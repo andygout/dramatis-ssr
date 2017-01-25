@@ -12,12 +12,16 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.Production = sinon.createStubInstance(Production);
 	stubs.Theatre = sinon.createStubInstance(Theatre);
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 describe('Instance Naming Value handlebars helper', () => {

@@ -45,48 +45,72 @@ app.use('/', router);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
+
 	const err = new Error('Not Found');
+
 	err.status = 404;
+
 	next(err);
+
 });
 
 // Error handlers
 // Development error handler - will print stacktrace
 if (app.get('env') === 'development') {
+
 	app.use(function (err, req, res, next) {
+
 		console.log(err);
+
 		const errStatus = err.status || 500;
+
 		const errMsg = `${errStatus} Error: ${err.message}`;
+
 		res.status(errStatus);
+
 		res.render('error', {
 			page: { title: errMsg },
 			message: errMsg,
 			error: err
 		});
+
 	});
+
 }
 
 // Production error handler - no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+
 	const errStatus = err.status || 500;
+
 	const errMsg = `${errStatus} Error: ${err.message}`;
+
 	res.status(errStatus);
+
 	res.render('error', {
 		page: { title: errMsg },
 		message: errMsg,
 		error: {}
 	});
+
 });
 
 const normalizePort = val => {
+
 	const port = parseInt(val, 10);
+
 	if (isNaN(port)) return val;
+
 	if (port >= 0) return port;
+
 	return false;
+
 };
 
 const onError = error => {
+
 	if (error.syscall !== 'listen') throw error;
+
 	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
 
 	switch (error.code) {
@@ -101,12 +125,17 @@ const onError = error => {
 		default:
 			throw error;
 	}
+
 };
 
 const onListening = () => {
+
 	const addr = server.address();
+
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+
 	console.log('Listening on ' + bind);
+
 };
 
 const port = normalizePort(process.env.PORT || '3000');

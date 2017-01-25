@@ -14,11 +14,15 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.format.literal.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 const subject = proxyquire('../../../server/lib/sql-templates', {

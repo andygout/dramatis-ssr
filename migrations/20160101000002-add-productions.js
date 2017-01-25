@@ -1,4 +1,5 @@
 exports.up = function(db, done) {
+
 	db.createTable('productions', {
 		id: {
 			type: 'int',
@@ -26,8 +27,11 @@ exports.up = function(db, done) {
 			}
 		}
 	}, done)
+
 };
 
 exports.down = function(db, done) {
+
 	db.dropTable('productions', done)
+
 };

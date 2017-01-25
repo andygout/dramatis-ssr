@@ -9,11 +9,15 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.propIsObject.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 const createSubject = (stubOverrides = {}) =>

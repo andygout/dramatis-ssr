@@ -27,6 +27,7 @@ const stubs = {
 };
 
 const resetStubs = () => {
+
 	stubs.query.reset();
 	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
@@ -39,10 +40,13 @@ const resetStubs = () => {
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
 	stubs.Production.reset();
+
 };
 
 beforeEach(function () {
+
 	resetStubs();
+
 });
 
 let instance;
@@ -60,8 +64,11 @@ const createSubject = stubOverrides =>
 	});
 
 const createInstance = (stubOverrides = {}) => {
+
 	const subject = createSubject(stubOverrides);
+
 	return new subject();
+
 };
 
 describe('Theatre model', () => {
