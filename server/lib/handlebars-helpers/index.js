@@ -1,6 +1,7 @@
 module.exports = {
 
 	capitalise: require('./capitalise'),
+	dateFormatNow: require('./date-format-now'),
 	instanceNamingValue: require('./instance-naming-value'),
 	model: require('./model'),
 	modelLowerCase: require('./model-lower-case'),
