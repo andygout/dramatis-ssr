@@ -194,12 +194,13 @@ describe('Get Page Data module', () => {
 
 			});
 
-			context('delete action', () => {
+			context('delete action (errors because instance has dependent associations)', () => {
 
 				it('will be path comprised of model name and \'Errors\'', () => {
-					stubs.Production.hasError = true;
-					const pageData = subject(stubs.Production, 'delete');
-					expect(pageData.alertText).to.eq('PRODUCTION ERRORS');
+					stubs.Theatre.hasError = true;
+					stubs.Theatre.errors.associations = ['productions'];
+					const pageData = subject(stubs.Theatre, 'delete');
+					expect(pageData.alertText).to.eq('THEATRE ERRORS: Dependent associations exist with productions');
 				});
 
 			});

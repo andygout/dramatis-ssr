@@ -15,7 +15,9 @@ const getAlertText = (model, instance, action) => {
 		action.toUpperCase() + 'D: ' + instanceText}
 	`.trim();
 
-	if (instance.errors.associations) alertText += `: Associations exist with ${instance.errors.associations.join()}`;
+	if (instance.errors.associations) alertText += `
+		: Dependent associations exist with ${instance.errors.associations.join()}
+	`.trim();
 
 	return alertText;
 
