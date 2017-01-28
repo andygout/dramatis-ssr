@@ -309,7 +309,7 @@ describe('Theatre model', () => {
 		it('will call query then return page and query result data', done => {
 			instance = createInstance();
 			instance.delete().then(result => {
-				expect(stubs.query.calledOnce).to.be.true;
+				expect(stubs.query.calledTwice).to.be.true;
 				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
 				done();
 			});

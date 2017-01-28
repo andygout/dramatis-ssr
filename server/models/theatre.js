@@ -170,11 +170,15 @@ module.exports = class Theatre {
 		return this.validateDeleteInDb()
 			.then(() => {
 
-				this.hasError = verifyErrorPresence(this);
+				if (verifyErrorPresence(this)) {
 
-				const page = getPageData(this, 'delete');
+					this.hasError = true;
 
-				if (this.hasError) return this.getShowData();
+					const page = getPageData(this, 'delete');
+
+					return this.getShowData();
+
+				}
 
 				const queryData = {
 					text: sqlTemplates.delete(this),
