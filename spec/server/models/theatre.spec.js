@@ -172,6 +172,28 @@ describe('Theatre model', () => {
 
 	});
 
+	describe('getShowData method', () => {
+
+		it('will call getPageData function once', done => {
+			instance = createInstance();
+			instance.getShowData().then(() => {
+				expect(stubs.getPageData.calledOnce).to.be.true;
+				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
+				done();
+			});
+		});
+
+		it('will call query twice then return page and query result data', done => {
+			instance = createInstance();
+			instance.getShowData().then(result => {
+				expect(stubs.query.calledTwice).to.be.true;
+				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+				done();
+			});
+		});
+
+	});
+
 	describe('renewValues method', () => {
 
 		it('will call renew top level values module', () => {
@@ -349,6 +371,15 @@ describe('Theatre model', () => {
 				});
 			});
 
+			it('will not call getShowData method', done => {
+				instance = createInstance();
+				var getShowDataSpy = sinon.spy(instance, 'getShowData');
+				instance.delete().then(() => {
+					expect(getShowDataSpy.notCalled).to.be.true;
+					done();
+				});
+			});
+
 		});
 
 		context('dependent associations', () => {
@@ -371,26 +402,26 @@ describe('Theatre model', () => {
 				});
 			});
 
+			it('will call getShowData method once', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				var getShowDataSpy = sinon.spy(instance, 'getShowData');
+				instance.delete().then(() => {
+					expect(getShowDataSpy.calledOnce).to.be.true;
+					done();
+				});
+			});
+
 		});
 
 	});
 
 	describe('show method', () => {
 
-		it('will call getPageData function once', done => {
+		it('will call getShowData method once', done => {
 			instance = createInstance();
+			var getShowDataSpy = sinon.spy(instance, 'getShowData');
 			instance.show().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
-				done();
-			});
-		});
-
-		it('will call query twice then return page and query result data', done => {
-			instance = createInstance();
-			instance.show().then(result => {
-				expect(stubs.query.calledTwice).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+				expect(getShowDataSpy.calledOnce).to.be.true;
 				done();
 			});
 		});
