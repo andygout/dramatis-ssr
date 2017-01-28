@@ -321,14 +321,11 @@ describe('Theatre model', () => {
 
 		context('dependent associations', () => {
 
-			it('will call getPageData function twice (first to set alert text)', done => {
+			it('will call getPageData function once', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.delete().then(() => {
-					expect(stubs.getPageData.calledTwice).to.be.true;
-					sinon.assert.callOrder(
-						stubs.getPageData.withArgs(instance, 'delete'),
-						stubs.getPageData.withArgs(instance, 'show')
-					);
+					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
 					done();
 				});
 			});

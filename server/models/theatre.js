@@ -174,8 +174,6 @@ module.exports = class Theatre {
 
 					this.hasError = true;
 
-					const page = getPageData(this, 'delete');
-
 					return this.getShowData();
 
 				}
