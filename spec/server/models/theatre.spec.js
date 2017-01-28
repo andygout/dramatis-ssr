@@ -108,13 +108,13 @@ describe('Theatre model', () => {
 
 	});
 
-	describe('validateInDb method', () => {
+	describe('validateUpdateInDb method', () => {
 
 		context('valid data (no results returned that indicate name already exists)', () => {
 
 			it('will not add properties to errors property', done => {
 				instance = createInstance({ query: sinon.stub().resolves([]) });
-				instance.validateInDb().then(() => {
+				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
 					done();
@@ -127,7 +127,7 @@ describe('Theatre model', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 				instance = createInstance();
-				instance.validateInDb().then(() => {
+				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('name')
 						.that.is.an('array')
@@ -136,6 +136,60 @@ describe('Theatre model', () => {
 				});
 			});
 
+		});
+
+	});
+
+	describe('validateDeleteInDb method', () => {
+
+		context('valid data (no results returned that indicate dependent associations exist)', () => {
+
+			it('will not add properties to errors property', done => {
+				instance = createInstance({ query: sinon.stub().resolves([]) });
+				instance.validateDeleteInDb().then(() => {
+					expect(instance.errors).not.to.have.property('associations');
+					expect(instance.errors).to.deep.eq({});
+					done();
+				});
+			});
+
+		});
+
+		context('invalid data (results returned that indicate dependent associations exist)', () => {
+
+			it('will add properties that are arrays to errors property', done => {
+				instance = createInstance();
+				instance.validateDeleteInDb().then(() => {
+					expect(instance.errors)
+						.to.have.property('associations')
+						.that.is.an('array')
+						.that.deep.eq(['productions']);
+					done();
+				});
+			});
+
+		});
+
+	});
+
+	describe('getShowData method', () => {
+
+		it('will call getPageData function once', done => {
+			instance = createInstance();
+			instance.getShowData().then(() => {
+				expect(stubs.getPageData.calledOnce).to.be.true;
+				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
+				done();
+			});
+		});
+
+		it('will call query twice then return page and query result data', done => {
+			instance = createInstance();
+			instance.getShowData().then(result => {
+				expect(stubs.query.calledTwice).to.be.true;
+				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+				done();
+			});
 		});
 
 	});
@@ -211,10 +265,10 @@ describe('Theatre model', () => {
 		it('will do validation before database validation', done => {
 			instance = createInstance();
 			sinon.spy(instance, 'validate');
-			sinon.spy(instance, 'validateInDb');
+			sinon.spy(instance, 'validateUpdateInDb');
 			instance.update().then(() => {
-				expect(instance.validate.calledBefore(instance.validateInDb)).to.be.true;
-				expect(instance.validateInDb.calledOnce).to.be.true;
+				expect(instance.validate.calledBefore(instance.validateUpdateInDb)).to.be.true;
+				expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 				done();
 			});
 		});
@@ -297,42 +351,77 @@ describe('Theatre model', () => {
 
 	describe('delete method', () => {
 
-		it('will call getPageData function once', done => {
-			instance = createInstance();
-			instance.delete().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
-				done();
+		context('no dependent associations', () => {
+
+			it('will call getPageData function once', done => {
+				instance = createInstance();
+				instance.delete().then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
+					done();
+				});
 			});
+
+			it('will call query to validate then to delete', done => {
+				instance = createInstance();
+				instance.delete().then(result => {
+					expect(stubs.query.calledTwice).to.be.true;
+					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+					done();
+				});
+			});
+
+			it('will not call getShowData method', done => {
+				instance = createInstance();
+				var getShowDataSpy = sinon.spy(instance, 'getShowData');
+				instance.delete().then(() => {
+					expect(getShowDataSpy.notCalled).to.be.true;
+					done();
+				});
+			});
+
 		});
 
-		it('will call query then return page and query result data', done => {
-			instance = createInstance();
-			instance.delete().then(result => {
-				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
-				done();
+		context('dependent associations', () => {
+
+			it('will call getPageData function once', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				instance.delete().then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
+					done();
+				});
 			});
+
+			it('will call query to validate then twice to select data for show page', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				instance.delete().then(result => {
+					expect(stubs.query.calledThrice).to.be.true;
+					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+					done();
+				});
+			});
+
+			it('will call getShowData method once', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				var getShowDataSpy = sinon.spy(instance, 'getShowData');
+				instance.delete().then(() => {
+					expect(getShowDataSpy.calledOnce).to.be.true;
+					done();
+				});
+			});
+
 		});
 
 	});
 
 	describe('show method', () => {
 
-		it('will call getPageData function once', done => {
+		it('will call getShowData method once', done => {
 			instance = createInstance();
+			var getShowDataSpy = sinon.spy(instance, 'getShowData');
 			instance.show().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
-				done();
-			});
-		});
-
-		it('will call query twice then return page and query result data', done => {
-			instance = createInstance();
-			instance.show().then(result => {
-				expect(stubs.query.calledTwice).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+				expect(getShowDataSpy.calledOnce).to.be.true;
 				done();
 			});
 		});

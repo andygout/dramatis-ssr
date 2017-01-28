@@ -7,9 +7,7 @@ module.exports = function (req, res, next) {
 
 	return production.create()
 		.then(data => {
-			const hasError = data.production.hasError || false;
-			const redirectRoute = `/productions/${data.production.id}`;
-			handleModelResponse(req, res, Object.assign(data, { hasError, redirectRoute }));
+			handleModelResponse(req, res, data);
 		})
 		.catch(err => next(err));
 

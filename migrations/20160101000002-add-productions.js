@@ -18,7 +18,7 @@ exports.up = function(db, done) {
 				name: 'productions_theatres_fk',
 				table: 'theatres',
 				rules: {
-					onDelete: 'CASCADE',
+					onDelete: 'RESTRICT',
 					onUpdate: 'RESTRICT'
 				},
 				mapping: {

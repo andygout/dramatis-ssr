@@ -4,10 +4,14 @@ module.exports = function (req, res, data) {
 
 	alert.set(req, data.page);
 
+	const action = data.page.action;
 	const modelName = data.page.modelName;
 
-	data.hasError ?
-		res.render(`${modelName}s/form`, Object.assign(data, { alert: alert.get(req) })) :
-		res.redirect(data.redirectRoute);
+	data[modelName].hasError ?
+		(action === 'create' || action === 'update') ?
+			res.render(`${modelName}s/form`, Object.assign(data, { alert: alert.get(req) })) :
+			res.redirect(data[modelName].id)
+		:
+		res.redirect(action !== 'delete' ? `/${modelName}s/${data[modelName].id}` : '/');
 
 };
