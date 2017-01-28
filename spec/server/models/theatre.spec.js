@@ -108,13 +108,13 @@ describe('Theatre model', () => {
 
 	});
 
-	describe('validateInDb method', () => {
+	describe('validateUpdateInDb method', () => {
 
 		context('valid data (no results returned that indicate name already exists)', () => {
 
 			it('will not add properties to errors property', done => {
 				instance = createInstance({ query: sinon.stub().resolves([]) });
-				instance.validateInDb().then(() => {
+				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
 					done();
@@ -127,7 +127,7 @@ describe('Theatre model', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 				instance = createInstance();
-				instance.validateInDb().then(() => {
+				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('name')
 						.that.is.an('array')
@@ -211,10 +211,10 @@ describe('Theatre model', () => {
 		it('will do validation before database validation', done => {
 			instance = createInstance();
 			sinon.spy(instance, 'validate');
-			sinon.spy(instance, 'validateInDb');
+			sinon.spy(instance, 'validateUpdateInDb');
 			instance.update().then(() => {
-				expect(instance.validate.calledBefore(instance.validateInDb)).to.be.true;
-				expect(instance.validateInDb.calledOnce).to.be.true;
+				expect(instance.validate.calledBefore(instance.validateUpdateInDb)).to.be.true;
+				expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 				done();
 			});
 		});

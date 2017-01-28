@@ -277,7 +277,7 @@ describe('SQL Templates module', () => {
 
 		context('theatre model', () => {
 
-			context('called within validateInDb method', () => {
+			context('called within validateUpdateInDb method', () => {
 
 				it('will return query that checks if row with same chosen field but different ID exists', () => {
 					const query = subject.checkIfExists(stubs.Theatre);

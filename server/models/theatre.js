@@ -29,7 +29,7 @@ module.exports = class Theatre {
 
 	};
 
-	validateInDb () {
+	validateUpdateInDb () {
 
 		const text = sqlTemplates.checkIfExists(this);
 
@@ -144,7 +144,7 @@ module.exports = class Theatre {
 
 		}
 
-		return this.validateInDb()
+		return this.validateUpdateInDb()
 			.then(() => {
 
 				this.hasError = verifyErrorPresence(this);
