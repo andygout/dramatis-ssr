@@ -27,6 +27,7 @@ beforeEach(function () {
 
 });
 
+let action;
 let method;
 let methodStub;
 let request;
@@ -61,16 +62,17 @@ describe('Theatre controller', () => {
 	describe('edit method', () => {
 
 		beforeEach(function () {
+			action = 'update';
 			method = 'edit';
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK)', done => {
-				methodStub = sinon.stub().resolves(dataFixture(method));
+				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderData()).to.deep.eq(dataFixture(method));
+					expect(response._getRenderData()).to.deep.eq(dataFixture(action));
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -96,13 +98,13 @@ describe('Theatre controller', () => {
 	describe('update method', () => {
 
 		beforeEach(function () {
-			method = 'update';
+			action = method = 'update';
 		});
 
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect)', done => {
-				methodStub = sinon.stub().resolves(dataFixture(method));
+				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRenderData()).to.deep.eq({});
@@ -116,11 +118,11 @@ describe('Theatre controller', () => {
 		context('resolves with data with model errors', () => {
 
 			it('will return status code 200 (OK)', done => {
-				methodStub = sinon.stub().resolves(dataWithErrorsFixture(method));
+				methodStub = sinon.stub().resolves(dataWithErrorsFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(dataWithErrorsFixture(method), alertFixture)
+						Object.assign(dataWithErrorsFixture(action), alertFixture)
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -147,13 +149,13 @@ describe('Theatre controller', () => {
 	describe('delete method', () => {
 
 		beforeEach(function () {
-			method = 'delete';
+			action = method = 'delete';
 		});
 
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect)', done => {
-				methodStub = sinon.stub().resolves(dataFixture(method));
+				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRenderData()).to.deep.eq({});
@@ -167,7 +169,7 @@ describe('Theatre controller', () => {
 		context('resolves with data with model errors', () => {
 
 			it('will return status code 200 (OK)', done => {
-				methodStub = sinon.stub().resolves(dataWithErrorsFixture(method));
+				methodStub = sinon.stub().resolves(dataWithErrorsFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRenderData()).to.deep.eq({});
@@ -196,16 +198,16 @@ describe('Theatre controller', () => {
 	describe('show method', () => {
 
 		beforeEach(function () {
-			method = 'show';
+			action = method = 'show';
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK)', done => {
-				methodStub = sinon.stub().resolves(dataFixture(method));
+				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderData()).to.deep.eq(Object.assign(dataFixture(method), alertFixture));
+					expect(response._getRenderData()).to.deep.eq(Object.assign(dataFixture(action), alertFixture));
 					expect(next.notCalled).to.be.true;
 					done();
 				});
