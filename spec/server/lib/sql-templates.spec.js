@@ -87,7 +87,7 @@ describe('SQL Templates module', () => {
 
 		context('theatre model', () => {
 
-			context('called within edit and show (theatre data) methods', () => {
+			context('called within edit and getShowData (theatre data) methods', () => {
 
 				it('will return query that updates given instance', () => {
 					const query = subject.select(stubs.Theatre, { where: true });
@@ -100,7 +100,7 @@ describe('SQL Templates module', () => {
 
 			});
 
-			context('called within show method (production data)', () => {
+			context('called within getShowData method (production data)', () => {
 
 				it('will return query that updates given instance', () => {
 					const query = subject.select(stubs.Theatre, {
@@ -112,6 +112,26 @@ describe('SQL Templates module', () => {
 						SELECT *
 						FROM productions
 						WHERE theatre_id = 'pgFormatValue'
+					`));
+				});
+
+			});
+
+			context('called within validateDeleteInDb method', () => {
+
+				it('will return query that checks if association exists', () => {
+					const query = subject.select(stubs.Theatre, {
+						select1: true,
+						table: 'productions',
+						where: true,
+						id: 'theatre_id',
+						limit: '1'
+					});
+					expect(removeWhitespace(query)).to.eq(removeWhitespace(`
+						SELECT 1
+						FROM productions
+						WHERE theatre_id = 'pgFormatValue'
+						LIMIT 1
 					`));
 				});
 
