@@ -308,7 +308,7 @@ describe('Theatre model', () => {
 				});
 			});
 
-			it('will call query to validate then perform delete query', done => {
+			it('will call query to validate then to delete', done => {
 				instance = createInstance();
 				instance.delete().then(result => {
 					expect(stubs.query.calledTwice).to.be.true;
@@ -333,7 +333,7 @@ describe('Theatre model', () => {
 				});
 			});
 
-			it('will call query to validate then perform two select queries for show page data', done => {
+			it('will call query to validate then twice to select data for show page', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.delete().then(result => {
 					expect(stubs.query.calledThrice).to.be.true;

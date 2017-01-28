@@ -258,7 +258,7 @@ describe('Production model', () => {
 			});
 		});
 
-		it('will call query then return page and query result data', done => {
+		it('will call query to delete', done => {
 			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.query.calledOnce).to.be.true;
