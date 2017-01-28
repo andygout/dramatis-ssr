@@ -14,6 +14,9 @@ const resetStubs = () => {
 	stubs.Production = sinon.createStubInstance(Production);
 	stubs.Theatre = sinon.createStubInstance(Theatre);
 
+	stubs.Production.errors = {};
+	stubs.Theatre.errors = {};
+
 };
 
 const subject = require('../../../server/lib/get-page-data');
