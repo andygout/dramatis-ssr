@@ -140,6 +140,38 @@ describe('Theatre model', () => {
 
 	});
 
+	describe('validateDeleteInDb method', () => {
+
+		context('valid data (no results returned that indicate dependent associations exist)', () => {
+
+			it('will not add properties to errors property', done => {
+				instance = createInstance({ query: sinon.stub().resolves([]) });
+				instance.validateDeleteInDb().then(() => {
+					expect(instance.errors).not.to.have.property('associations');
+					expect(instance.errors).to.deep.eq({});
+					done();
+				});
+			});
+
+		});
+
+		context('invalid data (results returned that indicate dependent associations exist)', () => {
+
+			it('will add properties that are arrays to errors property', done => {
+				instance = createInstance();
+				instance.validateDeleteInDb().then(() => {
+					expect(instance.errors)
+						.to.have.property('associations')
+						.that.is.an('array')
+						.that.deep.eq(['productions']);
+					done();
+				});
+			});
+
+		});
+
+	});
+
 	describe('renewValues method', () => {
 
 		it('will call renew top level values module', () => {
