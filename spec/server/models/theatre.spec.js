@@ -297,22 +297,51 @@ describe('Theatre model', () => {
 
 	describe('delete method', () => {
 
-		it('will call getPageData function once', done => {
-			instance = createInstance();
-			instance.delete().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
-				done();
+		context('no dependent associations', () => {
+
+			it('will call getPageData function once', done => {
+				instance = createInstance();
+				instance.delete().then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
+					done();
+				});
 			});
+
+			it('will call query to validate then perform delete query', done => {
+				instance = createInstance();
+				instance.delete().then(result => {
+					expect(stubs.query.calledTwice).to.be.true;
+					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+					done();
+				});
+			});
+
 		});
 
-		it('will call query then return page and query result data', done => {
-			instance = createInstance();
-			instance.delete().then(result => {
-				expect(stubs.query.calledTwice).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
-				done();
+		context('dependent associations', () => {
+
+			it('will call getPageData function twice (first to set alert text)', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				instance.delete().then(() => {
+					expect(stubs.getPageData.calledTwice).to.be.true;
+					sinon.assert.callOrder(
+						stubs.getPageData.withArgs(instance, 'delete'),
+						stubs.getPageData.withArgs(instance, 'show')
+					);
+					done();
+				});
 			});
+
+			it('will call query to validate then perform two select queries for show page data', done => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				instance.delete().then(result => {
+					expect(stubs.query.calledThrice).to.be.true;
+					expect(result).to.deep.eq({ page: pageDataFixture, theatre: instance });
+					done();
+				});
+			});
+
 		});
 
 	});
