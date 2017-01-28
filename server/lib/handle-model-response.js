@@ -12,6 +12,6 @@ module.exports = function (req, res, data) {
 			res.render(`${modelName}s/form`, Object.assign(data, { alert: alert.get(req) })) :
 			res.redirect(data[modelName].id)
 		:
-		res.redirect(`/${modelName}s/${data[modelName].id}`);
+		res.redirect(action !== 'delete' ? `/${modelName}s/${data[modelName].id}` : '/');
 
 };
