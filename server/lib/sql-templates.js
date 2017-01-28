@@ -31,7 +31,7 @@ const createJoin = model => {
 exports.select = (instance, opts) => {
 
 	const table = opts.table || getTableName(instance);
-	const columns = opts.selectCols ? selectColumnsMap[table] : '*';
+	const columns = opts.selectCols ? selectColumnsMap[table] : opts.select1 ? '1' : '*';
 	const id = opts.id || 'id';
 
 	return `
@@ -40,6 +40,7 @@ exports.select = (instance, opts) => {
 		${opts.join ? createJoin(opts.join) : ''}
 		${opts.where ? 'WHERE ' + id + ' = ' + format.literal(instance.id) : ''}
 		${opts.order ? 'ORDER BY id ASC' : ''}
+		${opts.limit ? 'LIMIT ' + opts.limit : ''}
 	`;
 
 };

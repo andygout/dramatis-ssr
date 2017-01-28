@@ -42,6 +42,51 @@ module.exports = class Theatre {
 
 	};
 
+	validateDeleteInDb () {
+
+		const text = sqlTemplates.select(this, {
+			select1: true,
+			table: 'productions',
+			where: true,
+			id: 'theatre_id',
+			limit: '1'
+		});
+
+		return query({ text })
+			.then(result => {
+
+				if (result.length) this.errors.associations = ['productions'];
+
+			});
+
+	}
+
+	getShowData () {
+
+		const theatre = query({
+			text: sqlTemplates.select(this, { where: true }),
+			isReqdResult: true
+		});
+
+		const productions = query({
+			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
+		});
+
+		const _this = this;
+
+		return Promise.all([theatre, productions])
+			.then(([[theatre], productions] = [theatre, productions]) => {
+
+				_this.renewValues(Object.assign(theatre, { productions }));
+
+				const page = getPageData(_this, 'show');
+
+				return { page, theatre: _this };
+
+			});
+
+	}
+
 	renewValues (props = {}) {
 
 		const Production = require('./production');
@@ -122,21 +167,32 @@ module.exports = class Theatre {
 
 	delete () {
 
-		const queryData = {
-			text: sqlTemplates.delete(this),
-			isReqdResult: true
-		};
+		return this.validateDeleteInDb()
+			.then(() => {
 
-		const _this = this;
+				this.hasError = verifyErrorPresence(this);
 
-		return query(queryData)
-			.then(([theatre] = theatre) => {
+				const page = getPageData(this, 'delete');
 
-				renewTopLevelValues(_this, theatre);
+				if (this.hasError) return this.getShowData();
 
-				const page = getPageData(_this, 'delete');
+				const queryData = {
+					text: sqlTemplates.delete(this),
+					isReqdResult: true
+				};
 
-				return { page, theatre: _this };
+				const _this = this;
+
+				return query(queryData)
+					.then(([theatre] = theatre) => {
+
+						renewTopLevelValues(_this, theatre);
+
+						const page = getPageData(_this, 'delete');
+
+						return { page, theatre: _this };
+
+					});
 
 			});
 
@@ -144,27 +200,7 @@ module.exports = class Theatre {
 
 	show () {
 
-		const theatre = query({
-			text: sqlTemplates.select(this, { where: true }),
-			isReqdResult: true
-		});
-
-		const productions = query({
-			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
-		});
-
-		const _this = this;
-
-		return Promise.all([theatre, productions])
-			.then(([[theatre], productions] = [theatre, productions]) => {
-
-				_this.renewValues(Object.assign(theatre, { productions }));
-
-				const page = getPageData(_this, 'show');
-
-				return { page, theatre: _this };
-
-			});
+		return this.getShowData();
 
 	};
 

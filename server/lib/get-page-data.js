@@ -10,7 +10,14 @@ const getAlertText = (model, instance, action) => {
 
 	const instanceText = instance.title || instance.name;
 
-	return `${model.toUpperCase()} ${instance.hasError ? 'ERRORS' : action.toUpperCase() + 'D: ' + instanceText}`;
+	let alertText = `${model.toUpperCase()} ${instance.hasError ?
+		'ERRORS' :
+		action.toUpperCase() + 'D: ' + instanceText}
+	`.trim();
+
+	if (instance.errors.associations) alertText += `: Associations exist with ${instance.errors.associations.join()}`;
+
+	return alertText;
 
 };
 
@@ -25,6 +32,7 @@ module.exports = function (instance, action) {
 	return {
 		title: isCreateAction ? `New ${model}` : getPageTitleText(model, instance),
 		modelName: model,
+		action,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),
