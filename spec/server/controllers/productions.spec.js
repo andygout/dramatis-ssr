@@ -30,6 +30,7 @@ beforeEach(function () {
 let action;
 let method;
 let methodStub;
+let getPageDataStub;
 let request;
 let response;
 let next;
@@ -59,9 +60,9 @@ const createInstance = (action, method, methodStub) => {
 		}
 	}) (method);
 
-	const getPageData = sinon.stub().returns(pageDataFixture(action));
+	getPageDataStub = sinon.stub().returns(pageDataFixture(action));
 
-	const subject = createSubject(method, { ProductionModel, getPageData });
+	const subject = createSubject(method, { ProductionModel, getPageData: getPageDataStub });
 
 	return subject(request, response, next);
 
@@ -74,6 +75,12 @@ describe('Production controller', () => {
 		beforeEach(function () {
 			action = 'create';
 			method = 'new';
+		});
+
+		it('will call getPageData function once', () => {
+			methodStub = sinon.stub().returns(instanceFixture());
+			createInstance(action, method, methodStub);
+			expect(getPageDataStub.calledOnce).to.be.true;
 		});
 
 		it('will return status code 200 (OK)', () => {
@@ -91,6 +98,14 @@ describe('Production controller', () => {
 
 		beforeEach(function () {
 			action = method = 'create';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data with no model errors', () => {
@@ -130,6 +145,14 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -148,6 +171,14 @@ describe('Production controller', () => {
 		beforeEach(function () {
 			action = 'update';
 			method = 'edit';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data', () => {
@@ -171,6 +202,14 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -188,6 +227,14 @@ describe('Production controller', () => {
 
 		beforeEach(function () {
 			action = method = 'update';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data with no model errors', () => {
@@ -227,6 +274,14 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -244,6 +299,14 @@ describe('Production controller', () => {
 
 		beforeEach(function () {
 			action = method = 'delete';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data with no model errors', () => {
@@ -278,6 +341,14 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -295,6 +366,14 @@ describe('Production controller', () => {
 
 		beforeEach(function () {
 			action = method = 'show';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data', () => {
@@ -318,6 +397,14 @@ describe('Production controller', () => {
 		});
 
 		context('resolves with error', () => {
+
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
 
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);

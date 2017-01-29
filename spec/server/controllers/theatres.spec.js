@@ -30,6 +30,7 @@ beforeEach(function () {
 let action;
 let method;
 let methodStub;
+let getPageDataStub;
 let request;
 let response;
 let next;
@@ -52,9 +53,9 @@ const createInstance = (action, method, methodStub) => {
 		function () { this[method] = methodStub; } :
 		sinon.stub(Theatre, 'list', function () { return methodStub });
 
-	const getPageData = sinon.stub().returns(pageDataFixture(action));
+	getPageDataStub = sinon.stub().returns(pageDataFixture(action));
 
-	const subject = createSubject(method, { TheatreModel, getPageData });
+	const subject = createSubject(method, { TheatreModel, getPageData: getPageDataStub });
 
 	return subject(request, response, next);
 
@@ -67,6 +68,14 @@ describe('Theatre controller', () => {
 		beforeEach(function () {
 			action = 'update';
 			method = 'edit';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data', () => {
@@ -90,6 +99,14 @@ describe('Theatre controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -109,6 +126,14 @@ describe('Theatre controller', () => {
 			action = method = 'update';
 		});
 
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
+		});
+
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect to instance)', done => {
@@ -125,6 +150,14 @@ describe('Theatre controller', () => {
 		});
 
 		context('resolves with data with model errors', () => {
+
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
 
 			it('will return status code 200 (OK)', done => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
@@ -165,6 +198,14 @@ describe('Theatre controller', () => {
 			action = method = 'delete';
 		});
 
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
+		});
+
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect to root)', done => {
@@ -197,6 +238,14 @@ describe('Theatre controller', () => {
 
 		context('resolves with error', () => {
 
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
+
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(action, method, methodStub).then(() => {
@@ -214,6 +263,14 @@ describe('Theatre controller', () => {
 
 		beforeEach(function () {
 			action = method = 'show';
+		});
+
+		it('will call getPageData function once', done => {
+			methodStub = sinon.stub().resolves(instanceFixture());
+			createInstance(action, method, methodStub).then(() => {
+				expect(getPageDataStub.calledOnce).to.be.true;
+				done();
+			});
 		});
 
 		context('resolves with data', () => {
@@ -235,6 +292,14 @@ describe('Theatre controller', () => {
 		});
 
 		context('resolves with error', () => {
+
+			it('will not call getPageData function', done => {
+				methodStub = sinon.stub().rejects(err);
+				createInstance(action, method, methodStub).then(() => {
+					expect(getPageDataStub.notCalled).to.be.true;
+					done();
+				});
+			});
 
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
