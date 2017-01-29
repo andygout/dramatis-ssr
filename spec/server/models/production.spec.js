@@ -3,8 +3,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const productionInstanceFixture = require('../../fixtures/productions/instance');
-const pageDataFixture = require('../../fixtures/page-data');
 const queryFixture = require('../../fixtures/query');
 
 const TheatreStub = function () {
@@ -17,15 +15,14 @@ const TheatreStub = function () {
 
 const stubs = {
 	query: sinon.stub().resolves(queryFixture),
-	getPageData: sinon.stub().returns(pageDataFixture),
-	renewTopLevelValues: sinon.stub().returns(productionInstanceFixture),
+	renewTopLevelValues: sinon.stub(),
 	sqlTemplates: {
 		create: sinon.stub(),
 		select: sinon.stub(),
 		update: sinon.stub(),
 		delete: sinon.stub()
 	},
-	trimStrings: sinon.stub().returns(productionInstanceFixture),
+	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
 	Theatre: TheatreStub
@@ -34,7 +31,6 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.query.reset();
-	stubs.getPageData.reset();
 	stubs.renewTopLevelValues.reset();
 	stubs.sqlTemplates.create.reset();
 	stubs.sqlTemplates.select.reset();
@@ -57,7 +53,6 @@ let instance;
 const createSubject = stubOverrides =>
 	proxyquire('../../../server/models/production', {
 		'../../database/query': stubs.query,
-		'../lib/get-page-data': stubs.getPageData,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/sql-templates': stubs.sqlTemplates,
 		'../lib/trim-strings': stubs.trimStrings,
@@ -125,18 +120,11 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call getPageData function once', () => {
-				instance = createInstance();
-				instance.create();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
-			});
-
 			it('will call query then return page and query result data', done => {
 				instance = createInstance();
 				instance.create().then(result => {
 					expect(stubs.query.calledOnce).to.be.true;
-					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
+					expect(result).to.deep.eq(instance);
 					done();
 				});
 			});
@@ -145,18 +133,11 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call getPageData function once', () => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
-				instance.create();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
-			});
-
 			it('will return page and production data without calling query', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create().then(result => {
 					expect(stubs.query.called).to.be.false;
-					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
+					expect(result).to.deep.eq(instance);
 					done();
 				});
 			});
@@ -167,20 +148,11 @@ describe('Production model', () => {
 
 	describe('edit method', () => {
 
-		it('will call getPageData function once', done => {
-			instance = createInstance();
-			instance.edit().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
-				done();
-			});
-		});
-
 		it('will call query then return page and query result data', done => {
 			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
+				expect(result).to.deep.eq(instance);
 				done();
 			});
 		});
@@ -191,18 +163,11 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call getPageData function once', () => {
-				instance = createInstance();
-				instance.update();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
-			});
-
 			it('will call query then return page and query result data', done => {
 				instance = createInstance();
 				instance.update().then(result => {
 					expect(stubs.query.calledOnce).to.be.true;
-					expect(result).to.deep.eq({ page: pageDataFixture, production: queryFixture[0] });
+					expect(result).to.deep.eq(instance);
 					done();
 				});
 			});
@@ -211,18 +176,11 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will call getPageData function once', () => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
-				instance.update();
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'update')).to.be.true;
-			});
-
 			it('will return page and production data without calling query', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update().then(result => {
 					expect(stubs.query.called).to.be.false;
-					expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
+					expect(result).to.deep.eq(instance);
 					done();
 				});
 			});
@@ -233,20 +191,11 @@ describe('Production model', () => {
 
 	describe('delete method', () => {
 
-		it('will call getPageData function once', done => {
-			instance = createInstance();
-			instance.delete().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'delete')).to.be.true;
-				done();
-			});
-		});
-
 		it('will call query to delete', done => {
 			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
+				expect(result).to.deep.eq(instance);
 				done();
 			});
 		});
@@ -255,20 +204,11 @@ describe('Production model', () => {
 
 	describe('show method', () => {
 
-		it('will call getPageData function once', done => {
-			instance = createInstance();
-			instance.show().then(() => {
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.getPageData.calledWithExactly(instance, 'show')).to.be.true;
-				done();
-			});
-		});
-
 		it('will call query then return page and query result data', done => {
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ page: pageDataFixture, production: instance });
+				expect(result).to.deep.eq(instance);
 				done();
 			});
 		});
@@ -282,7 +222,7 @@ describe('Production model', () => {
 			subject.list().then(result => {
 				instance = new subject(queryFixture[0])
 				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq({ page: { title: 'Productions' }, productions: [instance] });
+				expect(result).to.deep.eq([instance]);
 				done();
 			});
 		});
