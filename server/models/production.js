@@ -56,14 +56,12 @@ module.exports = class Production {
 					isReqdResult: true
 				};
 
-				const _this = this;
-
 				return query(queryData)
 					.then(([production] = production) => {
 
-						renewTopLevelValues(_this, production);
+						renewTopLevelValues(this, production);
 
-						return _this;
+						return this;
 
 					});
 
@@ -78,14 +76,12 @@ module.exports = class Production {
 			isReqdResult: true
 		};
 
-		const _this = this;
-
 		return query(queryData)
 			.then(([production] = production) => {
 
-				_this.renewValues(production);
+				this.renewValues(production);
 
-				return _this;
+				return this;
 
 			});
 
@@ -109,14 +105,12 @@ module.exports = class Production {
 					isReqdResult: true
 				};
 
-				const _this = this;
-
 				return query(queryData)
 					.then(([production] = production) => {
 
-						renewTopLevelValues(_this, production);
+						renewTopLevelValues(this, production);
 
-						return _this;
+						return this;
 
 					});
 
@@ -131,14 +125,12 @@ module.exports = class Production {
 			isReqdResult: true
 		};
 
-		const _this = this;
-
 		return query(queryData)
 			.then(([production] = production) => {
 
-				renewTopLevelValues(_this, production);
+				renewTopLevelValues(this, production);
 
-				return _this;
+				return this;
 
 			});
 
@@ -151,14 +143,12 @@ module.exports = class Production {
 			isReqdResult: true
 		};
 
-		const _this = this;
-
 		return query(queryData)
 			.then(([production] = production) => {
 
-				_this.renewValues(production);
+				this.renewValues(production);
 
-				return _this;
+				return this;
 
 			});
 

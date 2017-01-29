@@ -71,14 +71,12 @@ module.exports = class Theatre {
 			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
 		});
 
-		const _this = this;
-
 		return Promise.all([theatre, productions])
 			.then(([[theatre], productions] = [theatre, productions]) => {
 
-				_this.renewValues(Object.assign(theatre, { productions }));
+				this.renewValues(Object.assign(theatre, { productions }));
 
-				return _this;
+				return this;
 
 			});
 
@@ -112,14 +110,12 @@ module.exports = class Theatre {
 			isReqdResult: true
 		};
 
-		const _this = this;
-
 		return query(queryData)
 			.then(([theatre] = theatre) => {
 
-				renewTopLevelValues(_this, theatre);
+				renewTopLevelValues(this, theatre);
 
-				return _this;
+				return this;
 
 			});
 
@@ -149,14 +145,12 @@ module.exports = class Theatre {
 					isReqdResult: true
 				};
 
-				const _this = this;
-
 				return query(queryData)
 					.then(([theatre] = theatre) => {
 
-						renewTopLevelValues(_this, theatre);
+						renewTopLevelValues(this, theatre);
 
-						return _this;
+						return this;
 
 					});
 
@@ -182,14 +176,12 @@ module.exports = class Theatre {
 					isReqdResult: true
 				};
 
-				const _this = this;
-
 				return query(queryData)
 					.then(([theatre] = theatre) => {
 
-						renewTopLevelValues(_this, theatre);
+						renewTopLevelValues(this, theatre);
 
-						return _this;
+						return this;
 
 					});
 
