@@ -8,7 +8,7 @@ const getPageTitleText = (model, instance) => instance.pageTitleText || instance
 
 const getAlertText = (model, instance, action) => {
 
-	const instanceText = instance.title || instance.name;
+	const instanceText = instance[modelNamingPropMap[model]];
 
 	let alertText = `${model.toUpperCase()} ${instance.hasError ?
 		'ERRORS' :
