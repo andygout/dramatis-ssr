@@ -335,7 +335,7 @@ describe('Theatre controller', () => {
 					expect(response._getRenderView()).to.eq('theatres/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
-							page: { title: 'Theatres' },
+							page: { documentTitle: ' | Theatres', title: 'Theatres' },
 							theatres: dataListFixture,
 							alert: alertFixture
 						})
