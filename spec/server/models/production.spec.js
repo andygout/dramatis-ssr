@@ -121,22 +121,6 @@ describe('Production model', () => {
 
 	});
 
-	describe('new method', () => {
-
-		it('will call getPageData function once', () => {
-			instance = createInstance();
-			instance.new();
-			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly(instance, 'create')).to.be.true;
-		});
-
-		it('will return page and production data', () => {
-			instance = createInstance();
-			expect(instance.new()).to.deep.eq({ page: pageDataFixture, production: instance });
-		});
-
-	});
-
 	describe('create method', () => {
 
 		context('valid data', () => {

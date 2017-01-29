@@ -1,5 +1,4 @@
 const query = require('../../database/query');
-const getPageData = require('../lib/get-page-data');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const sqlTemplates = require('../lib/sql-templates');
 const trimStrings = require('../lib/trim-strings');
@@ -39,14 +38,6 @@ module.exports = class Production {
 
 	};
 
-	new () {
-
-		const page = getPageData(this, 'create');
-
-		return { page, production: this };
-
-	};
-
 	create () {
 
 		this.validate();
@@ -55,9 +46,7 @@ module.exports = class Production {
 
 		this.hasError = verifyErrorPresence(this);
 
-		const page = getPageData(this, 'create');
-
-		if (this.hasError) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve(this);
 
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
@@ -67,8 +56,16 @@ module.exports = class Production {
 					isReqdResult: true
 				};
 
+				const _this = this;
+
 				return query(queryData)
-					.then(([production] = production) => ({ page, production }));
+					.then(([production] = production) => {
+
+						renewTopLevelValues(_this, production);
+
+						return _this;
+
+					});
 
 			});
 
@@ -88,10 +85,7 @@ module.exports = class Production {
 
 				_this.renewValues(production);
 
-				const page = getPageData(_this, 'update');
-
-
-				return { page, production: _this };
+				return _this;
 
 			});
 
@@ -105,9 +99,7 @@ module.exports = class Production {
 
 		this.hasError = verifyErrorPresence(this);
 
-		const page = getPageData(this, 'update');
-
-		if (this.hasError) return Promise.resolve({ page, production: this });
+		if (this.hasError) return Promise.resolve(this);
 
 		return this.theatre.create()
 			.then(([theatre] = theatre) => {
@@ -117,8 +109,16 @@ module.exports = class Production {
 					isReqdResult: true
 				};
 
+				const _this = this;
+
 				return query(queryData)
-					.then(([production] = production) => ({ page, production }));
+					.then(([production] = production) => {
+
+						renewTopLevelValues(_this, production);
+
+						return _this;
+
+					});
 
 			});
 
@@ -138,9 +138,7 @@ module.exports = class Production {
 
 				renewTopLevelValues(_this, production);
 
-				const page = getPageData(_this, 'delete');
-
-				return { page, production: _this };
+				return _this;
 
 			});
 
@@ -160,9 +158,7 @@ module.exports = class Production {
 
 				_this.renewValues(production);
 
-				const page = getPageData(_this, 'show');
-
-				return { page, production: _this };
+				return _this;
 
 			});
 
@@ -182,9 +178,7 @@ module.exports = class Production {
 
 				const productions = productionsRows.map(production => new Production(production));
 
-				const page = { title: 'Productions' };
-
-				return { page, productions };
+				return productions;
 
 			});
 
