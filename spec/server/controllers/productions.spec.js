@@ -37,10 +37,10 @@ let request;
 let response;
 let next;
 
-const createSubject = (method, stubs) =>
-	proxyquire(`../../../server/controllers/productions/${method}`, {
-		'../../models/production': stubs.ProductionModel,
-		'../../lib/get-page-data': stubs.getPageData
+const createSubject = (stubs) =>
+	proxyquire('../../../server/controllers/productions', {
+		'../models/production': stubs.ProductionModel,
+		'../lib/get-page-data': stubs.getPageData
 	});
 
 const createInstance = (action, method, methodStub) => {
@@ -64,9 +64,9 @@ const createInstance = (action, method, methodStub) => {
 
 	getPageDataStub = sinon.stub().returns(pageDataFixture(action));
 
-	const subject = createSubject(method, { ProductionModel, getPageData: getPageDataStub });
+	const subject = createSubject({ ProductionModel, getPageData: getPageDataStub });
 
-	return subject(request, response, next);
+	return subject[method](request, response, next);
 
 };
 
