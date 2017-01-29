@@ -29,6 +29,39 @@ beforeEach(function () {
 
 describe('Get Page Data module', () => {
 
+	describe('documentTitle property', () => {
+
+		context('create action', () => {
+
+			it('will read \' | New <model>\'', () => {
+				const pageData = subject(stubs.Production, 'create');
+				expect(pageData.documentTitle).to.eq(' | New production');
+			});
+
+		});
+
+		context('update action', () => {
+
+			it('will read \' | Edit: <instance> (<model>)\'', () => {
+				stubs.Production.title = 'Hamlet';
+				const pageData = subject(stubs.Production, 'update');
+				expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (production)');
+			});
+
+		});
+
+		context('show action', () => {
+
+			it('will read \' | <instance> (<model>)\'', () => {
+				stubs.Production.title = 'Hamlet';
+				const pageData = subject(stubs.Production, 'show');
+				expect(pageData.documentTitle).to.eq(' | Hamlet (production)');
+			});
+
+		});
+
+	});
+
 	describe('title property', () => {
 
 		context('create action', () => {
