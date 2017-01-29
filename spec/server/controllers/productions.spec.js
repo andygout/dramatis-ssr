@@ -83,10 +83,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with no model errors', () => {
 
-			it('will return status code 302 (redirect)', done => {
+			it('will return status code 302 (redirect to instance)', done => {
 				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
+					expect(response._getRedirectUrl()).to.eq('/productions/1');
 					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
@@ -170,10 +171,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with no model errors', () => {
 
-			it('will return status code 302 (redirect)', done => {
+			it('will return status code 302 (redirect to instance)', done => {
 				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
+					expect(response._getRedirectUrl()).to.eq('/productions/1');
 					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
@@ -221,10 +223,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with no model errors', () => {
 
-			it('will return status code 302 (redirect)', done => {
+			it('will return status code 302 (redirect to root)', done => {
 				methodStub = sinon.stub().resolves(dataFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
+					expect(response._getRedirectUrl()).to.eq('/');
 					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
@@ -235,10 +238,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with model errors', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 302 (redirect to instance)', done => {
 				methodStub = sinon.stub().resolves(dataWithErrorsFixture(action));
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
+					expect(response._getRedirectUrl()).to.eq('/productions/1');
 					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();

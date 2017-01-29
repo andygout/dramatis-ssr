@@ -10,7 +10,7 @@ module.exports = function (req, res, data) {
 	data[modelName].hasError ?
 		(action === 'create' || action === 'update') ?
 			res.render(`${modelName}s/form`, Object.assign(data, { alert: alert.get(req) })) :
-			res.redirect(data[modelName].id)
+			res.redirect(`/${modelName}s/${data[modelName].id}`)
 		:
 		res.redirect(action !== 'delete' ? `/${modelName}s/${data[modelName].id}` : '/');
 
