@@ -72,7 +72,9 @@ exports.list = (req, res, next) => {
 	return Theatre.list()
 		.then(theatres => {
 
-			const page = { title: 'Theatres' };
+			pageTitle = 'Theatres';
+
+			const page = { documentTitle: ` | ${pageTitle}`, title: pageTitle };
 
 			res.render('theatres/list', Object.assign({ page, theatres, alert: getAlert(req) }));
 

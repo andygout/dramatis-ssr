@@ -98,7 +98,7 @@ exports.list = (req, res, next) => {
 	return Production.list()
 		.then(productions => {
 
-			const page = { title: 'Productions' };
+			const page = { documentTitle: ' | Home', title: 'Productions' };
 
 			res.render('productions/list', Object.assign({ page, productions, alert: getAlert(req) }));
 

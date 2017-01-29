@@ -441,7 +441,7 @@ describe('Production controller', () => {
 					expect(response._getRenderView()).to.eq('productions/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
-							page: { title: 'Productions' },
+							page: { documentTitle: ' | Home', title: 'Productions' },
 							productions: dataListFixture,
 							alert: alertFixture
 						})
