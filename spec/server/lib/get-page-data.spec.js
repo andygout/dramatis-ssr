@@ -12,9 +12,10 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.Production = sinon.createStubInstance(Production);
-	stubs.Theatre = sinon.createStubInstance(Theatre);
-
+	stubs.Production.theatre = { name: 'Almeida Theatre' };
 	stubs.Production.errors = {};
+
+	stubs.Theatre = sinon.createStubInstance(Theatre);
 	stubs.Theatre.errors = {};
 
 };
@@ -42,20 +43,48 @@ describe('Get Page Data module', () => {
 
 		context('update action', () => {
 
-			it('will read \' | Edit: <instance> (<model>)\'', () => {
-				stubs.Production.title = 'Hamlet';
-				const pageData = subject(stubs.Production, 'update');
-				expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (production)');
+			context('production instance', () => {
+
+				it('will read \' | Edit: <instance> (<theatre name>) (<model>)\'', () => {
+					stubs.Production.title = 'Hamlet';
+					const pageData = subject(stubs.Production, 'update');
+					expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (Almeida Theatre) (production)');
+				});
+
+			});
+
+			context('theatre instance', () => {
+
+				it('will read \' | Edit: <instance> (<model>)\'', () => {
+					stubs.Theatre.name = 'Almeida Theatre';
+					const pageData = subject(stubs.Theatre, 'update');
+					expect(pageData.documentTitle).to.eq(' | Edit: Almeida Theatre (theatre)');
+				});
+
 			});
 
 		});
 
 		context('show action', () => {
 
-			it('will read \' | <instance> (<model>)\'', () => {
-				stubs.Production.title = 'Hamlet';
-				const pageData = subject(stubs.Production, 'show');
-				expect(pageData.documentTitle).to.eq(' | Hamlet (production)');
+			context('production instance', () => {
+
+				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
+					stubs.Production.title = 'Hamlet';
+					const pageData = subject(stubs.Production, 'show');
+					expect(pageData.documentTitle).to.eq(' | Hamlet (Almeida Theatre) (production)');
+				});
+
+			});
+
+			context('theatre instance', () => {
+
+				it('will read \' | <instance> (<model>)\'', () => {
+					stubs.Theatre.name = 'Almeida Theatre';
+					const pageData = subject(stubs.Theatre, 'show');
+					expect(pageData.documentTitle).to.eq(' | Almeida Theatre (theatre)');
+				});
+
 			});
 
 		});

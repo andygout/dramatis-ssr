@@ -6,13 +6,19 @@ const checkIfCreateAction = action => action === 'create';
 
 const getPageTitleText = (model, instance) => instance.pageTitleText || instance[modelNamingPropMap[model]];
 
-const getDocumentTitle = (action, model, title) => {
+const getDocumentTitle = (instance, action, model, title) => {
 
 	let documentTitle = title;
 
 	if (action === 'update') documentTitle = `Edit: ${documentTitle}`;
 
-	if (action !== 'create') documentTitle += ` (${model})`;
+	if (action !== 'create') {
+
+		if (model === 'production') documentTitle += ` (${instance.theatre.name})`;
+
+		documentTitle += ` (${model})`;
+
+	}
 
 	return ` | ${documentTitle}`;
 
@@ -46,7 +52,7 @@ module.exports = function (instance, action) {
 	const title = isCreateAction ? `New ${model}` : getPageTitleText(model, instance);
 
 	return {
-		documentTitle: getDocumentTitle(action, model, title),
+		documentTitle: getDocumentTitle(instance, action, model, title),
 		title,
 		modelName: model,
 		modelRoute: `${model}s`,
