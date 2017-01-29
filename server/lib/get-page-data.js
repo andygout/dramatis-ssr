@@ -34,6 +34,8 @@ module.exports = function (instance, action) {
 	return {
 		title: isCreateAction ? `New ${model}` : getPageTitleText(model, instance),
 		modelName: model,
+		modelRoute: `${model}s`,
+		instanceRoute: `/${model}s/${instance.id}`,
 		action,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,

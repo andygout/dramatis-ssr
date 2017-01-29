@@ -91,6 +91,25 @@ describe('Get Page Data module', () => {
 
 	});
 
+	describe('modelRoute property', () => {
+
+		it('will be the model route of the instance', () => {
+			const pageData = subject(stubs.Production, 'create');
+			expect(pageData.modelRoute).to.eq('productions');
+		});
+
+	});
+
+	describe('instanceRoute property', () => {
+
+		it('will be the instance route of the instance', () => {
+			stubs.Production.id = 1;
+			const pageData = subject(stubs.Production, 'create');
+			expect(pageData.instanceRoute).to.eq('/productions/1');
+		});
+
+	});
+
 	describe('formAction property', () => {
 
 		context('create action', () => {

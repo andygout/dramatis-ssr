@@ -4,6 +4,8 @@ module.exports = function (method) {
 		page: {
 			title: 'Almeida Theatre',
 			modelName: 'theatre',
+			modelRoute: 'theatres',
+			instanceRoute: '/theatres/1',
 			action: method
 		},
 		theatre: {

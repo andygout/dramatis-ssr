@@ -2,16 +2,15 @@ const alert = require('./alert');
 
 module.exports = function (req, res, data) {
 
-	alert.set(req, data.page);
+	const page = data.page;
 
-	const action = data.page.action;
-	const modelName = data.page.modelName;
+	alert.set(req, page);
 
-	data[modelName].hasError ?
-		(action === 'create' || action === 'update') ?
-			res.render(`${modelName}s/form`, Object.assign(data, { alert: alert.get(req) })) :
-			res.redirect(`/${modelName}s/${data[modelName].id}`)
+	data[page.modelName].hasError ?
+		(page.action === 'create' || page.action === 'update') ?
+			res.render(`${page.modelRoute}/form`, Object.assign(data, { alert: alert.get(req) })) :
+			res.redirect(`${page.instanceRoute}`)
 		:
-		res.redirect(action !== 'delete' ? `/${modelName}s/${data[modelName].id}` : '/');
+		res.redirect(page.action !== 'delete' ? `${page.instanceRoute}` : '/');
 
 };
