@@ -13,11 +13,13 @@ const pageDataFixture = require('../../fixtures/productions/page-data');
 
 const err = new Error('errorText');
 
-const alertStub = sinon.stub().returns('alertStub');
+const stubs = {
+	alert: sinon.stub().returns('alertStub')
+};
 
 const resetStubs = () => {
 
-	alertStub.reset();
+	stubs.alert.reset();
 
 };
 
@@ -43,7 +45,7 @@ const createSubject = (method, stubs) =>
 
 const createInstance = (action, method, methodStub) => {
 
-	request = httpMocks.createRequest({ flash: alertStub });
+	request = httpMocks.createRequest({ flash: stubs.alert });
 
 	response = httpMocks.createResponse();
 
