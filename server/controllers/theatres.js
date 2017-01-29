@@ -58,7 +58,7 @@ exports.show = (req, res, next) => {
 	return theatre.show()
 		.then(theatre => {
 
-			const page = getPageData(theatre, 'delete');
+			const page = getPageData(theatre, 'show');
 
 			res.render(`${page.modelRoute}/show`, { page, theatre, alert: getAlert(req) });
 
