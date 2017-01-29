@@ -123,7 +123,7 @@ describe('Theatre model', () => {
 
 		});
 
-		context('invalid data (result returned that indicate name already exists)', () => {
+		context('invalid data (results returned that indicate name already exists)', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 				instance = createInstance();
