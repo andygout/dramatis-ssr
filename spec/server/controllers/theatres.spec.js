@@ -82,10 +82,11 @@ describe('Theatre controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -143,7 +144,6 @@ describe('Theatre controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/theatres/1');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -161,10 +161,11 @@ describe('Theatre controller', () => {
 				});
 			});
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -215,7 +216,6 @@ describe('Theatre controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -230,7 +230,6 @@ describe('Theatre controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/theatres/1');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -277,10 +276,11 @@ describe('Theatre controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'theatres/show\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('theatres/show');
 					expect(response._getRenderData()).to.deep.eq({
 							page: pageDataFixture(action),
 							theatre: instanceFixture(),
@@ -328,10 +328,11 @@ describe('Theatre controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
 				methodStub = Promise.resolve(dataListFixture);
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('theatres/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: { title: 'Theatres' },

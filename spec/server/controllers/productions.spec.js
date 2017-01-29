@@ -85,10 +85,11 @@ describe('Production controller', () => {
 			expect(getPageDataStub.calledOnce).to.be.true;
 		});
 
-		it('will return status code 200 (OK)', () => {
+		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
 			methodStub = sinon.stub().returns(instanceFixture());
 			createInstance(action, method, methodStub);
 			expect(response.statusCode).to.eq(200);
+			expect(response._getRenderView()).to.eq('productions/form');
 			expect(response._getRenderData()).to.deep.eq(
 				{ page: pageDataFixture(action), production: instanceFixture() }
 			);
@@ -117,7 +118,6 @@ describe('Production controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/productions/1');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -127,10 +127,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with model errors', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -185,10 +186,11 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -246,7 +248,6 @@ describe('Production controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/productions/1');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -256,10 +257,11 @@ describe('Production controller', () => {
 
 		context('resolves with data with model errors', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -318,7 +320,6 @@ describe('Production controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -333,7 +334,6 @@ describe('Production controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
 					expect(response._getRedirectUrl()).to.eq('/productions/1');
-					expect(response._getRenderData()).to.deep.eq({});
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -380,10 +380,11 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'productions/show\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('productions/show');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: pageDataFixture(action),
@@ -433,10 +434,11 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK)', done => {
+			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
 				methodStub = Promise.resolve(dataListFixture);
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
+					expect(response._getRenderView()).to.eq('productions/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign({
 							page: { title: 'Productions' },
