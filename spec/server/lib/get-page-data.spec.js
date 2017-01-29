@@ -110,6 +110,15 @@ describe('Get Page Data module', () => {
 
 	});
 
+	describe('action property', () => {
+
+		it('will be the action being executed on the instance', () => {
+			const pageData = subject(stubs.Production, 'create');
+			expect(pageData.action).to.eq('create');
+		});
+
+	});
+
 	describe('formAction property', () => {
 
 		context('create action', () => {
