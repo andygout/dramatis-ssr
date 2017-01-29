@@ -1,6 +1,4 @@
 {
-	"alert": {
-		"text": "alertStub",
-		"type": "alertStub"
-	}
+	"text": "alertStub",
+	"type": "alertStub"
 }

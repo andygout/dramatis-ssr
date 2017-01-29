@@ -19,24 +19,24 @@ router.use(methodOverride(function (req, res) {
 }));
 
 // Home
-router.get('/', controllers.productions.listRoute);
+router.get('/', controllers.productions.list);
 
 // Productions
-router.get('/productions/new', controllers.productions.newRoute);
-router.post('/productions', controllers.productions.createRoute);
-router.get('/productions/:id/edit', controllers.productions.editRoute);
-router.post('/productions/:id', controllers.productions.updateRoute);
-router.delete('/productions/:id', controllers.productions.deleteRoute);
-router.get('/productions/:id', controllers.productions.showRoute);
+router.get('/productions/new', controllers.productions.new);
+router.post('/productions', controllers.productions.create);
+router.get('/productions/:id/edit', controllers.productions.edit);
+router.post('/productions/:id', controllers.productions.update);
+router.delete('/productions/:id', controllers.productions.delete);
+router.get('/productions/:id', controllers.productions.show);
 router.get('/productions', function (req, res) {
 	res.redirect('/');
 });
 
 // Theatres
-router.get('/theatres/:id/edit', controllers.theatres.editRoute);
-router.post('/theatres/:id', controllers.theatres.updateRoute);
-router.delete('/theatres/:id', controllers.theatres.deleteRoute);
-router.get('/theatres/:id', controllers.theatres.showRoute);
-router.get('/theatres', controllers.theatres.listRoute);
+router.get('/theatres/:id/edit', controllers.theatres.edit);
+router.post('/theatres/:id', controllers.theatres.update);
+router.delete('/theatres/:id', controllers.theatres.delete);
+router.get('/theatres/:id', controllers.theatres.show);
+router.get('/theatres', controllers.theatres.list);
 
 module.exports = router;

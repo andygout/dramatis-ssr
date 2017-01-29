@@ -1,5 +1,4 @@
 const query = require('../../database/query');
-const getPageData = require('../lib/get-page-data');
 const renewTopLevelValues = require('../lib/renew-top-level-values');
 const sqlTemplates = require('../lib/sql-templates');
 const trimStrings = require('../lib/trim-strings');
@@ -72,16 +71,12 @@ module.exports = class Theatre {
 			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
 		});
 
-		const _this = this;
-
 		return Promise.all([theatre, productions])
 			.then(([[theatre], productions] = [theatre, productions]) => {
 
-				_this.renewValues(Object.assign(theatre, { productions }));
+				this.renewValues(Object.assign(theatre, { productions }));
 
-				const page = getPageData(_this, 'show');
-
-				return { page, theatre: _this };
+				return this;
 
 			});
 
@@ -115,16 +110,12 @@ module.exports = class Theatre {
 			isReqdResult: true
 		};
 
-		const _this = this;
-
 		return query(queryData)
 			.then(([theatre] = theatre) => {
 
-				renewTopLevelValues(_this, theatre);
+				renewTopLevelValues(this, theatre);
 
-				const page = getPageData(_this, 'update');
-
-				return { page, theatre: _this };
+				return this;
 
 			});
 
@@ -138,9 +129,7 @@ module.exports = class Theatre {
 
 			this.hasError = true;
 
-			const page = getPageData(this, 'update');
-
-			return Promise.resolve({ page, theatre: this });
+			return Promise.resolve(this);
 
 		}
 
@@ -149,9 +138,7 @@ module.exports = class Theatre {
 
 				this.hasError = verifyErrorPresence(this);
 
-				const page = getPageData(this, 'update');
-
-				if (this.hasError) return Promise.resolve({ page, theatre: this });
+				if (this.hasError) return Promise.resolve(this);
 
 				const queryData = {
 					text: sqlTemplates.update(this, { name: this.name }),
@@ -159,7 +146,13 @@ module.exports = class Theatre {
 				};
 
 				return query(queryData)
-					.then(([theatre] = theatre) => ({ page, theatre }));
+					.then(([theatre] = theatre) => {
+
+						renewTopLevelValues(this, theatre);
+
+						return this;
+
+					});
 
 			});
 
@@ -183,16 +176,12 @@ module.exports = class Theatre {
 					isReqdResult: true
 				};
 
-				const _this = this;
-
 				return query(queryData)
 					.then(([theatre] = theatre) => {
 
-						renewTopLevelValues(_this, theatre);
+						renewTopLevelValues(this, theatre);
 
-						const page = getPageData(_this, 'delete');
-
-						return { page, theatre: _this };
+						return this;
 
 					});
 
@@ -215,9 +204,7 @@ module.exports = class Theatre {
 
 				const theatres = theatresRows.map(theatre => new Theatre(theatre));
 
-				const page = { title: 'Theatres' };
-
-				return { page, theatres };
+				return theatres;
 
 			});
 

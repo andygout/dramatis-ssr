@@ -3,9 +3,9 @@ module.exports = {
 	capitalise: require('./capitalise'),
 	dateFormatNow: require('./date-format-now'),
 	instanceNamingValue: require('./instance-naming-value'),
+	instanceRoute: require('./instance-route'),
 	model: require('./model'),
 	modelLowerCase: require('./model-lower-case'),
-	modelRoute: require('./model-route'),
 	upperCase: require('./upper-case')
 
 };

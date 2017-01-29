@@ -8,7 +8,7 @@ const getPageTitleText = (model, instance) => instance.pageTitleText || instance
 
 const getAlertText = (model, instance, action) => {
 
-	const instanceText = instance.title || instance.name;
+	const instanceText = instance[modelNamingPropMap[model]];
 
 	let alertText = `${model.toUpperCase()} ${instance.hasError ?
 		'ERRORS' :
@@ -34,6 +34,8 @@ module.exports = function (instance, action) {
 	return {
 		title: isCreateAction ? `New ${model}` : getPageTitleText(model, instance),
 		modelName: model,
+		modelRoute: `${model}s`,
+		instanceRoute: `/${model}s/${instance.id}`,
 		action,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
