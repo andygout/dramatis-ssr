@@ -1,11 +1,12 @@
-const query = require('../../database/query');
-const renewTopLevelValues = require('../lib/renew-top-level-values');
-const sqlTemplates = require('../lib/sql-templates');
-const trimStrings = require('../lib/trim-strings');
-const validateString = require('../lib/validate-string');
-const verifyErrorPresence = require('../lib/verify-error-presence');
+import query from '../../database/query';
+import renewTopLevelValues from '../lib/renew-top-level-values';
+import { select, update, deletion, createIfNotExists, checkIfExists } from '../lib/sql-templates';
+import trimStrings from '../lib/trim-strings';
+import validateString from '../lib/validate-string';
+import verifyErrorPresence from '../lib/verify-error-presence';
+import Production from './production';
 
-module.exports = class Theatre {
+export default class Theatre {
 
 	constructor (props = {}) {
 
@@ -30,7 +31,7 @@ module.exports = class Theatre {
 
 	validateUpdateInDb () {
 
-		const text = sqlTemplates.checkIfExists(this);
+		const text = checkIfExists(this);
 
 		return query({ text })
 			.then(result => {
@@ -43,7 +44,7 @@ module.exports = class Theatre {
 
 	validateDeleteInDb () {
 
-		const text = sqlTemplates.select(this, {
+		const text = select(this, {
 			select1: true,
 			table: 'productions',
 			where: true,
@@ -63,12 +64,12 @@ module.exports = class Theatre {
 	getShowData () {
 
 		const theatre = query({
-			text: sqlTemplates.select(this, { where: true }),
+			text: select(this, { where: true }),
 			isReqdResult: true
 		});
 
 		const productions = query({
-			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
+			text: select(this, { table: 'productions', where: true, id: 'theatre_id' })
 		});
 
 		return Promise.all([theatre, productions])
@@ -84,8 +85,6 @@ module.exports = class Theatre {
 
 	renewValues (props = {}) {
 
-		const Production = require('./production');
-
 		renewTopLevelValues(this, props);
 
 		this.productions = props.productions ? props.productions.map(production => new Production(production)) : [];
@@ -95,7 +94,7 @@ module.exports = class Theatre {
 	create () {
 
 		const queryData = {
-			text: sqlTemplates.createIfNotExists(this),
+			text: createIfNotExists(this),
 			isReqdResult: true
 		};
 
@@ -106,7 +105,7 @@ module.exports = class Theatre {
 	edit () {
 
 		const queryData = {
-			text: sqlTemplates.select(this, { where: true }),
+			text: select(this, { where: true }),
 			isReqdResult: true
 		};
 
@@ -141,7 +140,7 @@ module.exports = class Theatre {
 				if (this.hasError) return Promise.resolve(this);
 
 				const queryData = {
-					text: sqlTemplates.update(this, { name: this.name }),
+					text: update(this, { name: this.name }),
 					isReqdResult: true
 				};
 
@@ -172,7 +171,7 @@ module.exports = class Theatre {
 				}
 
 				const queryData = {
-					text: sqlTemplates.delete(this),
+					text: deletion(this),
 					isReqdResult: true
 				};
 
@@ -197,7 +196,7 @@ module.exports = class Theatre {
 
 	static list () {
 
-		const text = sqlTemplates.select(this, { table: 'theatres', order: true });
+		const text = select(this, { table: 'theatres', order: true });
 
 		return query({ text })
 			.then(theatresRows => {

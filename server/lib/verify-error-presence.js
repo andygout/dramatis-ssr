@@ -1,4 +1,4 @@
-const propIsObject = require('./prop-is-object');
+import propIsObject from './prop-is-object';
 
 const propHasErrors = (prop, instanceProp) =>
 	prop === 'errors' &&
@@ -22,7 +22,7 @@ const searchForErrors = instance => {
 
 };
 
-module.exports = function (instance) {
+export default function (instance) {
 
 	return searchForErrors(instance);
 

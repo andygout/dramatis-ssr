@@ -1,4 +1,4 @@
-module.exports = function (instance, newValues) {
+export default function (instance, newValues) {
 
 	for (const prop in instance) {
 

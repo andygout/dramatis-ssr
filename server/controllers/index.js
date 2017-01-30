@@ -1,2 +1,7 @@
-exports.productions = require('./productions');
-exports.theatres = require('./theatres');
+import * as productions from './productions';
+import * as theatres from './theatres';
+
+export {
+	productions,
+	theatres
+};

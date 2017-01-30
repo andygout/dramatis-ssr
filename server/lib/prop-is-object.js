@@ -1,4 +1,4 @@
-module.exports = function (instanceProp) {
+export default function (instanceProp) {
 
 	return instanceProp !== null &&
 		typeof instanceProp === 'object' &&

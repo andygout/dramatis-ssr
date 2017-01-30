@@ -1,8 +1,14 @@
-exports.set = (req, pageData) => {
+function setAlert (req, pageData) {
 
 	req.flash('text', pageData.alertText);
 	req.flash('type', pageData.alertType);
 
 };
 
-exports.get = req => ({ text: req.flash('text'), type: req.flash('type') });
+function getAlert (req) {
+
+	return { text: req.flash('text'), type: req.flash('type') };
+
+};
+
+export { setAlert, getAlert };

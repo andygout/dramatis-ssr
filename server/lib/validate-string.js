@@ -1,6 +1,6 @@
-const constants = require('../lib/constants');
+import constants from '../lib/constants';
 
-module.exports = function (stringValue, propName) {
+export default function (stringValue, propName) {
 
 	const stringErrors = [];
 	if (stringValue.length < constants.STRING_MIN_LENGTH) stringErrors.push(`${propName} is too short`);

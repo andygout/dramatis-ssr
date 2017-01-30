@@ -1,4 +1,4 @@
-const pg = require('pg');
+import pg from 'pg';
 
 const config = {
 	database: process.env.DEV_DATABASE_NAME
@@ -6,4 +6,4 @@ const config = {
 
 const pool = new pg.Pool(config);
 
-module.exports = pool;
+export default pool;

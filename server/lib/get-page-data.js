@@ -1,4 +1,4 @@
-const modelNamingPropMap = require('./model-naming-prop-map');
+import modelNamingPropMap from './model-naming-prop-map';
 
 const getModelName = instance => instance.constructor.name.toLowerCase();
 
@@ -43,7 +43,7 @@ const getAlertText = (model, instance, action) => {
 
 const getAlertType = instance => instance.hasError ? 'error' : 'success';
 
-module.exports = function (instance, action) {
+export default function (instance, action) {
 
 	const model = getModelName(instance);
 

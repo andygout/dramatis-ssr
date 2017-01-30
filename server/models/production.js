@@ -1,15 +1,14 @@
-const query = require('../../database/query');
-const renewTopLevelValues = require('../lib/renew-top-level-values');
-const sqlTemplates = require('../lib/sql-templates');
-const trimStrings = require('../lib/trim-strings');
-const validateString = require('../lib/validate-string');
-const verifyErrorPresence = require('../lib/verify-error-presence');
+import query from '../../database/query';
+import renewTopLevelValues from '../lib/renew-top-level-values';
+import { select, create, update, deletion } from '../lib/sql-templates';
+import trimStrings from '../lib/trim-strings';
+import validateString from '../lib/validate-string';
+import verifyErrorPresence from '../lib/verify-error-presence';
+import Theatre from './theatre';
 
-module.exports = class Production {
+export default class Production {
 
 	constructor (props = {}) {
-
-		const Theatre = require('./theatre');
 
 		this.id = props.id;
 		this.title = props.title;
@@ -52,7 +51,7 @@ module.exports = class Production {
 			.then(([theatre] = theatre) => {
 
 				const queryData = {
-					text: sqlTemplates.create(this, { title: this.title, theatre_id: theatre.id }),
+					text: create(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				};
 
@@ -72,7 +71,7 @@ module.exports = class Production {
 	edit () {
 
 		const queryData = {
-			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
+			text: select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		};
 
@@ -101,7 +100,7 @@ module.exports = class Production {
 			.then(([theatre] = theatre) => {
 
 				const queryData = {
-					text: sqlTemplates.update(this, { title: this.title, theatre_id: theatre.id }),
+					text: update(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				};
 
@@ -121,7 +120,7 @@ module.exports = class Production {
 	delete () {
 
 		const queryData = {
-			text: sqlTemplates.delete(this),
+			text: deletion(this),
 			isReqdResult: true
 		};
 
@@ -139,7 +138,7 @@ module.exports = class Production {
 	show () {
 
 		const queryData = {
-			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
+			text: select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		};
 
@@ -156,7 +155,7 @@ module.exports = class Production {
 
 	static list () {
 
-		const text = sqlTemplates.select(this, {
+		const text = select(this, {
 			table: 'productions',
 			selectCols: true,
 			join: 'theatre',
