@@ -51,8 +51,8 @@ beforeEach(function () {
 let instance;
 
 const createSubject = stubOverrides =>
-	proxyquire('../../../server/models/production', {
-		'../../database/query': stubs.query,
+	proxyquire('../../../dist/models/production', {
+		'../database/query': stubs.query,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/sql-templates': stubs.sqlTemplates,
 		'../lib/trim-strings': stubs.trimStrings,

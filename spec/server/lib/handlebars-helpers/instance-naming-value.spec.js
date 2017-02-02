@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Production = require('../../../../server/models/production');
-const Theatre = require('../../../../server/models/theatre');
+const Production = require('../../../../dist/models/production');
+const Theatre = require('../../../../dist/models/theatre');
 
 const stubs = {
 	Production: null,
@@ -22,7 +22,7 @@ beforeEach(function () {
 
 });
 
-const subject = require('../../../../server/lib/handlebars-helpers/instance-naming-value');
+const subject = require('../../../../dist/lib/handlebars-helpers/instance-naming-value');
 
 describe('Instance Naming Value handlebars helper', () => {
 

@@ -1,6 +1,6 @@
-import query from '../../database/query';
+import query from '../database/query';
 import renewTopLevelValues from '../lib/renew-top-level-values';
-import { select, create, update, deletion } from '../lib/sql-templates';
+import * as sqlTemplates from '../lib/sql-templates';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -51,7 +51,7 @@ export default class Production {
 			.then(([theatre] = theatre) => {
 
 				const queryData = {
-					text: create(this, { title: this.title, theatre_id: theatre.id }),
+					text: sqlTemplates.create(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				};
 
@@ -71,7 +71,7 @@ export default class Production {
 	edit () {
 
 		const queryData = {
-			text: select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
+			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		};
 
@@ -100,7 +100,7 @@ export default class Production {
 			.then(([theatre] = theatre) => {
 
 				const queryData = {
-					text: update(this, { title: this.title, theatre_id: theatre.id }),
+					text: sqlTemplates.update(this, { title: this.title, theatre_id: theatre.id }),
 					isReqdResult: true
 				};
 
@@ -120,7 +120,7 @@ export default class Production {
 	delete () {
 
 		const queryData = {
-			text: deletion(this),
+			text: sqlTemplates.deletion(this),
 			isReqdResult: true
 		};
 
@@ -138,7 +138,7 @@ export default class Production {
 	show () {
 
 		const queryData = {
-			text: select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
+			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
 			isReqdResult: true
 		};
 
@@ -155,7 +155,7 @@ export default class Production {
 
 	static list () {
 
-		const text = select(this, {
+		const text = sqlTemplates.select(this, {
 			table: 'productions',
 			selectCols: true,
 			join: 'theatre',

@@ -4,7 +4,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const Theatre = require('../../../server/models/theatre');
+const Theatre = require('../../../dist/models/theatre');
 
 const alertFixture = require('../../fixtures/alert');
 const dataListFixture = require('../../fixtures/data-list');
@@ -38,7 +38,7 @@ let response;
 let next;
 
 const createSubject = (stubs) =>
-	proxyquire(`../../../server/controllers/theatres`, {
+	proxyquire(`../../../dist/controllers/theatres`, {
 		'../models/theatre': stubs.TheatreModel,
 		'../lib/get-page-data': stubs.getPageData
 	});
@@ -59,7 +59,9 @@ const createInstance = (action, method, methodStub) => {
 
 	const subject = createSubject({ TheatreModel, getPageData: getPageDataStub });
 
-	return subject[method](request, response, next);
+	const controllerFunction = `${method}Route`;
+
+	return subject[controllerFunction](request, response, next);
 
 };
 

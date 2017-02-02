@@ -1,6 +1,6 @@
-import query from '../../database/query';
+import query from '../database/query';
 import renewTopLevelValues from '../lib/renew-top-level-values';
-import { select, update, deletion, createIfNotExists, checkIfExists } from '../lib/sql-templates';
+import * as sqlTemplates from '../lib/sql-templates';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -31,7 +31,7 @@ export default class Theatre {
 
 	validateUpdateInDb () {
 
-		const text = checkIfExists(this);
+		const text = sqlTemplates.checkIfExists(this);
 
 		return query({ text })
 			.then(result => {
@@ -44,7 +44,7 @@ export default class Theatre {
 
 	validateDeleteInDb () {
 
-		const text = select(this, {
+		const text = sqlTemplates.select(this, {
 			select1: true,
 			table: 'productions',
 			where: true,
@@ -64,12 +64,12 @@ export default class Theatre {
 	getShowData () {
 
 		const theatre = query({
-			text: select(this, { where: true }),
+			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
 		});
 
 		const productions = query({
-			text: select(this, { table: 'productions', where: true, id: 'theatre_id' })
+			text: sqlTemplates.select(this, { table: 'productions', where: true, id: 'theatre_id' })
 		});
 
 		return Promise.all([theatre, productions])
@@ -94,7 +94,7 @@ export default class Theatre {
 	create () {
 
 		const queryData = {
-			text: createIfNotExists(this),
+			text: sqlTemplates.createIfNotExists(this),
 			isReqdResult: true
 		};
 
@@ -105,7 +105,7 @@ export default class Theatre {
 	edit () {
 
 		const queryData = {
-			text: select(this, { where: true }),
+			text: sqlTemplates.select(this, { where: true }),
 			isReqdResult: true
 		};
 
@@ -140,7 +140,7 @@ export default class Theatre {
 				if (this.hasError) return Promise.resolve(this);
 
 				const queryData = {
-					text: update(this, { name: this.name }),
+					text: sqlTemplates.update(this, { name: this.name }),
 					isReqdResult: true
 				};
 
@@ -171,7 +171,7 @@ export default class Theatre {
 				}
 
 				const queryData = {
-					text: deletion(this),
+					text: sqlTemplates.deletion(this),
 					isReqdResult: true
 				};
 
@@ -196,7 +196,7 @@ export default class Theatre {
 
 	static list () {
 
-		const text = select(this, { table: 'theatres', order: true });
+		const text = sqlTemplates.select(this, { table: 'theatres', order: true });
 
 		return query({ text })
 			.then(theatresRows => {

@@ -23,7 +23,7 @@ beforeEach(function () {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../server/lib/trim-strings', {
+	proxyquire('../../../dist/lib/trim-strings', {
 		'./prop-is-object': stubOverrides.propIsObject || stubs.propIsObject
 	});
 

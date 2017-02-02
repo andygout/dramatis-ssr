@@ -11,8 +11,8 @@ import path from 'path';
 import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 
-import * as handlebarsHelpers from './server/lib/handlebars-helpers';
-import router from './server/routes';
+import * as handlebarsHelpers from './lib/handlebars-helpers';
+import router from './routes';
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../', 'client', 'favicons', 'favicon.ico')));
 
 app.use(logger('dev'));
 
@@ -38,14 +38,14 @@ app.use(flash());
 
 app.use(
 	sassMiddleware({
-		src: path.join(__dirname, 'client', 'stylesheets'),
-		dest: path.join(__dirname, 'client', 'public'),
+		src: path.join(__dirname, '../', 'client', 'stylesheets'),
+		dest: path.join(__dirname, '../', 'client', 'public'),
 		prefix: '/stylesheets',
 		debug: true
 	})
 );
 
-app.use(express.static(path.join(__dirname, 'client', 'public')));
+app.use(express.static(path.join(__dirname, '../', 'client', 'public')));
 
 app.use('/', router);
 

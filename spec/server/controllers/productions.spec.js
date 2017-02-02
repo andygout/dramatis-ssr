@@ -4,7 +4,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const Production = require('../../../server/models/production');
+const Production = require('../../../dist/models/production');
 
 const alertFixture = require('../../fixtures/alert');
 const dataListFixture = require('../../fixtures/data-list');
@@ -38,7 +38,7 @@ let response;
 let next;
 
 const createSubject = (stubs) =>
-	proxyquire('../../../server/controllers/productions', {
+	proxyquire('../../../dist/controllers/productions', {
 		'../models/production': stubs.ProductionModel,
 		'../lib/get-page-data': stubs.getPageData
 	});
@@ -66,7 +66,9 @@ const createInstance = (action, method, methodStub) => {
 
 	const subject = createSubject({ ProductionModel, getPageData: getPageDataStub });
 
-	return subject[method](request, response, next);
+	const controllerFunction = `${method}Route`;
+
+	return subject[controllerFunction](request, response, next);
 
 };
 
