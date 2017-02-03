@@ -72,7 +72,7 @@ exports.list = (req, res, next) => {
 	return Theatre.list()
 		.then(theatres => {
 
-			pageTitle = 'Theatres';
+			const pageTitle = 'Theatres';
 
 			const page = { documentTitle: ` | ${pageTitle}`, title: pageTitle };
 
