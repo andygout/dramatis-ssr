@@ -1,5 +1,5 @@
-const format = require('pg-format');
-const modelNamingPropMap = require('./model-naming-prop-map');
+import format from 'pg-format';
+import modelNamingPropMap from './model-naming-prop-map';
 
 const selectColumnsMap = {
 	productions: `
@@ -28,7 +28,7 @@ const createJoin = model => {
 
 };
 
-exports.select = (instance, opts) => {
+function select (instance, opts) {
 
 	const table = opts.table || getTableName(instance);
 	const columns = opts.selectCols ? selectColumnsMap[table] : opts.select1 ? '1' : '*';
@@ -45,7 +45,7 @@ exports.select = (instance, opts) => {
 
 };
 
-exports.create = (instance, createValues) => {
+function create (instance, createValues) {
 
 	const table = getTableName(instance);
 	const columns = [];
@@ -68,7 +68,7 @@ exports.create = (instance, createValues) => {
 
 };
 
-exports.update = (instance, updateValues) => {
+function update (instance, updateValues) {
 
 	const table = getTableName(instance);
 	const assignments = [];
@@ -88,7 +88,7 @@ exports.update = (instance, updateValues) => {
 
 };
 
-exports.delete = instance => {
+function deletion (instance) {
 
 	const table = getTableName(instance);
 	const model = getModelName(instance);
@@ -101,7 +101,7 @@ exports.delete = instance => {
 
 };
 
-exports.createIfNotExists = instance => {
+function createIfNotExists (instance) {
 
 	const table = getTableName(instance);
 
@@ -131,7 +131,7 @@ exports.createIfNotExists = instance => {
 
 };
 
-exports.checkIfExists = instance => {
+function checkIfExists (instance) {
 
 	const table = getTableName(instance);
 
@@ -142,4 +142,13 @@ exports.checkIfExists = instance => {
 		AND id != ${format.literal(instance.id)}
 	`;
 
+};
+
+export {
+	select,
+	create,
+	update,
+	deletion,
+	createIfNotExists,
+	checkIfExists
 };

@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const subject = require('../../../../server/lib/handlebars-helpers/upper-case');
+const subject = require('../../../../dist/lib/handlebars-helpers/upper-case');
 
 describe('Upper Case handlebars helper', () => {
 

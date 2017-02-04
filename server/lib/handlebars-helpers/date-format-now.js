@@ -1,6 +1,6 @@
-const dateFormat = require('dateformat');
+import dateFormat from 'dateformat';
 
-module.exports = function(format) {
+export default function(format) {
 
 	return dateFormat(new Date(), format);
 

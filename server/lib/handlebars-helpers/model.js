@@ -1,4 +1,4 @@
-module.exports = function (instance) {
+export default function (instance) {
 
 	return !Array.isArray(instance) ?
 		instance.constructor.name :

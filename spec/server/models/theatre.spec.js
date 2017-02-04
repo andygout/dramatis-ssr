@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const Production = require('../../../server/models/production');
+const Production = require('../../../dist/models/production');
 
 const queryFixture = require('../../fixtures/query');
 
@@ -48,8 +48,8 @@ beforeEach(function () {
 let instance;
 
 const createSubject = stubOverrides =>
-	proxyquire('../../../server/models/theatre', {
-		'../../database/query': stubOverrides.query || stubs.query,
+	proxyquire('../../../dist/models/theatre', {
+		'../database/query': stubOverrides.query || stubs.query,
 		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
 		'../lib/sql-templates': stubs.sqlTemplates,
 		'../lib/trim-strings': stubs.trimStrings,

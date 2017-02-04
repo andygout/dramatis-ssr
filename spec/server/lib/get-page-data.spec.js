@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Production = require('../../../server/models/production');
-const Theatre = require('../../../server/models/theatre');
+const Production = require('../../../dist/models/production');
+const Theatre = require('../../../dist/models/theatre');
 
 const stubs = {
 	Production: null,
@@ -20,7 +20,7 @@ const resetStubs = () => {
 
 };
 
-const subject = require('../../../server/lib/get-page-data');
+const subject = require('../../../dist/lib/get-page-data');
 
 beforeEach(function () {
 

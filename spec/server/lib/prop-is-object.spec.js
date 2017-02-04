@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const subject = require('../../../server/lib/prop-is-object');
+const subject = require('../../../dist/lib/prop-is-object');
 
 describe('Prop Is Object module', () => {
 

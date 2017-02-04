@@ -1,4 +1,4 @@
-const propIsObject = require('./prop-is-object');
+import propIsObject from './prop-is-object';
 
 const trimStrings = instance => {
 
@@ -16,7 +16,7 @@ const trimStrings = instance => {
 
 };
 
-module.exports = function (instance) {
+export default function (instance) {
 
 	trimStrings(instance);
 

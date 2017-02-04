@@ -1,19 +1,18 @@
-require('dotenv').config();
+import _ from './dotenv';
+import bodyParser from 'body-parser';
+import exphbs from 'express-handlebars';
+import express from 'express';
+import Handlebars from 'handlebars';
+import favicon from 'serve-favicon';
+import flash from 'connect-flash';
+import http from 'http';
+import logger from 'morgan';
+import path from 'path';
+import sassMiddleware from 'node-sass-middleware';
+import session from 'express-session';
 
-const bodyParser = require('body-parser');
-const exphbs = require('express-handlebars');
-const express = require('express');
-const Handlebars = require('handlebars');
-const favicon = require('serve-favicon');
-const flash = require('connect-flash');
-const http = require('http');
-const logger = require('morgan');
-const path = require('path');
-const sassMiddleware = require('node-sass-middleware');
-const session = require('express-session');
-
-const handlebarsHelpers = require('./server/lib/handlebars-helpers');
-const router = require('./server/routes');
+import * as handlebarsHelpers from './lib/handlebars-helpers';
+import router from './routes';
 
 const app = express();
 
@@ -29,7 +28,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(favicon(path.join(__dirname, 'client', 'favicons', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../', 'client', 'favicons', 'favicon.ico')));
 
 app.use(logger('dev'));
 
@@ -39,14 +38,14 @@ app.use(flash());
 
 app.use(
 	sassMiddleware({
-		src: path.join(__dirname, 'client', 'stylesheets'),
-		dest: path.join(__dirname, 'client', 'public'),
+		src: path.join(__dirname, '../', 'client', 'stylesheets'),
+		dest: path.join(__dirname, '../', 'client', 'public'),
 		prefix: '/stylesheets',
 		debug: true
 	})
 );
 
-app.use(express.static(path.join(__dirname, 'client', 'public')));
+app.use(express.static(path.join(__dirname, '../', 'client', 'public')));
 
 app.use('/', router);
 

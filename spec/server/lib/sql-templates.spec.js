@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const Production = require('../../../server/models/production');
-const Theatre = require('../../../server/models/theatre');
+const Production = require('../../../dist/models/production');
+const Theatre = require('../../../dist/models/theatre');
 
 const stubs = {
 	format: {
@@ -25,7 +25,7 @@ beforeEach(function () {
 
 });
 
-const subject = proxyquire('../../../server/lib/sql-templates', {
+const subject = proxyquire('../../../dist/lib/sql-templates', {
 	'pg-format': stubs.format
 });
 
@@ -216,14 +216,14 @@ describe('SQL Templates module', () => {
 
 	});
 
-	describe('delete method', () => {
+	describe('deletion method', () => {
 
 		context('production model', () => {
 
-			context('called within delete method', () => {
+			context('called within deletion method', () => {
 
 				it('will return query that deletes given instance', () => {
-					const query = subject.delete(stubs.Production);
+					const query = subject.deletion(stubs.Production);
 					expect(removeWhitespace(query)).to.eq(removeWhitespace(`
 						DELETE FROM productions
 						WHERE id = 'pgFormatValue'
@@ -237,10 +237,10 @@ describe('SQL Templates module', () => {
 
 		context('theatre model', () => {
 
-			context('called within delete method', () => {
+			context('called within deletion method', () => {
 
 				it('will return query that deletes given instance', () => {
-					const query = subject.delete(stubs.Theatre);
+					const query = subject.deletion(stubs.Theatre);
 					expect(removeWhitespace(query)).to.eq(removeWhitespace(`
 						DELETE FROM theatres
 						WHERE id = 'pgFormatValue'

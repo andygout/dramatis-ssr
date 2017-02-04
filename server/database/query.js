@@ -1,6 +1,6 @@
-const pool = require('./pool');
+import pool from './pool';
 
-module.exports = function (queryData) {
+export default function (queryData) {
 
 	return new Promise(function (resolve, reject) {
 

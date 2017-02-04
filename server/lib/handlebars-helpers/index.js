@@ -1,11 +1,17 @@
-module.exports = {
+import capitalise from './capitalise';
+import dateFormatNow from './date-format-now';
+import instanceNamingValue from './instance-naming-value';
+import instanceRoute from './instance-route';
+import model from './model';
+import modelLowerCase from './model-lower-case';
+import upperCase from './upper-case';
 
-	capitalise: require('./capitalise'),
-	dateFormatNow: require('./date-format-now'),
-	instanceNamingValue: require('./instance-naming-value'),
-	instanceRoute: require('./instance-route'),
-	model: require('./model'),
-	modelLowerCase: require('./model-lower-case'),
-	upperCase: require('./upper-case')
-
+export {
+	capitalise,
+	dateFormatNow,
+	instanceNamingValue,
+	instanceRoute,
+	model,
+	modelLowerCase,
+	upperCase
 };

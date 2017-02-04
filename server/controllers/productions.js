@@ -1,9 +1,9 @@
-const Production = require('../models/production');
-const getAlert = require('../lib/alert').get;
-const getPageData = require('../lib/get-page-data');
-const handleModelResponse = require('../lib/handle-model-response');
+import Production from '../models/production';
+import { getAlert } from '../lib/alert';
+import getPageData from '../lib/get-page-data';
+import handleModelResponse from '../lib/handle-model-response';
 
-exports.new = (req, res, next) => {
+function newRoute (req, res, next) {
 
 	const production = new Production();
 
@@ -13,7 +13,7 @@ exports.new = (req, res, next) => {
 
 };
 
-exports.create = (req, res, next) => {
+function createRoute (req, res, next) {
 
 	const production = new Production(req.body);
 
@@ -29,7 +29,7 @@ exports.create = (req, res, next) => {
 
 };
 
-exports.edit = (req, res, next) => {
+function editRoute (req, res, next) {
 
 	const production = new Production(req.params);
 
@@ -45,7 +45,7 @@ exports.edit = (req, res, next) => {
 
 };
 
-exports.update = (req, res, next) => {
+function updateRoute (req, res, next) {
 
 	const production = new Production(req.body);
 
@@ -61,7 +61,7 @@ exports.update = (req, res, next) => {
 
 };
 
-exports.delete = (req, res, next) => {
+function deleteRoute (req, res, next) {
 
 	const production = new Production(req.body);
 
@@ -77,7 +77,7 @@ exports.delete = (req, res, next) => {
 
 };
 
-exports.show = (req, res, next) => {
+function showRoute (req, res, next) {
 
 	const production = new Production(req.params);
 
@@ -93,7 +93,7 @@ exports.show = (req, res, next) => {
 
 };
 
-exports.list = (req, res, next) => {
+function listRoute (req, res, next) {
 
 	return Production.list()
 		.then(productions => {
@@ -105,4 +105,14 @@ exports.list = (req, res, next) => {
 		})
 		.catch(err => next(err));
 
+};
+
+export {
+	newRoute,
+	createRoute,
+	editRoute,
+	updateRoute,
+	deleteRoute,
+	showRoute,
+	listRoute
 };

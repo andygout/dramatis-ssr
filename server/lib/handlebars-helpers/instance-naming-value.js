@@ -1,6 +1,6 @@
-const modelNamingPropMap = require('../model-naming-prop-map');
+import modelNamingPropMap from '../model-naming-prop-map';
 
-module.exports = function (instance) {
+export default function (instance) {
 
 	const model = instance.constructor.name.toLowerCase();
 

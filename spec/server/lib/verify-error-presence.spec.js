@@ -21,7 +21,7 @@ beforeEach(function () {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../server/lib/verify-error-presence', {
+	proxyquire('../../../dist/lib/verify-error-presence', {
 		'./prop-is-object': stubOverrides.propIsObject || stubs.propIsObject
 	});
 

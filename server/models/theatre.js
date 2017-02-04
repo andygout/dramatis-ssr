@@ -1,11 +1,12 @@
-const query = require('../../database/query');
-const renewTopLevelValues = require('../lib/renew-top-level-values');
-const sqlTemplates = require('../lib/sql-templates');
-const trimStrings = require('../lib/trim-strings');
-const validateString = require('../lib/validate-string');
-const verifyErrorPresence = require('../lib/verify-error-presence');
+import query from '../database/query';
+import renewTopLevelValues from '../lib/renew-top-level-values';
+import * as sqlTemplates from '../lib/sql-templates';
+import trimStrings from '../lib/trim-strings';
+import validateString from '../lib/validate-string';
+import verifyErrorPresence from '../lib/verify-error-presence';
+import Production from './production';
 
-module.exports = class Theatre {
+export default class Theatre {
 
 	constructor (props = {}) {
 
@@ -83,8 +84,6 @@ module.exports = class Theatre {
 	}
 
 	renewValues (props = {}) {
-
-		const Production = require('./production');
 
 		renewTopLevelValues(this, props);
 
@@ -172,7 +171,7 @@ module.exports = class Theatre {
 				}
 
 				const queryData = {
-					text: sqlTemplates.delete(this),
+					text: sqlTemplates.deletion(this),
 					isReqdResult: true
 				};
 

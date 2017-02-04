@@ -2,10 +2,11 @@
   "name": "theatrebase",
   "version": "0.0.0",
   "description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
-  "main": "app.js",
+  "main": "server/app-dev.js",
   "scripts": {
-    "start": "nodemon app",
-    "test": "find spec -name '*.spec.js' | xargs mocha -R spec"
+    "start": "nodemon server/app-dev.js",
+    "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
+    "pretest": "babel server --out-dir dist --ignore app-dev.js"
   },
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
@@ -27,6 +28,10 @@
     "serve-favicon": "^2.2.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
+    "babel-register": "^6.22.0",
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "node-mocks-http": "^1.5.4",
