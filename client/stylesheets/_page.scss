@@ -11,13 +11,6 @@ html {
 	background-color: $html-bg-color;
 }
 
-.preload * {
-	-webkit-transition: none !important;
-	-moz-transition: none !important;
-	-ms-transition: none !important;
-	-o-transition: none !important;
-}
-
 a {
 	color: $theme-color;
 
