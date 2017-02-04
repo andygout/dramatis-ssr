@@ -8,6 +8,7 @@
 
 .header__home-link {
 	color: $header-color;
+	transition: color 0.5s;
 
 	&:hover {
 		color: $header-hover-color;

@@ -47,6 +47,8 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '../', 'client', 'public')));
 
+app.use(express.static(path.join(__dirname, '../', 'client', 'javascripts')));
+
 app.use('/', router);
 
 // Catch 404 and forward to error handler
