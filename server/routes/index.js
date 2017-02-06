@@ -28,9 +28,7 @@ router.get('/productions/:id/edit', controllers.productions.editRoute);
 router.post('/productions/:id', controllers.productions.updateRoute);
 router.delete('/productions/:id', controllers.productions.deleteRoute);
 router.get('/productions/:id', controllers.productions.showRoute);
-router.get('/productions', function (req, res) {
-	res.redirect('/');
-});
+router.get('/productions', (req, res) => res.redirect('/'));
 
 // Theatres
 router.get('/theatres/:id/edit', controllers.theatres.editRoute);
