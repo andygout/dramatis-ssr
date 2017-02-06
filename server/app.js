@@ -17,15 +17,12 @@ import router from './routes';
 const app = express();
 
 Handlebars.registerHelper(handlebarsHelpers);
-
 const hbs = exphbs.create({ defaultLayout: 'main', extname: '.html' });
-
 app.engine('html', hbs.engine);
 
 app.set('view engine', 'html');
 
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(favicon(path.join(__dirname, '../', 'client', 'favicons', 'favicon.ico')));
@@ -46,7 +43,6 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, '../', 'client', 'public')));
-
 app.use(express.static(path.join(__dirname, '../', 'client', 'javascripts')));
 
 app.use('/', router);
