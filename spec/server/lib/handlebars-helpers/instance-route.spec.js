@@ -11,8 +11,8 @@ const subject = require('../../../../dist/lib/handlebars-helpers/instance-route'
 
 describe('Instance Route handlebars helper', () => {
 
-	it('will return URL (pluralised model name and ID) for instance', () => {
-		stubs.Production.id = 1;
+	it('will return URL (pluralised model name and uuid) for instance', () => {
+		stubs.Production.uuid = 1;
 		expect(subject(stubs.Production)).to.eq('/productions/1');
 	});
 

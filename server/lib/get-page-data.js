@@ -56,9 +56,9 @@ export default function (instance, action) {
 		title,
 		modelName: model,
 		modelRoute: `${model}s`,
-		instanceRoute: `/${model}s/${instance.id}`,
+		instanceRoute: `/${model}s/${instance.uuid}`,
 		action,
-		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.id}`,
+		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.uuid}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
 		alertText: getAlertText(model, instance, action),
 		alertType: getAlertType(instance)
