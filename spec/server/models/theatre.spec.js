@@ -5,18 +5,13 @@ require('sinon-as-promised');
 
 const Production = require('../../../dist/models/production');
 
-const queryFixture = require('../../fixtures/query');
+const dbQueryShowFixture = require('../../fixtures/theatres/db-query-show');
+const dbQueryShowWithProdsFixture = require('../../fixtures/theatres/db-query-show-with-prods');
+const dbQueryListFixture = require('../../fixtures/theatres/db-query-list');
 
 const stubs = {
-	query: sinon.stub().resolves(queryFixture),
-	renewTopLevelValues: sinon.stub(),
-	sqlTemplates: {
-		checkIfExists: sinon.stub(),
-		createIfNotExists: sinon.stub(),
-		select: sinon.stub(),
-		update: sinon.stub(),
-		delete: sinon.stub()
-	},
+	dbQuery: sinon.stub().resolves({}),
+	renewValues: sinon.stub(),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -25,13 +20,8 @@ const stubs = {
 
 const resetStubs = () => {
 
-	stubs.query.reset();
-	stubs.renewTopLevelValues.reset();
-	stubs.sqlTemplates.checkIfExists.reset();
-	stubs.sqlTemplates.createIfNotExists.reset();
-	stubs.sqlTemplates.select.reset();
-	stubs.sqlTemplates.update.reset();
-	stubs.sqlTemplates.delete.reset();
+	stubs.dbQuery.reset();
+	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -49,9 +39,8 @@ let instance;
 
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/models/theatre', {
-		'../database/query': stubOverrides.query || stubs.query,
-		'../lib/renew-top-level-values': stubs.renewTopLevelValues,
-		'../lib/sql-templates': stubs.sqlTemplates,
+		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
+		'../lib/renew-values': stubs.renewValues,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
@@ -105,10 +94,18 @@ describe('Theatre model', () => {
 
 	describe('validateUpdateInDb method', () => {
 
-		context('valid data (no results returned that indicate name already exists)', () => {
+		it('will call dbQuery to validate update', done => {
+			instance = createInstance();
+			instance.validateUpdateInDb().then(() => {
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				done();
+			});
+		});
+
+		context('valid data (results returned that indicate name does not already exist)', () => {
 
 			it('will not add properties to errors property', done => {
-				instance = createInstance({ query: sinon.stub().resolves([]) });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ theatreCount: 0 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
@@ -121,7 +118,7 @@ describe('Theatre model', () => {
 		context('invalid data (results returned that indicate name already exists)', () => {
 
 			it('will add properties that are arrays to errors property', done => {
-				instance = createInstance();
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ theatreCount: 1 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('name')
@@ -137,10 +134,18 @@ describe('Theatre model', () => {
 
 	describe('validateDeleteInDb method', () => {
 
-		context('valid data (no results returned that indicate dependent associations exist)', () => {
+		it('will call dbQuery to validate delete', done => {
+			instance = createInstance();
+			instance.validateUpdateInDb().then(() => {
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				done();
+			});
+		});
+
+		context('valid data (results returned that indicate no dependent associations exist)', () => {
 
 			it('will not add properties to errors property', done => {
-				instance = createInstance({ query: sinon.stub().resolves([]) });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ relationshipCount: 0 }) });
 				instance.validateDeleteInDb().then(() => {
 					expect(instance.errors).not.to.have.property('associations');
 					expect(instance.errors).to.deep.eq({});
@@ -153,7 +158,7 @@ describe('Theatre model', () => {
 		context('invalid data (results returned that indicate dependent associations exist)', () => {
 
 			it('will add properties that are arrays to errors property', done => {
-				instance = createInstance();
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ relationshipCount: 1 }) });
 				instance.validateDeleteInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('associations')
@@ -169,42 +174,37 @@ describe('Theatre model', () => {
 
 	describe('getShowData method', () => {
 
-		it('will call query twice then return page and query result data', done => {
-			instance = createInstance();
+		it('will call dbQuery to get show data then return renewed instance', done => {
+			const dbQueryShowStub = sinon.stub().resolves(dbQueryShowFixture);
+			instance = createInstance({ dbQuery: dbQueryShowStub });
 			instance.getShowData().then(result => {
-				expect(stubs.query.calledTwice).to.be.true;
+				expect(dbQueryShowStub.calledOnce).to.be.true;
 				expect(result).to.deep.eq(instance);
 				done();
 			});
 		});
 
-	});
-
-	describe('renewValues method', () => {
-
-		it('will call renew top level values module', () => {
-			instance = createInstance();
-			instance.renewValues();
-			expect(stubs.renewTopLevelValues.calledOnce).to.be.true;
-		});
-
-		context('props argument contains productions property', () => {
+		context('dbQuery response contains productions property', () => {
 
 			it('will set instance productions property as array of Production instances', () => {
-				instance = createInstance();
-				instance.renewValues({ productions: [{}] });
-				expect(instance.productions).to.deep.eq([{}]);
-				expect(instance.productions[0].constructor.name).to.eq('Production');
+				instance = createInstance({ dbQuery: sinon.stub().resolves(dbQueryShowWithProdsFixture) });
+				instance.getShowData().then(() => {
+					expect(instance.productions).to.deep.eq([{}]);
+					expect(instance.productions[0].constructor.name).to.eq('Production');
+					done();
+				});
 			});
 
 		});
 
-		context('props argument does not contain productions property', () => {
+		context('dbQuery response does not contain productions property', () => {
 
 			it('will retain instance productions property as empty array', () => {
-				instance = createInstance();
-				instance.renewValues();
-				expect(instance.productions).to.deep.eq([]);
+				instance = createInstance({ dbQuery: sinon.stub().resolves(dbQueryShowFixture) });
+				instance.getShowData().then(() => {
+					expect(instance.productions).to.deep.eq([]);
+					done();
+				});
 			});
 
 		});
@@ -213,11 +213,11 @@ describe('Theatre model', () => {
 
 	describe('create method', () => {
 
-		it('will call query then return page and query result data', done => {
+		it('will return call to dbQuery to create', done => {
 			instance = createInstance();
 			instance.create().then(result => {
-				expect(stubs.query.calledOnce).to.be.true;
-				expect(result).to.deep.eq(queryFixture);
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(result).to.deep.eq({});
 				done();
 			});
 		});
@@ -226,10 +226,10 @@ describe('Theatre model', () => {
 
 	describe('edit method', () => {
 
-		it('will call query then return page and query result data', done => {
+		it('will call dbQuery to get edit data then renewed instance', done => {
 			instance = createInstance();
 			instance.edit().then(result => {
-				expect(stubs.query.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(result).to.deep.eq(instance);
 				done();
 			});
@@ -252,10 +252,10 @@ describe('Theatre model', () => {
 
 		context('valid data', () => {
 
-			it('will call query twice then return page and query result data', done => {
+			it('will call dbQuery twice (to validate then update) then return renewed instance', done => {
 				instance = createInstance();
 				instance.update().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -267,10 +267,10 @@ describe('Theatre model', () => {
 
 			context('initial validation errors caused by values submitted', () => {
 
-				it('will return page and theatre data without calling query', done => {
+				it('will return instance without calling dbQuery to update', done => {
 					instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 					instance.update().then(result => {
-						expect(stubs.query.called).to.be.false;
+						expect(stubs.dbQuery.called).to.be.false;
 						expect(result).to.deep.eq(instance);
 						done();
 					});
@@ -280,12 +280,12 @@ describe('Theatre model', () => {
 
 			context('secondary validation errors caused by database checks', () => {
 
-				it('will return page and theatre data only calling query once (for DB validation)', done => {
+				it('will return instance having only called dbQuery once (for database validation)', done => {
 					const verifyErrorPresenceStub = sinon.stub();
 					verifyErrorPresenceStub.onFirstCall().returns(false).onSecondCall().returns(true);
 					instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
 					instance.update().then(result => {
-						expect(stubs.query.calledOnce).to.be.true;
+						expect(stubs.dbQuery.calledOnce).to.be.true;
 						expect(result).to.deep.eq(instance);
 						done();
 					});
@@ -301,10 +301,10 @@ describe('Theatre model', () => {
 
 		context('no dependent associations', () => {
 
-			it('will call query to validate then to delete', done => {
+			it('will call dbQuery twice (to validate then delete)', done => {
 				instance = createInstance();
 				instance.delete().then(result => {
-					expect(stubs.query.calledTwice).to.be.true;
+					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -323,17 +323,24 @@ describe('Theatre model', () => {
 
 		context('dependent associations', () => {
 
-			it('will call query to validate then twice to select data for show page', done => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+			it('will call dbQuery twice (to validate then in getShowData method) then return renewed instance', done => {
+				const dbQueryShowStub = sinon.stub().resolves(dbQueryShowFixture);
+				instance = createInstance({
+					verifyErrorPresence: sinon.stub().returns(true),
+					dbQuery: dbQueryShowStub
+				});
 				instance.delete().then(result => {
-					expect(stubs.query.calledThrice).to.be.true;
+					expect(dbQueryShowStub.calledTwice).to.be.true;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
 			});
 
 			it('will call getShowData method once', done => {
-				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				instance = createInstance({
+					verifyErrorPresence: sinon.stub().returns(true),
+					dbQuery: sinon.stub().resolves(dbQueryShowFixture)
+				});
 				var getShowDataSpy = sinon.spy(instance, 'getShowData');
 				instance.delete().then(() => {
 					expect(getShowDataSpy.calledOnce).to.be.true;
@@ -348,7 +355,7 @@ describe('Theatre model', () => {
 	describe('show method', () => {
 
 		it('will call getShowData method once', done => {
-			instance = createInstance();
+			instance = createInstance({ dbQuery: sinon.stub().resolves(dbQueryShowFixture) });
 			var getShowDataSpy = sinon.spy(instance, 'getShowData');
 			instance.show().then(() => {
 				expect(getShowDataSpy.calledOnce).to.be.true;
@@ -360,11 +367,15 @@ describe('Theatre model', () => {
 
 	describe('list method', () => {
 
-		it('will call query then return query result data as array', done => {
-			const subject = createSubject({ Theatre: sinon.stub() });
+		it('will call dbQuery to get list data then return array of instances', done => {
+			const dbQueryListStub = sinon.stub().resolves(dbQueryListFixture);
+			const subject = createSubject({
+				dbQuery: dbQueryListStub,
+				Theatre: sinon.stub()
+			});
 			subject.list().then(result => {
-				instance = new subject(queryFixture[0])
-				expect(stubs.query.calledOnce).to.be.true;
+				instance = new subject(dbQueryListFixture.theatres[0])
+				expect(dbQueryListStub.calledOnce).to.be.true;
 				expect(result).to.deep.eq([instance]);
 				done();
 			});

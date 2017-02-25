@@ -165,9 +165,9 @@ describe('Get Page Data module', () => {
 	describe('instanceRoute property', () => {
 
 		it('will be the instance route of the instance', () => {
-			stubs.Production.id = 1;
+			stubs.Production.uuid = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 			const pageData = subject(stubs.Production, 'create');
-			expect(pageData.instanceRoute).to.eq('/productions/1');
+			expect(pageData.instanceRoute).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 		});
 
 	});
@@ -194,10 +194,10 @@ describe('Get Page Data module', () => {
 
 		context('update action', () => {
 
-			it('will be path comprised of pluralised model name and instance id', () => {
-				stubs.Production.id = 1;
+			it('will be path comprised of pluralised model name and instance uuid', () => {
+				stubs.Production.uuid = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 				const pageData = subject(stubs.Production, 'update');
-				expect(pageData.formAction).to.eq('/productions/1');
+				expect(pageData.formAction).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 			});
 
 		});

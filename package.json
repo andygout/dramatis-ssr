@@ -1,7 +1,7 @@
 {
   "name": "theatrebase",
   "version": "0.0.0",
-  "description": "A database-driven site that provides listings for theatrical productions, playtexts and associated data.",
+  "description": "A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.",
   "main": "server/app-dev.js",
   "scripts": {
     "start": "nodemon server/app-dev.js",
@@ -22,7 +22,9 @@
     "express-session": "^1.14.1",
     "method-override": "^2.3.6",
     "morgan": "^1.5.1",
+    "neo4j": "^2.0.0-RC2",
     "node-sass-middleware": "~0.9.8",
+    "node-uuid": "^1.4.7",
     "pg": "^6.1.0",
     "pg-format": "^1.0.3",
     "serve-favicon": "^2.2.0"

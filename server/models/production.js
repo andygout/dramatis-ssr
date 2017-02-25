@@ -1,6 +1,6 @@
-import query from '../database/query';
-import renewTopLevelValues from '../lib/renew-top-level-values';
-import * as sqlTemplates from '../lib/sql-templates';
+import { v4 as uuid } from 'node-uuid';
+import dbQuery from '../database/db-query';
+import renewValues from '../lib/renew-values';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -10,10 +10,10 @@ export default class Production {
 
 	constructor (props = {}) {
 
-		this.id = props.id;
+		this.uuid = props.uuid;
 		this.title = props.title;
 		this.pageTitleText = props.pageTitleText;
-		this.theatre = new Theatre({ id: props.theatre_id, name: props.theatre_name });
+		this.theatre = new Theatre({ uuid: props.theatreUuid, name: props.theatreName });
 		this.hasError = false;
 		this.errors = {};
 
@@ -29,14 +29,6 @@ export default class Production {
 
 	};
 
-	renewValues (props = {}) {
-
-		renewTopLevelValues(this, props);
-
-		renewTopLevelValues(this.theatre, { id: props.theatre_id, name: props.theatre_name });
-
-	};
-
 	create () {
 
 		this.validate();
@@ -48,17 +40,16 @@ export default class Production {
 		if (this.hasError) return Promise.resolve(this);
 
 		return this.theatre.create()
-			.then(([theatre] = theatre) => {
+			.then(({ uuid: theatreUuid }) => {
 
-				const queryData = {
-					text: sqlTemplates.create(this, { title: this.title, theatre_id: theatre.id }),
-					isReqdResult: true
-				};
+				return dbQuery(`
+					MATCH (t:Theatre { uuid: "${theatreUuid}" })
+					CREATE (p:Production { uuid: "${uuid()}", title: "${this.title}" })-[:PLAYS_AT]->(t)
+					RETURN { uuid: p.uuid, title: p.title } AS production
+				`)
+					.then(({ production }) => {
 
-				return query(queryData)
-					.then(([production] = production) => {
-
-						renewTopLevelValues(this, production);
+						renewValues(this, production);
 
 						return this;
 
@@ -70,15 +61,13 @@ export default class Production {
 
 	edit () {
 
-		const queryData = {
-			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
-			isReqdResult: true
-		};
+		return dbQuery(`
+			MATCH (p:Production { uuid: "${this.uuid}" })-[:PLAYS_AT]->(t:Theatre)
+			RETURN { title: p.title, theatre: { name: t.name } } AS production
+		`)
+			.then(({ production }) => {
 
-		return query(queryData)
-			.then(([production] = production) => {
-
-				this.renewValues(production);
+				renewValues(this, production);
 
 				return this;
 
@@ -97,17 +86,19 @@ export default class Production {
 		if (this.hasError) return Promise.resolve(this);
 
 		return this.theatre.create()
-			.then(([theatre] = theatre) => {
+			.then(({ uuid: theatreUuid }) => {
 
-				const queryData = {
-					text: sqlTemplates.update(this, { title: this.title, theatre_id: theatre.id }),
-					isReqdResult: true
-				};
+				return dbQuery(`
+					MATCH (p:Production { uuid: "${this.uuid}" })-[r:PLAYS_AT]->(Theatre)
+					MATCH (t:Theatre { uuid: "${theatreUuid}" })
+					DELETE r
+					MERGE (p)-[:PLAYS_AT]->(t)
+					SET p.title = "${this.title}"
+					RETURN { uuid: p.uuid, title: p.title } AS production
+				`)
+					.then(({ production }) => {
 
-				return query(queryData)
-					.then(([production] = production) => {
-
-						renewTopLevelValues(this, production);
+						renewValues(this, production);
 
 						return this;
 
@@ -119,15 +110,15 @@ export default class Production {
 
 	delete () {
 
-		const queryData = {
-			text: sqlTemplates.deletion(this),
-			isReqdResult: true
-		};
+		return dbQuery(`
+			MATCH (p:Production { uuid: "${this.uuid}" })
+			WITH p, p.title AS title
+			DETACH DELETE p
+			RETURN title
+		`)
+			.then(title => {
 
-		return query(queryData)
-			.then(([production] = production) => {
-
-				renewTopLevelValues(this, production);
+				renewValues(this, title);
 
 				return this;
 
@@ -137,15 +128,13 @@ export default class Production {
 
 	show () {
 
-		const queryData = {
-			text: sqlTemplates.select(this, { selectCols: true, join: 'theatre', where: true, id: 'productions.id' }),
-			isReqdResult: true
-		};
+		return dbQuery(`
+			MATCH (p:Production { uuid: "${this.uuid}" })-[:PLAYS_AT]->(t:Theatre)
+			RETURN { title: p.title, theatre: { uuid: t.uuid, name: t.name } } AS production
+		`)
+			.then(({ production }) => {
 
-		return query(queryData)
-			.then(([production] = production) => {
-
-				this.renewValues(production);
+				renewValues(this, production);
 
 				return this;
 
@@ -155,19 +144,18 @@ export default class Production {
 
 	static list () {
 
-		const text = sqlTemplates.select(this, {
-			table: 'productions',
-			selectCols: true,
-			join: 'theatre',
-			order: true
-		});
+		return dbQuery(`
+			MATCH (p:Production)-[:PLAYS_AT]->(t:Theatre)
+			RETURN collect({
+				uuid: p.uuid,
+				title: p.title,
+				theatreUuid: t.uuid,
+				theatreName: t.name
+			}) AS productions
+		`)
+			.then(({ productions }) => {
 
-		return query({ text })
-			.then(productionsRows => {
-
-				const productions = productionsRows.map(production => new Production(production));
-
-				return productions;
+				return productions.map(production => new Production(production));
 
 			});
 
