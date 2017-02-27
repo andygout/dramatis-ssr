@@ -8,7 +8,9 @@ const db = new neo4j.GraphDatabase({
 	url: `http://neo4j:${databaseName}@${databaseHost}:${databasePort}`
 });
 
-export default function (query) {
+export default function (query, queryOpts = {}) {
+
+	const isReqdResult = queryOpts.isReqdResult === false ? false : true;
 
 	return new Promise(function (resolve, reject) {
 
@@ -16,7 +18,7 @@ export default function (query) {
 
 			if (err) return reject(err);
 
-			return results.length ? resolve(results[0]) : reject(err);
+			return (!results.length && isReqdResult) ? reject(err) : resolve(results[0]);
 
 		});
 
