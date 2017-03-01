@@ -4,14 +4,14 @@ import path from 'path';
 import dbQuery from './db-query';
 import capitalise from '../lib/capitalise';
 
+const models = require('fs')
+	.readdirSync(path.join(__dirname, '..', 'models'))
+	.map(file => capitalise(file.replace('.js', '')));
+
 const createConstraint = model => dbQuery(`
 		CREATE CONSTRAINT ON (node:${model})
 		ASSERT node.uuid IS UNIQUE
 	`, { isReqdResult: false });
-
-const models = require('fs')
-	.readdirSync(path.join(__dirname, '..', 'models'))
-	.map(file => capitalise(file.replace('.js', '')));
 
 export default () => {
 
