@@ -11,6 +11,7 @@ import path from 'path';
 import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 
+import createConstraints from './database/create-constraints';
 import * as handlebarsHelpers from './lib/handlebars-helpers';
 import router from './routes';
 
@@ -148,8 +149,12 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-server.listen(port);
+createConstraints().then(() => {
 
-server.on('error', onError);
+	server.listen(port);
 
-server.on('listening', onListening);
+	server.on('error', onError);
+
+	server.on('listening', onListening);
+
+});
