@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'node-uuid';
 import dbQuery from '../database/db-query';
+import esc from '../lib/escape-string';
 import renewValues from '../lib/renew-values';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
@@ -32,7 +33,7 @@ export default class Theatre {
 	validateUpdateInDb () {
 
 		return dbQuery(`
-			MATCH (t:Theatre { name: "${this.name}" }) WHERE t.uuid <> "${this.uuid}"
+			MATCH (t:Theatre { name: '${esc(this.name)}' }) WHERE t.uuid <> '${esc(this.uuid)}'
 			RETURN SIGN(COUNT(t)) AS theatreCount
 		`)
 			.then(({ theatreCount }) => {
@@ -46,7 +47,7 @@ export default class Theatre {
 	validateDeleteInDb () {
 
 		return dbQuery(`
-			MATCH (t:Theatre { uuid: "${this.uuid}" })<-[r:PLAYS_AT]-(p:Production)
+			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })<-[r:PLAYS_AT]-(p:Production)
 			RETURN SIGN(COUNT(r)) AS relationshipCount
 		`)
 			.then(({ relationshipCount }) => {
@@ -60,7 +61,7 @@ export default class Theatre {
 	getShowData () {
 
 		return dbQuery(`
-			MATCH (t:Theatre { uuid: "${this.uuid}" })
+			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(p:Production)
 			WITH t, CASE WHEN p IS NOT NULL THEN collect({ uuid: p.uuid, title: p.title }) ELSE [] END AS productions
 			RETURN { name: t.name, productions: productions } AS theatre
@@ -82,8 +83,8 @@ export default class Theatre {
 	create () {
 
 		return dbQuery(`
-			MERGE (t:Theatre { name: "${this.name}" })
-			ON CREATE SET t.uuid = "${uuid()}"
+			MERGE (t:Theatre { name: '${esc(this.name)}' })
+			ON CREATE SET t.uuid = '${uuid()}'
 			RETURN t.uuid AS uuid
 		`);
 
@@ -92,7 +93,7 @@ export default class Theatre {
 	edit () {
 
 		return dbQuery(`
-			MATCH (t:Theatre { uuid: "${this.uuid}" })
+			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			RETURN t.name AS name
 		`)
 			.then(name => {
@@ -125,8 +126,8 @@ export default class Theatre {
 				if (this.hasError) return Promise.resolve(this);
 
 				return dbQuery(`
-					MATCH (t:Theatre { uuid: "${this.uuid}" })
-					SET t.name = "${this.name}"
+					MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
+					SET t.name = '${esc(this.name)}'
 					RETURN t.name AS name
 				`)
 					.then(name => {
@@ -155,7 +156,7 @@ export default class Theatre {
 				}
 
 				return dbQuery(`
-					MATCH (t:Theatre { uuid: "${this.uuid}" })
+					MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 					WITH t, t.name AS name
 					DETACH DELETE t
 					RETURN name
