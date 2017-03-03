@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'node-uuid';
 import dbQuery from '../database/db-query';
+import esc from '../lib/escape-string';
 import renewValues from '../lib/renew-values';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
@@ -43,8 +44,8 @@ export default class Production {
 			.then(({ uuid: theatreUuid }) => {
 
 				return dbQuery(`
-					MATCH (t:Theatre { uuid: "${theatreUuid}" })
-					CREATE (p:Production { uuid: "${uuid()}", title: "${this.title}" })-[:PLAYS_AT]->(t)
+					MATCH (t:Theatre { uuid: '${theatreUuid}' })
+					CREATE (p:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })-[:PLAYS_AT]->(t)
 					RETURN { uuid: p.uuid, title: p.title } AS production
 				`)
 					.then(({ production }) => {
@@ -62,7 +63,7 @@ export default class Production {
 	edit () {
 
 		return dbQuery(`
-			MATCH (p:Production { uuid: "${this.uuid}" })-[:PLAYS_AT]->(t:Theatre)
+			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN { title: p.title, theatre: { name: t.name } } AS production
 		`)
 			.then(({ production }) => {
@@ -89,11 +90,11 @@ export default class Production {
 			.then(({ uuid: theatreUuid }) => {
 
 				return dbQuery(`
-					MATCH (p:Production { uuid: "${this.uuid}" })-[r:PLAYS_AT]->(Theatre)
-					MATCH (t:Theatre { uuid: "${theatreUuid}" })
+					MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[r:PLAYS_AT]->(Theatre)
+					MATCH (t:Theatre { uuid: '${theatreUuid}' })
 					DELETE r
 					MERGE (p)-[:PLAYS_AT]->(t)
-					SET p.title = "${this.title}"
+					SET p.title = '${esc(this.title)}'
 					RETURN { uuid: p.uuid, title: p.title } AS production
 				`)
 					.then(({ production }) => {
@@ -111,7 +112,7 @@ export default class Production {
 	delete () {
 
 		return dbQuery(`
-			MATCH (p:Production { uuid: "${this.uuid}" })
+			MATCH (p:Production { uuid: '${esc(this.uuid)}' })
 			WITH p, p.title AS title
 			DETACH DELETE p
 			RETURN title
@@ -129,7 +130,7 @@ export default class Production {
 	show () {
 
 		return dbQuery(`
-			MATCH (p:Production { uuid: "${this.uuid}" })-[:PLAYS_AT]->(t:Theatre)
+			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN { title: p.title, theatre: { uuid: t.uuid, name: t.name } } AS production
 		`)
 			.then(({ production }) => {
