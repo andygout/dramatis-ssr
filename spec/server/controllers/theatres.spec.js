@@ -90,10 +90,7 @@ describe('Theatre controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							theatre: instanceFixture()
-						})
+						Object.assign({ page: pageDataFixture(action), theatre: instanceFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();

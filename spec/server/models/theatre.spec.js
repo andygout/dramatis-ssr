@@ -369,10 +369,7 @@ describe('Theatre model', () => {
 
 		it('will call dbQuery to get list data then return array of instances', done => {
 			const dbQueryListStub = sinon.stub().resolves(dbQueryListFixture);
-			const subject = createSubject({
-				dbQuery: dbQueryListStub,
-				Theatre: sinon.stub()
-			});
+			const subject = createSubject({ dbQuery: dbQueryListStub, Theatre: sinon.stub() });
 			subject.list().then(result => {
 				instance = new subject(dbQueryListFixture.theatres[0])
 				expect(dbQueryListStub.calledOnce).to.be.true;

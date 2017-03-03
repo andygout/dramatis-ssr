@@ -194,10 +194,7 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							production: instanceFixture()
-						})
+						Object.assign({ page: pageDataFixture(action), production: instanceFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
