@@ -133,16 +133,6 @@ const onError = error => {
 
 };
 
-const onListening = () => {
-
-	const addr = server.address();
-
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-
-	console.log('Listening on ' + bind);
-
-};
-
 const port = normalizePort(process.env.PORT || '3000');
 
 app.set('port', port);
@@ -151,10 +141,8 @@ const server = http.createServer(app);
 
 createConstraints().then(() => {
 
-	server.listen(port);
+	server.listen(port, () => console.log(`Listening on port ${port}`));
 
 	server.on('error', onError);
-
-	server.on('listening', onListening);
 
 });
