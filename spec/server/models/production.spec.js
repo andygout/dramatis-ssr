@@ -99,10 +99,11 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call dbQuery to create then return renewed instance', done => {
+			it('will call dbQuery to create, renewValues, then return renewed instance', done => {
 				instance = createInstance();
 				instance.create().then(result => {
 					expect(stubs.dbQuery.calledOnce).to.be.true;
+					expect(stubs.renewValues.calledOnce).to.be.true;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -112,10 +113,11 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will return instance without calling dbQuery to create', done => {
+			it('will return instance without calling dbQuery to create (or renewValues thereafter)', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.create().then(result => {
 					expect(stubs.dbQuery.called).to.be.false;
+					expect(stubs.renewValues.called).to.be.false;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -127,10 +129,11 @@ describe('Production model', () => {
 
 	describe('edit method', () => {
 
-		it('will call dbQuery to get edit data then return renewed instance', done => {
+		it('will call dbQuery to get edit data, renewValues, then return renewed instance', done => {
 			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.renewValues.calledOnce).to.be.true;
 				expect(result).to.deep.eq(instance);
 				done();
 			});
@@ -142,10 +145,11 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will call dbQuery to update then return renewed instance', done => {
+			it('will call dbQuery to update, renewValues, then return renewed instance', done => {
 				instance = createInstance();
 				instance.update().then(result => {
 					expect(stubs.dbQuery.calledOnce).to.be.true;
+					expect(stubs.renewValues.calledOnce).to.be.true;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -155,10 +159,11 @@ describe('Production model', () => {
 
 		context('invalid data', () => {
 
-			it('will return instance without calling dbQuery to update', done => {
+			it('will return instance without calling dbQuery to update (or renewValues thereafter)', done => {
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				instance.update().then(result => {
 					expect(stubs.dbQuery.called).to.be.false;
+					expect(stubs.renewValues.called).to.be.false;
 					expect(result).to.deep.eq(instance);
 					done();
 				});
@@ -170,10 +175,11 @@ describe('Production model', () => {
 
 	describe('delete method', () => {
 
-		it('will call dbQuery to delete then return renewed instance', done => {
+		it('will call dbQuery to delete, renewValues, then return renewed instance', done => {
 			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.renewValues.calledOnce).to.be.true;
 				expect(result).to.deep.eq(instance);
 				done();
 			});
@@ -183,10 +189,11 @@ describe('Production model', () => {
 
 	describe('show method', () => {
 
-		it('will call dbQuery to get show data then return renewed instance', done => {
+		it('will call dbQuery to get show data, renewValues, then return renewed instance', done => {
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.renewValues.calledOnce).to.be.true;
 				expect(result).to.deep.eq(instance);
 				done();
 			});
