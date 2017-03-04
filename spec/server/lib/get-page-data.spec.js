@@ -22,7 +22,7 @@ const resetStubs = () => {
 
 const subject = require('../../../dist/lib/get-page-data');
 
-beforeEach(function () {
+beforeEach(() => {
 
 	resetStubs();
 

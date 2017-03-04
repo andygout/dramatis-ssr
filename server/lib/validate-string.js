@@ -1,6 +1,6 @@
 import constants from '../lib/constants';
 
-export default function (stringValue, propName) {
+export default (stringValue, propName) => {
 
 	const stringErrors = [];
 	if (stringValue.length < constants.STRING_MIN_LENGTH) stringErrors.push(`${propName} is too short`);

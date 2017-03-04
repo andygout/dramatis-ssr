@@ -22,8 +22,4 @@ const searchForErrors = instance => {
 
 };
 
-export default function (instance) {
-
-	return searchForErrors(instance);
-
-};
+export default instance => searchForErrors(instance);

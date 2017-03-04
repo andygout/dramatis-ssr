@@ -8,14 +8,14 @@ const db = new neo4j.GraphDatabase({
 	url: `http://neo4j:${databaseName}@${databaseHost}:${databasePort}`
 });
 
-export default function (query, queryOpts = {}) {
+export default (query, queryOpts = {}) => {
 
 	const isReqdResult = queryOpts.isReqdResult === false ? false : true;
 	const returnArray = queryOpts.returnArray || false;
 
-	return new Promise(function (resolve, reject) {
+	return new Promise((resolve, reject) => {
 
-		db.cypher({ query }, function (err, results) {
+		db.cypher({ query }, (err, results) => {
 
 			if (err) return reject(err);
 

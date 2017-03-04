@@ -16,8 +16,4 @@ const renewValuesLevel = (instance, newValues) => {
 
 };
 
-export default (instance, newValues) => {
-
-	renewValuesLevel(instance, newValues);
-
-};
+export default (instance, newValues) => renewValuesLevel(instance, newValues);

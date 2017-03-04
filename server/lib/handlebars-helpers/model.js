@@ -1,7 +1,4 @@
-export default function (instance) {
-
-	return !Array.isArray(instance) ?
+export default instance =>
+	!Array.isArray(instance) ?
 		instance.constructor.name :
 		`${instance[0].constructor.name}s`;
-
-};

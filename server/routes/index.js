@@ -4,7 +4,7 @@ import * as controllers from '../controllers';
 
 const router = express.Router();
 
-router.use(methodOverride(function (req, res) {
+router.use(methodOverride((req, res) => {
 
 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
 

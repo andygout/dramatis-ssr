@@ -1,5 +1,1 @@
-export default function (string) {
-
-	return string.toUpperCase();
-
-};
+export default string => string.toUpperCase();

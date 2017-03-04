@@ -43,7 +43,7 @@ const getAlertText = (model, instance, action) => {
 
 const getAlertType = instance => instance.hasError ? 'error' : 'success';
 
-export default function (instance, action) {
+export default (instance, action) => {
 
 	const model = getModelName(instance);
 

@@ -23,7 +23,7 @@ const resetStubs = () => {
 
 };
 
-beforeEach(function () {
+beforeEach(() => {
 
 	resetStubs();
 
@@ -69,7 +69,7 @@ describe('Theatre controller', () => {
 
 	describe('edit method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = 'update';
 			method = 'edit';
 		});
@@ -124,7 +124,7 @@ describe('Theatre controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'update';
 		});
 
@@ -196,7 +196,7 @@ describe('Theatre controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'delete';
 		});
 
@@ -261,7 +261,7 @@ describe('Theatre controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'show';
 		});
 
@@ -317,11 +317,11 @@ describe('Theatre controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			method = 'list';
 		});
 
-		afterEach(function () {
+		afterEach(() => {
 			Theatre.list.restore();
 		});
 
