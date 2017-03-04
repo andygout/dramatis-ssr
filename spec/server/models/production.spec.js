@@ -95,7 +95,50 @@ describe('Production model', () => {
 
 	});
 
+	describe('setErrorStatus method', () => {
+
+		it('will call instance validate method then theatre validate methods then verifyErrorPresence', () => {
+			instance = createInstance();
+			sinon.spy(instance, 'validate');
+			instance.setErrorStatus();
+			sinon.assert.callOrder(instance.validate, instance.theatre.validate, stubs.verifyErrorPresence);
+			expect(instance.validate.calledOnce).to.be.true;
+			expect(instance.theatre.validate.calledOnce).to.be.true;
+			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
+		});
+
+		context('valid data', () => {
+
+			it('will set instance hasError property to false and return same value', () => {
+				instance = createInstance();
+				expect(instance.setErrorStatus()).to.be.false;
+				expect(instance.hasError).to.be.false;
+			});
+
+		});
+
+		context('invalid data', () => {
+
+			it('will set instance hasError property to true and return same value', () => {
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				expect(instance.setErrorStatus()).to.be.true;
+				expect(instance.hasError).to.be.true;
+			});
+
+		});
+
+	});
+
 	describe('create method', () => {
+
+		it('will call instance setErrorStatus method', done => {
+			instance = createInstance();
+			sinon.spy(instance, 'setErrorStatus');
+			instance.create().then(() => {
+				expect(instance.setErrorStatus.calledOnce).to.be.true;
+				done();
+			})
+		});
 
 		context('valid data', () => {
 
@@ -142,6 +185,15 @@ describe('Production model', () => {
 	});
 
 	describe('update method', () => {
+
+		it('will call instance setErrorStatus method', done => {
+			instance = createInstance();
+			sinon.spy(instance, 'setErrorStatus');
+			instance.update().then(() => {
+				expect(instance.setErrorStatus.calledOnce).to.be.true;
+				done();
+			})
+		});
 
 		context('valid data', () => {
 
