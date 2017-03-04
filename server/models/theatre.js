@@ -18,6 +18,10 @@ export default class Theatre {
 		this.hasError = false;
 		this.errors = {};
 
+		Object.defineProperty(this, 'associations', {
+			get: function () { return { 'productions': Production }; }
+		});
+
 	};
 
 	validate () {
@@ -69,10 +73,6 @@ export default class Theatre {
 			.then(({ theatre }) => {
 
 				renewValues(this, theatre);
-
-				this.productions = theatre.productions.length ?
-					theatre.productions.map(production => new Production(production)) :
-					[];
 
 				return this;
 

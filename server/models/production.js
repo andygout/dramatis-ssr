@@ -18,6 +18,10 @@ export default class Production {
 		this.hasError = false;
 		this.errors = {};
 
+		Object.defineProperty(this, 'associations', {
+			get: function () { return {}; }
+		});
+
 	};
 
 	validate () {
