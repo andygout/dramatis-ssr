@@ -15,7 +15,7 @@ const TheatreStub = function () {
 
 const stubs = {
 	dbQuery: sinon.stub().resolves({}),
-	renewValues: sinon.stub(),
+	renewValues: sinon.stub().returns('renewValues return value'),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -145,7 +145,7 @@ describe('Production model', () => {
 					expect(instance.theatre.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq('renewValues return value');
 					done();
 				});
 			});
@@ -179,7 +179,7 @@ describe('Production model', () => {
 				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq(instance);
+				expect(result).to.deep.eq('renewValues return value');
 				done();
 			});
 		});
@@ -201,7 +201,7 @@ describe('Production model', () => {
 					expect(instance.theatre.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq('renewValues return value');
 					done();
 				});
 			});
@@ -235,7 +235,7 @@ describe('Production model', () => {
 				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq(instance);
+				expect(result).to.deep.eq('renewValues return value');
 				done();
 			});
 		});
@@ -250,7 +250,7 @@ describe('Production model', () => {
 				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq(instance);
+				expect(result).to.deep.eq('renewValues return value');
 				done();
 			});
 		});

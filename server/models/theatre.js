@@ -70,13 +70,7 @@ export default class Theatre {
 			WITH t, CASE WHEN p IS NOT NULL THEN collect({ uuid: p.uuid, title: p.title }) ELSE [] END AS productions
 			RETURN { name: t.name, productions: productions } AS theatre
 		`)
-			.then(({ theatre }) => {
-
-				renewValues(this, theatre);
-
-				return this;
-
-			});
+			.then(({ theatre }) => renewValues(this, theatre));
 
 	}
 
@@ -96,13 +90,7 @@ export default class Theatre {
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			RETURN t.name AS name
 		`)
-			.then(name => {
-
-				renewValues(this, name);
-
-				return this;
-
-			});
+			.then(name => renewValues(this, name));
 
 	};
 
@@ -130,13 +118,7 @@ export default class Theatre {
 					SET t.name = '${esc(this.name)}'
 					RETURN t.name AS name
 				`)
-					.then(name => {
-
-						renewValues(this, name);
-
-						return this;
-
-					});
+					.then(name => renewValues(this, name));
 
 			});
 
@@ -161,13 +143,7 @@ export default class Theatre {
 					DETACH DELETE t
 					RETURN name
 				`)
-					.then(name => {
-
-						renewValues(this, name);
-
-						return this;
-
-					});
+					.then(name => renewValues(this, name));
 
 			});
 

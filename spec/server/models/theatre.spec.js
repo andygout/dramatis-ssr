@@ -9,7 +9,7 @@ const dbQueryListFixture = require('../../fixtures/theatres/db-query-list');
 
 const stubs = {
 	dbQuery: sinon.stub().resolves({}),
-	renewValues: sinon.stub(),
+	renewValues: sinon.stub().returns('renewValues return value'),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -179,7 +179,7 @@ describe('Theatre model', () => {
 				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq(instance);
+				expect(result).to.deep.eq('renewValues return value');
 				done();
 			});
 		});
@@ -207,7 +207,7 @@ describe('Theatre model', () => {
 				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq(instance);
+				expect(result).to.deep.eq('renewValues return value');
 				done();
 			});
 		});
@@ -237,7 +237,7 @@ describe('Theatre model', () => {
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq('renewValues return value');
 					done();
 				});
 			});
@@ -320,7 +320,7 @@ describe('Theatre model', () => {
 					expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
 					expect(instance.getShowData.notCalled).to.be.true;
 					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq('renewValues return value');
 					done();
 				});
 			});
@@ -347,7 +347,7 @@ describe('Theatre model', () => {
 					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(instance.getShowData.calledOnce).to.be.true;
 					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq('renewValues return value');
 					done();
 				});
 			});

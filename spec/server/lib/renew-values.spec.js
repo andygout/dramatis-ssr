@@ -10,6 +10,14 @@ const subject = require('../../../dist/lib/renew-values');
 
 describe('Renew Values module', () => {
 
+	it('will return renewed instance', () => {
+		instance = { title: 'Hamlet', associations: {} };
+		newValues = { title: 'Macbeth' };
+		const returnValue = subject(instance, newValues);
+		expect(returnValue).to.eq(instance);
+		expect(returnValue.title).to.eq('Macbeth');
+	});
+
 	it('will use arguments to renew existing top level property values of instance', () => {
 		instance = { title: 'Hamlet', associations: {} };
 		newValues = { title: 'Macbeth' };
