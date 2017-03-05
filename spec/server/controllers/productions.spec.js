@@ -23,7 +23,7 @@ const resetStubs = () => {
 
 };
 
-beforeEach(function () {
+beforeEach(() => {
 
 	resetStubs();
 
@@ -51,7 +51,7 @@ const createInstance = (action, method, methodStub) => {
 
 	next = sinon.stub();
 
-	const ProductionModel = (function (method) {
+	const ProductionModel = (method => {
 		switch (method) {
 			case 'new':
 				return methodStub;
@@ -76,7 +76,7 @@ describe('Production controller', () => {
 
 	describe('new method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = 'create';
 			method = 'new';
 		});
@@ -101,7 +101,7 @@ describe('Production controller', () => {
 
 	describe('create method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'create';
 		});
 
@@ -173,7 +173,7 @@ describe('Production controller', () => {
 
 	describe('edit method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = 'update';
 			method = 'edit';
 		});
@@ -194,10 +194,7 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							production: instanceFixture()
-						})
+						Object.assign({ page: pageDataFixture(action), production: instanceFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -231,7 +228,7 @@ describe('Production controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'update';
 		});
 
@@ -303,7 +300,7 @@ describe('Production controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'delete';
 		});
 
@@ -368,7 +365,7 @@ describe('Production controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'show';
 		});
 
@@ -426,11 +423,11 @@ describe('Production controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			method = 'list';
 		});
 
-		afterEach(function () {
+		afterEach(() => {
 			Production.list.restore();
 		});
 

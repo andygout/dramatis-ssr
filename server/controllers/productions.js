@@ -3,7 +3,7 @@ import { getAlert } from '../lib/alert';
 import getPageData from '../lib/get-page-data';
 import handleModelResponse from '../lib/handle-model-response';
 
-function newRoute (req, res, next) {
+const newRoute = (req, res, next) => {
 
 	const production = new Production();
 
@@ -13,7 +13,7 @@ function newRoute (req, res, next) {
 
 };
 
-function createRoute (req, res, next) {
+const createRoute = (req, res, next) => {
 
 	const production = new Production(req.body);
 
@@ -29,7 +29,7 @@ function createRoute (req, res, next) {
 
 };
 
-function editRoute (req, res, next) {
+const editRoute = (req, res, next) => {
 
 	const production = new Production(req.params);
 
@@ -45,7 +45,7 @@ function editRoute (req, res, next) {
 
 };
 
-function updateRoute (req, res, next) {
+const updateRoute = (req, res, next) => {
 
 	const production = new Production(req.body);
 
@@ -61,7 +61,7 @@ function updateRoute (req, res, next) {
 
 };
 
-function deleteRoute (req, res, next) {
+const deleteRoute = (req, res, next) => {
 
 	const production = new Production(req.body);
 
@@ -77,7 +77,7 @@ function deleteRoute (req, res, next) {
 
 };
 
-function showRoute (req, res, next) {
+const showRoute = (req, res, next) => {
 
 	const production = new Production(req.params);
 
@@ -93,7 +93,7 @@ function showRoute (req, res, next) {
 
 };
 
-function listRoute (req, res, next) {
+const listRoute = (req, res, next) => {
 
 	return Production.list()
 		.then(productions => {

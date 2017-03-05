@@ -1,13 +1,15 @@
 import propIsObject from './prop-is-object';
 
-const renewValuesLevel = (instance, newValues) => {
+const renewValuesLevel = (instance, newValues, associations) => {
 
 	for (const prop in instance) {
 		if (instance.hasOwnProperty(prop) && newValues.hasOwnProperty(prop)) {
 
 			instance[prop] = propIsObject(instance[prop]) ?
-				renewValuesLevel(instance[prop], newValues[prop]) :
-				newValues[prop]
+				renewValuesLevel(instance[prop], newValues[prop], associations) :
+				(prop in associations && Array.isArray(instance[prop]) && Array.isArray(newValues[prop])) ?
+					newValues[prop].map(constructorProps => new associations[prop](constructorProps)) :
+					newValues[prop];
 
 		}
 	}
@@ -18,6 +20,6 @@ const renewValuesLevel = (instance, newValues) => {
 
 export default (instance, newValues) => {
 
-	renewValuesLevel(instance, newValues);
+	return renewValuesLevel(instance, newValues, instance.getAssociations());
 
 };

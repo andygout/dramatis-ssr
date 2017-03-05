@@ -1,4 +1,4 @@
-module.exports = function (opts = {}) {
+module.exports = (opts = {}) => {
 
 	return {
 		name: 'Almeida Theatre',

@@ -1,11 +1,11 @@
-function setAlert (req, pageData) {
+const setAlert = (req, pageData) => {
 
 	req.flash('text', pageData.alertText);
 	req.flash('type', pageData.alertType);
 
 };
 
-function getAlert (req) {
+const getAlert = req => {
 
 	return { text: req.flash('text'), type: req.flash('type') };
 

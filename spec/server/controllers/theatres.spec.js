@@ -23,7 +23,7 @@ const resetStubs = () => {
 
 };
 
-beforeEach(function () {
+beforeEach(() => {
 
 	resetStubs();
 
@@ -69,7 +69,7 @@ describe('Theatre controller', () => {
 
 	describe('edit method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = 'update';
 			method = 'edit';
 		});
@@ -90,10 +90,7 @@ describe('Theatre controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							theatre: instanceFixture()
-						})
+						Object.assign({ page: pageDataFixture(action), theatre: instanceFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -127,7 +124,7 @@ describe('Theatre controller', () => {
 
 	describe('update method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'update';
 		});
 
@@ -199,7 +196,7 @@ describe('Theatre controller', () => {
 
 	describe('delete method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'delete';
 		});
 
@@ -264,7 +261,7 @@ describe('Theatre controller', () => {
 
 	describe('show method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			action = method = 'show';
 		});
 
@@ -320,11 +317,11 @@ describe('Theatre controller', () => {
 
 	describe('list method', () => {
 
-		beforeEach(function () {
+		beforeEach(() => {
 			method = 'list';
 		});
 
-		afterEach(function () {
+		afterEach(() => {
 			Theatre.list.restore();
 		});
 

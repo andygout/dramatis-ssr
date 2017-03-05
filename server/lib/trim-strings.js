@@ -16,8 +16,4 @@ const trimStrings = instance => {
 
 };
 
-export default function (instance) {
-
-	trimStrings(instance);
-
-};
+export default instance => trimStrings(instance);

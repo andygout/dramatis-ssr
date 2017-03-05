@@ -1,5 +1,1 @@
-export default function (instance) {
-
-	return `/${instance.constructor.name.toLowerCase()}s/${instance.uuid}`;
-
-};
+export default instance => `/${instance.constructor.name.toLowerCase()}s/${instance.uuid}`;

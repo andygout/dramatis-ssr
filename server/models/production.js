@@ -20,6 +20,12 @@ export default class Production {
 
 	};
 
+	getAssociations () {
+
+		return {};
+
+	};
+
 	validate () {
 
 		trimStrings(this);
@@ -30,15 +36,19 @@ export default class Production {
 
 	};
 
-	create () {
+	setErrorStatus () {
 
 		this.validate();
 
 		this.theatre.validate();
 
-		this.hasError = verifyErrorPresence(this);
+		return this.hasError = verifyErrorPresence(this);
 
-		if (this.hasError) return Promise.resolve(this);
+	};
+
+	create () {
+
+		if (this.setErrorStatus()) return Promise.resolve(this);
 
 		return this.theatre.create()
 			.then(({ uuid: theatreUuid }) => {
@@ -48,13 +58,7 @@ export default class Production {
 					CREATE (p:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })-[:PLAYS_AT]->(t)
 					RETURN { uuid: p.uuid, title: p.title } AS production
 				`)
-					.then(({ production }) => {
-
-						renewValues(this, production);
-
-						return this;
-
-					});
+					.then(({ production }) => renewValues(this, production));
 
 			});
 
@@ -66,25 +70,13 @@ export default class Production {
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN { title: p.title, theatre: { name: t.name } } AS production
 		`)
-			.then(({ production }) => {
-
-				renewValues(this, production);
-
-				return this;
-
-			});
+			.then(({ production }) => renewValues(this, production));
 
 	};
 
 	update () {
 
-		this.validate();
-
-		this.theatre.validate();
-
-		this.hasError = verifyErrorPresence(this);
-
-		if (this.hasError) return Promise.resolve(this);
+		if (this.setErrorStatus()) return Promise.resolve(this);
 
 		return this.theatre.create()
 			.then(({ uuid: theatreUuid }) => {
@@ -97,13 +89,7 @@ export default class Production {
 					SET p.title = '${esc(this.title)}'
 					RETURN { uuid: p.uuid, title: p.title } AS production
 				`)
-					.then(({ production }) => {
-
-						renewValues(this, production);
-
-						return this;
-
-					});
+					.then(({ production }) => renewValues(this, production));
 
 			});
 
@@ -117,13 +103,7 @@ export default class Production {
 			DETACH DELETE p
 			RETURN title
 		`)
-			.then(title => {
-
-				renewValues(this, title);
-
-				return this;
-
-			});
+			.then(title => renewValues(this, title));
 
 	};
 
@@ -133,13 +113,7 @@ export default class Production {
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN { title: p.title, theatre: { uuid: t.uuid, name: t.name } } AS production
 		`)
-			.then(({ production }) => {
-
-				renewValues(this, production);
-
-				return this;
-
-			});
+			.then(({ production }) => renewValues(this, production));
 
 	};
 

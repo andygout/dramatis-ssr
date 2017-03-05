@@ -3,7 +3,7 @@ import { getAlert } from '../lib/alert';
 import getPageData from '../lib/get-page-data';
 import handleModelResponse from '../lib/handle-model-response';
 
-function editRoute (req, res, next) {
+const editRoute = (req, res, next) => {
 
 	const theatre = new Theatre(req.params);
 
@@ -19,7 +19,7 @@ function editRoute (req, res, next) {
 
 };
 
-function updateRoute (req, res, next) {
+const updateRoute = (req, res, next) => {
 
 	const theatre = new Theatre(req.body);
 
@@ -35,7 +35,7 @@ function updateRoute (req, res, next) {
 
 };
 
-function deleteRoute (req, res, next) {
+const deleteRoute = (req, res, next) => {
 
 	const theatre = new Theatre(req.body);
 
@@ -51,7 +51,7 @@ function deleteRoute (req, res, next) {
 
 };
 
-function showRoute (req, res, next) {
+const showRoute = (req, res, next) => {
 
 	const theatre = new Theatre(req.params);
 
@@ -67,7 +67,7 @@ function showRoute (req, res, next) {
 
 };
 
-function listRoute (req, res, next) {
+const listRoute = (req, res, next) => {
 
 	return Theatre.list()
 		.then(theatres => {

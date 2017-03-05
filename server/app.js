@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, '../', 'client', 'javascripts')));
 app.use('/', router);
 
 // Catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
 
 	const err = new Error('Not Found');
 
@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 // Development error handler - will print stacktrace
 if (app.get('env') === 'development') {
 
-	app.use(function (err, req, res, next) {
+	app.use((err, req, res, next) => {
 
 		console.log(err);
 
@@ -84,7 +84,7 @@ if (app.get('env') === 'development') {
 }
 
 // Production error handler - no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
 
 	const errStatus = err.status || 500;
 
@@ -112,13 +112,13 @@ const normalizePort = val => {
 
 };
 
-const onError = error => {
+const onError = err => {
 
-	if (error.syscall !== 'listen') throw error;
+	if (err.syscall !== 'listen') throw err;
 
 	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
 
-	switch (error.code) {
+	switch (err.code) {
 		case 'EACCES':
 			console.error(bind + ' requires elevated privileges');
 			process.exit(1);
@@ -128,18 +128,8 @@ const onError = error => {
 			process.exit(1);
 			break;
 		default:
-			throw error;
+			throw err;
 	}
-
-};
-
-const onListening = () => {
-
-	const addr = server.address();
-
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-
-	console.log('Listening on ' + bind);
 
 };
 
@@ -151,10 +141,8 @@ const server = http.createServer(app);
 
 createConstraints().then(() => {
 
-	server.listen(port);
+	server.listen(port, () => console.log(`Listening on port ${port}`));
 
 	server.on('error', onError);
-
-	server.on('listening', onListening);
 
 });

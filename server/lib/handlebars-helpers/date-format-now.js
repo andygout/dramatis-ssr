@@ -1,7 +1,3 @@
 import dateFormat from 'dateformat';
 
-export default function(format) {
-
-	return dateFormat(new Date(), format);
-
-};
+export default format => dateFormat(new Date(), format);

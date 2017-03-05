@@ -1,4 +1,4 @@
-module.exports = function (action) {
+module.exports = action => {
 
 	return {
 		title: 'Hamlet',

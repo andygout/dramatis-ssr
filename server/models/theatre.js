@@ -20,6 +20,12 @@ export default class Theatre {
 
 	};
 
+	getAssociations () {
+
+		return { 'productions': Production };
+
+	};
+
 	validate () {
 
 		trimStrings(this);
@@ -56,7 +62,7 @@ export default class Theatre {
 
 			});
 
-	}
+	};
 
 	getShowData () {
 
@@ -66,19 +72,9 @@ export default class Theatre {
 			WITH t, CASE WHEN p IS NOT NULL THEN collect({ uuid: p.uuid, title: p.title }) ELSE [] END AS productions
 			RETURN { name: t.name, productions: productions } AS theatre
 		`)
-			.then(({ theatre }) => {
+			.then(({ theatre }) => renewValues(this, theatre));
 
-				renewValues(this, theatre);
-
-				this.productions = theatre.productions.length ?
-					theatre.productions.map(production => new Production(production)) :
-					[];
-
-				return this;
-
-			});
-
-	}
+	};
 
 	create () {
 
@@ -96,13 +92,7 @@ export default class Theatre {
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			RETURN t.name AS name
 		`)
-			.then(name => {
-
-				renewValues(this, name);
-
-				return this;
-
-			});
+			.then(name => renewValues(this, name));
 
 	};
 
@@ -130,13 +120,7 @@ export default class Theatre {
 					SET t.name = '${esc(this.name)}'
 					RETURN t.name AS name
 				`)
-					.then(name => {
-
-						renewValues(this, name);
-
-						return this;
-
-					});
+					.then(name => renewValues(this, name));
 
 			});
 
@@ -161,13 +145,7 @@ export default class Theatre {
 					DETACH DELETE t
 					RETURN name
 				`)
-					.then(name => {
-
-						renewValues(this, name);
-
-						return this;
-
-					});
+					.then(name => renewValues(this, name));
 
 			});
 

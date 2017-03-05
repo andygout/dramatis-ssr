@@ -1,6 +1,6 @@
 import { getAlert, setAlert } from './alert';
 
-export default function (req, res, data) {
+export default (req, res, data) => {
 
 	const page = data.page;
 
