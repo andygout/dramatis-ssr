@@ -60,7 +60,7 @@ export default class Theatre {
 
 			});
 
-	}
+	};
 
 	getShowData () {
 
@@ -72,7 +72,7 @@ export default class Theatre {
 		`)
 			.then(({ theatre }) => renewValues(this, theatre));
 
-	}
+	};
 
 	create () {
 

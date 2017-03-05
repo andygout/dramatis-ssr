@@ -42,7 +42,7 @@ export default class Production {
 
 		return this.hasError = verifyErrorPresence(this);
 
-	}
+	};
 
 	create () {
 
