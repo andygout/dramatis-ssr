@@ -18,9 +18,11 @@ export default class Theatre {
 		this.hasError = false;
 		this.errors = {};
 
-		Object.defineProperty(this, 'associations', {
-			get: function () { return { 'productions': Production }; }
-		});
+	};
+
+	getAssociations () {
+
+		return { 'productions': Production };
 
 	};
 

@@ -20,6 +20,6 @@ const renewValuesLevel = (instance, newValues, associations) => {
 
 export default (instance, newValues) => {
 
-	return renewValuesLevel(instance, newValues, instance.associations);
+	return renewValuesLevel(instance, newValues, instance.getAssociations());
 
 };
