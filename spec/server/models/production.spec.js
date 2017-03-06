@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 require('sinon-as-promised');
 
-const dbQueryListFixture = require('../../fixtures/productions/db-query-list');
+const dbQueryFixture = require('../../fixtures/db-query');
 
 const TheatreStub = function () {
 
@@ -14,8 +14,7 @@ const TheatreStub = function () {
 };
 
 const stubs = {
-	dbQuery: sinon.stub().resolves({}),
-	renewValues: sinon.stub().returns('renewValues return value'),
+	dbQuery: sinon.stub().resolves(dbQueryFixture),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -25,7 +24,6 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
-	stubs.renewValues.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -40,14 +38,13 @@ beforeEach(() => {
 
 let instance;
 
-const createSubject = stubOverrides =>
+const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
-		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/renew-values': stubs.renewValues,
+		'../database/db-query': stubs.dbQuery,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-		'./theatre': stubOverrides.Theatre || stubs.Theatre
+		'./theatre': stubs.Theatre
 	});
 
 const createInstance = (stubOverrides = {}) => {
@@ -134,18 +131,15 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will create then return renewed instance', done => {
+			it('will create', done => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
-					sinon.assert.callOrder(
-						instance.setErrorStatus, instance.theatre.create, stubs.dbQuery, stubs.renewValues
-					);
+					sinon.assert.callOrder(instance.setErrorStatus, instance.theatre.create, stubs.dbQuery);
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
-					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq('renewValues return value');
+					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
 			});
@@ -161,8 +155,7 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
-					expect(stubs.renewValues.notCalled).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq({ production: instance });
 					done();
 				});
 			});
@@ -173,13 +166,11 @@ describe('Production model', () => {
 
 	describe('edit method', () => {
 
-		it('will get edit data then return renewed instance', done => {
+		it('will get edit data', done => {
 			instance = createInstance();
 			instance.edit().then(result => {
-				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq('renewValues return value');
+				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
 		});
@@ -190,18 +181,15 @@ describe('Production model', () => {
 
 		context('valid data', () => {
 
-			it('will update then return renewed instance', done => {
+			it('will update', done => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
-					sinon.assert.callOrder(
-						instance.setErrorStatus, instance.theatre.create, stubs.dbQuery, stubs.renewValues
-					);
+					sinon.assert.callOrder(instance.setErrorStatus, instance.theatre.create, stubs.dbQuery);
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
-					expect(stubs.renewValues.calledOnce).to.be.true;
-					expect(result).to.deep.eq('renewValues return value');
+					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
 			});
@@ -217,8 +205,7 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
-					expect(stubs.renewValues.notCalled).to.be.true;
-					expect(result).to.deep.eq(instance);
+					expect(result).to.deep.eq({ production: instance });
 					done();
 				});
 			});
@@ -229,13 +216,11 @@ describe('Production model', () => {
 
 	describe('delete method', () => {
 
-		it('will delete then return renewed instance', done => {
+		it('will delete', done => {
 			instance = createInstance();
 			instance.delete().then(result => {
-				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq('renewValues return value');
+				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
 		});
@@ -244,13 +229,11 @@ describe('Production model', () => {
 
 	describe('show method', () => {
 
-		it('will get show data then return renewed instance', done => {
+		it('will get show data', done => {
 			instance = createInstance();
 			instance.show().then(result => {
-				expect(stubs.dbQuery.calledBefore(stubs.renewValues)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.renewValues.calledOnce).to.be.true;
-				expect(result).to.deep.eq('renewValues return value');
+				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
 		});
@@ -259,13 +242,11 @@ describe('Production model', () => {
 
 	describe('list method', () => {
 
-		it('will get list data then return array of instances', done => {
-			const dbQueryListStub = sinon.stub().resolves(dbQueryListFixture);
-			const subject = createSubject({ dbQuery: dbQueryListStub, Theatre: sinon.stub() });
+		it('will get list data', done => {
+			const subject = createSubject();
 			subject.list().then(result => {
-				instance = new subject(dbQueryListFixture.productions[0])
-				expect(dbQueryListStub.calledOnce).to.be.true;
-				expect(result).to.deep.eq([instance]);
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
 		});

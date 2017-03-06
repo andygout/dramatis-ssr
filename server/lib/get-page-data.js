@@ -1,6 +1,6 @@
 import modelNamingPropMap from './model-naming-prop-map';
 
-const getModelName = instance => instance.constructor.name.toLowerCase();
+const getModelName = instance => instance.model.toLowerCase();
 
 const checkIfCreateAction = action => action === 'create';
 
@@ -14,7 +14,7 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 	if (action !== 'create') {
 
-		if (model === 'production') documentTitle += ` (${instance.theatre.name})`;
+		if (model === 'production' && instance.theatre) documentTitle += ` (${instance.theatre.name})`;
 
 		documentTitle += ` (${model})`;
 
@@ -33,7 +33,7 @@ const getAlertText = (model, instance, action) => {
 		action.toUpperCase() + 'D: ' + instanceText}
 	`.trim();
 
-	if (instance.errors.associations) alertText += `
+	if (instance.errors && instance.errors.associations) alertText += `
 		: Dependent associations exist with ${instance.errors.associations.join()}
 	`.trim();
 

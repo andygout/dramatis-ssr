@@ -7,8 +7,8 @@ require('sinon-as-promised');
 const Production = require('../../../dist/models/production');
 
 const alertFixture = require('../../fixtures/alert');
-const dataListFixture = require('../../fixtures/data-list');
 const instanceFixture = require('../../fixtures/productions/instance');
+const instancesListFixture = require('../../fixtures/productions/instances-list');
 const pageDataFixture = require('../../fixtures/productions/page-data');
 
 const err = new Error('errorText');
@@ -135,11 +135,10 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							production: instanceFixture({ hasError: true }),
-							alert: alertFixture
-						})
+						Object.assign(
+							instanceFixture({ hasError: true }),
+							{ page: pageDataFixture(action), alert: alertFixture }
+						)
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -194,7 +193,7 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({ page: pageDataFixture(action), production: instanceFixture() })
+						Object.assign(instanceFixture(), { page: pageDataFixture(action) })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -262,11 +261,10 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							production: instanceFixture({ hasError: true }),
-							alert: alertFixture
-						})
+						Object.assign(
+							instanceFixture({ hasError: true }),
+							{ page: pageDataFixture(action), alert: alertFixture }
+						)
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -385,11 +383,7 @@ describe('Production controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/show');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							production: instanceFixture(),
-							alert: alertFixture
-						})
+						Object.assign(instanceFixture(), { page: pageDataFixture(action), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -434,16 +428,15 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
-				methodStub = Promise.resolve(dataListFixture);
+				methodStub = Promise.resolve(instancesListFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/list');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: { documentTitle: ' | Home', title: 'Productions' },
-							productions: dataListFixture,
-							alert: alertFixture
-						})
+						Object.assign(
+							instancesListFixture(),
+							{ page: { documentTitle: ' | Home', title: 'Productions' }, alert: alertFixture }
+						)
 					);
 					expect(next.notCalled).to.be.true;
 					done();

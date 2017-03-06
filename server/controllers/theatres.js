@@ -8,7 +8,7 @@ const editRoute = (req, res, next) => {
 	const theatre = new Theatre(req.params);
 
 	return theatre.edit()
-		.then(theatre => {
+		.then(({ theatre }) => {
 
 			const page = getPageData(theatre, 'update');
 
@@ -24,7 +24,7 @@ const updateRoute = (req, res, next) => {
 	const theatre = new Theatre(req.body);
 
 	return theatre.update()
-		.then(theatre => {
+		.then(({ theatre }) => {
 
 			const page = getPageData(theatre, 'update');
 
@@ -40,7 +40,7 @@ const deleteRoute = (req, res, next) => {
 	const theatre = new Theatre(req.body);
 
 	return theatre.delete()
-		.then(theatre => {
+		.then(({ theatre }) => {
 
 			const page = getPageData(theatre, 'delete');
 
@@ -56,7 +56,7 @@ const showRoute = (req, res, next) => {
 	const theatre = new Theatre(req.params);
 
 	return theatre.show()
-		.then(theatre => {
+		.then(({ theatre }) => {
 
 			const page = getPageData(theatre, 'show');
 
@@ -70,7 +70,7 @@ const showRoute = (req, res, next) => {
 const listRoute = (req, res, next) => {
 
 	return Theatre.list()
-		.then(theatres => {
+		.then(({ theatres }) => {
 
 			const pageTitle = 'Theatres';
 

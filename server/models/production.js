@@ -1,7 +1,6 @@
 import { v4 as uuid } from 'node-uuid';
 import dbQuery from '../database/db-query';
 import esc from '../lib/escape-string';
-import renewValues from '../lib/renew-values';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -11,18 +10,16 @@ export default class Production {
 
 	constructor (props = {}) {
 
+		Object.defineProperty(this, 'model', {
+			get: function () { return 'Production'; }
+		});
+
 		this.uuid = props.uuid;
 		this.title = props.title;
 		this.pageTitleText = props.pageTitleText;
 		this.theatre = new Theatre({ uuid: props.theatreUuid, name: props.theatreName });
 		this.hasError = false;
 		this.errors = {};
-
-	};
-
-	getAssociations () {
-
-		return {};
 
 	};
 
@@ -48,7 +45,7 @@ export default class Production {
 
 	create () {
 
-		if (this.setErrorStatus()) return Promise.resolve(this);
+		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
 		return this.theatre.create()
 			.then(({ uuid: theatreUuid }) => {
@@ -56,9 +53,12 @@ export default class Production {
 				return dbQuery(`
 					MATCH (t:Theatre { uuid: '${theatreUuid}' })
 					CREATE (p:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })-[:PLAYS_AT]->(t)
-					RETURN { uuid: p.uuid, title: p.title } AS production
-				`)
-					.then(({ production }) => renewValues(this, production));
+					RETURN {
+						model: 'Production',
+						uuid: p.uuid,
+						title: p.title
+					} AS production
+				`);
 
 			});
 
@@ -68,15 +68,22 @@ export default class Production {
 
 		return dbQuery(`
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
-			RETURN { title: p.title, theatre: { name: t.name } } AS production
-		`)
-			.then(({ production }) => renewValues(this, production));
+			RETURN {
+				model: 'Production',
+				uuid: p.uuid,
+				title: p.title,
+				theatre: {
+					model: 'Theatre',
+					name: t.name
+				}
+			} AS production
+		`);
 
 	};
 
 	update () {
 
-		if (this.setErrorStatus()) return Promise.resolve(this);
+		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
 		return this.theatre.create()
 			.then(({ uuid: theatreUuid }) => {
@@ -87,9 +94,12 @@ export default class Production {
 					DELETE r
 					MERGE (p)-[:PLAYS_AT]->(t)
 					SET p.title = '${esc(this.title)}'
-					RETURN { uuid: p.uuid, title: p.title } AS production
-				`)
-					.then(({ production }) => renewValues(this, production));
+					RETURN {
+						model: 'Production',
+						uuid: p.uuid,
+						title: p.title
+					} AS production
+				`);
 
 			});
 
@@ -101,9 +111,11 @@ export default class Production {
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })
 			WITH p, p.title AS title
 			DETACH DELETE p
-			RETURN title
-		`)
-			.then(title => renewValues(this, title));
+			RETURN {
+				model: 'Production',
+				title: title
+			} AS production
+		`);
 
 	};
 
@@ -111,9 +123,17 @@ export default class Production {
 
 		return dbQuery(`
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
-			RETURN { title: p.title, theatre: { uuid: t.uuid, name: t.name } } AS production
-		`)
-			.then(({ production }) => renewValues(this, production));
+			RETURN {
+				model: 'Production',
+				uuid: p.uuid,
+				title: p.title,
+				theatre: {
+					model: 'Theatre',
+					uuid: t.uuid,
+					name: t.name
+				}
+			} AS production
+		`);
 
 	};
 
@@ -122,17 +142,16 @@ export default class Production {
 		return dbQuery(`
 			MATCH (p:Production)-[:PLAYS_AT]->(t:Theatre)
 			RETURN collect({
+				model: 'Production',
 				uuid: p.uuid,
 				title: p.title,
-				theatreUuid: t.uuid,
-				theatreName: t.name
+				theatre: {
+					model: 'Theatre',
+					uuid: t.uuid,
+					name: t.name
+				}
 			}) AS productions
-		`)
-			.then(({ productions }) => {
-
-				return productions.map(production => new Production(production));
-
-			});
+		`);
 
 	};
 

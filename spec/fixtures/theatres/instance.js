@@ -1,8 +1,10 @@
 module.exports = (opts = {}) => {
 
 	return {
-		name: 'Almeida Theatre',
-		hasError: opts.hasError || false
+		theatre: {
+			name: 'Almeida Theatre',
+			hasError: opts.hasError || false
+		}
 	};
 
 

@@ -7,8 +7,8 @@ require('sinon-as-promised');
 const Theatre = require('../../../dist/models/theatre');
 
 const alertFixture = require('../../fixtures/alert');
-const dataListFixture = require('../../fixtures/data-list');
 const instanceFixture = require('../../fixtures/theatres/instance');
+const instancesListFixture = require('../../fixtures/theatres/instances-list');
 const pageDataFixture = require('../../fixtures/theatres/page-data');
 
 const err = new Error('errorText');
@@ -90,7 +90,7 @@ describe('Theatre controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({ page: pageDataFixture(action), theatre: instanceFixture() })
+						Object.assign(instanceFixture(), { page: pageDataFixture(action) })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -166,11 +166,10 @@ describe('Theatre controller', () => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: pageDataFixture(action),
-							theatre: instanceFixture({ hasError: true }),
-							alert: alertFixture
-						})
+						Object.assign(
+							instanceFixture({ hasError: true }),
+							{ page: pageDataFixture(action), alert: alertFixture }
+						)
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -280,11 +279,9 @@ describe('Theatre controller', () => {
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/show');
-					expect(response._getRenderData()).to.deep.eq({
-							page: pageDataFixture(action),
-							theatre: instanceFixture(),
-							alert: alertFixture
-					});
+					expect(response._getRenderData()).to.deep.eq(
+						Object.assign(instanceFixture(), { page: pageDataFixture(action), alert: alertFixture })
+					);
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -328,16 +325,15 @@ describe('Theatre controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
-				methodStub = Promise.resolve(dataListFixture);
+				methodStub = Promise.resolve(instancesListFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/list');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign({
-							page: { documentTitle: ' | Theatres', title: 'Theatres' },
-							theatres: dataListFixture,
-							alert: alertFixture
-						})
+						Object.assign(
+							instancesListFixture(),
+							{ page: { documentTitle: ' | Theatres', title: 'Theatres' }, alert: alertFixture }
+						)
 					);
 					expect(next.notCalled).to.be.true;
 					done();

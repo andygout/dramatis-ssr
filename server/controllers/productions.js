@@ -18,7 +18,7 @@ const createRoute = (req, res, next) => {
 	const production = new Production(req.body);
 
 	return production.create()
-		.then(production => {
+		.then(({ production }) => {
 
 			const page = getPageData(production, 'create');
 
@@ -34,7 +34,7 @@ const editRoute = (req, res, next) => {
 	const production = new Production(req.params);
 
 	return production.edit()
-		.then(production => {
+		.then(({ production }) => {
 
 			const page = getPageData(production, 'update');
 
@@ -50,7 +50,7 @@ const updateRoute = (req, res, next) => {
 	const production = new Production(req.body);
 
 	return production.update()
-		.then(production => {
+		.then(({ production }) => {
 
 			const page = getPageData(production, 'update');
 
@@ -66,7 +66,7 @@ const deleteRoute = (req, res, next) => {
 	const production = new Production(req.body);
 
 	return production.delete()
-		.then(production => {
+		.then(({ production }) => {
 
 			const page = getPageData(production, 'delete');
 
@@ -82,7 +82,7 @@ const showRoute = (req, res, next) => {
 	const production = new Production(req.params);
 
 	return production.show()
-		.then(production => {
+		.then(({ production }) => {
 
 			const page = getPageData(production, 'show');
 
@@ -96,7 +96,7 @@ const showRoute = (req, res, next) => {
 const listRoute = (req, res, next) => {
 
 	return Production.list()
-		.then(productions => {
+		.then(({ productions }) => {
 
 			const page = { documentTitle: ' | Home', title: 'Productions' };
 
