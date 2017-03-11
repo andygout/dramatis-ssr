@@ -128,21 +128,13 @@ describe('Theatre controller', () => {
 			action = method = 'update';
 		});
 
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
-		});
-
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect to instance)', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/theatres/1');
+					expect(response._getRedirectUrl()).to.eq('/theatres/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -160,7 +152,7 @@ describe('Theatre controller', () => {
 				});
 			});
 
-			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
+			xit('will return status code 200 (OK) and render \'theatres/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
@@ -199,14 +191,6 @@ describe('Theatre controller', () => {
 			action = method = 'delete';
 		});
 
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
-		});
-
 		context('resolves with data with no model errors', () => {
 
 			it('will return status code 302 (redirect to root)', done => {
@@ -227,7 +211,7 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
 				createInstance(action, method, methodStub).then(() => {
 					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/theatres/1');
+					expect(response._getRedirectUrl()).to.eq('/theatres/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 					expect(next.notCalled).to.be.true;
 					done();
 				});

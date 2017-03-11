@@ -9,7 +9,7 @@ const newRoute = (req, res, next) => {
 
 	const page = getPageData(production, 'create');
 
-	res.render(`${page.modelRoute}/form`, { page, production });
+	res.render(`${production.model.toLowerCase()}s/form`, { page, production });
 
 };
 
@@ -20,9 +20,7 @@ const createRoute = (req, res, next) => {
 	return production.create()
 		.then(({ production }) => {
 
-			const page = getPageData(production, 'create');
-
-			handleModelResponse(req, res, { page, production });
+			handleModelResponse(req, res, production, 'create');
 
 		})
 		.catch(err => next(err));
@@ -38,7 +36,7 @@ const editRoute = (req, res, next) => {
 
 			const page = getPageData(production, 'update');
 
-			res.render(`${page.modelRoute}/form`, { page, production });
+			res.render(`${production.model.toLowerCase()}s/form`, { page, production });
 
 		})
 		.catch(err => next(err));
@@ -52,9 +50,7 @@ const updateRoute = (req, res, next) => {
 	return production.update()
 		.then(({ production }) => {
 
-			const page = getPageData(production, 'update');
-
-			handleModelResponse(req, res, { page, production });
+			handleModelResponse(req, res, production, 'update');
 
 		})
 		.catch(err => next(err));
@@ -68,9 +64,7 @@ const deleteRoute = (req, res, next) => {
 	return production.delete()
 		.then(({ production }) => {
 
-			const page = getPageData(production, 'delete');
-
-			handleModelResponse(req, res, { page, production });
+			handleModelResponse(req, res, production, 'delete');
 
 		})
 		.catch(err => next(err));
@@ -86,7 +80,7 @@ const showRoute = (req, res, next) => {
 
 			const page = getPageData(production, 'show');
 
-			res.render(`${page.modelRoute}/show`, { page, production, alert: getAlert(req) });
+			res.render(`${production.model.toLowerCase()}s/show`, { page, production, alert: getAlert(req) });
 
 		})
 		.catch(err => next(err));
@@ -100,7 +94,7 @@ const listRoute = (req, res, next) => {
 
 			const page = { documentTitle: ' | Home', title: 'Productions' };
 
-			res.render('productions/list', Object.assign({ page, productions, alert: getAlert(req) }));
+			res.render('productions/list', { page, productions, alert: getAlert(req) });
 
 		})
 		.catch(err => next(err));

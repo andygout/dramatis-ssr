@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 
-const subject = require('../../../../dist/lib/handlebars-helpers/instance-route');
+const subject = require('../../../dist/lib/instance-route');
 
-describe('Instance Route handlebars helper', () => {
+describe('Instance Route module', () => {
 
 	it('will return URL (pluralised model name and uuid) for instance', () => {
 		const productionInstance = { model: 'Production', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' };
