@@ -10,7 +10,7 @@ const editRoute = (req, res, next) => {
 	return theatre.edit()
 		.then(({ theatre }) => {
 
-			res.render(`${theatre.model.toLowerCase()}s/form`, {
+			res.render(`theatres/form`, {
 				theatre,
 				page: getPageData(theatre, 'update')
 			});
@@ -55,7 +55,7 @@ const showRoute = (req, res, next) => {
 	return theatre.show()
 		.then(({ theatre }) => {
 
-			res.render(`${theatre.model.toLowerCase()}s/show`, {
+			res.render(`theatres/show`, {
 				theatre,
 				page: getPageData(theatre, 'show'),
 				alert: getAlert(req)
