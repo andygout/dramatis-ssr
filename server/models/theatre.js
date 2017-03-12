@@ -76,7 +76,7 @@ export default class Theatre {
 		return dbQuery(`
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			RETURN {
-				model: 'Theatre',
+				model: 'theatre',
 				uuid: t.uuid,
 				name: t.name
 			} AS theatre
@@ -103,7 +103,7 @@ export default class Theatre {
 					MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 					SET t.name = '${esc(this.name)}'
 					RETURN {
-						model: 'Theatre',
+						model: 'theatre',
 						uuid: t.uuid,
 						name: t.name
 					} AS theatre
@@ -127,7 +127,7 @@ export default class Theatre {
 					WITH t, t.name AS name
 					DETACH DELETE t
 					RETURN {
-						model: 'Theatre',
+						model: 'theatre',
 						name: name
 					} AS theatre
 				`);
@@ -142,12 +142,12 @@ export default class Theatre {
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(p:Production)
 			WITH t, CASE WHEN p IS NOT NULL THEN collect({
-				model: 'Production',
+				model: 'production',
 				uuid: p.uuid,
 				title: p.title
 			}) ELSE [] END AS productions
 			RETURN {
-				model: 'Theatre',
+				model: 'theatre',
 				uuid: t.uuid,
 				name: t.name,
 				productions: productions
@@ -161,7 +161,7 @@ export default class Theatre {
 		return dbQuery(`
 			MATCH (t:Theatre)
 			RETURN collect({
-				model: 'Theatre',
+				model: 'theatre',
 				uuid: t.uuid,
 				name: t.name
 			}) AS theatres

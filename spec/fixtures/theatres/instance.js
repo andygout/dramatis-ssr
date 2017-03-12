@@ -1,7 +1,7 @@
 module.exports = (opts = {}) => {
 
 	return {
-		model: 'Theatre',
+		model: 'theatre',
 		name: 'Almeida Theatre',
 		errors: opts.errorsAssociations || {},
 		hasError: opts.hasError || false

@@ -1,1 +1,1 @@
-export default instance => `/${instance.model.toLowerCase()}s/${instance.uuid}`;
+export default instance => `/${instance.model}s/${instance.uuid}`;

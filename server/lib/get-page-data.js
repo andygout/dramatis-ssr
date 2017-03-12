@@ -22,7 +22,7 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 export default (instance, action) => {
 
-	const model = instance.model.toLowerCase();
+	const model = instance.model;
 
 	const isCreateAction = (action === 'create');
 

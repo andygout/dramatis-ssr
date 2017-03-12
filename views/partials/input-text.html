@@ -1,13 +1,13 @@
 <div class="field">
 	<label
-		for="{{#if instance}}{{modelLowerCase instance}}{{capitalise namingValue}}{{else}}{{namingValue}}{{/if}}"
+		for="{{#if instance}}{{model instance}}{{capitalise namingValue}}{{else}}{{namingValue}}{{/if}}"
 		class="label mandatory"
 	>
-		{{~#if instance}}{{model instance}}{{else}}{{capitalise namingValue}}{{/if~}}
+		{{~#if instance}}{{modelCapitalise instance}}{{else}}{{capitalise namingValue}}{{/if~}}
 	</label>
 	<input
 		value="{{value}}"
-		name="{{#if instance}}{{modelLowerCase instance}}{{capitalise namingValue}}{{else}}{{namingValue}}{{/if}}"
+		name="{{#if instance}}{{model instance}}{{capitalise namingValue}}{{else}}{{namingValue}}{{/if}}"
 		type="text"
 		maxlength="255"
 		class="field__input{{#if errors}} field__input--has-error{{/if}}"

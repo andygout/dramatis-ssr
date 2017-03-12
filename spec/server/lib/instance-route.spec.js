@@ -6,7 +6,7 @@ describe('Instance Route module', () => {
 
 	it('will return URL (pluralised model name and uuid) for instance', () => {
 
-		const productionInstance = { model: 'Production', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' };
+		const productionInstance = { model: 'production', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' };
 		expect(subject(productionInstance)).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 	});

@@ -56,7 +56,7 @@ export default class Production {
 					MATCH (t:Theatre { uuid: '${theatreUuid}' })
 					CREATE (p:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })-[:PLAYS_AT]->(t)
 					RETURN {
-						model: 'Production',
+						model: 'production',
 						uuid: p.uuid,
 						title: p.title
 					} AS production
@@ -71,11 +71,11 @@ export default class Production {
 		return dbQuery(`
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN {
-				model: 'Production',
+				model: 'production',
 				uuid: p.uuid,
 				title: p.title,
 				theatre: {
-					model: 'Theatre',
+					model: 'theatre',
 					name: t.name
 				}
 			} AS production
@@ -97,7 +97,7 @@ export default class Production {
 					MERGE (p)-[:PLAYS_AT]->(t)
 					SET p.title = '${esc(this.title)}'
 					RETURN {
-						model: 'Production',
+						model: 'production',
 						uuid: p.uuid,
 						title: p.title
 					} AS production
@@ -114,7 +114,7 @@ export default class Production {
 			WITH p, p.title AS title
 			DETACH DELETE p
 			RETURN {
-				model: 'Production',
+				model: 'production',
 				title: title
 			} AS production
 		`);
@@ -126,11 +126,11 @@ export default class Production {
 		return dbQuery(`
 			MATCH (p:Production { uuid: '${esc(this.uuid)}' })-[:PLAYS_AT]->(t:Theatre)
 			RETURN {
-				model: 'Production',
+				model: 'production',
 				uuid: p.uuid,
 				title: p.title,
 				theatre: {
-					model: 'Theatre',
+					model: 'theatre',
 					uuid: t.uuid,
 					name: t.name
 				}
@@ -144,11 +144,11 @@ export default class Production {
 		return dbQuery(`
 			MATCH (p:Production)-[:PLAYS_AT]->(t:Theatre)
 			RETURN collect({
-				model: 'Production',
+				model: 'production',
 				uuid: p.uuid,
 				title: p.title,
 				theatre: {
-					model: 'Theatre',
+					model: 'theatre',
 					uuid: t.uuid,
 					name: t.name
 				}

@@ -8,8 +8,8 @@ describe('Model handlebars helper', () => {
 
 		it('will return model name of instance', () => {
 
-			const productionInstance = { model: 'Production' };
-			expect(subject(productionInstance)).to.eq('Production');
+			const productionInstance = { model: 'production' };
+			expect(subject(productionInstance)).to.eq('production');
 
 		});
 
@@ -19,8 +19,8 @@ describe('Model handlebars helper', () => {
 
 		it('will return pluralised model name of first instance in array', () => {
 
-			const productionInstance = { model: 'Production' };
-			expect(subject([productionInstance])).to.eq('Productions');
+			const productionInstance = { model: 'production' };
+			expect(subject([productionInstance])).to.eq('productions');
 
 		});
 
