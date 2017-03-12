@@ -87,13 +87,14 @@ describe('Production controller', () => {
 
 		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
 
-			methodStub = sinon.stub().returns({ model: 'Production' });
+			const ProductionStub = sinon.createStubInstance(Production);
+			methodStub = sinon.stub().returns(ProductionStub);
 			createInstance(method, methodStub);
 			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly({ model: 'Production' }, 'create')).to.be.true;
+			expect(stubs.getPageData.calledWithExactly(ProductionStub, 'create')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
-			expect(res._getRenderData()).to.deep.eq({ production: { model: 'Production' }, page: pageDataFixture() });
+			expect(res._getRenderData()).to.deep.eq({ production: ProductionStub, page: pageDataFixture() });
 
 		});
 
