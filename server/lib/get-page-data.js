@@ -31,7 +31,7 @@ export default (instance, action) => {
 	return {
 		documentTitle: getDocumentTitle(instance, action, model, title),
 		title,
-		modelName: model,
+		model,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.uuid}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`
 	};
