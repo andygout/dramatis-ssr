@@ -1,5 +1,6 @@
 import express from 'express';
 import methodOverride from 'method-override';
+
 import * as controllers from '../controllers';
 
 const router = express.Router();
