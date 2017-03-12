@@ -7,8 +7,10 @@ describe('Instance Naming Value module', () => {
 	context('Production model instance', () => {
 
 		it('will return value of title property', () => {
+
 			const productionInstance = { model: 'Production', title: 'Hamlet' };
 			expect(subject(productionInstance)).to.eq('Hamlet');
+
 		});
 
 	});
@@ -16,8 +18,10 @@ describe('Instance Naming Value module', () => {
 	context('Theatre model instance', () => {
 
 		it('will return value of name property', () => {
+
 			const theatreInstance = { model: 'Theatre', name: 'Almeida Theatre' };
 			expect(subject(theatreInstance)).to.eq('Almeida Theatre');
+
 		});
 
 	});

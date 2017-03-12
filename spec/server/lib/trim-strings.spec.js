@@ -30,19 +30,23 @@ const createSubject = (stubOverrides = {}) =>
 describe('Trim Strings module', () => {
 
 	it('will trim leading and trailing whitespace from top level string values', () => {
+
 		const subject = createSubject();
 		instance = { title: ` ${titleString} ` };
 		subject(instance);
 		expect(instance.title).to.eq(titleString);
+
 	});
 
 	it('will trim leading and trailing whitespace from nested string values', () => {
+
 		const propIsObjectStub = sinon.stub();
 		propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
 		const subject = createSubject({ propIsObject: propIsObjectStub });
 		instance = { theatre: { name: ` ${nameString} ` } };
 		subject(instance);
 		expect(instance.theatre.name).to.eq(nameString);
+
 	});
 
 });

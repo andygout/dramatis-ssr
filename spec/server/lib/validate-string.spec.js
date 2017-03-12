@@ -13,7 +13,9 @@ describe('Validate String module', () => {
 	context('valid data', () => {
 
 		it('will not add error to titleErrors array if title string is acceptable length', () => {
+
 			expect(subject(validLengthString, 'Title')).to.deep.eq([]);
+
 		});
 
 	});
@@ -21,11 +23,15 @@ describe('Validate String module', () => {
 	context('invalid data', () => {
 
 		it('will add error to titleErrors array if title string is too short', () => {
+
 			expect(subject(subMinLengthString, 'Title')).to.deep.eq(['Title is too short']);
+
 		});
 
 		it('will add error to titleErrors array if title string is too long', () => {
+
 			expect(subject(surMaxLengthString, 'Title')).to.deep.eq(['Title is too long']);
+
 		});
 
 	});

@@ -32,14 +32,18 @@ describe('Create Alert Data module', () => {
 	describe('create action', () => {
 
 		beforeEach(() => {
+
 			action = 'create';
+
 		});
 
 		context('instance does not have model errors', () => {
 
 			it('will return data for successful create alert', () => {
+
 				const alertData = subject(instanceFixture(), action);
 				expect(alertData).to.deep.eq({ text: 'THEATRE CREATED: Almeida Theatre', type: 'success' });
+
 			});
 
 		});
@@ -47,8 +51,10 @@ describe('Create Alert Data module', () => {
 		context('instance has model errors', () => {
 
 			it('will return data for unsuccessful create alert', () => {
+
 				const alertData = subject(instanceFixture({ hasError: true }), action);
 				expect(alertData).to.deep.eq({ text: 'THEATRE ERRORS', type: 'error' });
+
 			});
 
 		});
@@ -58,14 +64,18 @@ describe('Create Alert Data module', () => {
 	describe('update action', () => {
 
 		beforeEach(() => {
+
 			action = 'update';
+
 		});
 
 		context('instance does not have model errors', () => {
 
 			it('will return data for successful update alert', () => {
+
 				const alertData = subject(instanceFixture(), action);
 				expect(alertData).to.deep.eq({ text: 'THEATRE UPDATED: Almeida Theatre', type: 'success' });
+
 			});
 
 		});
@@ -73,8 +83,10 @@ describe('Create Alert Data module', () => {
 		context('instance has model errors', () => {
 
 			it('will return data for unsuccessful update alert', () => {
+
 				const alertData = subject(instanceFixture({ hasError: true }), action);
 				expect(alertData).to.deep.eq({ text: 'THEATRE ERRORS', type: 'error' });
+
 			});
 
 		});
@@ -84,14 +96,18 @@ describe('Create Alert Data module', () => {
 	describe('delete action', () => {
 
 		beforeEach(() => {
+
 			action = 'delete';
+
 		});
 
 		context('instance does not have model errors', () => {
 
 			it('will return data for successful delete alert', () => {
+
 				const alertData = subject(instanceFixture(), action);
 				expect(alertData).to.deep.eq({ text: 'THEATRE DELETED: Almeida Theatre', type: 'success' });
+
 			});
 
 		});
@@ -99,6 +115,7 @@ describe('Create Alert Data module', () => {
 		context('instance has model errors (existing dependent associations)', () => {
 
 			it('will return data for unsuccessful creation alert', () => {
+
 				const instance = instanceFixture({
 						hasError: true,
 						errorsAssociations: { associations: ['productions'] }
@@ -108,6 +125,7 @@ describe('Create Alert Data module', () => {
 					text: 'THEATRE ERRORS: Dependent associations exist with productions',
 					type: 'error'
 				});
+
 			});
 
 		});

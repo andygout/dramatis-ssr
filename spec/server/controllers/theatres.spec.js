@@ -73,12 +73,15 @@ describe('Theatre controller', () => {
 	describe('edit method', () => {
 
 		beforeEach(() => {
+
 			method = 'edit';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
@@ -91,6 +94,7 @@ describe('Theatre controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -98,6 +102,7 @@ describe('Theatre controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.notCalled).to.be.true;
@@ -105,6 +110,7 @@ describe('Theatre controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -114,12 +120,15 @@ describe('Theatre controller', () => {
 	describe('update method', () => {
 
 		beforeEach(() => {
+
 			method = 'update';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
@@ -129,6 +138,7 @@ describe('Theatre controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -136,6 +146,7 @@ describe('Theatre controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.notCalled).to.be.true;
@@ -143,6 +154,7 @@ describe('Theatre controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -152,12 +164,15 @@ describe('Theatre controller', () => {
 	describe('delete method', () => {
 
 		beforeEach(() => {
+
 			method = 'delete';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
@@ -167,6 +182,7 @@ describe('Theatre controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -174,6 +190,7 @@ describe('Theatre controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.notCalled).to.be.true;
@@ -181,6 +198,7 @@ describe('Theatre controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -190,12 +208,15 @@ describe('Theatre controller', () => {
 	describe('show method', () => {
 
 		beforeEach(() => {
+
 			method = 'show';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/show\' view', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
@@ -210,6 +231,7 @@ describe('Theatre controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -217,6 +239,7 @@ describe('Theatre controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.notCalled).to.be.true;
@@ -225,6 +248,7 @@ describe('Theatre controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -234,16 +258,21 @@ describe('Theatre controller', () => {
 	describe('list method', () => {
 
 		beforeEach(() => {
+
 			method = 'list';
+
 		});
 
 		afterEach(() => {
+
 			Theatre.list.restore();
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
+
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
@@ -259,6 +288,7 @@ describe('Theatre controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -266,6 +296,7 @@ describe('Theatre controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = Promise.reject(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.notCalled).to.be.true;
@@ -273,6 +304,7 @@ describe('Theatre controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
