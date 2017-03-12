@@ -5,7 +5,6 @@ const sinon = require('sinon');
 
 const instanceFixture = require('../../fixtures/theatres/instance');
 
-let request;
 let action;
 
 const stubs = {
