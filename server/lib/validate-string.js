@@ -1,4 +1,4 @@
-import constants from '../lib/constants';
+import constants from '../config/constants';
 
 export default (stringValue, propName) => {
 

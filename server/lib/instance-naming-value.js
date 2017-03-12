@@ -1,4 +1,4 @@
-import modelNamingPropMap from './model-naming-prop-map';
+import modelNamingPropMap from '../config/model-naming-prop-map';
 
 export default instance => {
 

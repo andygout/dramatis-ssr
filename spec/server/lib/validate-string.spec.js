@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const constants = require('../../../dist/lib/constants');
+const constants = require('../../../dist/config/constants');
 
 const validLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH)}`;
 const subMinLengthString = `${'a'.repeat(constants.STRING_MIN_LENGTH - 1)}`;
