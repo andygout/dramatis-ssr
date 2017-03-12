@@ -1,11 +1,11 @@
-import { getAlert } from './alert';
-import createAlert from './create-alert';
+import { setAlert, getAlert } from './alert';
+import createAlertData from './create-alert-data';
 import getPageData from './get-page-data';
 import instanceRoute from './instance-route';
 
 export default (req, res, instance, action) => {
 
-	createAlert(req, instance, action);
+	setAlert(req, createAlertData(instance, action));
 
 	if (instance.hasError) {
 

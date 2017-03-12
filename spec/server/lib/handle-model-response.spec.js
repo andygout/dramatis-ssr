@@ -13,17 +13,19 @@ let action;
 
 const stubs = {
 	alert: {
+		setAlert: sinon.stub(),
 		getAlert: sinon.stub().returns(alertFixture)
 	},
-	createAlert: sinon.stub(),
+	createAlertData: sinon.stub(),
 	getPageData: sinon.stub().returns(pageDataFixture()),
 	instanceRoute: sinon.stub().returns('instance route')
 };
 
 const resetStubs = () => {
 
+	stubs.alert.setAlert.reset();
 	stubs.alert.getAlert.reset();
-	stubs.createAlert.reset();
+	stubs.createAlertData.reset();
 	stubs.getPageData.reset();
 	stubs.instanceRoute.reset();
 
@@ -31,7 +33,7 @@ const resetStubs = () => {
 
 beforeEach(() => {
 
-	request = httpMocks.createRequest({ flash: stubs.alert });
+	request = httpMocks.createRequest();
 	response = httpMocks.createResponse();
 	resetStubs();
 
@@ -39,7 +41,7 @@ beforeEach(() => {
 
 const subject = proxyquire('../../../dist/lib/handle-model-response', {
 		'./alert': stubs.alert,
-		'./create-alert': stubs.createAlert,
+		'./create-alert-data': stubs.createAlertData,
 		'./get-page-data': stubs.getPageData,
 		'./instance-route': stubs.instanceRoute
 	});
@@ -47,9 +49,10 @@ const subject = proxyquire('../../../dist/lib/handle-model-response', {
 
 describe('Handle Model Response module', () => {
 
-	it('will call createAlert module', () => {
+	it('will call createAlertData module and setAlert function from alert module', () => {
 		subject(request, response, instanceFixture(), 'create');
-		expect(stubs.createAlert.calledOnce).to.be.true;
+		expect(stubs.createAlertData.calledOnce).to.be.true;
+		expect(stubs.alert.setAlert.calledOnce).to.be.true;
 	});
 
 	describe('create action', () => {
