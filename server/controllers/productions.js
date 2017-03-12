@@ -7,9 +7,10 @@ const newRoute = (req, res, next) => {
 
 	const production = new Production();
 
-	const page = getPageData(production, 'create');
-
-	res.render(`${production.model.toLowerCase()}s/form`, { page, production });
+	res.render(`${production.model.toLowerCase()}s/form`, {
+		production,
+		page: getPageData(production, 'create')
+	});
 
 };
 
@@ -34,9 +35,10 @@ const editRoute = (req, res, next) => {
 	return production.edit()
 		.then(({ production }) => {
 
-			const page = getPageData(production, 'update');
-
-			res.render(`${production.model.toLowerCase()}s/form`, { page, production });
+			res.render(`${production.model.toLowerCase()}s/form`, {
+				production,
+				page: getPageData(production, 'update'),
+			});
 
 		})
 		.catch(err => next(err));
@@ -78,9 +80,11 @@ const showRoute = (req, res, next) => {
 	return production.show()
 		.then(({ production }) => {
 
-			const page = getPageData(production, 'show');
-
-			res.render(`${production.model.toLowerCase()}s/show`, { page, production, alert: getAlert(req) });
+			res.render(`${production.model.toLowerCase()}s/show`, {
+				production,
+				page: getPageData(production, 'show'),
+				alert: getAlert(req)
+			});
 
 		})
 		.catch(err => next(err));
@@ -92,9 +96,11 @@ const listRoute = (req, res, next) => {
 	return Production.list()
 		.then(({ productions }) => {
 
-			const page = { documentTitle: ' | Home', title: 'Productions' };
-
-			res.render('productions/list', { page, productions, alert: getAlert(req) });
+			res.render('productions/list', {
+				productions,
+				page: { documentTitle: ' | Home', title: 'Productions' },
+				alert: getAlert(req)
+			});
 
 		})
 		.catch(err => next(err));
