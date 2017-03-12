@@ -1,12 +1,12 @@
 <form method="post" action="{{page.formAction}}">
 	{{#with production}}
 		<fieldset class="fieldset">
-			{{>input-text name='title' value=title errors=errors.title}}
+			{{>input-text namingValue='title' value=title errors=errors.title}}
 		</fieldset>
 
 		{{#with theatre}}
 			<fieldset class="fieldset">
-				{{>input-text name='name' value=name errors=errors.name instance=this}}
+				{{>input-text namingValue='name' value=name errors=errors.name instance=this}}
 			</fieldset>
 		{{/with}}
 
