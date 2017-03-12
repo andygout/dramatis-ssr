@@ -138,19 +138,19 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will prioritise use of pageTitleText property over title property', () => {
+				it('will prioritise use of pageTitle property over title property', () => {
 
 					const subject = createSubject();
-					productionInstance.pageTitleText = 'Macbeth';
+					productionInstance.pageTitle = 'Macbeth';
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.title).to.eq('Macbeth');
 
 				});
 
-				it('will use title when pageTitleText absent', () => {
+				it('will use title when pageTitle absent', () => {
 
 					const subject = createSubject();
-					productionInstance.pageTitleText = undefined;
+					productionInstance.pageTitle = undefined;
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.title).to.eq('Hamlet');
 
@@ -160,19 +160,19 @@ describe('Get Page Data module', () => {
 
 			context('theatre instance', () => {
 
-				it('will prioritise use of pageTitleText property over name property', () => {
+				it('will prioritise use of pageTitle property over name property', () => {
 
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
-					theatreInstance.pageTitleText = 'Hampstead Theatre';
+					theatreInstance.pageTitle = 'Hampstead Theatre';
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.title).to.eq('Hampstead Theatre');
 
 				});
 
-				it('will use name when pageTitleText absent', () => {
+				it('will use name when pageTitle absent', () => {
 
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
-					theatreInstance.pageTitleText = undefined;
+					theatreInstance.pageTitle = undefined;
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.title).to.eq('Almeida Theatre');
 

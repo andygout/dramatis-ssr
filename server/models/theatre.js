@@ -16,7 +16,7 @@ export default class Theatre {
 
 		this.uuid = props.uuid;
 		this.name = props.name;
-		this.pageTitleText = props.pageTitleText;
+		this.pageTitle = props.pageTitle;
 		this.productions = [];
 		this.hasError = false;
 		this.errors = {};
