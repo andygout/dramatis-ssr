@@ -14,12 +14,16 @@ const pageDataFixture = require('../../fixtures/productions/page-data');
 const err = new Error('errorText');
 
 const stubs = {
-	alert: sinon.stub().returns('alertStub')
+	alert: sinon.stub().returns('alertStub'),
+	getPageData: sinon.stub().returns(pageDataFixture()),
+	handleModelResponse: sinon.stub()
 };
 
 const resetStubs = () => {
 
 	stubs.alert.reset();
+	stubs.getPageData.reset();
+	stubs.handleModelResponse.reset();
 
 };
 
@@ -29,21 +33,20 @@ beforeEach(() => {
 
 });
 
-let action;
 let method;
 let methodStub;
-let getPageDataStub;
 let request;
 let response;
 let next;
 
-const createSubject = (stubs) =>
+const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/productions', {
-		'../models/production': stubs.ProductionModel,
-		'../lib/get-page-data': stubs.getPageData
+		'../models/production': stubOverrides.ProductionModel,
+		'../lib/get-page-data': stubs.getPageData,
+		'../lib/handle-model-response': stubs.handleModelResponse
 	});
 
-const createInstance = (action, method, methodStub) => {
+const createInstance = (method, methodStub) => {
 
 	request = httpMocks.createRequest({ flash: stubs.alert });
 
@@ -62,9 +65,7 @@ const createInstance = (action, method, methodStub) => {
 		}
 	}) (method);
 
-	getPageDataStub = sinon.stub().returns(pageDataFixture(action));
-
-	const subject = createSubject({ ProductionModel, getPageData: getPageDataStub });
+	const subject = createSubject({ ProductionModel });
 
 	const controllerFunction = `${method}Route`;
 
@@ -77,23 +78,22 @@ describe('Production controller', () => {
 	describe('new method', () => {
 
 		beforeEach(() => {
-			action = 'create';
 			method = 'new';
 		});
 
 		it('will call getPageData function once', () => {
 			methodStub = sinon.stub().returns({ model: 'Production' });
-			createInstance(action, method, methodStub);
-			expect(getPageDataStub.calledOnce).to.be.true;
+			createInstance(method, methodStub);
+			expect(stubs.getPageData.calledOnce).to.be.true;
 		});
 
 		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
 			methodStub = sinon.stub().returns({ model: 'Production' });
-			createInstance(action, method, methodStub);
+			createInstance(method, methodStub);
 			expect(response.statusCode).to.eq(200);
 			expect(response._getRenderView()).to.eq('productions/form');
 			expect(response._getRenderData()).to.deep.eq(
-				{ page: pageDataFixture(action), production: { model: 'Production' } }
+				{ page: pageDataFixture(), production: { model: 'Production' } }
 			);
 		});
 
@@ -102,36 +102,15 @@ describe('Production controller', () => {
 	describe('create method', () => {
 
 		beforeEach(() => {
-			action = method = 'create';
+			method = 'create';
 		});
 
-		context('resolves with data with no model errors', () => {
+		context('resolves with data', () => {
 
-			it('will return status code 302 (redirect to instance)', done => {
+			it('will call handleModelResponse module', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			xit('will return status code 200 (OK) and render \'productions/form\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/form');
-					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(
-							instanceFixture({ hasError: true }),
-							{ page: pageDataFixture(action), alert: alertFixture }
-						)
-					);
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -141,17 +120,9 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -165,27 +136,19 @@ describe('Production controller', () => {
 	describe('edit method', () => {
 
 		beforeEach(() => {
-			action = 'update';
 			method = 'edit';
-		});
-
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture(action) })
+						Object.assign(instanceFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -196,17 +159,10 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -220,36 +176,15 @@ describe('Production controller', () => {
 	describe('update method', () => {
 
 		beforeEach(() => {
-			action = method = 'update';
+			method = 'update';
 		});
 
-		context('resolves with data with no model errors', () => {
+		context('resolves with data', () => {
 
-			it('will return status code 302 (redirect to instance)', done => {
+			it('will call handleModelResponse module', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			xit('will return status code 200 (OK) and render \'productions/form\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/form');
-					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(
-							instanceFixture({ hasError: true }),
-							{ page: pageDataFixture(action), alert: alertFixture }
-						)
-					);
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -259,17 +194,10 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -283,30 +211,15 @@ describe('Production controller', () => {
 	describe('delete method', () => {
 
 		beforeEach(() => {
-			action = method = 'delete';
+			method = 'delete';
 		});
 
-		context('resolves with data with no model errors', () => {
+		context('resolves with data', () => {
 
-			it('will return status code 302 (redirect to root)', done => {
+			it('will call handleModelResponse module', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/');
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			it('will return status code 302 (redirect to instance)', done => {
-				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -316,17 +229,10 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -340,26 +246,19 @@ describe('Production controller', () => {
 	describe('show method', () => {
 
 		beforeEach(() => {
-			action = method = 'show';
-		});
-
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
+			method = 'show';
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/show\' view', done => {
 				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/show');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture(action), alert: alertFixture })
+						Object.assign(instanceFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -370,17 +269,10 @@ describe('Production controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -405,7 +297,7 @@ describe('Production controller', () => {
 
 			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
 				methodStub = Promise.resolve(instancesListFixture());
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/list');
 					expect(response._getRenderData()).to.deep.eq(
@@ -425,7 +317,7 @@ describe('Production controller', () => {
 
 			it('will call next() with error', done => {
 				methodStub = Promise.reject(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
