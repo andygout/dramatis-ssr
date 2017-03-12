@@ -7,8 +7,8 @@ require('sinon-as-promised');
 const Production = require('../../../dist/models/production');
 
 const alertFixture = require('../../fixtures/alert');
-const instanceFixture = require('../../fixtures/productions/instance');
-const instancesListFixture = require('../../fixtures/productions/instances-list');
+const responseFixture = require('../../fixtures/productions/response-instance');
+const responseListFixture = require('../../fixtures/productions/response-instances-list');
 const pageDataFixture = require('../../fixtures/productions/page-data');
 
 const err = new Error('errorText');
@@ -108,7 +108,7 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
+				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
@@ -142,13 +142,13 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
+				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture() })
+						Object.assign(responseFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -182,7 +182,7 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
+				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
@@ -217,7 +217,7 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
+				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
@@ -252,13 +252,13 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/show\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
+				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/show');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture(), alert: alertFixture })
+						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -296,13 +296,13 @@ describe('Production controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
-				methodStub = Promise.resolve(instancesListFixture());
+				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('productions/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign(
-							instancesListFixture(),
+							responseListFixture(),
 							{ page: { documentTitle: ' | Home', title: 'Productions' }, alert: alertFixture }
 						)
 					);

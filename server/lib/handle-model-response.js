@@ -1,7 +1,7 @@
 import { getAlert } from './alert';
-import createAlert from '../lib/create-alert';
-import getPageData from '../lib/get-page-data';
-import instanceRoute from '../lib/instance-route';
+import createAlert from './create-alert';
+import getPageData from './get-page-data';
+import instanceRoute from './instance-route';
 
 export default (req, res, instance, action) => {
 
