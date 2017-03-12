@@ -51,8 +51,7 @@ const createSubject = stubOverrides =>
 
 const createInstance = (method, methodStub) => {
 
-	request = httpMocks.createRequest({ flash: stubs.alert });
-
+	request = httpMocks.createRequest();
 	response = httpMocks.createResponse();
 
 	next = sinon.stub();
