@@ -91,7 +91,7 @@ describe('Production controller', () => {
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
 			expect(res._getRenderData()).to.deep.eq(
-				{ page: pageDataFixture(), production: { model: 'Production' } }
+				{ production: { model: 'Production' }, page: pageDataFixture() }
 			);
 		});
 
