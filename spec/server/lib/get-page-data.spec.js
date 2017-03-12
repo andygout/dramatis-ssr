@@ -2,28 +2,16 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const productionInstanceFixture = require('../../fixtures/productions/instance');
+const theatreInstanceFixture = require('../../fixtures/theatres/instance');
+
 let productionInstance;
 let theatreInstance;
 
 const resetInstances = () => {
 
-	productionInstance = {
-		uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-		model: 'Production',
-		title: 'Hamlet',
-		theatre: {
-			name: 'Almeida Theatre'
-		},
-		errors: {},
-		hasError: false
-	};
-
-	theatreInstance = {
-		model: 'Theatre',
-		name: 'Almeida Theatre',
-		errors: {},
-		hasError: false
-	}
+	productionInstance = productionInstanceFixture();
+	theatreInstance = theatreInstanceFixture();
 
 };
 

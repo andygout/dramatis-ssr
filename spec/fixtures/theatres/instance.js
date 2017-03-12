@@ -2,8 +2,9 @@ module.exports = (opts = {}) => {
 
 	return {
 		model: 'Theatre',
-		hasError: opts.hasError || false,
-		errors: opts.errorsAssociations || {}
+		name: 'Almeida Theatre',
+		errors: opts.errorsAssociations || {},
+		hasError: opts.hasError || false
 	};
 
 };
