@@ -1,8 +1,8 @@
 module.exports = () => {
 
 	return {
-		title: 'Hamlet',
-		model: 'production'
+		model: 'production',
+		title: 'Hamlet'
 	};
 
 };
