@@ -14,14 +14,16 @@ const pageDataFixture = require('../../fixtures/theatres/page-data');
 const err = new Error('errorText');
 
 const stubs = {
-	alert: sinon.stub().returns('alertStub'),
+	alert: {
+		getAlert: sinon.stub().returns(alertFixture)
+	},
 	getPageData: sinon.stub().returns(pageDataFixture()),
 	handleModelResponse: sinon.stub()
 };
 
 const resetStubs = () => {
 
-	stubs.alert.reset();
+	stubs.alert.getAlert.reset();
 	stubs.getPageData.reset();
 	stubs.handleModelResponse.reset();
 
@@ -42,6 +44,7 @@ let next;
 const createSubject = stubOverrides =>
 	proxyquire(`../../../dist/controllers/theatres`, {
 		'../models/theatre': stubOverrides.TheatreModel,
+		'../lib/alert': stubs.alert,
 		'../lib/get-page-data': stubs.getPageData,
 		'../lib/handle-model-response': stubs.handleModelResponse
 	});
@@ -189,6 +192,7 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/show');
 					expect(response._getRenderData()).to.deep.eq(
@@ -207,6 +211,7 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.notCalled).to.be.true;
+					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -232,6 +237,7 @@ describe('Theatre controller', () => {
 			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
+					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/list');
 					expect(response._getRenderData()).to.deep.eq(
@@ -252,6 +258,7 @@ describe('Theatre controller', () => {
 			it('will call next() with error', done => {
 				methodStub = Promise.reject(err);
 				createInstance(method, methodStub).then(() => {
+					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
