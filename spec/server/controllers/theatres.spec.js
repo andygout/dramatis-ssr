@@ -7,19 +7,25 @@ require('sinon-as-promised');
 const Theatre = require('../../../dist/models/theatre');
 
 const alertFixture = require('../../fixtures/alert');
-const instanceFixture = require('../../fixtures/theatres/instance');
-const instancesListFixture = require('../../fixtures/theatres/instances-list');
+const responseFixture = require('../../fixtures/theatres/response-instance');
+const responseListFixture = require('../../fixtures/theatres/response-instances-list');
 const pageDataFixture = require('../../fixtures/theatres/page-data');
 
 const err = new Error('errorText');
 
 const stubs = {
-	alert: sinon.stub().returns('alertStub')
+	alert: {
+		getAlert: sinon.stub().returns(alertFixture)
+	},
+	getPageData: sinon.stub().returns(pageDataFixture()),
+	handleModelResponse: sinon.stub()
 };
 
 const resetStubs = () => {
 
-	stubs.alert.reset();
+	stubs.alert.getAlert.reset();
+	stubs.getPageData.reset();
+	stubs.handleModelResponse.reset();
 
 };
 
@@ -29,21 +35,21 @@ beforeEach(() => {
 
 });
 
-let action;
 let method;
 let methodStub;
-let getPageDataStub;
 let request;
 let response;
 let next;
 
-const createSubject = (stubs) =>
+const createSubject = stubOverrides =>
 	proxyquire(`../../../dist/controllers/theatres`, {
-		'../models/theatre': stubs.TheatreModel,
-		'../lib/get-page-data': stubs.getPageData
+		'../models/theatre': stubOverrides.TheatreModel,
+		'../lib/alert': stubs.alert,
+		'../lib/get-page-data': stubs.getPageData,
+		'../lib/handle-model-response': stubs.handleModelResponse
 	});
 
-const createInstance = (action, method, methodStub) => {
+const createInstance = (method, methodStub) => {
 
 	request = httpMocks.createRequest({ flash: stubs.alert });
 
@@ -55,9 +61,7 @@ const createInstance = (action, method, methodStub) => {
 		function () { this[method] = methodStub; } :
 		sinon.stub(Theatre, 'list', function () { return methodStub });
 
-	getPageDataStub = sinon.stub().returns(pageDataFixture(action));
-
-	const subject = createSubject({ TheatreModel, getPageData: getPageDataStub });
+	const subject = createSubject({ TheatreModel });
 
 	const controllerFunction = `${method}Route`;
 
@@ -70,27 +74,19 @@ describe('Theatre controller', () => {
 	describe('edit method', () => {
 
 		beforeEach(() => {
-			action = 'update';
 			method = 'edit';
-		});
-
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
+				methodStub = sinon.stub().resolves(responseFixture());
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/form');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture(action) })
+						Object.assign(responseFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -101,17 +97,10 @@ describe('Theatre controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -125,52 +114,15 @@ describe('Theatre controller', () => {
 	describe('update method', () => {
 
 		beforeEach(() => {
-			action = method = 'update';
+			method = 'update';
 		});
 
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
-		});
+		context('resolves with data', () => {
 
-		context('resolves with data with no model errors', () => {
-
-			it('will return status code 302 (redirect to instance)', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/theatres/1');
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
-			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('theatres/form');
-					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(
-							instanceFixture({ hasError: true }),
-							{ page: pageDataFixture(action), alert: alertFixture }
-						)
-					);
+			it('will call handleModelResponse module', done => {
+				methodStub = sinon.stub().resolves(responseFixture());
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -182,7 +134,8 @@ describe('Theatre controller', () => {
 
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -196,38 +149,15 @@ describe('Theatre controller', () => {
 	describe('delete method', () => {
 
 		beforeEach(() => {
-			action = method = 'delete';
+			method = 'delete';
 		});
 
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
-		});
+		context('resolves with data', () => {
 
-		context('resolves with data with no model errors', () => {
-
-			it('will return status code 302 (redirect to root)', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/');
-					expect(next.notCalled).to.be.true;
-					done();
-				});
-			});
-
-		});
-
-		context('resolves with data with model errors', () => {
-
-			it('will return status code 302 (redirect to instance)', done => {
-				methodStub = sinon.stub().resolves(instanceFixture({ hasError: true }));
-				createInstance(action, method, methodStub).then(() => {
-					expect(response.statusCode).to.eq(302);
-					expect(response._getRedirectUrl()).to.eq('/theatres/1');
+			it('will call handleModelResponse module', done => {
+				methodStub = sinon.stub().resolves(responseFixture());
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -237,17 +167,10 @@ describe('Theatre controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -261,26 +184,20 @@ describe('Theatre controller', () => {
 	describe('show method', () => {
 
 		beforeEach(() => {
-			action = method = 'show';
-		});
-
-		it('will call getPageData function once', done => {
-			methodStub = sinon.stub().resolves(instanceFixture());
-			createInstance(action, method, methodStub).then(() => {
-				expect(getPageDataStub.calledOnce).to.be.true;
-				done();
-			});
+			method = 'show';
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/show\' view', done => {
-				methodStub = sinon.stub().resolves(instanceFixture());
-				createInstance(action, method, methodStub).then(() => {
+				methodStub = sinon.stub().resolves(responseFixture());
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/show');
 					expect(response._getRenderData()).to.deep.eq(
-						Object.assign(instanceFixture(), { page: pageDataFixture(action), alert: alertFixture })
+						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -291,17 +208,11 @@ describe('Theatre controller', () => {
 
 		context('resolves with error', () => {
 
-			it('will not call getPageData function', done => {
-				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
-					expect(getPageDataStub.notCalled).to.be.true;
-					done();
-				});
-			});
-
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.getPageData.notCalled).to.be.true;
+					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -325,13 +236,14 @@ describe('Theatre controller', () => {
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
-				methodStub = Promise.resolve(instancesListFixture());
-				createInstance(action, method, methodStub).then(() => {
+				methodStub = Promise.resolve(responseListFixture());
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(response.statusCode).to.equal(200);
 					expect(response._getRenderView()).to.eq('theatres/list');
 					expect(response._getRenderData()).to.deep.eq(
 						Object.assign(
-							instancesListFixture(),
+							responseListFixture(),
 							{ page: { documentTitle: ' | Theatres', title: 'Theatres' }, alert: alertFixture }
 						)
 					);
@@ -346,7 +258,8 @@ describe('Theatre controller', () => {
 
 			it('will call next() with error', done => {
 				methodStub = Promise.reject(err);
-				createInstance(action, method, methodStub).then(() => {
+				createInstance(method, methodStub).then(() => {
+					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();

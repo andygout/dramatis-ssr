@@ -1,16 +1,32 @@
-import { getAlert, setAlert } from './alert';
+import { setAlert, getAlert } from './alert';
+import createAlertData from './create-alert-data';
+import getPageData from './get-page-data';
+import instanceRoute from './instance-route';
 
-export default (req, res, data) => {
+export default (req, res, instance, action) => {
 
-	const page = data.page;
+	setAlert(req, createAlertData(instance, action));
 
-	setAlert(req, page);
+	if (instance.hasError) {
 
-	data[page.modelName].hasError ?
-		(page.action === 'create' || page.action === 'update') ?
-			res.render(`${page.modelRoute}/form`, Object.assign(data, { alert: getAlert(req) })) :
-			res.redirect(page.instanceRoute)
-		:
-		res.redirect(page.action !== 'delete' ? page.instanceRoute : '/');
+		if (['create', 'update'].includes(action)) {
+
+			const data = { page: getPageData(instance, action), alert: getAlert(req) };
+
+			data[instance.model.toLowerCase()] = instance;
+
+			res.render(`${instance.model.toLowerCase()}s/form`, data);
+
+		} else {
+
+			res.redirect(`${instanceRoute(instance)}`);
+
+		}
+
+	} else {
+
+		res.redirect(action !== 'delete' ? `${instanceRoute(instance)}` : '/');
+
+	}
 
 };

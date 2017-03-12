@@ -1,10 +1,6 @@
-import modelNamingPropMap from './model-naming-prop-map';
+import instanceNamingValue from './instance-naming-value';
 
-const getModelName = instance => instance.model.toLowerCase();
-
-const checkIfCreateAction = action => action === 'create';
-
-const getPageTitleText = (model, instance) => instance.pageTitleText || instance[modelNamingPropMap[model]];
+const getPageTitleText = instance => instance.pageTitleText || instanceNamingValue(instance);
 
 const getDocumentTitle = (instance, action, model, title) => {
 
@@ -14,7 +10,7 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 	if (action !== 'create') {
 
-		if (model === 'production' && instance.theatre) documentTitle += ` (${instance.theatre.name})`;
+		if (model === 'production') documentTitle += ` (${instance.theatre.name})`;
 
 		documentTitle += ` (${model})`;
 
@@ -24,44 +20,20 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 };
 
-const getAlertText = (model, instance, action) => {
-
-	const instanceText = instance[modelNamingPropMap[model]];
-
-	let alertText = `${model.toUpperCase()} ${instance.hasError ?
-		'ERRORS' :
-		action.toUpperCase() + 'D: ' + instanceText}
-	`.trim();
-
-	if (instance.errors && instance.errors.associations) alertText += `
-		: Dependent associations exist with ${instance.errors.associations.join()}
-	`.trim();
-
-	return alertText;
-
-};
-
-const getAlertType = instance => instance.hasError ? 'error' : 'success';
-
 export default (instance, action) => {
 
-	const model = getModelName(instance);
+	const model = instance.model.toLowerCase();
 
-	const isCreateAction = checkIfCreateAction(action);
+	const isCreateAction = (action === 'create');
 
-	const title = isCreateAction ? `New ${model}` : getPageTitleText(model, instance);
+	const title = isCreateAction ? `New ${model}` : getPageTitleText(instance);
 
 	return {
 		documentTitle: getDocumentTitle(instance, action, model, title),
 		title,
 		modelName: model,
-		modelRoute: `${model}s`,
-		instanceRoute: `/${model}s/${instance.uuid}`,
-		action,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.uuid}`,
-		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`,
-		alertText: getAlertText(model, instance, action),
-		alertType: getAlertType(instance)
+		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`
 	};
 
 };

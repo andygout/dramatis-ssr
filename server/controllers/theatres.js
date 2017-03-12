@@ -12,7 +12,7 @@ const editRoute = (req, res, next) => {
 
 			const page = getPageData(theatre, 'update');
 
-			res.render(`${page.modelRoute}/form`, { page, theatre });
+			res.render(`${theatre.model.toLowerCase()}s/form`, { page, theatre });
 
 		})
 		.catch(err => next(err));
@@ -26,9 +26,7 @@ const updateRoute = (req, res, next) => {
 	return theatre.update()
 		.then(({ theatre }) => {
 
-			const page = getPageData(theatre, 'update');
-
-			handleModelResponse(req, res, { page, theatre });
+			handleModelResponse(req, res, theatre, 'update');
 
 		})
 		.catch(err => next(err));
@@ -42,9 +40,7 @@ const deleteRoute = (req, res, next) => {
 	return theatre.delete()
 		.then(({ theatre }) => {
 
-			const page = getPageData(theatre, 'delete');
-
-			handleModelResponse(req, res, { page, theatre });
+			handleModelResponse(req, res, theatre, 'delete');
 
 		})
 		.catch(err => next(err));
@@ -60,7 +56,7 @@ const showRoute = (req, res, next) => {
 
 			const page = getPageData(theatre, 'show');
 
-			res.render(`${page.modelRoute}/show`, { page, theatre, alert: getAlert(req) });
+			res.render(`${theatre.model.toLowerCase()}s/show`, { page, theatre, alert: getAlert(req) });
 
 		})
 		.catch(err => next(err));
@@ -76,7 +72,7 @@ const listRoute = (req, res, next) => {
 
 			const page = { documentTitle: ` | ${pageTitle}`, title: pageTitle };
 
-			res.render('theatres/list', Object.assign({ page, theatres, alert: getAlert(req) }));
+			res.render('theatres/list', { page, theatres, alert: getAlert(req) });
 
 		})
 		.catch(err => next(err));

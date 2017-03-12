@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 
-const subject = require('../../../../dist/lib/handlebars-helpers/instance-naming-value');
+const subject = require('../../../dist/lib/instance-naming-value');
 
-describe('Instance Naming Value handlebars helper', () => {
+describe('Instance Naming Value module', () => {
 
 	context('Production model instance', () => {
 

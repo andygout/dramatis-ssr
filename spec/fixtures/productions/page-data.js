@@ -1,11 +1,8 @@
-module.exports = action => {
+module.exports = () => {
 
 	return {
 		title: 'Hamlet',
-		modelName: 'production',
-		modelRoute: 'productions',
-		instanceRoute: '/productions/1',
-		action
+		modelName: 'production'
 	};
 
 };

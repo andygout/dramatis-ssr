@@ -1,7 +1,7 @@
-const setAlert = (req, pageData) => {
+const setAlert = (req, alertData) => {
 
-	req.flash('text', pageData.alertText);
-	req.flash('type', pageData.alertType);
+	req.flash('text', alertData.text);
+	req.flash('type', alertData.type);
 
 };
 
