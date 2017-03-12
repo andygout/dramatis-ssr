@@ -13,6 +13,12 @@ const pageDataFixture = require('../../fixtures/theatres/page-data');
 
 const err = new Error('errorText');
 
+let req;
+let res;
+let next;
+let method;
+let methodStub;
+
 const stubs = {
 	alert: {
 		getAlert: sinon.stub().returns(alertFixture)
@@ -34,12 +40,6 @@ beforeEach(() => {
 	resetStubs();
 
 });
-
-let req;
-let res;
-let next;
-let method;
-let methodStub;
 
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/theatres', {

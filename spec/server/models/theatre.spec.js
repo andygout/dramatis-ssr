@@ -5,6 +5,8 @@ require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 
+let instance;
+
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
 	trimStrings: sinon.stub(),
@@ -26,8 +28,6 @@ beforeEach(() => {
 	resetStubs();
 
 });
-
-let instance;
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/theatre', {

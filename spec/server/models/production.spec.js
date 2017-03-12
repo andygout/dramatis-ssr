@@ -5,6 +5,8 @@ require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 
+let instance;
+
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
@@ -35,8 +37,6 @@ beforeEach(() => {
 	resetStubs();
 
 });
-
-let instance;
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
