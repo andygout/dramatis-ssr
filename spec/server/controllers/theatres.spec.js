@@ -35,8 +35,8 @@ beforeEach(() => {
 
 });
 
-let request;
-let response;
+let req;
+let res;
 let next;
 let method;
 let methodStub;
@@ -51,8 +51,8 @@ const createSubject = stubOverrides =>
 
 const createInstance = (method, methodStub) => {
 
-	request = httpMocks.createRequest();
-	response = httpMocks.createResponse();
+	req = httpMocks.createRequest();
+	res = httpMocks.createResponse();
 
 	next = sinon.stub();
 
@@ -64,7 +64,7 @@ const createInstance = (method, methodStub) => {
 
 	const controllerFunction = `${method}Route`;
 
-	return subject[controllerFunction](request, response, next);
+	return subject[controllerFunction](req, res, next);
 
 };
 
@@ -82,9 +82,9 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('theatres/form');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('theatres/form');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
@@ -193,9 +193,9 @@ describe('Theatre controller', () => {
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('theatres/show');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('theatres/show');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
@@ -238,9 +238,9 @@ describe('Theatre controller', () => {
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('theatres/list');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('theatres/list');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(
 							responseListFixture(),
 							{ page: { documentTitle: ' | Theatres', title: 'Theatres' }, alert: alertFixture }

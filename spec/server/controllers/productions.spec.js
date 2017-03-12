@@ -35,8 +35,8 @@ beforeEach(() => {
 
 });
 
-let request;
-let response;
+let req;
+let res;
 let next;
 let method;
 let methodStub;
@@ -51,8 +51,8 @@ const createSubject = stubOverrides =>
 
 const createInstance = (method, methodStub) => {
 
-	request = httpMocks.createRequest();
-	response = httpMocks.createResponse();
+	req = httpMocks.createRequest();
+	res = httpMocks.createResponse();
 
 	next = sinon.stub();
 
@@ -71,7 +71,7 @@ const createInstance = (method, methodStub) => {
 
 	const controllerFunction = `${method}Route`;
 
-	return subject[controllerFunction](request, response, next);
+	return subject[controllerFunction](req, res, next);
 
 };
 
@@ -87,9 +87,9 @@ describe('Production controller', () => {
 			methodStub = sinon.stub().returns({ model: 'Production' });
 			createInstance(method, methodStub);
 			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(response.statusCode).to.eq(200);
-			expect(response._getRenderView()).to.eq('productions/form');
-			expect(response._getRenderData()).to.deep.eq(
+			expect(res.statusCode).to.eq(200);
+			expect(res._getRenderView()).to.eq('productions/form');
+			expect(res._getRenderData()).to.deep.eq(
 				{ page: pageDataFixture(), production: { model: 'Production' } }
 			);
 		});
@@ -143,9 +143,9 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/form');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/form');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
@@ -254,9 +254,9 @@ describe('Production controller', () => {
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/show');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/show');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
@@ -299,9 +299,9 @@ describe('Production controller', () => {
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/list');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/list');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(
 							responseListFixture(),
 							{ page: { documentTitle: ' | Home', title: 'Productions' }, alert: alertFixture }
