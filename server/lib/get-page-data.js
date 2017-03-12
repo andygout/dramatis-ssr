@@ -29,7 +29,7 @@ export default (instance, action) => {
 	const title = isCreateAction ? `New ${model}` : getPageTitleText(instance);
 
 	return {
-		documentTitle: getDocumentTitle(instance, action, model, title),
+		documentTitle: instance.documentTitle || getDocumentTitle(instance, action, model, title),
 		title,
 		model,
 		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.uuid}`,

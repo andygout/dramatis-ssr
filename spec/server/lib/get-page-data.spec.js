@@ -85,7 +85,16 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
+				it('will prioritise use of documentTitle property over generated value', () => {
+
+					const subject = createSubject();
+					productionInstance.documentTitle = ' | Macbeth (Hampstead Theatre) (production)';
+					const pageData = subject(productionInstance, 'show');
+					expect(pageData.documentTitle).to.eq(' | Macbeth (Hampstead Theatre) (production)');
+
+				});
+
+				it('will generate text (\' | <instance> (<theatre name>) (<model>)\') when documentTitle absent', () => {
 
 					const subject = createSubject();
 					const pageData = subject(productionInstance, 'show');
