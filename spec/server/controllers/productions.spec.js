@@ -87,6 +87,7 @@ describe('Production controller', () => {
 			methodStub = sinon.stub().returns({ model: 'Production' });
 			createInstance(method, methodStub);
 			expect(stubs.getPageData.calledOnce).to.be.true;
+			expect(stubs.getPageData.calledWithExactly({ model: 'Production' }, 'create')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
 			expect(res._getRenderData()).to.deep.eq(
@@ -108,6 +109,9 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'create'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -143,6 +147,7 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture().production, 'update')).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('productions/form');
 					expect(res._getRenderData()).to.deep.eq(
@@ -183,6 +188,9 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'update'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -218,6 +226,9 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'delete'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -253,7 +264,9 @@ describe('Production controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture().production, 'show')).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('productions/show');
 					expect(res._getRenderData()).to.deep.eq(
@@ -299,6 +312,7 @@ describe('Production controller', () => {
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('productions/list');
 					expect(res._getRenderData()).to.deep.eq(

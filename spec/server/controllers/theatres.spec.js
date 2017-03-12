@@ -82,6 +82,7 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture().theatre, 'update')).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/form');
 					expect(res._getRenderData()).to.deep.eq(
@@ -122,6 +123,9 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().theatre, 'update'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -157,6 +161,9 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().theatre, 'delete'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -192,7 +199,9 @@ describe('Theatre controller', () => {
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture().theatre, 'show')).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/show');
 					expect(res._getRenderData()).to.deep.eq(
@@ -238,6 +247,7 @@ describe('Theatre controller', () => {
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/list');
 					expect(res._getRenderData()).to.deep.eq(
