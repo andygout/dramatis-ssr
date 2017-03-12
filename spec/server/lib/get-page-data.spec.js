@@ -138,7 +138,7 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will prioritise use of pageTitleText over title', () => {
+				it('will prioritise use of pageTitleText property over title property', () => {
 
 					const subject = createSubject();
 					productionInstance.pageTitleText = 'Macbeth';
@@ -160,7 +160,7 @@ describe('Get Page Data module', () => {
 
 			context('theatre instance', () => {
 
-				it('will prioritise use of pageTitleText over name', () => {
+				it('will prioritise use of pageTitleText property over name property', () => {
 
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					theatreInstance.pageTitleText = 'Hampstead Theatre';
