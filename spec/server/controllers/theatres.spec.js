@@ -42,7 +42,7 @@ let method;
 let methodStub;
 
 const createSubject = stubOverrides =>
-	proxyquire(`../../../dist/controllers/theatres`, {
+	proxyquire('../../../dist/controllers/theatres', {
 		'../models/theatre': stubOverrides.TheatreModel,
 		'../lib/alert': stubs.alert,
 		'../lib/get-page-data': stubs.getPageData,
