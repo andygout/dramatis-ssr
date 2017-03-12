@@ -84,15 +84,10 @@ describe('Production controller', () => {
 			method = 'new';
 		});
 
-		it('will call getPageData function once', () => {
-			methodStub = sinon.stub().returns({ model: 'Production' });
-			createInstance(method, methodStub);
-			expect(stubs.getPageData.calledOnce).to.be.true;
-		});
-
 		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
 			methodStub = sinon.stub().returns({ model: 'Production' });
 			createInstance(method, methodStub);
+			expect(stubs.getPageData.calledOnce).to.be.true;
 			expect(response.statusCode).to.eq(200);
 			expect(response._getRenderView()).to.eq('productions/form');
 			expect(response._getRenderData()).to.deep.eq(
@@ -126,6 +121,7 @@ describe('Production controller', () => {
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -200,7 +196,7 @@ describe('Production controller', () => {
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -235,7 +231,7 @@ describe('Production controller', () => {
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();

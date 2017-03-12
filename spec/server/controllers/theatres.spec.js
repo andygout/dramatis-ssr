@@ -135,6 +135,7 @@ describe('Theatre controller', () => {
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -169,7 +170,7 @@ describe('Theatre controller', () => {
 			it('will call next() with error', done => {
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
+					expect(stubs.handleModelResponse.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
