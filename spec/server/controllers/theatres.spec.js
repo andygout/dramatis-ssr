@@ -35,11 +35,11 @@ beforeEach(() => {
 
 });
 
-let method;
-let methodStub;
 let request;
 let response;
 let next;
+let method;
+let methodStub;
 
 const createSubject = stubOverrides =>
 	proxyquire(`../../../dist/controllers/theatres`, {
