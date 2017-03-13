@@ -1,7 +1,7 @@
 <form method="post" action="{{page.formAction}}">
 	{{#with theatre}}
 		<fieldset class="fieldset">
-			{{>input-text name='name' value=name errors=errors.name}}
+			{{>input-text namingValue='name' value=name errors=errors.name}}
 		</fieldset>
 
 		{{>input-submit page=../page}}

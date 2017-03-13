@@ -2,7 +2,7 @@ module.exports = () => {
 
 	return {
 		theatre: {
-			model: 'Theatre',
+			model: 'theatre',
 			uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
 			name: 'Almeida Theatre'
 		}

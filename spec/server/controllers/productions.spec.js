@@ -13,6 +13,12 @@ const pageDataFixture = require('../../fixtures/productions/page-data');
 
 const err = new Error('errorText');
 
+let req;
+let res;
+let next;
+let method;
+let methodStub;
+
 const stubs = {
 	alert: {
 		getAlert: sinon.stub().returns(alertFixture)
@@ -35,12 +41,6 @@ beforeEach(() => {
 
 });
 
-let method;
-let methodStub;
-let request;
-let response;
-let next;
-
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/productions', {
 		'../models/production': stubOverrides.ProductionModel,
@@ -51,9 +51,8 @@ const createSubject = stubOverrides =>
 
 const createInstance = (method, methodStub) => {
 
-	request = httpMocks.createRequest({ flash: stubs.alert });
-
-	response = httpMocks.createResponse();
+	req = httpMocks.createRequest();
+	res = httpMocks.createResponse();
 
 	next = sinon.stub();
 
@@ -72,7 +71,7 @@ const createInstance = (method, methodStub) => {
 
 	const controllerFunction = `${method}Route`;
 
-	return subject[controllerFunction](request, response, next);
+	return subject[controllerFunction](req, res, next);
 
 };
 
@@ -81,18 +80,22 @@ describe('Production controller', () => {
 	describe('new method', () => {
 
 		beforeEach(() => {
+
 			method = 'new';
+
 		});
 
 		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
-			methodStub = sinon.stub().returns({ model: 'Production' });
+
+			const ProductionStub = sinon.createStubInstance(Production);
+			methodStub = sinon.stub().returns(ProductionStub);
 			createInstance(method, methodStub);
 			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(response.statusCode).to.eq(200);
-			expect(response._getRenderView()).to.eq('productions/form');
-			expect(response._getRenderData()).to.deep.eq(
-				{ page: pageDataFixture(), production: { model: 'Production' } }
-			);
+			expect(stubs.getPageData.calledWithExactly(ProductionStub, 'create')).to.be.true;
+			expect(res.statusCode).to.eq(200);
+			expect(res._getRenderView()).to.eq('productions/form');
+			expect(res._getRenderData()).to.deep.eq({ production: ProductionStub, page: pageDataFixture() });
+
 		});
 
 	});
@@ -100,18 +103,25 @@ describe('Production controller', () => {
 	describe('create method', () => {
 
 		beforeEach(() => {
+
 			method = 'create';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'create'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -119,6 +129,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.notCalled).to.be.true;
@@ -126,6 +137,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -135,23 +147,28 @@ describe('Production controller', () => {
 	describe('edit method', () => {
 
 		beforeEach(() => {
+
 			method = 'edit';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/form');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(stubs.getPageData.calledWithExactly(responseFixture().production, 'update')).to.be.true;
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/form');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture() })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -159,6 +176,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.notCalled).to.be.true;
@@ -166,6 +184,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -175,18 +194,25 @@ describe('Production controller', () => {
 	describe('update method', () => {
 
 		beforeEach(() => {
+
 			method = 'update';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'update'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -194,6 +220,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.notCalled).to.be.true;
@@ -201,6 +228,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -210,18 +238,25 @@ describe('Production controller', () => {
 	describe('delete method', () => {
 
 		beforeEach(() => {
+
 			method = 'delete';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will call handleModelResponse module', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
+					expect(stubs.handleModelResponse.calledWithExactly(
+						req, res, responseFixture().production, 'delete'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -229,6 +264,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.notCalled).to.be.true;
@@ -236,6 +272,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -245,24 +282,30 @@ describe('Production controller', () => {
 	describe('show method', () => {
 
 		beforeEach(() => {
+
 			method = 'show';
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/show\' view', done => {
+
 				methodStub = sinon.stub().resolves(responseFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture().production, 'show')).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/show');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/show');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
 					);
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -270,6 +313,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.notCalled).to.be.true;
@@ -278,6 +322,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -287,22 +332,28 @@ describe('Production controller', () => {
 	describe('list method', () => {
 
 		beforeEach(() => {
+
 			method = 'list';
+
 		});
 
 		afterEach(() => {
+
 			Production.list.restore();
+
 		});
 
 		context('resolves with data', () => {
 
 			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
+
 				methodStub = Promise.resolve(responseListFixture());
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(response.statusCode).to.equal(200);
-					expect(response._getRenderView()).to.eq('productions/list');
-					expect(response._getRenderData()).to.deep.eq(
+					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
+					expect(res.statusCode).to.equal(200);
+					expect(res._getRenderView()).to.eq('productions/list');
+					expect(res._getRenderData()).to.deep.eq(
 						Object.assign(
 							responseListFixture(),
 							{ page: { documentTitle: ' | Home', title: 'Productions' }, alert: alertFixture }
@@ -311,6 +362,7 @@ describe('Production controller', () => {
 					expect(next.notCalled).to.be.true;
 					done();
 				});
+
 			});
 
 		});
@@ -318,6 +370,7 @@ describe('Production controller', () => {
 		context('resolves with error', () => {
 
 			it('will call next() with error', done => {
+
 				methodStub = Promise.reject(err);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.notCalled).to.be.true;
@@ -325,6 +378,7 @@ describe('Production controller', () => {
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
 				});
+
 			});
 
 		});

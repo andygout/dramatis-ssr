@@ -11,11 +11,11 @@ export default (req, res, instance, action) => {
 
 		if (['create', 'update'].includes(action)) {
 
-			const data = { page: getPageData(instance, action), alert: getAlert(req) };
-
-			data[instance.model.toLowerCase()] = instance;
-
-			res.render(`${instance.model.toLowerCase()}s/form`, data);
+			res.render(`${instance.model}s/form`, {
+				[instance.model]: instance,
+				page: getPageData(instance, action),
+				alert: getAlert(req)
+			});
 
 		} else {
 

@@ -1,8 +1,8 @@
-import modelNamingPropMap from './model-naming-prop-map';
+import modelNamingPropMap from '../config/model-naming-prop-map';
 
 export default instance => {
 
-	const model = instance.model.toLowerCase();
+	const model = instance.model;
 
 	return instance[modelNamingPropMap[model]];
 

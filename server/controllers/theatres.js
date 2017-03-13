@@ -10,9 +10,10 @@ const editRoute = (req, res, next) => {
 	return theatre.edit()
 		.then(({ theatre }) => {
 
-			const page = getPageData(theatre, 'update');
-
-			res.render(`${theatre.model.toLowerCase()}s/form`, { page, theatre });
+			res.render(`theatres/form`, {
+				theatre,
+				page: getPageData(theatre, 'update')
+			});
 
 		})
 		.catch(err => next(err));
@@ -54,9 +55,11 @@ const showRoute = (req, res, next) => {
 	return theatre.show()
 		.then(({ theatre }) => {
 
-			const page = getPageData(theatre, 'show');
-
-			res.render(`${theatre.model.toLowerCase()}s/show`, { page, theatre, alert: getAlert(req) });
+			res.render(`theatres/show`, {
+				theatre,
+				page: getPageData(theatre, 'show'),
+				alert: getAlert(req)
+			});
 
 		})
 		.catch(err => next(err));
@@ -70,9 +73,11 @@ const listRoute = (req, res, next) => {
 
 			const pageTitle = 'Theatres';
 
-			const page = { documentTitle: ` | ${pageTitle}`, title: pageTitle };
-
-			res.render('theatres/list', { page, theatres, alert: getAlert(req) });
+			res.render('theatres/list', {
+				theatres,
+				page: { documentTitle: ` | ${pageTitle}`, title: pageTitle },
+				alert: getAlert(req)
+			});
 
 		})
 		.catch(err => next(err));

@@ -3,7 +3,7 @@ import dateFormatNow from './date-format-now';
 import instanceNamingValue from '../instance-naming-value';
 import instanceRoute from '../instance-route';
 import model from './model';
-import modelLowerCase from './model-lower-case';
+import modelCapitalise from './model-capitalise';
 import upperCase from './upper-case';
 
 export {
@@ -12,6 +12,6 @@ export {
 	instanceNamingValue,
 	instanceRoute,
 	model,
-	modelLowerCase,
+	modelCapitalise,
 	upperCase
 };

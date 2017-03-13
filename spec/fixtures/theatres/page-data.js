@@ -1,8 +1,8 @@
 module.exports = () => {
 
 	return {
-		title: 'Almeida Theatre',
-		modelName: 'theatre'
+		model: 'theatre',
+		title: 'Almeida Theatre'
 	};
 
 };

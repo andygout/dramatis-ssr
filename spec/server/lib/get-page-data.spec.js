@@ -2,28 +2,16 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const productionInstanceFixture = require('../../fixtures/productions/instance');
+const theatreInstanceFixture = require('../../fixtures/theatres/instance');
+
 let productionInstance;
 let theatreInstance;
 
 const resetInstances = () => {
 
-	productionInstance = {
-		uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-		model: 'Production',
-		title: 'Hamlet',
-		theatre: {
-			name: 'Almeida Theatre'
-		},
-		errors: {},
-		hasError: false
-	};
-
-	theatreInstance = {
-		model: 'Theatre',
-		name: 'Almeida Theatre',
-		errors: {},
-		hasError: false
-	}
+	productionInstance = productionInstanceFixture();
+	theatreInstance = theatreInstanceFixture();
 
 };
 
@@ -56,9 +44,11 @@ describe('Get Page Data module', () => {
 		context('create action', () => {
 
 			it('will read \' | New <model>\'', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.documentTitle).to.eq(' | New production');
+
 			});
 
 		});
@@ -68,9 +58,11 @@ describe('Get Page Data module', () => {
 			context('production instance', () => {
 
 				it('will read \' | Edit: <instance> (<theatre name>) (<model>)\'', () => {
+
 					const subject = createSubject();
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (Almeida Theatre) (production)');
+
 				});
 
 			});
@@ -78,9 +70,11 @@ describe('Get Page Data module', () => {
 			context('theatre instance', () => {
 
 				it('will read \' | Edit: <instance> (<model>)\'', () => {
+
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Almeida Theatre (theatre)');
+
 				});
 
 			});
@@ -91,10 +85,21 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
+				it('will prioritise use of documentTitle property over generated value', () => {
+
+					const subject = createSubject();
+					productionInstance.documentTitle = ' | Macbeth (Hampstead Theatre) (production)';
+					const pageData = subject(productionInstance, 'show');
+					expect(pageData.documentTitle).to.eq(' | Macbeth (Hampstead Theatre) (production)');
+
+				});
+
+				it('will generate text (\' | <instance> (<theatre name>) (<model>)\') when documentTitle absent', () => {
+
 					const subject = createSubject();
 					const pageData = subject(productionInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Hamlet (Almeida Theatre) (production)');
+
 				});
 
 			});
@@ -102,9 +107,11 @@ describe('Get Page Data module', () => {
 			context('theatre instance', () => {
 
 				it('will read \' | <instance> (<model>)\'', () => {
+
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Almeida Theatre (theatre)');
+
 				});
 
 			});
@@ -118,9 +125,11 @@ describe('Get Page Data module', () => {
 		context('create action', () => {
 
 			it('will read \'New <model>\'', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.title).to.eq('New production');
+
 			});
 
 		});
@@ -129,36 +138,44 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will prioritise use of pageTitleText over title', () => {
+				it('will prioritise use of pageTitle property over title property', () => {
+
 					const subject = createSubject();
-					productionInstance.pageTitleText = 'Macbeth';
+					productionInstance.pageTitle = 'Macbeth';
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.title).to.eq('Macbeth');
+
 				});
 
-				it('will use title when pageTitleText absent', () => {
+				it('will use title when pageTitle absent', () => {
+
 					const subject = createSubject();
-					productionInstance.pageTitleText = undefined;
+					productionInstance.pageTitle = undefined;
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.title).to.eq('Hamlet');
+
 				});
 
 			});
 
 			context('theatre instance', () => {
 
-				it('will prioritise use of pageTitleText over name', () => {
+				it('will prioritise use of pageTitle property over name property', () => {
+
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
-					theatreInstance.pageTitleText = 'Hampstead Theatre';
+					theatreInstance.pageTitle = 'Hampstead Theatre';
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.title).to.eq('Hampstead Theatre');
+
 				});
 
-				it('will use name when pageTitleText absent', () => {
+				it('will use name when pageTitle absent', () => {
+
 					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
-					theatreInstance.pageTitleText = undefined;
+					theatreInstance.pageTitle = undefined;
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.title).to.eq('Almeida Theatre');
+
 				});
 
 			});
@@ -172,9 +189,11 @@ describe('Get Page Data module', () => {
 		context('create action', () => {
 
 			it('will be path comprised of pluralised model name', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.formAction).to.eq('/productions');
+
 			});
 
 		});
@@ -182,9 +201,11 @@ describe('Get Page Data module', () => {
 		context('update action', () => {
 
 			it('will be path comprised of pluralised model name and instance uuid', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'update');
 				expect(pageData.formAction).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+
 			});
 
 		});
@@ -196,9 +217,11 @@ describe('Get Page Data module', () => {
 		context('create action', () => {
 
 			it('will be comprised of action (\'Create\') and model name', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.submitValue).to.eq('Create production');
+
 			});
 
 		});
@@ -206,9 +229,11 @@ describe('Get Page Data module', () => {
 		context('update action', () => {
 
 			it('will be comprised of action (\'Update\') and model name', () => {
+
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'update');
 				expect(pageData.submitValue).to.eq('Update production');
+
 			});
 
 		});

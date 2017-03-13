@@ -5,6 +5,8 @@ require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 
+let instance;
+
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
@@ -36,8 +38,6 @@ beforeEach(() => {
 
 });
 
-let instance;
-
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
 		'../database/db-query': stubs.dbQuery,
@@ -60,20 +60,24 @@ describe('Production model', () => {
 	describe('validate method', () => {
 
 		it('will trim strings before validating title', () => {
+
 			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
+
 		});
 
 		context('valid data', () => {
 
 			it('will not add properties to errors property', () => {
+
 				instance = createInstance();
 				instance.validate();
 				expect(instance.errors).not.to.have.property('title');
 				expect(instance.errors).to.deep.eq({});
+
 			});
 
 		});
@@ -81,12 +85,14 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will add properties that are arrays to errors property', () => {
+
 				instance = createInstance({ validateString: sinon.stub().returns(['Title is too short']) });
 				instance.validate();
 				expect(instance.errors)
 					.to.have.property('title')
 					.that.is.an('array')
 					.that.deep.eq(['Title is too short']);
+
 			});
 
 		});
@@ -96,6 +102,7 @@ describe('Production model', () => {
 	describe('setErrorStatus method', () => {
 
 		it('will call instance validate method, theatre validate methods then verifyErrorPresence', () => {
+
 			instance = createInstance();
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
@@ -103,14 +110,17 @@ describe('Production model', () => {
 			expect(instance.validate.calledOnce).to.be.true;
 			expect(instance.theatre.validate.calledOnce).to.be.true;
 			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
+
 		});
 
 		context('valid data', () => {
 
 			it('will set instance hasError property to false and return same value', () => {
+
 				instance = createInstance();
 				expect(instance.setErrorStatus()).to.be.false;
 				expect(instance.hasError).to.be.false;
+
 			});
 
 		});
@@ -118,9 +128,11 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will set instance hasError property to true and return same value', () => {
+
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				expect(instance.setErrorStatus()).to.be.true;
 				expect(instance.hasError).to.be.true;
+
 			});
 
 		});
@@ -132,6 +144,7 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will create', done => {
+
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
@@ -142,6 +155,7 @@ describe('Production model', () => {
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
+
 			});
 
 		});
@@ -149,6 +163,7 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will return instance without creating', done => {
+
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
@@ -158,6 +173,7 @@ describe('Production model', () => {
 					expect(result).to.deep.eq({ production: instance });
 					done();
 				});
+
 			});
 
 		});
@@ -167,12 +183,14 @@ describe('Production model', () => {
 	describe('edit method', () => {
 
 		it('will get edit data', done => {
+
 			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
+
 		});
 
 	});
@@ -182,6 +200,7 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will update', done => {
+
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
@@ -192,6 +211,7 @@ describe('Production model', () => {
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
+
 			});
 
 		});
@@ -199,6 +219,7 @@ describe('Production model', () => {
 		context('invalid data', () => {
 
 			it('will return instance without updating', done => {
+
 				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
@@ -208,6 +229,7 @@ describe('Production model', () => {
 					expect(result).to.deep.eq({ production: instance });
 					done();
 				});
+
 			});
 
 		});
@@ -217,12 +239,14 @@ describe('Production model', () => {
 	describe('delete method', () => {
 
 		it('will delete', done => {
+
 			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
+
 		});
 
 	});
@@ -230,12 +254,14 @@ describe('Production model', () => {
 	describe('show method', () => {
 
 		it('will get show data', done => {
+
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
+
 		});
 
 	});
@@ -243,12 +269,14 @@ describe('Production model', () => {
 	describe('list method', () => {
 
 		it('will get list data', done => {
+
 			const subject = createSubject();
 			subject.list().then(result => {
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
+
 		});
 
 	});
