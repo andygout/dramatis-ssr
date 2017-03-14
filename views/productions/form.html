@@ -1,15 +1,11 @@
-<form method="post" action="{{page.formAction}}">
-	{{#with production}}
+{{#with instance}}
+	<fieldset class="fieldset">
+		{{>input-text namingValue='title' value=title errors=errors.title}}
+	</fieldset>
+
+	{{#with theatre}}
 		<fieldset class="fieldset">
-			{{>input-text namingValue='title' value=title errors=errors.title}}
+			{{>input-text namingValue='name' value=name errors=errors.name instance=this}}
 		</fieldset>
-
-		{{#with theatre}}
-			<fieldset class="fieldset">
-				{{>input-text namingValue='name' value=name errors=errors.name instance=this}}
-			</fieldset>
-		{{/with}}
-
-		{{>input-submit page=../page}}
 	{{/with}}
-</form>
+{{/with}}

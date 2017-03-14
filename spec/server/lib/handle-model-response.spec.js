@@ -89,7 +89,12 @@ describe('Handle Model Response module', () => {
 				expect(res.statusCode).to.equal(200);
 				expect(res._getRenderView()).to.eq('productions/form');
 				expect(res._getRenderData()).to.deep.eq(
-					{ production: instanceFixture({ hasError: true }), page: pageDataFixture(), alert: alertFixture }
+					{
+						instance: instanceFixture({ hasError: true }),
+						page: pageDataFixture(),
+						alert: alertFixture,
+						form: true
+					}
 				);
 
 			});
@@ -130,7 +135,12 @@ describe('Handle Model Response module', () => {
 				expect(res.statusCode).to.equal(200);
 				expect(res._getRenderView()).to.eq('productions/form');
 				expect(res._getRenderData()).to.deep.eq(
-					{ production: instanceFixture({ hasError: true }), page: pageDataFixture(), alert: alertFixture }
+					{
+						instance: instanceFixture({ hasError: true }),
+						page: pageDataFixture(),
+						alert: alertFixture,
+						form: true
+					}
 				);
 
 			});

@@ -94,7 +94,7 @@ describe('Production controller', () => {
 			expect(stubs.getPageData.calledWithExactly(ProductionStub, 'create')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
-			expect(res._getRenderData()).to.deep.eq({ production: ProductionStub, page: pageDataFixture() });
+			expect(res._getRenderData()).to.deep.eq({ instance: ProductionStub, page: pageDataFixture(), form: true });
 
 		});
 
@@ -163,7 +163,7 @@ describe('Production controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('productions/form');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(responseFixture(), { page: pageDataFixture() })
+						{ instance: responseFixture().production, page: pageDataFixture(), form: true }
 					);
 					expect(next.notCalled).to.be.true;
 					done();

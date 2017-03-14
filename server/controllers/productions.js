@@ -8,8 +8,9 @@ const newRoute = (req, res, next) => {
 	const production = new Production();
 
 	res.render(`productions/form`, {
-		production,
-		page: getPageData(production, 'create')
+		instance: production,
+		page: getPageData(production, 'create'),
+		form: true
 	});
 
 };
@@ -36,8 +37,9 @@ const editRoute = (req, res, next) => {
 		.then(({ production }) => {
 
 			res.render(`productions/form`, {
-				production,
+				instance: production,
 				page: getPageData(production, 'update'),
+				form: true
 			});
 
 		})

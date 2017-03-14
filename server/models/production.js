@@ -12,7 +12,7 @@ export default class Production {
 	constructor (props = {}) {
 
 		Object.defineProperty(this, 'model', {
-			get: function () { return 'Production'; }
+			get: function () { return 'production'; }
 		});
 
 		this.uuid = props.uuid;

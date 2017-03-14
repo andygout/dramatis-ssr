@@ -11,8 +11,9 @@ const editRoute = (req, res, next) => {
 		.then(({ theatre }) => {
 
 			res.render(`theatres/form`, {
-				theatre,
-				page: getPageData(theatre, 'update')
+				instance: theatre,
+				page: getPageData(theatre, 'update'),
+				form: true
 			});
 
 		})

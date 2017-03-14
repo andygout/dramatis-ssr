@@ -2,5 +2,9 @@
 	{{>alert}}
 	{{>content-header}}
 	{{>title-text}}
-	{{{body}}}
+	{{#if form}}
+		{{>form}}
+	{{else}}
+		{{{body}}}
+	{{/if}}
 </main>
