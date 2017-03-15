@@ -83,9 +83,10 @@ const showRoute = (req, res, next) => {
 		.then(({ production }) => {
 
 			res.render(`productions/show`, {
-				production,
+				instance: production,
 				page: getPageData(production, 'show'),
-				alert: getAlert(req)
+				alert: getAlert(req),
+				show: true
 			});
 
 		})

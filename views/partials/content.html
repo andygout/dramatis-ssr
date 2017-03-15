@@ -2,7 +2,10 @@
 	{{>alert}}
 	{{>content-header}}
 	{{>title-text}}
-	{{#if form}}
+
+	{{#if show}}
+		{{>show}}
+	{{else if form}}
 		{{>form}}
 	{{else}}
 		{{{body}}}

@@ -57,9 +57,10 @@ const showRoute = (req, res, next) => {
 		.then(({ theatre }) => {
 
 			res.render(`theatres/show`, {
-				theatre,
+				instance: theatre,
 				page: getPageData(theatre, 'show'),
-				alert: getAlert(req)
+				alert: getAlert(req),
+				show: true
 			});
 
 		})

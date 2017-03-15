@@ -226,7 +226,12 @@ describe('Theatre controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/show');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
+						{
+							instance: responseFixture().theatre,
+							page: pageDataFixture(),
+							alert: alertFixture,
+							show: true
+						}
 					);
 					expect(next.notCalled).to.be.true;
 					done();
