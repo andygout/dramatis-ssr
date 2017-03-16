@@ -12,9 +12,10 @@ export default (req, res, instance, action) => {
 		if (['create', 'update'].includes(action)) {
 
 			res.render(`${instance.model}s/form`, {
-				[instance.model]: instance,
+				instance,
 				page: getPageData(instance, action),
-				alert: getAlert(req)
+				alert: getAlert(req),
+				form: true
 			});
 
 		} else {

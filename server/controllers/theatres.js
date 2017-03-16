@@ -11,8 +11,9 @@ const editRoute = (req, res, next) => {
 		.then(({ theatre }) => {
 
 			res.render(`theatres/form`, {
-				theatre,
-				page: getPageData(theatre, 'update')
+				instance: theatre,
+				page: getPageData(theatre, 'update'),
+				form: true
 			});
 
 		})
@@ -56,9 +57,10 @@ const showRoute = (req, res, next) => {
 		.then(({ theatre }) => {
 
 			res.render(`theatres/show`, {
-				theatre,
+				instance: theatre,
 				page: getPageData(theatre, 'show'),
-				alert: getAlert(req)
+				alert: getAlert(req),
+				show: true
 			});
 
 		})
@@ -74,9 +76,10 @@ const listRoute = (req, res, next) => {
 			const pageTitle = 'Theatres';
 
 			res.render('theatres/list', {
-				theatres,
+				instances: theatres,
 				page: { documentTitle: ` | ${pageTitle}`, title: pageTitle },
-				alert: getAlert(req)
+				alert: getAlert(req),
+				list: true
 			});
 
 		})

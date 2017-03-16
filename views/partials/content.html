@@ -2,5 +2,8 @@
 	{{>alert}}
 	{{>content-header}}
 	{{>title-text}}
-	{{{body}}}
+
+	{{#if form}}{{>form}}{{/if}}
+	{{#if show}}{{>show}}{{/if}}
+	{{#if list}}{{>list}}{{/if}}
 </main>

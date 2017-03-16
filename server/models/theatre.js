@@ -11,7 +11,7 @@ export default class Theatre {
 	constructor (props = {}) {
 
 		Object.defineProperty(this, 'model', {
-			get: function () { return 'Theatre'; }
+			get: function () { return 'theatre'; }
 		});
 
 		this.uuid = props.uuid;

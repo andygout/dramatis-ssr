@@ -89,7 +89,7 @@ describe('Theatre controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/form');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(responseFixture(), { page: pageDataFixture() })
+						{ instance: responseFixture().theatre, page: pageDataFixture(), form: true }
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -226,7 +226,12 @@ describe('Theatre controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/show');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(responseFixture(), { page: pageDataFixture(), alert: alertFixture })
+						{
+							instance: responseFixture().theatre,
+							page: pageDataFixture(),
+							alert: alertFixture,
+							show: true
+						}
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -280,10 +285,12 @@ describe('Theatre controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/list');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(
-							responseListFixture(),
-							{ page: { documentTitle: ' | Theatres', title: 'Theatres' }, alert: alertFixture }
-						)
+						{
+							instances: responseListFixture().theatres,
+							page: { documentTitle: ' | Theatres', title: 'Theatres' },
+							alert: alertFixture,
+							list: true
+						}
 					);
 					expect(next.notCalled).to.be.true;
 					done();

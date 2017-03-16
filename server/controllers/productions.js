@@ -8,8 +8,9 @@ const newRoute = (req, res, next) => {
 	const production = new Production();
 
 	res.render(`productions/form`, {
-		production,
-		page: getPageData(production, 'create')
+		instance: production,
+		page: getPageData(production, 'create'),
+		form: true
 	});
 
 };
@@ -36,8 +37,9 @@ const editRoute = (req, res, next) => {
 		.then(({ production }) => {
 
 			res.render(`productions/form`, {
-				production,
+				instance: production,
 				page: getPageData(production, 'update'),
+				form: true
 			});
 
 		})
@@ -81,9 +83,10 @@ const showRoute = (req, res, next) => {
 		.then(({ production }) => {
 
 			res.render(`productions/show`, {
-				production,
+				instance: production,
 				page: getPageData(production, 'show'),
-				alert: getAlert(req)
+				alert: getAlert(req),
+				show: true
 			});
 
 		})
@@ -97,9 +100,10 @@ const listRoute = (req, res, next) => {
 		.then(({ productions }) => {
 
 			res.render('productions/list', {
-				productions,
+				instances: productions,
 				page: { documentTitle: ' | Home', title: 'Productions' },
-				alert: getAlert(req)
+				alert: getAlert(req),
+				list: true
 			});
 
 		})
