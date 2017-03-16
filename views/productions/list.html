@@ -1,5 +1,5 @@
 {{#each instances}}
 	<li>
-		{{>instance-link instance=this}} - {{>instance-link instance=theatre}}
+		{{>instance-link}} - {{#with theatre}}{{>instance-link}}{{/with}}
 	</li>
 {{/each}}
