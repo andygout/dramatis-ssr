@@ -5,10 +5,6 @@ const setAlert = (req, alertData) => {
 
 };
 
-const getAlert = req => {
-
-	return { text: req.flash('text'), type: req.flash('type') };
-
-};
+const getAlert = req => ({ text: req.flash('text'), type: req.flash('type') });
 
 export { setAlert, getAlert };
