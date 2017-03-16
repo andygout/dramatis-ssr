@@ -10,7 +10,7 @@ const editRoute = (req, res, next) => {
 	return theatre.edit()
 		.then(({ theatre }) => {
 
-			res.render(`theatres/form`, {
+			res.render('theatres/form', {
 				instance: theatre,
 				page: getPageData(theatre, 'update'),
 				form: true
@@ -56,7 +56,7 @@ const showRoute = (req, res, next) => {
 	return theatre.show()
 		.then(({ theatre }) => {
 
-			res.render(`theatres/show`, {
+			res.render('theatres/show', {
 				instance: theatre,
 				page: getPageData(theatre, 'show'),
 				alert: getAlert(req),
