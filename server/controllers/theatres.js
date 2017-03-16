@@ -76,9 +76,10 @@ const listRoute = (req, res, next) => {
 			const pageTitle = 'Theatres';
 
 			res.render('theatres/list', {
-				theatres,
+				instances: theatres,
 				page: { documentTitle: ` | ${pageTitle}`, title: pageTitle },
-				alert: getAlert(req)
+				alert: getAlert(req),
+				list: true
 			});
 
 		})

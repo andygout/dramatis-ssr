@@ -100,9 +100,10 @@ const listRoute = (req, res, next) => {
 		.then(({ productions }) => {
 
 			res.render('productions/list', {
-				productions,
+				instances: productions,
 				page: { documentTitle: ' | Home', title: 'Productions' },
-				alert: getAlert(req)
+				alert: getAlert(req),
+				list: true
 			});
 
 		})

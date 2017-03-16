@@ -285,10 +285,12 @@ describe('Theatre controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/list');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(
-							responseListFixture(),
-							{ page: { documentTitle: ' | Theatres', title: 'Theatres' }, alert: alertFixture }
-						)
+						{
+							instances: responseListFixture().theatres,
+							page: { documentTitle: ' | Theatres', title: 'Theatres' },
+							alert: alertFixture,
+							list: true
+						}
 					);
 					expect(next.notCalled).to.be.true;
 					done();

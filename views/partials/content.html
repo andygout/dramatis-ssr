@@ -3,11 +3,7 @@
 	{{>content-header}}
 	{{>title-text}}
 
-	{{#if show}}
-		{{>show}}
-	{{else if form}}
-		{{>form}}
-	{{else}}
-		{{{body}}}
-	{{/if}}
+	{{#if form}}{{>form}}{{/if}}
+	{{#if show}}{{>show}}{{/if}}
+	{{#if list}}{{>list}}{{/if}}
 </main>

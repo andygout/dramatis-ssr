@@ -359,10 +359,12 @@ describe('Production controller', () => {
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('productions/list');
 					expect(res._getRenderData()).to.deep.eq(
-						Object.assign(
-							responseListFixture(),
-							{ page: { documentTitle: ' | Home', title: 'Productions' }, alert: alertFixture }
-						)
+						{
+							instances: responseListFixture().productions,
+							page: { documentTitle: ' | Home', title: 'Productions' },
+							alert: alertFixture,
+							list: true
+						}
 					);
 					expect(next.notCalled).to.be.true;
 					done();

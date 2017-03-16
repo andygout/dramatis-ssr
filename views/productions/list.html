@@ -1,7 +1,5 @@
-<ul class="list">
-	{{#each productions}}
-		<li>
-			{{>instance-link instance=this}} - {{>instance-link instance=theatre}}
-		</li>
-	{{/each}}
-</ul>
+{{#each instances}}
+	<li>
+		{{>instance-link instance=this}} - {{>instance-link instance=theatre}}
+	</li>
+{{/each}}
