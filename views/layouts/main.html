@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-	{{>head}}
+	{{>components/head}}
 	<body>
 		<div class="container">
-			{{>header}}
-			{{>nav}}
+			{{>components/header}}
+			{{>components/nav}}
 			<main id="main-content" class="main-content">
 				{{>alert}}
 				{{>content-header}}
@@ -13,7 +13,7 @@
 				{{#if show}}{{>templates/show}}{{/if}}
 				{{#if list}}{{>templates/list}}{{/if}}
 			</main>
-			{{>footer}}
+			{{>components/footer}}
 		</div>
 	</body>
 </html>
