@@ -19,7 +19,7 @@ export default class Production {
 		this.title = props.title;
 		this.pageTitle = props.pageTitle;
 		this.documentTitle = props.documentTitle;
-		this.theatre = new Theatre({ uuid: props.theatreUuid, name: props.theatreName });
+		this.theatre = new Theatre({ name: props.theatreName });
 		this.hasError = false;
 		this.errors = {};
 
