@@ -1,7 +1,7 @@
 <div class="field">
 	<label
 		for="{{#if instance}}{{model instance}}{{capitalise namingValue}}{{else}}{{namingValue}}{{/if}}"
-		class="label mandatory"
+		class="label{{#if mandatory}} mandatory{{/if}}"
 	>
 		{{~#if instance}}{{modelCapitalise instance}}{{else}}{{capitalise namingValue}}{{/if~}}
 	</label>
