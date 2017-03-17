@@ -4,8 +4,8 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const alertFixture = require('../../fixtures/alert');
+const pageDataFixture = require('../../fixtures/page-data');
 const instanceFixture = require('../../fixtures/productions/instance');
-const pageDataFixture = require('../../fixtures/productions/page-data');
 
 let req;
 let res;
@@ -17,7 +17,7 @@ const stubs = {
 		getAlert: sinon.stub().returns(alertFixture)
 	},
 	createAlertData: sinon.stub(),
-	getPageData: sinon.stub().returns(pageDataFixture()),
+	getPageData: sinon.stub().returns(pageDataFixture),
 	instanceRoute: sinon.stub().returns('instance route')
 };
 
@@ -91,7 +91,7 @@ describe('Handle Model Response module', () => {
 				expect(res._getRenderData()).to.deep.eq(
 					{
 						instance: instanceFixture({ hasError: true }),
-						page: pageDataFixture(),
+						page: pageDataFixture,
 						alert: alertFixture,
 						form: true
 					}
@@ -137,7 +137,7 @@ describe('Handle Model Response module', () => {
 				expect(res._getRenderData()).to.deep.eq(
 					{
 						instance: instanceFixture({ hasError: true }),
-						page: pageDataFixture(),
+						page: pageDataFixture,
 						alert: alertFixture,
 						form: true
 					}
