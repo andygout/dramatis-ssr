@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const stubs = {
-	capitalise: sinon.stub().returns('capitalise module return value')
+	capitalise: sinon.stub().returns('Production')
 };
 
 const resetStubs = () => {
@@ -29,7 +29,7 @@ describe('Model Capitalise handlebars helper', () => {
 		it('will return model name of instance with first letter capitalised', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject(productionInstance)).to.eq('capitalise module return value');
+			expect(subject(productionInstance)).to.eq('Production');
 			expect(stubs.capitalise.calledWithExactly('production')).to.be.true;
 
 		});
@@ -41,7 +41,7 @@ describe('Model Capitalise handlebars helper', () => {
 		it('will return pluralised model name of first instance in array with first letter capitalised', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject([productionInstance])).to.eq('capitalise module return value');
+			expect(subject([productionInstance])).to.eq('Production');
 			expect(stubs.capitalise.calledWithExactly('productions')).to.be.true;
 
 		});
