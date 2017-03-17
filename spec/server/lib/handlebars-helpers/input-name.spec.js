@@ -24,9 +24,9 @@ const subject = proxyquire('../../../../dist/lib/handlebars-helpers/input-name',
 
 describe('Input Name handlebars helper', () => {
 
-	context('instance and namingValue both present', () => {
+	context('instance and propertyName both present', () => {
 
-		it('will return instance model name and namingValue as single string in camel case', () => {
+		it('will return instance model name and propertyName as single string in camel case', () => {
 
 			const productionInstance = { model: 'production' };
 			expect(subject(productionInstance, 'title')).to.eq('productionTitle');
@@ -36,9 +36,9 @@ describe('Input Name handlebars helper', () => {
 
 	});
 
-	context('instance absent and namingValue present', () => {
+	context('instance absent and propertyName present', () => {
 
-		it('will return namingValue as string', () => {
+		it('will return propertyName as string', () => {
 
 			expect(subject(null, 'title')).to.eq('title');
 			expect(stubs.capitalise.notCalled).to.be.true;

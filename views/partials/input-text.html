@@ -1,13 +1,13 @@
 <div class="field">
 	<label
-		for="{{inputName instance namingValue}}"
+		for="{{inputName instance propertyName}}"
 		class="label{{#if mandatory}} mandatory{{/if}}"
 	>
-		{{~#if instance}}{{modelCapitalise instance}}{{else}}{{capitalise namingValue}}{{/if~}}
+		{{~capitalise propertyName~}}
 	</label>
 	<input
 		value="{{value}}"
-		name="{{inputName instance namingValue}}"
+		name="{{inputName instance propertyName}}"
 		type="text"
 		maxlength="255"
 		class="field__input{{#if errors}} field__input--has-error{{/if}}"

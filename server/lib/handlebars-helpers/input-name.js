@@ -1,3 +1,3 @@
 import capitalise from '../capitalise';
 
-export default (instance, namingValue) => instance ? `${instance.model}${capitalise(namingValue)}` : namingValue;
+export default (instance, propertyName) => instance ? `${instance.model}${capitalise(propertyName)}` : propertyName;
