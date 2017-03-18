@@ -5,7 +5,7 @@ const sinon = require('sinon');
 
 const alertFixture = require('../../fixtures/alert');
 const pageDataFixture = require('../../fixtures/page-data');
-const instanceFixture = require('../../fixtures/productions/instance');
+const getInstanceFixture = require('../../fixtures/productions/get-instance');
 
 let req;
 let res;
@@ -51,7 +51,7 @@ describe('Handle Model Response module', () => {
 
 	it('will call createAlertData module and setAlert function from alert module', () => {
 
-		subject(req, res, instanceFixture(), 'create');
+		subject(req, res, getInstanceFixture(), 'create');
 		expect(stubs.createAlertData.calledOnce).to.be.true;
 		expect(stubs.alert.setAlert.calledOnce).to.be.true;
 
@@ -69,7 +69,7 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to instance)', () => {
 
-				subject(req, res, instanceFixture(), action);
+				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
@@ -83,14 +83,15 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 200 (OK) and render form view', () => {
 
-				subject(req, res, instanceFixture({ hasError: true }), action);
+				const instanceFixture = getInstanceFixture({ hasError: true });
+				subject(req, res, instanceFixture, action);
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.alert.getAlert.calledOnce).to.be.true;
 				expect(res.statusCode).to.equal(200);
 				expect(res._getRenderView()).to.eq('productions/form');
 				expect(res._getRenderData()).to.deep.eq(
 					{
-						instance: instanceFixture({ hasError: true }),
+						instance: instanceFixture,
 						page: pageDataFixture,
 						alert: alertFixture,
 						form: true
@@ -115,7 +116,7 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to instance)', () => {
 
-				subject(req, res, instanceFixture(), action);
+				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
@@ -129,14 +130,15 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 200 (OK) and render form view', () => {
 
-				subject(req, res, instanceFixture({ hasError: true }), action);
+				const instanceFixture = getInstanceFixture({ hasError: true });
+				subject(req, res, instanceFixture, action);
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.alert.getAlert.calledOnce).to.be.true;
 				expect(res.statusCode).to.equal(200);
 				expect(res._getRenderView()).to.eq('productions/form');
 				expect(res._getRenderData()).to.deep.eq(
 					{
-						instance: instanceFixture({ hasError: true }),
+						instance: instanceFixture,
 						page: pageDataFixture,
 						alert: alertFixture,
 						form: true
@@ -161,7 +163,7 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to root)', () => {
 
-				subject(req, res, instanceFixture(), action);
+				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
@@ -175,7 +177,7 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to instance)', () => {
 
-				subject(req, res, instanceFixture({ hasError: true }), action);
+				subject(req, res, getInstanceFixture({ hasError: true }), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);

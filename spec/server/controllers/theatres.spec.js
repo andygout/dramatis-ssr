@@ -8,8 +8,8 @@ const Theatre = require('../../../dist/models/theatre');
 
 const alertFixture = require('../../fixtures/alert');
 const pageDataFixture = require('../../fixtures/page-data');
-const responseFixture = require('../../fixtures/response-instance');
-const responseListFixture = require('../../fixtures/response-instances-list');
+const getResponseFixture = require('../../fixtures/get-response-instance');
+const getResponseListFixture = require('../../fixtures/get-response-instances-list');
 
 const err = new Error('errorText');
 
@@ -82,16 +82,15 @@ describe('Theatre controller', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/form\' view', done => {
 
-				methodStub = sinon.stub().resolves(responseFixture('theatre'));
+				const responseFixture = getResponseFixture('theatre');
+				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(
-						responseFixture('theatre').theatre, 'update')
-					).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture.theatre, 'update')).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/form');
 					expect(res._getRenderData()).to.deep.eq(
-						{ instance: responseFixture('theatre').theatre, page: pageDataFixture, form: true }
+						{ instance: responseFixture.theatre, page: pageDataFixture, form: true }
 					);
 					expect(next.notCalled).to.be.true;
 					done();
@@ -131,11 +130,12 @@ describe('Theatre controller', () => {
 
 			it('will call handleModelResponse module', done => {
 
-				methodStub = sinon.stub().resolves(responseFixture('theatre'));
+				const responseFixture = getResponseFixture('theatre');
+				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(stubs.handleModelResponse.calledWithExactly(
-						req, res, responseFixture('theatre').theatre, 'update'
+						req, res, responseFixture.theatre, 'update'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -175,11 +175,12 @@ describe('Theatre controller', () => {
 
 			it('will call handleModelResponse module', done => {
 
-				methodStub = sinon.stub().resolves(responseFixture('theatre'));
+				const responseFixture = getResponseFixture('theatre');
+				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(stubs.handleModelResponse.calledWithExactly(
-						req, res, responseFixture('theatre').theatre, 'delete'
+						req, res, responseFixture.theatre, 'delete'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -219,17 +220,18 @@ describe('Theatre controller', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/show\' view', done => {
 
-				methodStub = sinon.stub().resolves(responseFixture('theatre'));
+				const responseFixture = getResponseFixture('theatre');
+				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(responseFixture('theatre').theatre, 'show')).to.be.true;
+					expect(stubs.getPageData.calledWithExactly(responseFixture.theatre, 'show')).to.be.true;
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 					expect(res.statusCode).to.equal(200);
 					expect(res._getRenderView()).to.eq('theatres/show');
 					expect(res._getRenderData()).to.deep.eq(
 						{
-							instance: responseFixture('theatre').theatre,
+							instance: responseFixture.theatre,
 							page: pageDataFixture,
 							alert: alertFixture,
 							show: true
@@ -280,7 +282,7 @@ describe('Theatre controller', () => {
 
 			it('will return status code 200 (OK) and render \'theatres/list\' view', done => {
 
-				methodStub = Promise.resolve(responseListFixture('theatres'));
+				methodStub = Promise.resolve(getResponseListFixture('theatres'));
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.alert.getAlert.calledOnce).to.be.true;
 					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
@@ -288,7 +290,7 @@ describe('Theatre controller', () => {
 					expect(res._getRenderView()).to.eq('theatres/list');
 					expect(res._getRenderData()).to.deep.eq(
 						{
-							instances: responseListFixture('theatres').theatres,
+							instances: getResponseListFixture('theatres').theatres,
 							page: { documentTitle: ' | Theatres', title: 'Theatres' },
 							alert: alertFixture,
 							list: true
