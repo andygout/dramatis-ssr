@@ -73,7 +73,7 @@ if (app.get('env') === 'development') {
 
 		res.status(errStatus);
 
-		res.render('error', {
+		res.render('partials/templates/error', {
 			page: { title: errMsg },
 			message: errMsg,
 			error: err
@@ -92,7 +92,7 @@ app.use((err, req, res, next) => {
 
 	res.status(errStatus);
 
-	res.render('error', {
+	res.render('partials/templates/error', {
 		page: { title: errMsg },
 		message: errMsg,
 		error: {}

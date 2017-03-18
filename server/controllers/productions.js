@@ -7,7 +7,7 @@ const newRoute = (req, res, next) => {
 
 	const production = new Production();
 
-	res.render(`productions/form`, {
+	res.render('productions/form', {
 		instance: production,
 		page: getPageData(production, 'create'),
 		form: true
@@ -36,7 +36,7 @@ const editRoute = (req, res, next) => {
 	return production.edit()
 		.then(({ production }) => {
 
-			res.render(`productions/form`, {
+			res.render('productions/form', {
 				instance: production,
 				page: getPageData(production, 'update'),
 				form: true
@@ -82,7 +82,7 @@ const showRoute = (req, res, next) => {
 	return production.show()
 		.then(({ production }) => {
 
-			res.render(`productions/show`, {
+			res.render('productions/show', {
 				instance: production,
 				page: getPageData(production, 'show'),
 				alert: getAlert(req),

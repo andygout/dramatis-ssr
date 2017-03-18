@@ -2,16 +2,16 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const productionInstanceFixture = require('../../fixtures/productions/instance');
-const theatreInstanceFixture = require('../../fixtures/theatres/instance');
+const getProductionInstanceFixture = require('../../fixtures/productions/get-instance');
+const getTheatreInstanceFixture = require('../../fixtures/theatres/get-instance');
 
 let productionInstance;
 let theatreInstance;
 
 const resetInstances = () => {
 
-	productionInstance = productionInstanceFixture();
-	theatreInstance = theatreInstanceFixture();
+	productionInstance = getProductionInstanceFixture();
+	theatreInstance = getTheatreInstanceFixture();
 
 };
 

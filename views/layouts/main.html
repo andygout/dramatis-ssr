@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
-	{{>head}}
+	{{>components/head}}
 	<body>
 		<div class="container">
-			{{>header}}
-			{{>nav}}
-			{{>content}}
-			{{>footer}}
+			{{>components/header}}
+			{{>components/nav}}
+			<main id="main-content" class="main-content">
+				{{>alert}}
+				{{>content-header}}
+				{{>title-text}}
+				{{#if form}}{{>templates/form}}{{/if}}
+				{{#if show}}{{>templates/show}}{{/if}}
+				{{#if list}}{{>templates/list}}{{/if}}
+				{{#if error}}{{>templates/error}}{{/if}}
+			</main>
+			{{>components/footer}}
 		</div>
 	</body>
 </html>

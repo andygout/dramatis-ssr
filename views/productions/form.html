@@ -1,11 +1,24 @@
 {{#with instance}}
 	<fieldset class="fieldset">
-		{{>input-text namingValue='title' value=title errors=errors.title}}
+		{{>input-text
+			propertyName='title'
+			value=title
+			errors=errors.title
+			mandatory=true
+		}}
 	</fieldset>
 
 	{{#with theatre}}
 		<fieldset class="fieldset">
-			{{>input-text namingValue='name' value=name errors=errors.name instance=this}}
+			{{>fieldset-header text='Theatre'}}
+
+			{{>input-text
+				propertyName='name'
+				inputName='theatreName'
+				value=name
+				errors=errors.name
+				mandatory=true
+			}}
 		</fieldset>
 	{{/with}}
 {{/with}}
