@@ -7,11 +7,21 @@ const dbQueryFixture = require('../../fixtures/db-query');
 
 let instance;
 
+const PersonStub = function () {
+
+	this.name = 'Ian McKellen';
+
+	this.validate = sinon.stub();
+
+	this.create = sinon.stub().resolves({ personUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
+
+};
+
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
 
-	this.create = sinon.stub().resolves({});
+	this.create = sinon.stub().resolves({ theatreUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
 
 };
 
@@ -20,6 +30,7 @@ const stubs = {
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
+	Person: PersonStub,
 	Theatre: TheatreStub
 };
 
@@ -44,6 +55,7 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+		'./person': stubs.Person,
 		'./theatre': stubs.Theatre
 	});
 
@@ -101,14 +113,23 @@ describe('Production model', () => {
 
 	describe('setErrorStatus method', () => {
 
-		it('will call instance validate method, theatre validate methods then verifyErrorPresence', () => {
+		it('will call instance validate method, theatre + person validate methods then verifyErrorPresence', () => {
 
 			instance = createInstance();
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
-			sinon.assert.callOrder(instance.validate, instance.theatre.validate, stubs.verifyErrorPresence);
+			sinon.assert.callOrder(
+				instance.validate,
+				instance.theatre.validate,
+				instance.person.validate,
+				stubs.verifyErrorPresence
+			);
 			expect(instance.validate.calledOnce).to.be.true;
+			expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 			expect(instance.theatre.validate.calledOnce).to.be.true;
+			expect(instance.theatre.validate.calledWithExactly({ mandatory: true })).to.be.true;
+			expect(instance.person.validate.calledOnce).to.be.true;
+			expect(instance.person.validate.calledWithExactly()).to.be.true;
 			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
 
 		});
@@ -148,11 +169,28 @@ describe('Production model', () => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
-					sinon.assert.callOrder(instance.setErrorStatus, instance.theatre.create, stubs.dbQuery);
+					sinon.assert.callOrder(
+						instance.setErrorStatus,
+						instance.theatre.create,
+						instance.person.create,
+						stubs.dbQuery
+					);
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.calledOnce).to.be.true;
+					expect(instance.person.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
+					done();
+				});
+
+			});
+
+			it('will not create related person if person name not given', done => {
+
+				instance = createInstance();
+				instance.person.name = '';
+				instance.create().then(() => {
+					expect(instance.person.create.notCalled).to.be.true;
 					done();
 				});
 
@@ -169,6 +207,7 @@ describe('Production model', () => {
 				instance.create().then(result => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.notCalled).to.be.true;
+					expect(instance.person.create.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
 					expect(result).to.deep.eq({ production: instance });
 					done();
@@ -204,11 +243,28 @@ describe('Production model', () => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
-					sinon.assert.callOrder(instance.setErrorStatus, instance.theatre.create, stubs.dbQuery);
+					sinon.assert.callOrder(
+						instance.setErrorStatus,
+						instance.theatre.create,
+						instance.person.create,
+						stubs.dbQuery
+					);
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.calledOnce).to.be.true;
+					expect(instance.person.create.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
+					done();
+				});
+
+			});
+
+			it('will not create related person if person name not given', done => {
+
+				instance = createInstance();
+				instance.person.name = '';
+				instance.update().then(() => {
+					expect(instance.person.create.notCalled).to.be.true;
 					done();
 				});
 
@@ -225,6 +281,7 @@ describe('Production model', () => {
 				instance.update().then(result => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.theatre.create.notCalled).to.be.true;
+					expect(instance.person.create.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
 					expect(result).to.deep.eq({ production: instance });
 					done();

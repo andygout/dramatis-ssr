@@ -2,6 +2,7 @@ import { setAlert, getAlert } from './alert';
 import createAlertData from './create-alert-data';
 import getPageData from './get-page-data';
 import instanceRoute from './instance-route';
+import pluralise from './pluralise';
 
 export default (req, res, instance, action) => {
 
@@ -11,7 +12,7 @@ export default (req, res, instance, action) => {
 
 		if (['create', 'update'].includes(action)) {
 
-			res.render(`${instance.model}s/form`, {
+			res.render(`${pluralise(instance.model)}/form`, {
 				instance,
 				page: getPageData(instance, action),
 				alert: getAlert(req),

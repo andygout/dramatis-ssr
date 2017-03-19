@@ -7,4 +7,13 @@
 			</div>
 		</div>
 	{{/with}}
+
+	{{#with person}}
+		<div id="{{model this}}" class="content-wrapper">
+			{{>content-label}}
+			<div class="content">
+				{{>instance-link}}
+			</div>
+		</div>
+	{{/with}}
 {{/with}}

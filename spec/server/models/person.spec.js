@@ -30,7 +30,7 @@ beforeEach(() => {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../dist/models/theatre', {
+	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
@@ -45,7 +45,7 @@ const createInstance = (stubOverrides = {}) => {
 
 };
 
-describe('Theatre model', () => {
+describe('Person model', () => {
 
 	describe('validate method', () => {
 
@@ -105,7 +105,7 @@ describe('Theatre model', () => {
 
 			it('will not add properties to errors property', done => {
 
-				instance = createInstance({ dbQuery: sinon.stub().resolves({ theatreCount: 0 }) });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ personCount: 0 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
@@ -120,58 +120,12 @@ describe('Theatre model', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 
-				instance = createInstance({ dbQuery: sinon.stub().resolves({ theatreCount: 1 }) });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ personCount: 1 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('name')
 						.that.is.an('array')
 						.that.deep.eq(['Name already exists']);
-					done();
-				});
-
-			});
-
-		});
-
-	});
-
-	describe('validateDeleteInDb method', () => {
-
-		it('will validate delete in database', done => {
-
-			instance = createInstance();
-			instance.validateUpdateInDb().then(() => {
-				expect(stubs.dbQuery.calledOnce).to.be.true;
-				done();
-			});
-
-		});
-
-		context('valid data (results returned that indicate no dependent associations exist)', () => {
-
-			it('will not add properties to errors property', done => {
-
-				instance = createInstance({ dbQuery: sinon.stub().resolves({ relationshipCount: 0 }) });
-				instance.validateDeleteInDb().then(() => {
-					expect(instance.errors).not.to.have.property('associations');
-					expect(instance.errors).to.deep.eq({});
-					done();
-				});
-
-			});
-
-		});
-
-		context('invalid data (results returned that indicate dependent associations exist)', () => {
-
-			it('will add properties that are arrays to errors property', done => {
-
-				instance = createInstance({ dbQuery: sinon.stub().resolves({ relationshipCount: 1 }) });
-				instance.validateDeleteInDb().then(() => {
-					expect(instance.errors)
-						.to.have.property('associations')
-						.that.is.an('array')
-						.that.deep.eq(['productions']);
 					done();
 				});
 
@@ -258,7 +212,7 @@ describe('Theatre model', () => {
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
 						expect(stubs.dbQuery.notCalled).to.be.true;
-						expect(result).to.deep.eq({ theatre: instance });
+						expect(result).to.deep.eq({ person: instance });
 						done();
 					});
 
@@ -287,7 +241,7 @@ describe('Theatre model', () => {
 						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
 						expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 						expect(stubs.dbQuery.calledOnce).to.be.true;
-						expect(result).to.deep.eq({ theatre: instance });
+						expect(result).to.deep.eq({ person: instance });
 						done();
 					});
 
@@ -301,48 +255,13 @@ describe('Theatre model', () => {
 
 	describe('delete method', () => {
 
-		context('no dependent associations', () => {
+		it('will delete', done => {
 
-			it('will delete', done => {
-
-				instance = createInstance();
-				sinon.spy(instance, 'validateDeleteInDb');
-				instance.delete().then(result => {
-					sinon.assert.callOrder(
-						instance.validateDeleteInDb,
-						stubs.dbQuery,
-						stubs.verifyErrorPresence,
-						stubs.dbQuery
-					);
-					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
-					expect(stubs.dbQuery.calledTwice).to.be.true;
-					expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
-					expect(result).to.deep.eq(dbQueryFixture);
-					done();
-				});
-
-			});
-
-		});
-
-		context('dependent associations', () => {
-
-			it('will return instance without deleting', done => {
-
-				const verifyErrorPresenceStub = sinon.stub().returns(true);
-				instance = createInstance({
-					verifyErrorPresence: verifyErrorPresenceStub
-				});
-				sinon.spy(instance, 'validateDeleteInDb');
-				instance.delete().then(result => {
-					sinon.assert.callOrder(instance.validateDeleteInDb, stubs.dbQuery, verifyErrorPresenceStub);
-					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
-					expect(stubs.dbQuery.calledOnce).to.be.true;
-					expect(verifyErrorPresenceStub.calledOnce).to.be.true;
-					expect(result).to.deep.eq({ theatre: instance });
-					done();
-				});
-
+			instance = createInstance();
+			instance.delete().then(result => {
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(result).to.deep.eq(dbQueryFixture);
+				done();
 			});
 
 		});

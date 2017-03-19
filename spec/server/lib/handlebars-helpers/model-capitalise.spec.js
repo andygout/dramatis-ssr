@@ -3,12 +3,14 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const stubs = {
-	capitalise: sinon.stub().returns('Production')
+	capitalise: sinon.stub().returns('capitalise response'),
+	pluralise: sinon.stub().returns('pluralise response')
 };
 
 const resetStubs = () => {
 
 	stubs.capitalise.reset();
+	stubs.pluralise.reset();
 
 };
 
@@ -19,7 +21,8 @@ beforeEach(() => {
 });
 
 const subject = proxyquire('../../../../dist/lib/handlebars-helpers/model-capitalise', {
-		'../capitalise': stubs.capitalise
+		'../capitalise': stubs.capitalise,
+		'../pluralise': stubs.pluralise
 	});
 
 describe('Model Capitalise handlebars helper', () => {
@@ -29,7 +32,9 @@ describe('Model Capitalise handlebars helper', () => {
 		it('will return model name of instance with first letter capitalised', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject(productionInstance)).to.eq('Production');
+			expect(subject(productionInstance)).to.eq('capitalise response');
+			expect(stubs.pluralise.notCalled).to.be.true;
+			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly('production')).to.be.true;
 
 		});
@@ -41,8 +46,11 @@ describe('Model Capitalise handlebars helper', () => {
 		it('will return pluralised model name of first instance in array with first letter capitalised', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject([productionInstance])).to.eq('Production');
-			expect(stubs.capitalise.calledWithExactly('productions')).to.be.true;
+			expect(subject([productionInstance])).to.eq('capitalise response');
+			expect(stubs.pluralise.calledOnce).to.be.true;
+			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
+			expect(stubs.capitalise.calledOnce).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('pluralise response')).to.be.true;
 
 		});
 

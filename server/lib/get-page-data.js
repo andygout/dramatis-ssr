@@ -1,4 +1,5 @@
 import instanceNamingValue from './instance-naming-value';
+import pluralise from './pluralise';
 
 const getDocumentTitle = (instance, action, model, title) => {
 
@@ -30,7 +31,7 @@ export default (instance, action) => {
 		documentTitle: instance.documentTitle || getDocumentTitle(instance, action, model, title),
 		title,
 		model,
-		formAction: `/${model}s${isCreateAction ? '' : '/' + instance.uuid}`,
+		formAction: `/${pluralise(model)}${isCreateAction ? '' : '/' + instance.uuid}`,
 		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`
 	};
 

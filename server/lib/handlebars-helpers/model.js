@@ -1,4 +1,6 @@
+import pluralise from '../pluralise';
+
 export default instance =>
 	!Array.isArray(instance) ?
 		instance.model :
-		`${instance[0].model}s`;
+		pluralise(instance[0].model);

@@ -21,4 +21,17 @@
 			}}
 		</fieldset>
 	{{/with}}
+
+	{{#with person}}
+		<fieldset class="fieldset">
+			{{>fieldset-header text='Person'}}
+
+			{{>input-text
+				propertyName='name'
+				inputName='personName'
+				value=name
+				errors=errors.name
+			}}
+		</fieldset>
+	{{/with}}
 {{/with}}

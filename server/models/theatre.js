@@ -23,11 +23,11 @@ export default class Theatre {
 
 	};
 
-	validate () {
+	validate (opts = {}) {
 
 		trimStrings(this);
 
-		const nameErrors = validateString(this.name, 'Name');
+		const nameErrors = validateString(this.name, 'Name', opts);
 
 		if (nameErrors.length) this.errors.name = nameErrors;
 
@@ -66,7 +66,7 @@ export default class Theatre {
 		return dbQuery(`
 			MERGE (t:Theatre { name: '${esc(this.name)}' })
 			ON CREATE SET t.uuid = '${uuid()}'
-			RETURN t.uuid AS uuid
+			RETURN t.uuid AS theatreUuid
 		`);
 
 	};
@@ -86,7 +86,7 @@ export default class Theatre {
 
 	update () {
 
-		this.validate();
+		this.validate({ mandatory: true });
 
 		this.hasError = verifyErrorPresence(this);
 
@@ -140,12 +140,12 @@ export default class Theatre {
 
 		return dbQuery(`
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
-			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(p:Production)
-			WITH t, CASE WHEN p IS NOT NULL THEN collect({
-				model: 'production',
-				uuid: p.uuid,
-				title: p.title
-			}) ELSE [] END AS productions
+			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(prd:Production)
+			WITH t, CASE WHEN prd IS NOT NULL THEN
+				collect({ model: 'production', uuid: prd.uuid, title: prd.title })
+			ELSE
+				[]
+			END AS productions
 			RETURN {
 				model: 'theatre',
 				uuid: t.uuid,
