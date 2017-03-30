@@ -172,7 +172,7 @@ export default class Production {
 
 		return dbQuery(`
 			MATCH (prd:Production)-[:PLAYS_AT]->(t:Theatre)
-			RETURN collect({
+			RETURN COLLECT({
 				model: 'production',
 				uuid: prd.uuid,
 				title: prd.title,

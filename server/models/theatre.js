@@ -130,7 +130,7 @@ export default class Theatre {
 			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
 			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(prd:Production)
 			WITH t, CASE WHEN prd IS NOT NULL THEN
-				collect({ model: 'production', uuid: prd.uuid, title: prd.title })
+				COLLECT({ model: 'production', uuid: prd.uuid, title: prd.title })
 			ELSE
 				[]
 			END AS productions
@@ -148,7 +148,7 @@ export default class Theatre {
 
 		return dbQuery(`
 			MATCH (t:Theatre)
-			RETURN collect({
+			RETURN COLLECT({
 				model: 'theatre',
 				uuid: t.uuid,
 				name: t.name
