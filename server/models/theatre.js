@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'node-uuid';
-
 import dbQuery from '../database/db-query';
 import esc from '../lib/escape-string';
 import trimStrings from '../lib/trim-strings';
@@ -58,16 +56,6 @@ export default class Theatre {
 				if (relationshipCount > 0) this.errors.associations = ['productions'];
 
 			});
-
-	};
-
-	create () {
-
-		return dbQuery(`
-			MERGE (t:Theatre { name: '${esc(this.name)}' })
-			ON CREATE SET t.uuid = '${uuid()}'
-			RETURN t.uuid AS theatreUuid
-		`);
 
 	};
 

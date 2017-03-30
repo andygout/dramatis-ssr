@@ -53,37 +53,24 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		const relatedModelPromises = [this.theatre.create()];
+		const personQuery = this.person.name.length ?
+			`MERGE (p:Person { name: '${esc(this.person.name)}' })
+			ON CREATE SET p.uuid = '${uuid()}'
+			CREATE (prd)<-[:PERFORMS_IN]-(p)` :
+			'';
 
-		if (this.person.name.length) {
-			relatedModelPromises.push(this.person.create());
-		}
-
-		return Promise.all(relatedModelPromises)
-			.then(results => {
-
-				const theatre = results.find(result => result.theatreUuid);
-
-				const person = results.find(result => result.personUuid) || null;
-
-				const createPersonRelation = person ?
-					`WITH prd MATCH (p:Person { uuid: '${person.personUuid}' }) CREATE (prd)<-[:PERFORMS_IN]-(p)` :
-					'';
-
-				return dbQuery(`
-					CREATE (prd:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })
-					WITH prd
-					MATCH (t:Theatre { uuid: '${theatre.theatreUuid}' })
-					CREATE (prd)-[:PLAYS_AT]->(t)
-					${createPersonRelation}
-					RETURN {
-						model: 'production',
-						uuid: prd.uuid,
-						title: prd.title
-					} AS production
-				`);
-
-			});
+		return dbQuery(`
+			CREATE (prd:Production { uuid: '${uuid()}', title: '${esc(this.title)}' })
+			MERGE (t:Theatre { name: '${esc(this.theatre.name)}' })
+			ON CREATE SET t.uuid = '${uuid()}'
+			CREATE (prd)-[:PLAYS_AT]->(t)
+			${personQuery}
+			RETURN {
+				model: 'production',
+				uuid: prd.uuid,
+				title: prd.title
+			} AS production
+		`);
 
 	};
 
@@ -116,41 +103,28 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		const relatedModelPromises = [this.theatre.create()];
+		const personQuery = this.person.name.length ?
+			`MERGE (p:Person { name: '${esc(this.person.name)}' })
+			ON CREATE SET p.uuid = '${uuid()}'
+			CREATE (prd)<-[:PERFORMS_IN]-(p)` :
+			'';
 
-		if (this.person.name.length) {
-			relatedModelPromises.push(this.person.create());
-		}
-
-		return Promise.all(relatedModelPromises)
-			.then(results => {
-
-				const theatre = results.find(result => result.theatreUuid);
-
-				const person = results.find(result => result.personUuid) || null;
-
-				const createPersonRelation = person ?
-					`WITH prd MATCH (p:Person { uuid: '${person.personUuid}' }) CREATE (prd)<-[:PERFORMS_IN]-(p)` :
-					'';
-
-				return dbQuery(`
-					MATCH (prd:Production { uuid: '${esc(this.uuid)}' })
-					OPTIONAL MATCH (prd)-[r]-()
-					WITH prd, COLLECT (r) AS rels
-					FOREACH (r IN rels | DELETE r)
-					WITH prd
-					MATCH (t:Theatre { uuid: '${theatre.theatreUuid}' })
-					CREATE (prd)-[:PLAYS_AT]->(t)
-					${createPersonRelation}
-					SET prd.title = '${esc(this.title)}'
-					RETURN {
-						model: 'production',
-						uuid: prd.uuid,
-						title: prd.title
-					} AS production
-				`);
-
-			});
+		return dbQuery(`
+			MATCH (prd:Production { uuid: '${esc(this.uuid)}' })
+			OPTIONAL MATCH (prd)-[r]-()
+			WITH prd, COLLECT (r) AS rels
+			FOREACH (r IN rels | DELETE r)
+			SET prd.title = '${esc(this.title)}'
+			MERGE (t:Theatre { name: '${esc(this.theatre.name)}' })
+			ON CREATE SET t.uuid = '${uuid()}'
+			CREATE (prd)-[:PLAYS_AT]->(t)
+			${personQuery}
+			RETURN {
+				model: 'production',
+				uuid: prd.uuid,
+				title: prd.title
+			} AS production
+		`);
 
 	};
 

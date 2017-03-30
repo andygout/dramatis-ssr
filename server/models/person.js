@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'node-uuid';
-
 import dbQuery from '../database/db-query';
 import esc from '../lib/escape-string';
 import trimStrings from '../lib/trim-strings';
@@ -44,16 +42,6 @@ export default class Person {
 				if (personCount > 0) this.errors.name = ['Name already exists'];
 
 			});
-
-	};
-
-	create () {
-
-		return dbQuery(`
-			MERGE (p:Person { name: '${esc(this.name)}' })
-			ON CREATE SET p.uuid = '${uuid()}'
-			RETURN p.uuid AS personUuid
-		`);
 
 	};
 
