@@ -75,7 +75,7 @@ const createInstance = (method, methodStub) => {
 
 };
 
-describe('Production controller', () => {
+describe('Productions controller', () => {
 
 	describe('new method', () => {
 

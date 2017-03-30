@@ -68,7 +68,7 @@ const createInstance = (method, methodStub) => {
 
 };
 
-describe('Theatre controller', () => {
+describe('Theatres controller', () => {
 
 	describe('edit method', () => {
 
