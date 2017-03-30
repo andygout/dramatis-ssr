@@ -181,21 +181,6 @@ describe('Theatre model', () => {
 
 	});
 
-	describe('create method', () => {
-
-		it('will create', done => {
-
-			instance = createInstance();
-			instance.create().then(result => {
-				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(result).to.deep.eq(dbQueryFixture);
-				done();
-			});
-
-		});
-
-	});
-
 	describe('edit method', () => {
 
 		it('will get edit data', done => {
