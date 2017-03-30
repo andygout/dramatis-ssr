@@ -1,6 +1,26 @@
 const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
-const subject = require('../../../../dist/lib/handlebars-helpers/model');
+const stubs = {
+	pluralise: sinon.stub().returns('pluralise response')
+};
+
+const resetStubs = () => {
+
+	stubs.pluralise.reset();
+
+};
+
+beforeEach(() => {
+
+	resetStubs();
+
+});
+
+const subject = proxyquire('../../../../dist/lib/handlebars-helpers/model', {
+		'../pluralise': stubs.pluralise
+	});
 
 describe('Model handlebars helper', () => {
 
@@ -10,6 +30,7 @@ describe('Model handlebars helper', () => {
 
 			const productionInstance = { model: 'production' };
 			expect(subject(productionInstance)).to.eq('production');
+			expect(stubs.pluralise.notCalled).to.be.true;
 
 		});
 
@@ -20,7 +41,9 @@ describe('Model handlebars helper', () => {
 		it('will return pluralised model name of first instance in array', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject([productionInstance])).to.eq('productions');
+			expect(subject([productionInstance])).to.eq('pluralise response');
+			expect(stubs.pluralise.calledOnce).to.be.true;
+			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 
 		});
 

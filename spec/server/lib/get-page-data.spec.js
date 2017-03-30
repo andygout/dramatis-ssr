@@ -16,12 +16,14 @@ const resetInstances = () => {
 };
 
 const stubs = {
-	instanceNamingValue: sinon.stub().returns('Hamlet')
+	instanceNamingValue: sinon.stub().returns('Hamlet'),
+	pluralise: sinon.stub().returns('productions')
 };
 
 const resetStubs = () => {
 
 	stubs.instanceNamingValue.reset();
+	stubs.pluralise.reset();
 
 };
 
@@ -34,7 +36,8 @@ beforeEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/lib/get-page-data', {
-		'./instance-naming-value': stubOverrides.instanceNamingValue || stubs.instanceNamingValue
+		'./instance-naming-value': stubOverrides.instanceNamingValue || stubs.instanceNamingValue,
+		'./pluralise': stubs.pluralise
 	});
 
 describe('Get Page Data module', () => {
@@ -192,6 +195,8 @@ describe('Get Page Data module', () => {
 
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
+				expect(stubs.pluralise.calledOnce).to.be.true;
+				expect(stubs.pluralise.calledWithExactly(productionInstance.model)).to.be.true;
 				expect(pageData.formAction).to.eq('/productions');
 
 			});
@@ -204,6 +209,8 @@ describe('Get Page Data module', () => {
 
 				const subject = createSubject();
 				const pageData = subject(productionInstance, 'update');
+				expect(stubs.pluralise.calledOnce).to.be.true;
+				expect(stubs.pluralise.calledWithExactly(productionInstance.model)).to.be.true;
 				expect(pageData.formAction).to.eq('/productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 			});

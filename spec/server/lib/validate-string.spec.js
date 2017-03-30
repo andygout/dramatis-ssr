@@ -18,13 +18,19 @@ describe('Validate String module', () => {
 
 		});
 
+		it('will not add error to titleErrors array if title string has no length but is not mandatory', () => {
+
+			expect(subject(subMinLengthString, 'Title')).to.deep.eq([]);
+
+		});
+
 	});
 
 	context('invalid data', () => {
 
-		it('will add error to titleErrors array if title string is too short', () => {
+		it('will add error to titleErrors array if title string is too short and is mandatory', () => {
 
-			expect(subject(subMinLengthString, 'Title')).to.deep.eq(['Title is too short']);
+			expect(subject(subMinLengthString, 'Title', { mandatory: true })).to.deep.eq(['Title is too short']);
 
 		});
 

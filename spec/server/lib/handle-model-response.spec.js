@@ -18,7 +18,8 @@ const stubs = {
 	},
 	createAlertData: sinon.stub(),
 	getPageData: sinon.stub().returns(pageDataFixture),
-	instanceRoute: sinon.stub().returns('instance route')
+	instanceRoute: sinon.stub().returns('instance route'),
+	pluralise: sinon.stub().returns('productions')
 };
 
 const resetStubs = () => {
@@ -28,6 +29,7 @@ const resetStubs = () => {
 	stubs.createAlertData.reset();
 	stubs.getPageData.reset();
 	stubs.instanceRoute.reset();
+	stubs.pluralise.reset();
 
 };
 
@@ -43,7 +45,8 @@ const subject = proxyquire('../../../dist/lib/handle-model-response', {
 		'./alert': stubs.alert,
 		'./create-alert-data': stubs.createAlertData,
 		'./get-page-data': stubs.getPageData,
-		'./instance-route': stubs.instanceRoute
+		'./instance-route': stubs.instanceRoute,
+		'./pluralise': stubs.pluralise
 	});
 
 
@@ -85,6 +88,8 @@ describe('Handle Model Response module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
+				expect(stubs.pluralise.calledOnce).to.be.true;
+				expect(stubs.pluralise.calledWithExactly(instanceFixture.model)).to.be.true;
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.alert.getAlert.calledOnce).to.be.true;
 				expect(res.statusCode).to.equal(200);
@@ -132,6 +137,8 @@ describe('Handle Model Response module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
+				expect(stubs.pluralise.calledOnce).to.be.true;
+				expect(stubs.pluralise.calledWithExactly(instanceFixture.model)).to.be.true;
 				expect(stubs.getPageData.calledOnce).to.be.true;
 				expect(stubs.alert.getAlert.calledOnce).to.be.true;
 				expect(res.statusCode).to.equal(200);

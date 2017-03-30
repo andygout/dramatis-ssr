@@ -1,1 +1,3 @@
-export default instance => `/${instance.model}s/${instance.uuid}`;
+import pluralise from './pluralise';
+
+export default instance => `/${pluralise(instance.model)}/${instance.uuid}`;

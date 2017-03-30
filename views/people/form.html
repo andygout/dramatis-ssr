@@ -1,0 +1,10 @@
+{{#with instance}}
+	<fieldset class="fieldset">
+		{{>input-text
+			propertyName='name'
+			value=name
+			errors=errors.name
+			mandatory=true
+		}}
+	</fieldset>
+{{/with}}
