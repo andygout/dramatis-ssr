@@ -1,5 +1,5 @@
 import renderPage from './render-page';
-import { setAlert, getAlert } from '../alert';
+import { setAlert } from '../alert';
 import createAlertData from '../create-alert-data';
 import getPageData from '../get-page-data';
 import instanceRoute from '../instance-route';

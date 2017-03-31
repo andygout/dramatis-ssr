@@ -14,8 +14,7 @@ let action;
 const stubs = {
 	renderPage: sinon.stub(),
 	alert: {
-		setAlert: sinon.stub(),
-		getAlert: sinon.stub().returns(alertFixture)
+		setAlert: sinon.stub()
 	},
 	createAlertData: sinon.stub(),
 	getPageData: sinon.stub().returns(pageDataFixture),
@@ -27,7 +26,6 @@ const resetStubs = () => {
 
 	stubs.renderPage.reset();
 	stubs.alert.setAlert.reset();
-	stubs.alert.getAlert.reset();
 	stubs.createAlertData.reset();
 	stubs.getPageData.reset();
 	stubs.instanceRoute.reset();
@@ -77,7 +75,6 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
-				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
@@ -116,7 +113,6 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
-				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
@@ -155,7 +151,6 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture(), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
-				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('/');
 
@@ -169,7 +164,6 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture({ hasError: true }), action);
 				expect(stubs.getPageData.notCalled).to.be.true;
-				expect(stubs.alert.getAlert.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
