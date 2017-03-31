@@ -116,15 +116,13 @@ describe('Create Alert Data module', () => {
 
 			it('will return data for unsuccessful creation alert', () => {
 
-				const instance = getInstanceFixture({
-						hasError: true,
-						errorsAssociations: { associations: ['productions'] }
-					});
+				const instance = getInstanceFixture(
+						{ hasError: true, errorsAssociations: { associations: ['productions'] } }
+					);
 				const alertData = subject(instance, action);
-				expect(alertData).to.deep.eq({
-					text: 'THEATRE ERRORS: Dependent associations exist with productions',
-					type: 'error'
-				});
+				expect(alertData).to.deep.eq(
+					{ text: 'THEATRE ERRORS: Dependent associations exist with productions', type: 'error' }
+				);
 
 			});
 
