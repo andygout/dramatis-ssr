@@ -17,9 +17,7 @@ const stubs = {
 		setAlert: sinon.stub()
 	},
 	createAlertData: sinon.stub(),
-	getPageData: sinon.stub().returns(pageDataFixture),
-	instanceRoute: sinon.stub().returns('instance route'),
-	pluralise: sinon.stub().returns('productions')
+	instanceRoute: sinon.stub().returns('instance route')
 };
 
 const resetStubs = () => {
@@ -27,9 +25,7 @@ const resetStubs = () => {
 	stubs.renderPage.reset();
 	stubs.alert.setAlert.reset();
 	stubs.createAlertData.reset();
-	stubs.getPageData.reset();
 	stubs.instanceRoute.reset();
-	stubs.pluralise.reset();
 
 };
 
@@ -45,9 +41,7 @@ const subject = proxyquire('../../../../dist/lib/controllers-helpers/handle-mode
 		'./render-page': stubs.renderPage,
 		'../alert': stubs.alert,
 		'../create-alert-data': stubs.createAlertData,
-		'../get-page-data': stubs.getPageData,
-		'../instance-route': stubs.instanceRoute,
-		'../pluralise': stubs.pluralise
+		'../instance-route': stubs.instanceRoute
 	});
 
 
@@ -74,7 +68,6 @@ describe('Handle Model Response module', () => {
 			it('will return status code 302 (redirect to instance)', () => {
 
 				subject(req, res, getInstanceFixture(), action);
-				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
@@ -112,7 +105,6 @@ describe('Handle Model Response module', () => {
 			it('will return status code 302 (redirect to instance)', () => {
 
 				subject(req, res, getInstanceFixture(), action);
-				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
@@ -150,7 +142,6 @@ describe('Handle Model Response module', () => {
 			it('will return status code 302 (redirect to root)', () => {
 
 				subject(req, res, getInstanceFixture(), action);
-				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('/');
 
@@ -163,7 +154,6 @@ describe('Handle Model Response module', () => {
 			it('will return status code 302 (redirect to instance)', () => {
 
 				subject(req, res, getInstanceFixture({ hasError: true }), action);
-				expect(stubs.getPageData.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('instance route');
 
