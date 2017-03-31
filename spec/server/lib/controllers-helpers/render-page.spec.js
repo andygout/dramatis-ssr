@@ -37,7 +37,7 @@ beforeEach(() => {
 
 });
 
-const subject = proxyquire('../../../../dist/lib/controller-helpers/render-page', {
+const subject = proxyquire('../../../../dist/lib/controllers-helpers/render-page', {
 		'../alert': stubs.alert,
 		'../get-list-page-data': stubs.getListPageData,
 		'../get-page-data': stubs.getPageData,

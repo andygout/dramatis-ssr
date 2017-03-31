@@ -38,8 +38,8 @@ beforeEach(() => {
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/theatres', {
 		'../models/theatre': stubOverrides.TheatreModel,
-		'../lib/controller-helpers/handle-model-response': stubs.handleModelResponse,
-		'../lib/controller-helpers/render-page': stubs.renderPage
+		'../lib/controllers-helpers/handle-model-response': stubs.handleModelResponse,
+		'../lib/controllers-helpers/render-page': stubs.renderPage
 	});
 
 const createInstance = (method, methodStub) => {

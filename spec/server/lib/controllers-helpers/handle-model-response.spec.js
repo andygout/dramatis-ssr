@@ -43,7 +43,7 @@ beforeEach(() => {
 
 });
 
-const subject = proxyquire('../../../../dist/lib/controller-helpers/handle-model-response', {
+const subject = proxyquire('../../../../dist/lib/controllers-helpers/handle-model-response', {
 		'./render-page': stubs.renderPage,
 		'../alert': stubs.alert,
 		'../create-alert-data': stubs.createAlertData,

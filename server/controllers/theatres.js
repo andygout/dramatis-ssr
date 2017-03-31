@@ -1,6 +1,6 @@
 import Theatre from '../models/theatre';
-import handleModelResponse from '../lib/controller-helpers/handle-model-response';
-import renderPage from '../lib/controller-helpers/render-page';
+import handleModelResponse from '../lib/controllers-helpers/handle-model-response';
+import renderPage from '../lib/controllers-helpers/render-page';
 
 const editRoute = (req, res, next) => {
 

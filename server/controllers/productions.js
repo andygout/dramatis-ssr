@@ -1,6 +1,6 @@
 import Production from '../models/production';
-import handleModelResponse from '../lib/controller-helpers/handle-model-response';
-import renderPage from '../lib/controller-helpers/render-page';
+import handleModelResponse from '../lib/controllers-helpers/handle-model-response';
+import renderPage from '../lib/controllers-helpers/render-page';
 
 const newRoute = (req, res, next) => {
 
