@@ -1,9 +1,9 @@
-import { renderFormPage } from '../lib/controller-helpers/render-templates';
-import { setAlert, getAlert } from './alert';
-import createAlertData from './create-alert-data';
-import getPageData from './get-page-data';
-import instanceRoute from './instance-route';
-import pluralise from './pluralise';
+import { renderFormPage } from './render-templates';
+import { setAlert, getAlert } from '../alert';
+import createAlertData from '../create-alert-data';
+import getPageData from '../get-page-data';
+import instanceRoute from '../instance-route';
+import pluralise from '../pluralise';
 
 export default (req, res, instance, action) => {
 

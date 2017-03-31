@@ -3,9 +3,9 @@ const httpMocks = require('node-mocks-http');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const alertFixture = require('../../fixtures/alert');
-const pageDataFixture = require('../../fixtures/page-data');
-const getInstanceFixture = require('../../fixtures/productions/get-instance');
+const alertFixture = require('../../../fixtures/alert');
+const pageDataFixture = require('../../../fixtures/page-data');
+const getInstanceFixture = require('../../../fixtures/productions/get-instance');
 
 let req;
 let res;
@@ -45,13 +45,13 @@ beforeEach(() => {
 
 });
 
-const subject = proxyquire('../../../dist/lib/handle-model-response', {
-		'../lib/controller-helpers/render-templates': stubs.renderTemplates,
-		'./alert': stubs.alert,
-		'./create-alert-data': stubs.createAlertData,
-		'./get-page-data': stubs.getPageData,
-		'./instance-route': stubs.instanceRoute,
-		'./pluralise': stubs.pluralise
+const subject = proxyquire('../../../../dist/lib/controller-helpers/handle-model-response', {
+		'./render-templates': stubs.renderTemplates,
+		'../alert': stubs.alert,
+		'../create-alert-data': stubs.createAlertData,
+		'../get-page-data': stubs.getPageData,
+		'../instance-route': stubs.instanceRoute,
+		'../pluralise': stubs.pluralise
 	});
 
 

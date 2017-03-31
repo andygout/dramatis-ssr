@@ -18,20 +18,20 @@ let method;
 let methodStub;
 
 const stubs = {
+	handleModelResponse: sinon.stub(),
 	renderTemplates: {
 		renderFormPage: sinon.stub(),
 		renderShowPage: sinon.stub(),
 		renderListPage: sinon.stub()
-	},
-	handleModelResponse: sinon.stub()
+	}
 };
 
 const resetStubs = () => {
 
+	stubs.handleModelResponse.reset();
 	stubs.renderTemplates.renderFormPage.reset();
 	stubs.renderTemplates.renderShowPage.reset();
 	stubs.renderTemplates.renderListPage.reset();
-	stubs.handleModelResponse.reset();
 
 };
 
@@ -44,8 +44,8 @@ beforeEach(() => {
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/productions', {
 		'../models/production': stubOverrides.ProductionModel,
-		'../lib/controller-helpers/render-templates': stubs.renderTemplates,
-		'../lib/handle-model-response': stubs.handleModelResponse
+		'../lib/controller-helpers/handle-model-response': stubs.handleModelResponse,
+		'../lib/controller-helpers/render-templates': stubs.renderTemplates
 	});
 
 const createInstance = (method, methodStub) => {
