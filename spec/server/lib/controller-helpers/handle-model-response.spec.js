@@ -12,9 +12,7 @@ let res;
 let action;
 
 const stubs = {
-	renderTemplates: {
-		renderFormPage: sinon.stub()
-	},
+	renderPage: sinon.stub(),
 	alert: {
 		setAlert: sinon.stub(),
 		getAlert: sinon.stub().returns(alertFixture)
@@ -27,7 +25,7 @@ const stubs = {
 
 const resetStubs = () => {
 
-	stubs.renderTemplates.renderFormPage.reset();
+	stubs.renderPage.reset();
 	stubs.alert.setAlert.reset();
 	stubs.alert.getAlert.reset();
 	stubs.createAlertData.reset();
@@ -46,7 +44,7 @@ beforeEach(() => {
 });
 
 const subject = proxyquire('../../../../dist/lib/controller-helpers/handle-model-response', {
-		'./render-templates': stubs.renderTemplates,
+		'./render-page': stubs.renderPage,
 		'../alert': stubs.alert,
 		'../create-alert-data': stubs.createAlertData,
 		'../get-page-data': stubs.getPageData,
@@ -89,13 +87,13 @@ describe('Handle Model Response module', () => {
 
 		context('instance has model errors', () => {
 
-			it('will call renderFormPage() from renderTemplates module', () => {
+			it('will call renderPage module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
-				expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-				expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-					req, res, instanceFixture, 'create'
+				expect(stubs.renderPage.calledOnce).to.be.true;
+				expect(stubs.renderPage.calledWithExactly(
+					req, res, instanceFixture, 'form', { action }
 				)).to.be.true;
 
 			});
@@ -128,13 +126,13 @@ describe('Handle Model Response module', () => {
 
 		context('instance has model errors', () => {
 
-			it('will call renderFormPage() from renderTemplates module', () => {
+			it('will call renderPage module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
-				expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-				expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-					req, res, instanceFixture, 'update'
+				expect(stubs.renderPage.calledOnce).to.be.true;
+				expect(stubs.renderPage.calledWithExactly(
+					req, res, instanceFixture, 'form', { action }
 				)).to.be.true;
 
 			});

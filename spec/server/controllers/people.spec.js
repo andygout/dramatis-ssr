@@ -19,19 +19,13 @@ let methodStub;
 
 const stubs = {
 	handleModelResponse: sinon.stub(),
-	renderTemplates: {
-		renderFormPage: sinon.stub(),
-		renderShowPage: sinon.stub(),
-		renderListPage: sinon.stub()
-	}
+	renderPage: sinon.stub()
 };
 
 const resetStubs = () => {
 
 	stubs.handleModelResponse.reset();
-	stubs.renderTemplates.renderFormPage.reset();
-	stubs.renderTemplates.renderShowPage.reset();
-	stubs.renderTemplates.renderListPage.reset();
+	stubs.renderPage.reset();
 
 };
 
@@ -45,7 +39,7 @@ const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/people', {
 		'../models/person': stubOverrides.PersonModel,
 		'../lib/controller-helpers/handle-model-response': stubs.handleModelResponse,
-		'../lib/controller-helpers/render-templates': stubs.renderTemplates
+		'../lib/controller-helpers/render-page': stubs.renderPage
 	});
 
 const createInstance = (method, methodStub) => {
@@ -79,14 +73,14 @@ describe('People controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderFormPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-						req, res, responseFixture.person, 'update'
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.person, 'form', { action: 'update' }
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -213,14 +207,14 @@ describe('People controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderShowPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderShowPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderShowPage.calledWithExactly(
-						req, res, responseFixture.person
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.person, 'show'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -263,14 +257,14 @@ describe('People controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderListPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseListFixture = getResponseListFixture('people');
 				methodStub = Promise.resolve(responseListFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderListPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderListPage.calledWithExactly(
-						req, res, responseListFixture.people, 'people'
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseListFixture.people, 'list', { pluralisedModel: 'people' }
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();

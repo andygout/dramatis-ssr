@@ -19,19 +19,13 @@ let methodStub;
 
 const stubs = {
 	handleModelResponse: sinon.stub(),
-	renderTemplates: {
-		renderFormPage: sinon.stub(),
-		renderShowPage: sinon.stub(),
-		renderListPage: sinon.stub()
-	}
+	renderPage: sinon.stub()
 };
 
 const resetStubs = () => {
 
 	stubs.handleModelResponse.reset();
-	stubs.renderTemplates.renderFormPage.reset();
-	stubs.renderTemplates.renderShowPage.reset();
-	stubs.renderTemplates.renderListPage.reset();
+	stubs.renderPage.reset();
 
 };
 
@@ -45,7 +39,7 @@ const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/productions', {
 		'../models/production': stubOverrides.ProductionModel,
 		'../lib/controller-helpers/handle-model-response': stubs.handleModelResponse,
-		'../lib/controller-helpers/render-templates': stubs.renderTemplates
+		'../lib/controller-helpers/render-page': stubs.renderPage
 	});
 
 const createInstance = (method, methodStub) => {
@@ -84,14 +78,14 @@ describe('Productions controller', () => {
 
 		});
 
-		it('will call renderFormPage() from renderTemplates module', () => {
+		it('will call renderPage module', () => {
 
 			const ProductionStub = sinon.createStubInstance(Production);
 			methodStub = sinon.stub().returns(ProductionStub);
 			createInstance(method, methodStub);
-			expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-			expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-				req, res, ProductionStub, 'create'
+			expect(stubs.renderPage.calledOnce).to.be.true;
+			expect(stubs.renderPage.calledWithExactly(
+				req, res, ProductionStub, 'form', { action: 'create' }
 			)).to.be.true;
 
 		});
@@ -153,14 +147,14 @@ describe('Productions controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderFormPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('production');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-						req, res, responseFixture.production, 'update'
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.production, 'form', { action: 'update' }
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -287,14 +281,14 @@ describe('Productions controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderShowPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('production');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderShowPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderShowPage.calledWithExactly(
-						req, res, responseFixture.production
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.production, 'show'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -337,14 +331,14 @@ describe('Productions controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will call renderListPage() from renderTemplates module', done => {
+			it('will call renderPage module', done => {
 
 				const responseListFixture = getResponseListFixture('productions');
 				methodStub = Promise.resolve(responseListFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.renderTemplates.renderListPage.calledOnce).to.be.true;
-					expect(stubs.renderTemplates.renderListPage.calledWithExactly(
-						req, res, responseListFixture.productions, 'productions'
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseListFixture.productions, 'list', { pluralisedModel: 'productions' }
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();

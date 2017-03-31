@@ -1,13 +1,13 @@
 import Person from '../models/person';
 import handleModelResponse from '../lib/controller-helpers/handle-model-response';
-import { renderFormPage, renderShowPage, renderListPage } from '../lib/controller-helpers/render-templates';
+import renderPage from '../lib/controller-helpers/render-page';
 
 const editRoute = (req, res, next) => {
 
 	const person = new Person(req.params);
 
 	return person.edit()
-		.then(({ person }) => renderFormPage(req, res, person, 'update'))
+		.then(({ person }) => renderPage(req, res, person, 'form', { action: 'update' }))
 		.catch(err => next(err));
 
 };
@@ -37,7 +37,7 @@ const showRoute = (req, res, next) => {
 	const person = new Person(req.params);
 
 	return person.show()
-		.then(({ person }) => renderShowPage(req, res, person))
+		.then(({ person }) => renderPage(req, res, person, 'show'))
 		.catch(err => next(err));
 
 };
@@ -45,7 +45,7 @@ const showRoute = (req, res, next) => {
 const listRoute = (req, res, next) => {
 
 	return Person.list()
-		.then(({ people }) => renderListPage(req, res, people, 'people'))
+		.then(({ people }) => renderPage(req, res, people, 'list', { pluralisedModel: 'people' }))
 		.catch(err => next(err));
 
 };

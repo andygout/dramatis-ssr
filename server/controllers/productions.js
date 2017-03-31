@@ -1,12 +1,12 @@
 import Production from '../models/production';
 import handleModelResponse from '../lib/controller-helpers/handle-model-response';
-import { renderFormPage, renderShowPage, renderListPage } from '../lib/controller-helpers/render-templates';
+import renderPage from '../lib/controller-helpers/render-page';
 
 const newRoute = (req, res, next) => {
 
 	const production = new Production();
 
-	renderFormPage(req, res, production, 'create');
+	renderPage(req, res, production, 'form', { action: 'create' });
 
 };
 
@@ -25,7 +25,7 @@ const editRoute = (req, res, next) => {
 	const production = new Production(req.params);
 
 	return production.edit()
-		.then(({ production }) => renderFormPage(req, res, production, 'update'))
+		.then(({ production }) => renderPage(req, res, production, 'form', { action: 'update' }))
 		.catch(err => next(err));
 
 };
@@ -55,7 +55,7 @@ const showRoute = (req, res, next) => {
 	const production = new Production(req.params);
 
 	return production.show()
-		.then(({ production }) => renderShowPage(req, res, production))
+		.then(({ production }) => renderPage(req, res, production, 'show'))
 		.catch(err => next(err));
 
 };
@@ -63,7 +63,7 @@ const showRoute = (req, res, next) => {
 const listRoute = (req, res, next) => {
 
 	return Production.list()
-		.then(({ productions }) => renderListPage(req, res, productions, 'productions'))
+		.then(({ productions }) => renderPage(req, res, productions, 'list', { pluralisedModel: 'productions' }))
 		.catch(err => next(err));
 
 };

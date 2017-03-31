@@ -1,13 +1,13 @@
 import Theatre from '../models/theatre';
 import handleModelResponse from '../lib/controller-helpers/handle-model-response';
-import { renderFormPage, renderShowPage, renderListPage } from '../lib/controller-helpers/render-templates';
+import renderPage from '../lib/controller-helpers/render-page';
 
 const editRoute = (req, res, next) => {
 
 	const theatre = new Theatre(req.params);
 
 	return theatre.edit()
-		.then(({ theatre }) => renderFormPage(req, res, theatre, 'update'))
+		.then(({ theatre }) => renderPage(req, res, theatre, 'form', { action: 'update' }))
 		.catch(err => next(err));
 
 };
@@ -37,7 +37,7 @@ const showRoute = (req, res, next) => {
 	const theatre = new Theatre(req.params);
 
 	return theatre.show()
-		.then(({ theatre }) => renderShowPage(req, res, theatre))
+		.then(({ theatre }) => renderPage(req, res, theatre, 'show'))
 		.catch(err => next(err));
 
 };
@@ -45,7 +45,7 @@ const showRoute = (req, res, next) => {
 const listRoute = (req, res, next) => {
 
 	return Theatre.list()
-		.then(({ theatres }) => renderListPage(req, res, theatres, 'theatres'))
+		.then(({ theatres }) => renderPage(req, res, theatres, 'list', { pluralisedModel: 'theatres' }))
 		.catch(err => next(err));
 
 };

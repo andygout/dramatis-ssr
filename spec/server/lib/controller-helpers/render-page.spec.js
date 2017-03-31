@@ -37,7 +37,7 @@ beforeEach(() => {
 
 });
 
-const subject = proxyquire('../../../../dist/lib/controller-helpers/render-templates', {
+const subject = proxyquire('../../../../dist/lib/controller-helpers/render-page', {
 		'../alert': stubs.alert,
 		'../get-list-page-data': stubs.getListPageData,
 		'../get-page-data': stubs.getPageData,
@@ -45,64 +45,70 @@ const subject = proxyquire('../../../../dist/lib/controller-helpers/render-templ
 	});
 
 
-describe('Render Templates module', () => {
+describe('Render Page module', () => {
 
-	describe('renderFormPage function', () => {
+	context('\'form\' as page argument', () => {
 
 		it('will render form page with requisite data', () => {
 
 			const instanceFixture = getInstanceFixture();
-			subject.renderFormPage(req, res, instanceFixture, 'update');
-			expect(stubs.pluralise.calledOnce).to.be.true;
-			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
+			subject(req, res, instanceFixture, 'form', { action: 'update' });
 			expect(stubs.getPageData.calledOnce).to.be.true;
 			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'update')).to.be.true;
+			expect(stubs.getListPageData.notCalled).to.be.true;
+			expect(stubs.alert.getAlert.calledOnce).to.be.true;
+			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
+			expect(stubs.pluralise.calledOnce).to.be.true;
+			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
 			expect(res._getRenderData()).to.deep.eq(
-				{ instance: instanceFixture, page: pageDataFixture, alert: alertFixture, form: true }
+				{ page: pageDataFixture, alert: alertFixture, form: true, instance: instanceFixture }
 			);
 
 		});
 
 	});
 
-	describe('renderShowPage function', () => {
+	context('\'show\' as page argument', () => {
 
 		it('will render show page with requisite data', () => {
 
 			const instanceFixture = getInstanceFixture();
-			subject.renderShowPage(req, res, instanceFixture);
-			expect(stubs.pluralise.calledOnce).to.be.true;
-			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
+			subject(req, res, instanceFixture, 'show');
 			expect(stubs.getPageData.calledOnce).to.be.true;
 			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'show')).to.be.true;
+			expect(stubs.getListPageData.notCalled).to.be.true;
 			expect(stubs.alert.getAlert.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
+			expect(stubs.pluralise.calledOnce).to.be.true;
+			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/show');
 			expect(res._getRenderData()).to.deep.eq(
-				{ instance: instanceFixture, page: pageDataFixture, alert: alertFixture, show: true }
+				{ page: pageDataFixture, alert: alertFixture, show: true, instance: instanceFixture }
 			);
 
 		});
 
 	});
 
-	describe('renderListPage function', () => {
+	context('\'list\' as page argument', () => {
 
 		it('will render list page with requisite data', () => {
 
 			const instanceFixture = getInstanceFixture();
-			subject.renderListPage(req, res, [instanceFixture], 'productions');
+			subject(req, res, [instanceFixture], 'list', { pluralisedModel: 'productions' });
 			expect(stubs.getListPageData.calledOnce).to.be.true;
 			expect(stubs.getListPageData.calledWithExactly('productions')).to.be.true;
+			expect(stubs.getPageData.notCalled).to.be.true;
 			expect(stubs.alert.getAlert.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
+			expect(stubs.pluralise.notCalled).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/list');
 			expect(res._getRenderData()).to.deep.eq(
-				{ instances: [instanceFixture], page: listPageDataFixture, alert: alertFixture, list: true }
+				{ page: listPageDataFixture, alert: alertFixture, list: true, instances: [instanceFixture] }
 			);
 
 		});

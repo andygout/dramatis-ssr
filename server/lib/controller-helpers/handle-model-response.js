@@ -1,4 +1,4 @@
-import { renderFormPage } from './render-templates';
+import renderPage from './render-page';
 import { setAlert, getAlert } from '../alert';
 import createAlertData from '../create-alert-data';
 import getPageData from '../get-page-data';
@@ -12,7 +12,7 @@ export default (req, res, instance, action) => {
 	if (instance.hasError) {
 
 		['create', 'update'].includes(action) ?
-			renderFormPage(req, res, instance, action) :
+			renderPage(req, res, instance, 'form', { action }) :
 			res.redirect(`${instanceRoute(instance)}`);
 
 	} else {
