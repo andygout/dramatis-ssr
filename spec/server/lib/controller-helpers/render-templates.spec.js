@@ -52,14 +52,16 @@ describe('Render Templates module', () => {
 		it('will render form page with requisite data', () => {
 
 			const instanceFixture = getInstanceFixture();
-			subject.renderFormPage(res, instanceFixture, 'update');
+			subject.renderFormPage(req, res, instanceFixture, 'update');
 			expect(stubs.pluralise.calledOnce).to.be.true;
 			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 			expect(stubs.getPageData.calledOnce).to.be.true;
 			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'update')).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('productions/form');
-			expect(res._getRenderData()).to.deep.eq({ instance: instanceFixture, page: pageDataFixture, form: true });
+			expect(res._getRenderData()).to.deep.eq(
+				{ instance: instanceFixture, page: pageDataFixture, alert: alertFixture, form: true }
+			);
 
 		});
 

@@ -7,7 +7,7 @@ const editRoute = (req, res, next) => {
 	const person = new Person(req.params);
 
 	return person.edit()
-		.then(({ person }) => renderFormPage(res, person, 'update'))
+		.then(({ person }) => renderFormPage(req, res, person, 'update'))
 		.catch(err => next(err));
 
 };

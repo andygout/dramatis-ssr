@@ -86,7 +86,7 @@ describe('Theatres controller', () => {
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
 					expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-						res, responseFixture.theatre, 'update'
+						req, res, responseFixture.theatre, 'update'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();

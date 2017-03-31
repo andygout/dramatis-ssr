@@ -3,11 +3,12 @@ import getListPageData from '../get-list-page-data';
 import getPageData from '../get-page-data';
 import pluralise from '../pluralise';
 
-const renderFormPage = (res, instance, action) => {
+const renderFormPage = (req, res, instance, action) => {
 
 	res.render(`${pluralise(instance.model)}/form`, {
 		instance,
 		page: getPageData(instance, action),
+		alert: getAlert(req),
 		form: true
 	});
 

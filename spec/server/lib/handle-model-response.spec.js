@@ -12,6 +12,9 @@ let res;
 let action;
 
 const stubs = {
+	renderTemplates: {
+		renderFormPage: sinon.stub()
+	},
 	alert: {
 		setAlert: sinon.stub(),
 		getAlert: sinon.stub().returns(alertFixture)
@@ -24,6 +27,7 @@ const stubs = {
 
 const resetStubs = () => {
 
+	stubs.renderTemplates.renderFormPage.reset();
 	stubs.alert.setAlert.reset();
 	stubs.alert.getAlert.reset();
 	stubs.createAlertData.reset();
@@ -42,6 +46,7 @@ beforeEach(() => {
 });
 
 const subject = proxyquire('../../../dist/lib/handle-model-response', {
+		'../lib/controller-helpers/render-templates': stubs.renderTemplates,
 		'./alert': stubs.alert,
 		'./create-alert-data': stubs.createAlertData,
 		'./get-page-data': stubs.getPageData,
@@ -84,24 +89,14 @@ describe('Handle Model Response module', () => {
 
 		context('instance has model errors', () => {
 
-			it('will return status code 200 (OK) and render form view', () => {
+			it('will call renderFormPage() from renderTemplates module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
-				expect(stubs.pluralise.calledOnce).to.be.true;
-				expect(stubs.pluralise.calledWithExactly(instanceFixture.model)).to.be.true;
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.alert.getAlert.calledOnce).to.be.true;
-				expect(res.statusCode).to.equal(200);
-				expect(res._getRenderView()).to.eq('productions/form');
-				expect(res._getRenderData()).to.deep.eq(
-					{
-						instance: instanceFixture,
-						page: pageDataFixture,
-						alert: alertFixture,
-						form: true
-					}
-				);
+				expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
+				expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
+					req, res, instanceFixture, 'create'
+				)).to.be.true;
 
 			});
 
@@ -133,24 +128,14 @@ describe('Handle Model Response module', () => {
 
 		context('instance has model errors', () => {
 
-			it('will return status code 200 (OK) and render form view', () => {
+			it('will call renderFormPage() from renderTemplates module', () => {
 
 				const instanceFixture = getInstanceFixture({ hasError: true });
 				subject(req, res, instanceFixture, action);
-				expect(stubs.pluralise.calledOnce).to.be.true;
-				expect(stubs.pluralise.calledWithExactly(instanceFixture.model)).to.be.true;
-				expect(stubs.getPageData.calledOnce).to.be.true;
-				expect(stubs.alert.getAlert.calledOnce).to.be.true;
-				expect(res.statusCode).to.equal(200);
-				expect(res._getRenderView()).to.eq('productions/form');
-				expect(res._getRenderData()).to.deep.eq(
-					{
-						instance: instanceFixture,
-						page: pageDataFixture,
-						alert: alertFixture,
-						form: true
-					}
-				);
+				expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
+				expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
+					req, res, instanceFixture, 'update'
+				)).to.be.true;
 
 			});
 

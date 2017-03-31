@@ -6,7 +6,7 @@ const newRoute = (req, res, next) => {
 
 	const production = new Production();
 
-	renderFormPage(res, production, 'create');
+	renderFormPage(req, res, production, 'create');
 
 };
 
@@ -25,7 +25,7 @@ const editRoute = (req, res, next) => {
 	const production = new Production(req.params);
 
 	return production.edit()
-		.then(({ production }) => renderFormPage(res, production, 'update'))
+		.then(({ production }) => renderFormPage(req, res, production, 'update'))
 		.catch(err => next(err));
 
 };

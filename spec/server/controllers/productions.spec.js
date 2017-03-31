@@ -90,7 +90,9 @@ describe('Productions controller', () => {
 			methodStub = sinon.stub().returns(ProductionStub);
 			createInstance(method, methodStub);
 			expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
-			expect(stubs.renderTemplates.renderFormPage.calledWithExactly(res, ProductionStub, 'create')).to.be.true;
+			expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
+				req, res, ProductionStub, 'create'
+			)).to.be.true;
 
 		});
 
@@ -158,7 +160,7 @@ describe('Productions controller', () => {
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
 					expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-						res, responseFixture.production, 'update'
+						req, res, responseFixture.production, 'update'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();

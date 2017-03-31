@@ -86,7 +86,7 @@ describe('People controller', () => {
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.renderTemplates.renderFormPage.calledOnce).to.be.true;
 					expect(stubs.renderTemplates.renderFormPage.calledWithExactly(
-						res, responseFixture.person, 'update'
+						req, res, responseFixture.person, 'update'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();

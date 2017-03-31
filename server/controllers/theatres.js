@@ -7,7 +7,7 @@ const editRoute = (req, res, next) => {
 	const theatre = new Theatre(req.params);
 
 	return theatre.edit()
-		.then(({ theatre }) => renderFormPage(res, theatre, 'update'))
+		.then(({ theatre }) => renderFormPage(req, res, theatre, 'update'))
 		.catch(err => next(err));
 
 };
