@@ -1,8 +1,8 @@
-module.exports = modelName => {
+module.exports = model => {
 
 	const responseInstance = {};
 
-	responseInstance[modelName] = { responseInstanceProperty: 'responseInstanceValue' };
+	responseInstance[model] = { responseInstanceProperty: 'responseInstanceValue' };
 
 	return responseInstance;
 

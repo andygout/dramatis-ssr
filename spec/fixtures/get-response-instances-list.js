@@ -1,8 +1,8 @@
-module.exports = pluralisedModelName => {
+module.exports = pluralisedModel => {
 
 	const responseInstancesList = {};
 
-	responseInstancesList[pluralisedModelName] = [
+	responseInstancesList[pluralisedModel] = [
 		{
 			responseInstancesListProperty: 'responseInstancesListValue'
 		}
