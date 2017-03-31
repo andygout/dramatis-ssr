@@ -61,7 +61,7 @@ describe('Render Page module', () => {
 			expect(stubs.pluralise.calledOnce).to.be.true;
 			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 			expect(res.statusCode).to.eq(200);
-			expect(res._getRenderView()).to.eq('productions/form');
+			expect(res._getRenderView()).to.eq('models/productions/form');
 			expect(res._getRenderData()).to.deep.eq(
 				{ page: pageDataFixture, alert: alertFixture, form: true, instance: instanceFixture }
 			);
@@ -84,7 +84,7 @@ describe('Render Page module', () => {
 			expect(stubs.pluralise.calledOnce).to.be.true;
 			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 			expect(res.statusCode).to.eq(200);
-			expect(res._getRenderView()).to.eq('productions/show');
+			expect(res._getRenderView()).to.eq('models/productions/show');
 			expect(res._getRenderData()).to.deep.eq(
 				{ page: pageDataFixture, alert: alertFixture, show: true, instance: instanceFixture }
 			);
@@ -106,7 +106,7 @@ describe('Render Page module', () => {
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 			expect(stubs.pluralise.notCalled).to.be.true;
 			expect(res.statusCode).to.eq(200);
-			expect(res._getRenderView()).to.eq('productions/list');
+			expect(res._getRenderView()).to.eq('models/productions/list');
 			expect(res._getRenderData()).to.deep.eq(
 				{ page: listPageDataFixture, alert: alertFixture, list: true, instances: [instanceFixture] }
 			);
