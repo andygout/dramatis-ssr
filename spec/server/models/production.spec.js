@@ -13,15 +13,11 @@ const PersonStub = function () {
 
 	this.validate = sinon.stub();
 
-	this.create = sinon.stub().resolves({ personUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
-
 };
 
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
-
-	this.create = sinon.stub().resolves({ theatreUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
 
 };
 
