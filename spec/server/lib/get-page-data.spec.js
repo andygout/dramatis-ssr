@@ -270,8 +270,11 @@ describe('Get Page Data module', () => {
 
 			it('will be comprised of action (\'Create\') and model name', () => {
 
-				const subject = createSubject();
+				const capitaliseStub = sinon.stub().returns('Create');
+				const subject = createSubject({ capitalise: capitaliseStub });
 				const pageData = subject(productionInstance, 'create');
+				expect(capitaliseStub.calledOnce).to.be.true;
+				expect(capitaliseStub.calledWithExactly('create')).to.be.true;
 				expect(pageData.submitValue).to.eq('Create production');
 
 			});
@@ -282,8 +285,11 @@ describe('Get Page Data module', () => {
 
 			it('will be comprised of action (\'Update\') and model name', () => {
 
-				const subject = createSubject();
+				const capitaliseStub = sinon.stub().returns('Update');
+				const subject = createSubject({ capitalise: capitaliseStub });
 				const pageData = subject(productionInstance, 'update');
+				expect(capitaliseStub.calledOnce).to.be.true;
+				expect(capitaliseStub.calledWithExactly('update')).to.be.true;
 				expect(pageData.submitValue).to.eq('Update production');
 
 			});

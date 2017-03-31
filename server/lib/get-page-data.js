@@ -2,29 +2,21 @@ import capitalise from './capitalise';
 import instanceNamingValue from './instance-naming-value';
 import pluralise from './pluralise';
 
-const getListPageData = pluralisedModel => {
-
-	const title = capitalise(pluralisedModel);
-
-	const documentTitle = ` | ${pluralisedModel === 'productions' ? 'Home' : title}`;
-
-	return { documentTitle, title };
-
-}
-
-const getDocumentTitle = (instance, action, model, title) => {
+const getDocumentTitle = (instance, action, title, opts) => {
 
 	let documentTitle = title;
 
 	if (action === 'update') documentTitle = `Edit: ${documentTitle}`;
 
-	if (action !== 'create') {
+	if (['update', 'show'].includes(action)) {
 
-		if (model === 'production') documentTitle += ` (${instance.theatre.name})`;
+		if (instance.model === 'production') documentTitle += ` (${instance.theatre.name})`;
 
-		documentTitle += ` (${model})`;
+		documentTitle += ` (${instance.model})`;
 
 	}
+
+	if (opts.pluralisedModel && opts.pluralisedModel === 'productions') documentTitle = 'Home';
 
 	return ` | ${documentTitle}`;
 
@@ -32,20 +24,28 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 export default (instance, action, opts = {}) => {
 
-	if (action === 'list') return getListPageData(opts.pluralisedModel);
-
-	const model = instance.model;
+	const pageData = {};
 
 	const isCreateAction = (action === 'create');
 
-	const title = isCreateAction ? `New ${model}` : instance.pageTitle || instanceNamingValue(instance);
+	const title = isCreateAction ?
+		`New ${instance.model}` :
+		action === 'list' ?
+			capitalise(opts.pluralisedModel) :
+			instance.pageTitle || instanceNamingValue(instance);
 
-	return {
-		documentTitle: instance.documentTitle || getDocumentTitle(instance, action, model, title),
-		title,
-		model,
-		formAction: `/${pluralise(model)}${isCreateAction ? '' : '/' + instance.uuid}`,
-		submitValue: `${isCreateAction ? 'Create' : 'Update'} ${model}`
-	};
+	const documentTitle = instance.documentTitle || getDocumentTitle(instance, action, title, opts);
+
+	if (action === 'show') pageData.model = instance.model;
+
+	if (['create', 'update'].includes(action)) {
+
+		pageData.formAction = `/${pluralise(instance.model)}${isCreateAction ? '' : '/' + instance.uuid}`;
+
+		pageData.submitValue = `${capitalise(action)} ${instance.model}`;
+
+	}
+
+	return Object.assign(pageData, { documentTitle, title });
 
 };
