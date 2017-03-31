@@ -1,13 +1,14 @@
 import { getAlert } from '../alert';
-import getListPageData from '../get-list-page-data';
 import getPageData from '../get-page-data';
 import pluralise from '../pluralise';
 
 export default (req, res, instance, page, opts = {}) => {
 
-	const isListPage = (page === 'list');
+	const getPageDataOpts = {};
 
-	const pageData = isListPage ? getListPageData(opts.pluralisedModel) : getPageData(instance, opts.action || page);
+	if (opts.pluralisedModel) getPageDataOpts.pluralisedModel = opts.pluralisedModel;
+
+	const pageData = getPageData(instance, opts.action || page, getPageDataOpts);
 
 	const renderData = {
 		page: pageData,
@@ -16,7 +17,7 @@ export default (req, res, instance, page, opts = {}) => {
 
 	renderData[page] = true;
 
-	isListPage ? renderData.instances = instance : renderData.instance = instance;
+	page === 'list' ? renderData.instances = instance : renderData.instance = instance;
 
 	res.render(`models/${opts.pluralisedModel || pluralise(instance.model)}/${page}`, renderData);
 

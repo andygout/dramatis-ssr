@@ -16,12 +16,14 @@ const resetInstances = () => {
 };
 
 const stubs = {
+	capitalise: sinon.stub().returns('Productions'),
 	instanceNamingValue: sinon.stub().returns('Hamlet'),
 	pluralise: sinon.stub().returns('productions')
 };
 
 const resetStubs = () => {
 
+	stubs.capitalise.reset();
 	stubs.instanceNamingValue.reset();
 	stubs.pluralise.reset();
 
@@ -36,6 +38,7 @@ beforeEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/lib/get-page-data', {
+		'./capitalise': stubOverrides.capitalise || stubs.capitalise,
 		'./instance-naming-value': stubOverrides.instanceNamingValue || stubs.instanceNamingValue,
 		'./pluralise': stubs.pluralise
 	});
@@ -121,6 +124,34 @@ describe('Get Page Data module', () => {
 
 		});
 
+		context('list action', () => {
+
+			context('productions instances', () => {
+
+				it('will read \' | Home \'', () => {
+
+					const subject = createSubject();
+					const pageData = subject([], 'list', { pluralisedModel: 'productions' });
+					expect(pageData.documentTitle).to.eq(' | Home');
+
+				});
+
+			});
+
+			context('theatres (i.e. not productions) instances', () => {
+
+				it('will read \' | <models>\'', () => {
+
+					const subject = createSubject({ capitalise: sinon.stub().returns('Theatres') });
+					const pageData = subject([], 'list', { pluralisedModel: 'theatres' });
+					expect(pageData.documentTitle).to.eq(' | Theatres');
+
+				});
+
+			});
+
+		});
+
 	});
 
 	describe('title property', () => {
@@ -180,6 +211,20 @@ describe('Get Page Data module', () => {
 					expect(pageData.title).to.eq('Almeida Theatre');
 
 				});
+
+			});
+
+		});
+
+		context('list action', () => {
+
+			it('will use capitalised pluralised model value provided', () => {
+
+				const subject = createSubject();
+				const pageData = subject([], 'list', { pluralisedModel: 'productions' });
+				expect(stubs.capitalise.calledOnce).to.be.true;
+				expect(stubs.capitalise.calledWithExactly('productions')).to.be.true;
+				expect(pageData.title).to.eq('Productions');
 
 			});
 

@@ -4,7 +4,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const alertFixture = require('../../../fixtures/alert');
-const listPageDataFixture = require('../../../fixtures/list-page-data');
 const pageDataFixture = require('../../../fixtures/page-data');
 const getInstanceFixture = require('../../../fixtures/productions/get-instance');
 
@@ -15,7 +14,6 @@ const stubs = {
 	alert: {
 		getAlert: sinon.stub().returns(alertFixture)
 	},
-	getListPageData: sinon.stub().returns(listPageDataFixture),
 	getPageData: sinon.stub().returns(pageDataFixture),
 	pluralise: sinon.stub().returns('productions')
 };
@@ -23,7 +21,6 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.alert.getAlert.reset();
-	stubs.getListPageData.reset();
 	stubs.getPageData.reset();
 	stubs.pluralise.reset();
 
@@ -39,7 +36,6 @@ beforeEach(() => {
 
 const subject = proxyquire('../../../../dist/lib/controllers-helpers/render-page', {
 		'../alert': stubs.alert,
-		'../get-list-page-data': stubs.getListPageData,
 		'../get-page-data': stubs.getPageData,
 		'../pluralise': stubs.pluralise
 	});
@@ -54,8 +50,7 @@ describe('Render Page module', () => {
 			const instanceFixture = getInstanceFixture();
 			subject(req, res, instanceFixture, 'form', { action: 'update' });
 			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'update')).to.be.true;
-			expect(stubs.getListPageData.notCalled).to.be.true;
+			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'update', {})).to.be.true;
 			expect(stubs.alert.getAlert.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 			expect(stubs.pluralise.calledOnce).to.be.true;
@@ -77,8 +72,7 @@ describe('Render Page module', () => {
 			const instanceFixture = getInstanceFixture();
 			subject(req, res, instanceFixture, 'show');
 			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'show')).to.be.true;
-			expect(stubs.getListPageData.notCalled).to.be.true;
+			expect(stubs.getPageData.calledWithExactly(instanceFixture, 'show', {})).to.be.true;
 			expect(stubs.alert.getAlert.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 			expect(stubs.pluralise.calledOnce).to.be.true;
@@ -99,16 +93,18 @@ describe('Render Page module', () => {
 
 			const instanceFixture = getInstanceFixture();
 			subject(req, res, [instanceFixture], 'list', { pluralisedModel: 'productions' });
-			expect(stubs.getListPageData.calledOnce).to.be.true;
-			expect(stubs.getListPageData.calledWithExactly('productions')).to.be.true;
-			expect(stubs.getPageData.notCalled).to.be.true;
+			expect(stubs.getPageData.calledOnce).to.be.true;
+			expect(stubs.getPageData.calledWithExactly(
+				[instanceFixture], 'list', { pluralisedModel: 'productions' }
+			)).to.be.true;
+			expect(stubs.getPageData.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledOnce).to.be.true;
 			expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
 			expect(stubs.pluralise.notCalled).to.be.true;
 			expect(res.statusCode).to.eq(200);
 			expect(res._getRenderView()).to.eq('models/productions/list');
 			expect(res._getRenderData()).to.deep.eq(
-				{ page: listPageDataFixture, alert: alertFixture, list: true, instances: [instanceFixture] }
+				{ page: pageDataFixture, alert: alertFixture, list: true, instances: [instanceFixture] }
 			);
 
 		});

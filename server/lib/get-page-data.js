@@ -1,5 +1,16 @@
+import capitalise from './capitalise';
 import instanceNamingValue from './instance-naming-value';
 import pluralise from './pluralise';
+
+const getListPageData = pluralisedModel => {
+
+	const title = capitalise(pluralisedModel);
+
+	const documentTitle = ` | ${pluralisedModel === 'productions' ? 'Home' : title}`;
+
+	return { documentTitle, title };
+
+}
 
 const getDocumentTitle = (instance, action, model, title) => {
 
@@ -19,7 +30,9 @@ const getDocumentTitle = (instance, action, model, title) => {
 
 };
 
-export default (instance, action) => {
+export default (instance, action, opts = {}) => {
+
+	if (action === 'list') return getListPageData(opts.pluralisedModel);
 
 	const model = instance.model;
 
