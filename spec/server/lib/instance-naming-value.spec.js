@@ -1,28 +1,35 @@
 const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
-const subject = require('../../../dist/lib/instance-naming-value');
+const stubs = {
+	modelNamingProp: sinon.stub().returns('title')
+};
+
+const resetStubs = () => {
+
+	stubs.modelNamingProp.reset();
+
+};
+
+beforeEach(() => {
+
+	resetStubs();
+
+});
+
+const subject = proxyquire('../../../dist/lib/instance-naming-value', {
+		'./model-naming-prop': stubs.modelNamingProp
+	});
 
 describe('Instance Naming Value module', () => {
 
-	context('Production model instance', () => {
+	it('will return value of naming property for given model', () => {
 
-		it('will return value of title property', () => {
-
-			const productionInstance = { model: 'production', title: 'Hamlet' };
-			expect(subject(productionInstance)).to.eq('Hamlet');
-
-		});
-
-	});
-
-	context('Theatre model instance', () => {
-
-		it('will return value of name property', () => {
-
-			const theatreInstance = { model: 'theatre', name: 'Almeida Theatre' };
-			expect(subject(theatreInstance)).to.eq('Almeida Theatre');
-
-		});
+		const productionInstance = { model: 'production', title: 'Hamlet' };
+		expect(subject(productionInstance)).to.eq('Hamlet');
+		expect(stubs.modelNamingProp.calledOnce).to.be.true;
+		expect(stubs.modelNamingProp.calledWithExactly('production')).to.be.true;
 
 	});
 

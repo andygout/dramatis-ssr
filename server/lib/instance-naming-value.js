@@ -1,9 +1,3 @@
-import modelNamingPropMap from '../config/model-naming-prop-map';
+import modelNamingProp from './model-naming-prop';
 
-export default instance => {
-
-	const model = instance.model;
-
-	return instance[modelNamingPropMap[model]];
-
-};
+export default instance => instance[modelNamingProp(instance.model)];
