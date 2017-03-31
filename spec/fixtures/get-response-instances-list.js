@@ -2,10 +2,12 @@ module.exports = pluralisedModelName => {
 
 	const responseInstancesList = {};
 
-	return responseInstancesList[pluralisedModelName] = [
+	responseInstancesList[pluralisedModelName] = [
 		{
 			responseInstancesListProperty: 'responseInstancesListValue'
 		}
 	];
+
+	return responseInstancesList;
 
 };
