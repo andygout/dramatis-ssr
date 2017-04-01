@@ -9,6 +9,7 @@ let instance;
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
+	esc: sinon.stub(),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false)
@@ -17,6 +18,7 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
+	stubs.esc.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -32,6 +34,7 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/theatre', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
+		'../lib/esc': stubs.esc,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
