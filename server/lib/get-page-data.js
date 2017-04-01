@@ -46,6 +46,6 @@ export default (instance, action, opts = {}) => {
 
 	}
 
-	return Object.assign(pageData, { documentTitle, title });
+	return Object.assign({ documentTitle, title }, pageData);
 
 };
