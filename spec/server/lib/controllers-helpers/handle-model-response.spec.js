@@ -17,7 +17,7 @@ const stubs = {
 		setAlert: sinon.stub()
 	},
 	createAlertData: sinon.stub(),
-	instanceRoute: sinon.stub().returns('instance route')
+	instanceRoute: sinon.stub().returns('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
 };
 
 const resetStubs = () => {
@@ -69,7 +69,7 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture(), action);
 				expect(res.statusCode).to.equal(302);
-				expect(res._getRedirectUrl()).to.eq('instance route');
+				expect(res._getRedirectUrl()).to.eq('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 			});
 
@@ -106,7 +106,7 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture(), action);
 				expect(res.statusCode).to.equal(302);
-				expect(res._getRedirectUrl()).to.eq('instance route');
+				expect(res._getRedirectUrl()).to.eq('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 			});
 
@@ -155,7 +155,7 @@ describe('Handle Model Response module', () => {
 
 				subject(req, res, getInstanceFixture({ hasError: true }), action);
 				expect(res.statusCode).to.equal(302);
-				expect(res._getRedirectUrl()).to.eq('instance route');
+				expect(res._getRedirectUrl()).to.eq('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 			});
 
