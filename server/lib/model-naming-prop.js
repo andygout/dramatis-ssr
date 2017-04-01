@@ -1,1 +1,5 @@
-export default model => model === 'production' ? 'title' : 'name';
+const listedNamingProps = {
+	'production': 'title'
+};
+
+export default model => listedNamingProps[model] || 'name';
