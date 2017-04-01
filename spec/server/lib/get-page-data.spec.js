@@ -45,6 +45,74 @@ const createSubject = (stubOverrides = {}) =>
 
 describe('Get Page Data module', () => {
 
+	describe('object properties', () => {
+
+		context('create action', () => {
+
+			it('will contain properties: documentTitle, title, formAction + submitValue', () => {
+
+				const subject = createSubject();
+				const pageData = subject(productionInstance, 'create');
+				expect(pageData).to.have.property('documentTitle');
+				expect(pageData).to.have.property('title');
+				expect(pageData).to.have.property('formAction');
+				expect(pageData).to.have.property('submitValue');
+				expect(pageData).not.to.have.property('model');
+
+			});
+
+		});
+
+		context('update action', () => {
+
+			it('will contain properties: documentTitle, title, formAction + submitValue', () => {
+
+				const subject = createSubject();
+				const pageData = subject(productionInstance, 'update');
+				expect(pageData).to.have.property('documentTitle');
+				expect(pageData).to.have.property('title');
+				expect(pageData).to.have.property('formAction');
+				expect(pageData).to.have.property('submitValue');
+				expect(pageData).not.to.have.property('model');
+
+			});
+
+		});
+
+		context('show action', () => {
+
+			it('will contain properties: documentTitle, title + model', () => {
+
+				const subject = createSubject();
+				const pageData = subject(productionInstance, 'show');
+				expect(pageData).to.have.property('documentTitle');
+				expect(pageData).to.have.property('title');
+				expect(pageData).to.have.property('model');
+				expect(pageData).not.to.have.property('formAction');
+				expect(pageData).not.to.have.property('submitValue');
+
+			});
+
+		});
+
+		context('list action', () => {
+
+			it('will contain properties: documentTitle + title', () => {
+
+				const subject = createSubject();
+				const pageData = subject(productionInstance, 'list');
+				expect(pageData).to.have.property('documentTitle');
+				expect(pageData).to.have.property('title');
+				expect(pageData).not.to.have.property('model');
+				expect(pageData).not.to.have.property('formAction');
+				expect(pageData).not.to.have.property('submitValue');
+
+			});
+
+		});
+
+	});
+
 	describe('documentTitle property', () => {
 
 		context('create action', () => {
