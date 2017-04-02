@@ -1,3 +1,5 @@
-import modelNamingProp from './model-naming-prop';
+const listedNamingProps = {
+	'production': 'title'
+};
 
-export default instance => instance[modelNamingProp(instance.model)];
+export default instance => instance[listedNamingProps[instance.model] || 'name'];
