@@ -11,11 +11,11 @@ export default (req, res, instance, action) => {
 
 		['create', 'update'].includes(action) ?
 			renderPage(req, res, instance, 'form', { action }) :
-			res.redirect(`${instanceRoute(instance)}`);
+			res.redirect(instanceRoute(instance));
 
 	} else {
 
-		res.redirect(action !== 'delete' ? `${instanceRoute(instance)}` : '/');
+		res.redirect(action !== 'delete' ? instanceRoute(instance) : '/');
 
 	}
 
