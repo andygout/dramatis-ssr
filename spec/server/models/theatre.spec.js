@@ -9,6 +9,7 @@ let instance;
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
+	esc: sinon.stub(),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false)
@@ -17,6 +18,7 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
+	stubs.esc.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -32,6 +34,7 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/theatre', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
+		'../lib/esc': stubs.esc,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
@@ -41,7 +44,7 @@ const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject();
+	return new subject({ name: 'Almeida Theatre' });
 
 };
 
@@ -55,7 +58,9 @@ describe('Theatre model', () => {
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
+			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
 
 		});
 
@@ -207,15 +212,14 @@ describe('Theatre model', () => {
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
 					sinon.assert.callOrder(
-						instance.validate,
-						stubs.verifyErrorPresence,
-						instance.validateUpdateInDb,
+						instance.validate.withArgs({ mandatory: true }),
+						stubs.verifyErrorPresence.withArgs(instance),
+						instance.validateUpdateInDb.withArgs(),
 						stubs.dbQuery,
-						stubs.verifyErrorPresence,
+						stubs.verifyErrorPresence.withArgs(instance),
 						stubs.dbQuery
 					);
 					expect(instance.validate.calledOnce).to.be.true;
-					expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledTwice).to.be.true;
@@ -240,7 +244,9 @@ describe('Theatre model', () => {
 					instance.update().then(result => {
 						expect(instance.validate.calledBefore(verifyErrorPresenceStub)).to.be.true;
 						expect(instance.validate.calledOnce).to.be.true;
+						expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
+						expect(verifyErrorPresenceStub.calledWithExactly(instance)).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
 						expect(stubs.dbQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ theatre: instance });
@@ -262,11 +268,11 @@ describe('Theatre model', () => {
 					sinon.spy(instance, 'validateUpdateInDb');
 					instance.update().then(result => {
 						sinon.assert.callOrder(
-							instance.validate,
-							verifyErrorPresenceStub,
-							instance.validateUpdateInDb,
+							instance.validate.withArgs({ mandatory: true }),
+							verifyErrorPresenceStub.withArgs(instance),
+							instance.validateUpdateInDb.withArgs(),
 							stubs.dbQuery,
-							verifyErrorPresenceStub
+							verifyErrorPresenceStub.withArgs(instance)
 						);
 						expect(instance.validate.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
@@ -294,9 +300,9 @@ describe('Theatre model', () => {
 				sinon.spy(instance, 'validateDeleteInDb');
 				instance.delete().then(result => {
 					sinon.assert.callOrder(
-						instance.validateDeleteInDb,
+						instance.validateDeleteInDb.withArgs(),
 						stubs.dbQuery,
-						stubs.verifyErrorPresence,
+						stubs.verifyErrorPresence.withArgs(instance),
 						stubs.dbQuery
 					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
@@ -315,12 +321,14 @@ describe('Theatre model', () => {
 			it('will return instance without deleting', done => {
 
 				const verifyErrorPresenceStub = sinon.stub().returns(true);
-				instance = createInstance({
-					verifyErrorPresence: verifyErrorPresenceStub
-				});
+				instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
 				sinon.spy(instance, 'validateDeleteInDb');
 				instance.delete().then(result => {
-					sinon.assert.callOrder(instance.validateDeleteInDb, stubs.dbQuery, verifyErrorPresenceStub);
+					sinon.assert.callOrder(
+						instance.validateDeleteInDb.withArgs(),
+						stubs.dbQuery,
+						verifyErrorPresenceStub.withArgs(instance)
+					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(verifyErrorPresenceStub.calledOnce).to.be.true;

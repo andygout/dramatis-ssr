@@ -34,6 +34,8 @@ describe('Trim Strings module', () => {
 		const subject = createSubject();
 		instance = { title: ` ${titleString} ` };
 		subject(instance);
+		expect(stubs.propIsObject.calledOnce).to.be.true;
+		expect(stubs.propIsObject.calledWithExactly(` ${titleString} `)).to.be.true;
 		expect(instance.title).to.eq(titleString);
 
 	});
@@ -45,6 +47,8 @@ describe('Trim Strings module', () => {
 		const subject = createSubject({ propIsObject: propIsObjectStub });
 		instance = { theatre: { name: ` ${nameString} ` } };
 		subject(instance);
+		expect(propIsObjectStub.calledTwice).to.be.true;
+		sinon.assert.calledWithExactly(propIsObjectStub.secondCall, ` ${nameString} `);
 		expect(instance.theatre.name).to.eq(nameString);
 
 	});

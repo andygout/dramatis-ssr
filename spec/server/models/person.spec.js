@@ -9,6 +9,7 @@ let instance;
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
+	esc: sinon.stub(),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false)
@@ -17,6 +18,7 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
+	stubs.esc.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -32,6 +34,7 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
+		'../lib/esc': stubs.esc,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
@@ -41,7 +44,7 @@ const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject();
+	return new subject({ name: 'Ian McKellen' });
 
 };
 
@@ -55,7 +58,9 @@ describe('Person model', () => {
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
+			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
 
 		});
 
@@ -161,15 +166,14 @@ describe('Person model', () => {
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
 					sinon.assert.callOrder(
-						instance.validate,
-						stubs.verifyErrorPresence,
-						instance.validateUpdateInDb,
+						instance.validate.withArgs({ mandatory: true }),
+						stubs.verifyErrorPresence.withArgs(instance),
+						instance.validateUpdateInDb.withArgs(),
 						stubs.dbQuery,
-						stubs.verifyErrorPresence,
+						stubs.verifyErrorPresence.withArgs(instance),
 						stubs.dbQuery
 					);
 					expect(instance.validate.calledOnce).to.be.true;
-					expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledTwice).to.be.true;
@@ -194,7 +198,9 @@ describe('Person model', () => {
 					instance.update().then(result => {
 						expect(instance.validate.calledBefore(verifyErrorPresenceStub)).to.be.true;
 						expect(instance.validate.calledOnce).to.be.true;
+						expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
+						expect(verifyErrorPresenceStub.calledWithExactly(instance)).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
 						expect(stubs.dbQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ person: instance });
@@ -216,11 +222,11 @@ describe('Person model', () => {
 					sinon.spy(instance, 'validateUpdateInDb');
 					instance.update().then(result => {
 						sinon.assert.callOrder(
-							instance.validate,
-							verifyErrorPresenceStub,
-							instance.validateUpdateInDb,
+							instance.validate.withArgs({ mandatory: true }),
+							verifyErrorPresenceStub.withArgs(instance),
+							instance.validateUpdateInDb.withArgs(),
 							stubs.dbQuery,
-							verifyErrorPresenceStub
+							verifyErrorPresenceStub.withArgs(instance)
 						);
 						expect(instance.validate.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledTwice).to.be.true;

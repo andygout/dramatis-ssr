@@ -13,20 +13,17 @@ const PersonStub = function () {
 
 	this.validate = sinon.stub();
 
-	this.create = sinon.stub().resolves({ personUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
-
 };
 
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
 
-	this.create = sinon.stub().resolves({ theatreUuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' });
-
 };
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
+	esc: sinon.stub(),
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -37,6 +34,7 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
+	stubs.esc.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -52,6 +50,7 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
 		'../database/db-query': stubs.dbQuery,
+		'../lib/esc': stubs.esc,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
@@ -63,7 +62,7 @@ const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject();
+	return new subject({ title: 'Hamlet' });
 
 };
 
@@ -77,7 +76,9 @@ describe('Production model', () => {
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
+			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.title, 'Title', {})).to.be.true;
 
 		});
 
@@ -119,17 +120,14 @@ describe('Production model', () => {
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
 			sinon.assert.callOrder(
-				instance.validate,
-				instance.theatre.validate,
-				instance.person.validate,
-				stubs.verifyErrorPresence
+				instance.validate.withArgs({ mandatory: true }),
+				instance.theatre.validate.withArgs({ mandatory: true }),
+				instance.person.validate.withArgs(),
+				stubs.verifyErrorPresence.withArgs(instance)
 			);
 			expect(instance.validate.calledOnce).to.be.true;
-			expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
 			expect(instance.theatre.validate.calledOnce).to.be.true;
-			expect(instance.theatre.validate.calledWithExactly({ mandatory: true })).to.be.true;
 			expect(instance.person.validate.calledOnce).to.be.true;
-			expect(instance.person.validate.calledWithExactly()).to.be.true;
 			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
 
 		});
@@ -169,8 +167,9 @@ describe('Production model', () => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
-					sinon.assert.callOrder(instance.setErrorStatus, stubs.dbQuery);
+					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
+					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
@@ -223,8 +222,9 @@ describe('Production model', () => {
 				instance = createInstance();
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
-					sinon.assert.callOrder(instance.setErrorStatus, stubs.dbQuery);
+					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
+					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
@@ -242,6 +242,7 @@ describe('Production model', () => {
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
+					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
 					expect(result).to.deep.eq({ production: instance });
 					done();

@@ -6,8 +6,6 @@ require('sinon-as-promised');
 
 const Person = require('../../../dist/models/person');
 
-const alertFixture = require('../../fixtures/alert');
-const pageDataFixture = require('../../fixtures/page-data');
 const getResponseFixture = require('../../fixtures/get-response-instance');
 const getResponseListFixture = require('../../fixtures/get-response-instances-list');
 
@@ -20,18 +18,14 @@ let method;
 let methodStub;
 
 const stubs = {
-	alert: {
-		getAlert: sinon.stub().returns(alertFixture)
-	},
-	getPageData: sinon.stub().returns(pageDataFixture),
-	handleModelResponse: sinon.stub()
+	handleModelResponse: sinon.stub(),
+	renderPage: sinon.stub()
 };
 
 const resetStubs = () => {
 
-	stubs.alert.getAlert.reset();
-	stubs.getPageData.reset();
 	stubs.handleModelResponse.reset();
+	stubs.renderPage.reset();
 
 };
 
@@ -44,9 +38,8 @@ beforeEach(() => {
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/people', {
 		'../models/person': stubOverrides.PersonModel,
-		'../lib/alert': stubs.alert,
-		'../lib/get-page-data': stubs.getPageData,
-		'../lib/handle-model-response': stubs.handleModelResponse
+		'../lib/controllers-helpers/handle-model-response': stubs.handleModelResponse,
+		'../lib/controllers-helpers/render-page': stubs.renderPage
 	});
 
 const createInstance = (method, methodStub) => {
@@ -68,7 +61,7 @@ const createInstance = (method, methodStub) => {
 
 };
 
-describe('Person controller', () => {
+describe('People controller', () => {
 
 	describe('edit method', () => {
 
@@ -80,18 +73,15 @@ describe('Person controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'people/form\' view', done => {
+			it('will call renderPage module', done => {
 
-				const responseFixture = getResponseFixture('people');
+				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(responseFixture.person, 'update')).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('people/form');
-					expect(res._getRenderData()).to.deep.eq(
-						{ instance: responseFixture.theatre, page: pageDataFixture, form: true }
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.person, 'form', { action: 'update' }
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -106,7 +96,6 @@ describe('Person controller', () => {
 
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -130,12 +119,12 @@ describe('Person controller', () => {
 
 			it('will call handleModelResponse module', done => {
 
-				const responseFixture = getResponseFixture('theatre');
+				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(stubs.handleModelResponse.calledWithExactly(
-						req, res, responseFixture.theatre, 'update'
+						req, res, responseFixture.person, 'update'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -175,12 +164,12 @@ describe('Person controller', () => {
 
 			it('will call handleModelResponse module', done => {
 
-				const responseFixture = getResponseFixture('theatre');
+				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
 					expect(stubs.handleModelResponse.calledOnce).to.be.true;
 					expect(stubs.handleModelResponse.calledWithExactly(
-						req, res, responseFixture.theatre, 'delete'
+						req, res, responseFixture.person, 'delete'
 					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
@@ -218,25 +207,15 @@ describe('Person controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'people/show\' view', done => {
+			it('will call renderPage module', done => {
 
-				const responseFixture = getResponseFixture('theatre');
+				const responseFixture = getResponseFixture('person');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(responseFixture.theatre, 'show')).to.be.true;
-					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('people/show');
-					expect(res._getRenderData()).to.deep.eq(
-						{
-							instance: responseFixture.theatre,
-							page: pageDataFixture,
-							alert: alertFixture,
-							show: true
-						}
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.person, 'show'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -251,8 +230,6 @@ describe('Person controller', () => {
 
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
-					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -280,22 +257,15 @@ describe('Person controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'people/list\' view', done => {
+			it('will call renderPage module', done => {
 
-				methodStub = Promise.resolve(getResponseListFixture('people'));
+				const responseListFixture = getResponseListFixture('people');
+				methodStub = Promise.resolve(responseListFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('people/list');
-					expect(res._getRenderData()).to.deep.eq(
-						{
-							instances: getResponseListFixture('people').people,
-							page: { documentTitle: ' | People', title: 'People' },
-							alert: alertFixture,
-							list: true
-						}
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseListFixture.people, 'list', { pluralisedModel: 'people' }
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -310,7 +280,6 @@ describe('Person controller', () => {
 
 				methodStub = Promise.reject(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();

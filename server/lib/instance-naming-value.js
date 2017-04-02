@@ -1,9 +1,5 @@
-import modelNamingPropMap from '../config/model-naming-prop-map';
-
-export default instance => {
-
-	const model = instance.model;
-
-	return instance[modelNamingPropMap[model]];
-
+const listedNamingProps = {
+	'production': 'title'
 };
+
+export default instance => instance[listedNamingProps[instance.model] || 'name'];

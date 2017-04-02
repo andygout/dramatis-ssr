@@ -1,12 +1,12 @@
 {{#with instance}}
 	{{#with productions}}
-		<div id="{{model this}}" class="content-wrapper">
+		<div class="content-wrapper">
 			{{>content-label}}
 			<div class="content">
 				<ul class="list">
 					{{#each this}}
 						<li>
-							{{>instance-link}} - {{#with theatre}}{{>instance-link}}{{/with}}
+							{{>instance-link}}
 						</li>
 					{{/each}}
 				</ul>

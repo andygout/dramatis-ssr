@@ -107,7 +107,7 @@ export default class Person {
 			MATCH (p:Person { uuid: '${esc(this.uuid)}' })
 			OPTIONAL MATCH (p)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
 			WITH p, t, CASE WHEN prd IS NOT NULL THEN
-				collect({
+				COLLECT({
 					model: 'production',
 					uuid: prd.uuid,
 					title: prd.title,
@@ -134,7 +134,7 @@ export default class Person {
 
 		return dbQuery(`
 			MATCH (p:Person)
-			RETURN collect({
+			RETURN COLLECT({
 				model: 'person',
 				uuid: p.uuid,
 				name: p.name

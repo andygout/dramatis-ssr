@@ -4,9 +4,9 @@ const subject = require('../../../dist/lib/instance-naming-value');
 
 describe('Instance Naming Value module', () => {
 
-	context('Production model instance', () => {
+	context('Instance model is included as property in listedNamingProps', () => {
 
-		it('will return value of title property', () => {
+		it('will return property value as dictated by listedNamingProps', () => {
 
 			const productionInstance = { model: 'production', title: 'Hamlet' };
 			expect(subject(productionInstance)).to.eq('Hamlet');
@@ -15,12 +15,12 @@ describe('Instance Naming Value module', () => {
 
 	});
 
-	context('Theatre model instance', () => {
+	context('Instance model is not included as property in listedNamingProps', () => {
 
-		it('will return value of name property', () => {
+		it('will default to name value', () => {
 
-			const theatreInstance = { model: 'theatre', name: 'Almeida Theatre' };
-			expect(subject(theatreInstance)).to.eq('Almeida Theatre');
+			const productionInstance = { model: 'theatre', name: 'Almeida Theatre' };
+			expect(subject(productionInstance)).to.eq('Almeida Theatre');
 
 		});
 

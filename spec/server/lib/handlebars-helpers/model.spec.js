@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const stubs = {
-	pluralise: sinon.stub().returns('pluralise response')
+	pluralise: sinon.stub().returns('productions')
 };
 
 const resetStubs = () => {
@@ -41,7 +41,7 @@ describe('Model handlebars helper', () => {
 		it('will return pluralised model name of first instance in array', () => {
 
 			const productionInstance = { model: 'production' };
-			expect(subject([productionInstance])).to.eq('pluralise response');
+			expect(subject([productionInstance])).to.eq('productions');
 			expect(stubs.pluralise.calledOnce).to.be.true;
 			expect(stubs.pluralise.calledWithExactly('production')).to.be.true;
 

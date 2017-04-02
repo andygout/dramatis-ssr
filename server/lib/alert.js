@@ -14,4 +14,7 @@ const getAlert = req => {
 		null;
 };
 
-export { setAlert, getAlert };
+export {
+	setAlert,
+	getAlert
+};

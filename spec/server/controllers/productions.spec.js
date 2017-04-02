@@ -6,8 +6,6 @@ require('sinon-as-promised');
 
 const Production = require('../../../dist/models/production');
 
-const alertFixture = require('../../fixtures/alert');
-const pageDataFixture = require('../../fixtures/page-data');
 const getResponseFixture = require('../../fixtures/get-response-instance');
 const getResponseListFixture = require('../../fixtures/get-response-instances-list');
 
@@ -20,18 +18,14 @@ let method;
 let methodStub;
 
 const stubs = {
-	alert: {
-		getAlert: sinon.stub().returns(alertFixture)
-	},
-	getPageData: sinon.stub().returns(pageDataFixture),
-	handleModelResponse: sinon.stub()
+	handleModelResponse: sinon.stub(),
+	renderPage: sinon.stub()
 };
 
 const resetStubs = () => {
 
-	stubs.alert.getAlert.reset();
-	stubs.getPageData.reset();
 	stubs.handleModelResponse.reset();
+	stubs.renderPage.reset();
 
 };
 
@@ -44,9 +38,8 @@ beforeEach(() => {
 const createSubject = stubOverrides =>
 	proxyquire('../../../dist/controllers/productions', {
 		'../models/production': stubOverrides.ProductionModel,
-		'../lib/alert': stubs.alert,
-		'../lib/get-page-data': stubs.getPageData,
-		'../lib/handle-model-response': stubs.handleModelResponse
+		'../lib/controllers-helpers/handle-model-response': stubs.handleModelResponse,
+		'../lib/controllers-helpers/render-page': stubs.renderPage
 	});
 
 const createInstance = (method, methodStub) => {
@@ -75,7 +68,7 @@ const createInstance = (method, methodStub) => {
 
 };
 
-describe('Production controller', () => {
+describe('Productions controller', () => {
 
 	describe('new method', () => {
 
@@ -85,16 +78,15 @@ describe('Production controller', () => {
 
 		});
 
-		it('will return status code 200 (OK) and render \'productions/form\' view', () => {
+		it('will call renderPage module', () => {
 
 			const ProductionStub = sinon.createStubInstance(Production);
 			methodStub = sinon.stub().returns(ProductionStub);
 			createInstance(method, methodStub);
-			expect(stubs.getPageData.calledOnce).to.be.true;
-			expect(stubs.getPageData.calledWithExactly(ProductionStub, 'create')).to.be.true;
-			expect(res.statusCode).to.eq(200);
-			expect(res._getRenderView()).to.eq('productions/form');
-			expect(res._getRenderData()).to.deep.eq({ instance: ProductionStub, page: pageDataFixture, form: true });
+			expect(stubs.renderPage.calledOnce).to.be.true;
+			expect(stubs.renderPage.calledWithExactly(
+				req, res, ProductionStub, 'form', { action: 'create' }
+			)).to.be.true;
 
 		});
 
@@ -155,18 +147,15 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'productions/form\' view', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('production');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(responseFixture.production, 'update')).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('productions/form');
-					expect(res._getRenderData()).to.deep.eq(
-						{ instance: responseFixture.production, page: pageDataFixture, form: true }
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.production, 'form', { action: 'update' }
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -181,7 +170,6 @@ describe('Production controller', () => {
 
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -293,25 +281,15 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'productions/show\' view', done => {
+			it('will call renderPage module', done => {
 
 				const responseFixture = getResponseFixture('production');
 				methodStub = sinon.stub().resolves(responseFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.calledOnce).to.be.true;
-					expect(stubs.getPageData.calledWithExactly(responseFixture.production, 'show')).to.be.true;
-					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('productions/show');
-					expect(res._getRenderData()).to.deep.eq(
-						{
-							instance: responseFixture.production,
-							page: pageDataFixture,
-							alert: alertFixture,
-							show: true
-						}
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseFixture.production, 'show'
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -326,8 +304,6 @@ describe('Production controller', () => {
 
 				methodStub = sinon.stub().rejects(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.getPageData.notCalled).to.be.true;
-					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();
@@ -355,22 +331,15 @@ describe('Production controller', () => {
 
 		context('resolves with data', () => {
 
-			it('will return status code 200 (OK) and render \'productions/list\' view', done => {
+			it('will call renderPage module', done => {
 
-				methodStub = Promise.resolve(getResponseListFixture('productions'));
+				const responseListFixture = getResponseListFixture('productions');
+				methodStub = Promise.resolve(responseListFixture);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.alert.getAlert.calledOnce).to.be.true;
-					expect(stubs.alert.getAlert.calledWithExactly(req)).to.be.true;
-					expect(res.statusCode).to.equal(200);
-					expect(res._getRenderView()).to.eq('productions/list');
-					expect(res._getRenderData()).to.deep.eq(
-						{
-							instances: getResponseListFixture('productions').productions,
-							page: { documentTitle: ' | Home', title: 'Productions' },
-							alert: alertFixture,
-							list: true
-						}
-					);
+					expect(stubs.renderPage.calledOnce).to.be.true;
+					expect(stubs.renderPage.calledWithExactly(
+						req, res, responseListFixture.productions, 'list', { pluralisedModel: 'productions' }
+					)).to.be.true;
 					expect(next.notCalled).to.be.true;
 					done();
 				});
@@ -385,7 +354,6 @@ describe('Production controller', () => {
 
 				methodStub = Promise.reject(err);
 				createInstance(method, methodStub).then(() => {
-					expect(stubs.alert.getAlert.notCalled).to.be.true;
 					expect(next.calledOnce).to.be.true;
 					expect(next.calledWithExactly(err)).to.be.true;
 					done();

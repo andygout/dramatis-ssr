@@ -80,19 +80,12 @@ export default class Production {
 			MATCH (prd:Production { uuid: '${esc(this.uuid)}' })
 			MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
 			OPTIONAL MATCH (prd)<-[:PERFORMS_IN]-(p:Person)
-			WITH prd, t, CASE WHEN p IS NOT NULL THEN
-				{ model: 'person', name: p.name }
-			ELSE
-				{ model: 'person', name: '' }
-			END AS person
+			WITH prd, t, CASE WHEN p IS NOT NULL THEN { name: p.name } ELSE { name: '' } END AS person
 			RETURN {
 				model: 'production',
 				uuid: prd.uuid,
 				title: prd.title,
-				theatre: {
-					model: 'theatre',
-					name: t.name
-				},
+				theatre: { name: t.name },
 				person: person
 			} AS production
 		`);
@@ -172,7 +165,7 @@ export default class Production {
 
 		return dbQuery(`
 			MATCH (prd:Production)-[:PLAYS_AT]->(t:Theatre)
-			RETURN collect({
+			RETURN COLLECT({
 				model: 'production',
 				uuid: prd.uuid,
 				title: prd.title,
