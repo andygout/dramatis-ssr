@@ -16,7 +16,7 @@ const stubs = {
 	alert: {
 		setAlert: sinon.stub()
 	},
-	createAlertData: sinon.stub(),
+	createAlertData: sinon.stub().returns(alertFixture),
 	instanceRoute: sinon.stub().returns('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
 };
 
@@ -49,9 +49,13 @@ describe('Handle Model Response module', () => {
 
 	it('will call createAlertData module and setAlert function from alert module', () => {
 
-		subject(req, res, getInstanceFixture(), 'create');
+		const instanceFixture = getInstanceFixture();
+		subject(req, res, instanceFixture, 'create');
+		expect(stubs.createAlertData.calledBefore(stubs.alert.setAlert)).to.be.true;
 		expect(stubs.createAlertData.calledOnce).to.be.true;
+		expect(stubs.createAlertData.calledWithExactly(instanceFixture, 'create')).to.be.true;
 		expect(stubs.alert.setAlert.calledOnce).to.be.true;
+		expect(stubs.alert.setAlert.calledWithExactly(req, alertFixture)).to.be.true;
 
 	});
 
@@ -67,7 +71,10 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to instance)', () => {
 
-				subject(req, res, getInstanceFixture(), action);
+				const instanceFixture = getInstanceFixture();
+				subject(req, res, instanceFixture, action);
+				expect(stubs.instanceRoute.calledOnce).to.be.true;
+				expect(stubs.instanceRoute.calledWithExactly(instanceFixture)).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
@@ -104,7 +111,10 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to instance)', () => {
 
-				subject(req, res, getInstanceFixture(), action);
+				const instanceFixture = getInstanceFixture();
+				subject(req, res, instanceFixture, action);
+				expect(stubs.instanceRoute.calledOnce).to.be.true;
+				expect(stubs.instanceRoute.calledWithExactly(instanceFixture)).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
@@ -141,7 +151,9 @@ describe('Handle Model Response module', () => {
 
 			it('will return status code 302 (redirect to root)', () => {
 
-				subject(req, res, getInstanceFixture(), action);
+				const instanceFixture = getInstanceFixture();
+				subject(req, res, instanceFixture, action);
+				expect(stubs.instanceRoute.notCalled).to.be.true;
 				expect(res.statusCode).to.equal(302);
 				expect(res._getRedirectUrl()).to.eq('/');
 
