@@ -4,7 +4,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 const alertFixture = require('../../../fixtures/alert');
-const pageDataFixture = require('../../../fixtures/page-data');
 const getInstanceFixture = require('../../../fixtures/productions/get-instance');
 
 let req;
