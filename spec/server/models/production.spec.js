@@ -9,8 +9,6 @@ let instance;
 
 const PersonStub = function () {
 
-	this.name = 'Ian McKellen';
-
 	this.validate = sinon.stub();
 
 };
@@ -23,7 +21,16 @@ const TheatreStub = function () {
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
-	esc: sinon.stub(),
+	cypherTemplatesProduction: {
+		createQuery: sinon.stub(),
+		editQuery: sinon.stub(),
+		updateQuery: sinon.stub(),
+		showQuery: sinon.stub()
+	},
+	cypherTemplatesShared: {
+		deleteQuery: sinon.stub(),
+		listQuery: sinon.stub()
+	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false),
@@ -34,7 +41,12 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
-	stubs.esc.reset();
+	stubs.cypherTemplatesProduction.createQuery.reset();
+	stubs.cypherTemplatesProduction.editQuery.reset();
+	stubs.cypherTemplatesProduction.updateQuery.reset();
+	stubs.cypherTemplatesProduction.showQuery.reset();
+	stubs.cypherTemplatesShared.deleteQuery.reset();
+	stubs.cypherTemplatesShared.listQuery.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -50,7 +62,8 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
 		'../database/db-query': stubs.dbQuery,
-		'../lib/esc': stubs.esc,
+		'../lib/cypher-templates/production': stubs.cypherTemplatesProduction,
+		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,

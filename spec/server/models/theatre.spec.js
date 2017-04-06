@@ -9,7 +9,17 @@ let instance;
 
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
-	esc: sinon.stub(),
+	cypherTemplatesShared: {
+		validateUpdateQuery: sinon.stub(),
+		editQuery: sinon.stub(),
+		updateQuery: sinon.stub(),
+		deleteQuery: sinon.stub(),
+		showQuery: sinon.stub(),
+		listQuery: sinon.stub()
+	},
+	cypherTemplatesTheatre: {
+		validateDeleteQuery: sinon.stub()
+	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
 	verifyErrorPresence: sinon.stub().returns(false)
@@ -18,7 +28,13 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
-	stubs.esc.reset();
+	stubs.cypherTemplatesShared.validateUpdateQuery.reset();
+	stubs.cypherTemplatesShared.editQuery.reset();
+	stubs.cypherTemplatesShared.updateQuery.reset();
+	stubs.cypherTemplatesShared.deleteQuery.reset();
+	stubs.cypherTemplatesShared.showQuery.reset();
+	stubs.cypherTemplatesShared.listQuery.reset();
+	stubs.cypherTemplatesTheatre.validateDeleteQuery.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -34,7 +50,8 @@ beforeEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/theatre', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/esc': stubs.esc,
+		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/cypher-templates/theatre': stubs.cypherTemplatesTheatre,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence

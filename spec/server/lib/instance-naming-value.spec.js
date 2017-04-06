@@ -1,28 +1,35 @@
 const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
-const subject = require('../../../dist/lib/instance-naming-value');
+const stubs = {
+	instanceNamingProp: sinon.stub().returns('title')
+};
+
+const resetStubs = () => {
+
+	stubs.instanceNamingProp.reset();
+
+};
+
+beforeEach(() => {
+
+	resetStubs();
+
+});
+
+const subject = proxyquire('../../../dist/lib/instance-naming-value', {
+		'./instance-naming-prop': stubs.instanceNamingProp
+	});
 
 describe('Instance Naming Value module', () => {
 
-	context('Instance model is included as property in listedNamingProps', () => {
+	it('will return property value as dictated by listedNamingProps', () => {
 
-		it('will return property value as dictated by listedNamingProps', () => {
-
-			const productionInstance = { model: 'production', title: 'Hamlet' };
-			expect(subject(productionInstance)).to.eq('Hamlet');
-
-		});
-
-	});
-
-	context('Instance model is not included as property in listedNamingProps', () => {
-
-		it('will default to name value', () => {
-
-			const productionInstance = { model: 'theatre', name: 'Almeida Theatre' };
-			expect(subject(productionInstance)).to.eq('Almeida Theatre');
-
-		});
+		const productionInstance = { model: 'production', title: 'Hamlet' };
+		expect(subject(productionInstance)).to.eq('Hamlet');
+		expect(stubs.instanceNamingProp.calledOnce).to.be.true;
+		expect(stubs.instanceNamingProp.calledWithExactly(productionInstance.model)).to.be.true;
 
 	});
 

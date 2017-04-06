@@ -1,5 +1,5 @@
 import dbQuery from '../database/db-query';
-import esc from '../lib/escape-string';
+import * as cypherTemplates from '../lib/cypher-templates/shared';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -33,10 +33,7 @@ export default class Person {
 
 	validateUpdateInDb () {
 
-		return dbQuery(`
-			MATCH (p:Person { name: '${esc(this.name)}' }) WHERE p.uuid <> '${esc(this.uuid)}'
-			RETURN SIGN(COUNT(p)) AS personCount
-		`)
+		return dbQuery(cypherTemplates.validateUpdateQuery(this))
 			.then(({ personCount }) => {
 
 				if (personCount > 0) this.errors.name = ['Name already exists'];
@@ -47,14 +44,7 @@ export default class Person {
 
 	edit () {
 
-		return dbQuery(`
-			MATCH (p:Person { uuid: '${esc(this.uuid)}' })
-			RETURN {
-				model: 'person',
-				uuid: p.uuid,
-				name: p.name
-			} AS person
-		`);
+		return dbQuery(cypherTemplates.editQuery(this));
 
 	};
 
@@ -73,15 +63,7 @@ export default class Person {
 
 				if (this.hasError) return Promise.resolve({ person: this });
 
-				return dbQuery(`
-					MATCH (p:Person { uuid: '${esc(this.uuid)}' })
-					SET p.name = '${esc(this.name)}'
-					RETURN {
-						model: 'person',
-						uuid: p.uuid,
-						name: p.name
-					} AS person
-				`);
+				return dbQuery(cypherTemplates.updateQuery(this));
 
 			});
 
@@ -89,57 +71,19 @@ export default class Person {
 
 	delete () {
 
-		return dbQuery(`
-			MATCH (p:Person { uuid: '${esc(this.uuid)}' })
-			WITH p, p.name AS name
-			DETACH DELETE p
-			RETURN {
-				model: 'person',
-				name: name
-			} AS person
-		`);
+		return dbQuery(cypherTemplates.deleteQuery(this));
 
 	};
 
 	show () {
 
-		return dbQuery(`
-			MATCH (p:Person { uuid: '${esc(this.uuid)}' })
-			OPTIONAL MATCH (p)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
-			WITH p, t, CASE WHEN prd IS NOT NULL THEN
-				COLLECT({
-					model: 'production',
-					uuid: prd.uuid,
-					title: prd.title,
-					theatre: {
-						model: 'theatre',
-						uuid: t.uuid,
-						name: t.name
-					}
-				})
-			ELSE
-				[]
-			END AS productions
-			RETURN {
-				model: 'person',
-				uuid: p.uuid,
-				name: p.name,
-				productions: productions
-			} AS person
-		`);
+		return dbQuery(cypherTemplates.showQuery(this));
 
 	};
 
 	static list () {
 
-		return dbQuery(`
-			MATCH (p:Person)
-			RETURN COLLECT({
-				model: 'person',
-				uuid: p.uuid,
-				name: p.name
-			}) AS people
-		`);
+		return dbQuery(cypherTemplates.listQuery('person'));
 
 	};
 
