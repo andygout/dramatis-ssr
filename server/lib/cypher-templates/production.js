@@ -12,7 +12,7 @@ const getPersonQuery = personName => {
 
 };
 
-const getHandleRelationshipsAndReturnQuery = instance => {
+const getRelationshipsAndReturnQuery = instance => {
 
 	const personQuery = getPersonQuery(instance.person.name);
 
@@ -32,11 +32,11 @@ const getHandleRelationshipsAndReturnQuery = instance => {
 
 const getCreateQuery = instance => {
 
-	const handleRelationshipsAndReturn = getHandleRelationshipsAndReturnQuery(instance);
+	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
 
 	return `
 		CREATE (prd:Production { uuid: '${uuid()}', title: '${esc(instance.title)}' })
-		${handleRelationshipsAndReturn}
+		${relationshipsAndReturnQuery}
 	`;
 
 };
@@ -61,7 +61,7 @@ const getEditQuery = instance => {
 
 const getUpdateQuery = instance => {
 
-	const handleRelationshipsAndReturn = getHandleRelationshipsAndReturnQuery(instance);
+	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
 
 	return `
 		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
@@ -69,7 +69,7 @@ const getUpdateQuery = instance => {
 		WITH prd, COLLECT (r) AS rels
 		FOREACH (r IN rels | DELETE r)
 		SET prd.title = '${esc(instance.title)}'
-		${handleRelationshipsAndReturn}
+		${relationshipsAndReturnQuery}
 	`;
 
 };
