@@ -7,7 +7,6 @@ const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 const getTheatreInstanceFixture = require('../../../fixtures/theatres/get-instance');
 
 const escStub = sinon.stub();
-
 escStub
 	.onFirstCall().returns('Almeida Theatre')
 	.onSecondCall().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');

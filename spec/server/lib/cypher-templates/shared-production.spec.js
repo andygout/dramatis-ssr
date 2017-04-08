@@ -7,7 +7,6 @@ const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 const getProductionInstanceFixture = require('../../../fixtures/productions/get-instance');
 
 const escStub = sinon.stub();
-
 escStub
 	.onFirstCall().returns('Hamlet')
 	.onSecondCall().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');

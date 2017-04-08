@@ -7,7 +7,6 @@ const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 const getPersonInstanceFixture = require('../../../fixtures/people/get-instance');
 
 const escStub = sinon.stub();
-
 escStub
 	.onFirstCall().returns('Patrick Stewart')
 	.onSecondCall().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
