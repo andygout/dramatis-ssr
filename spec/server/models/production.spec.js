@@ -22,14 +22,14 @@ const TheatreStub = function () {
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
 	cypherTemplatesProduction: {
-		getCreateQuery: sinon.stub(),
-		getEditQuery: sinon.stub(),
-		getUpdateQuery: sinon.stub(),
-		getShowQuery: sinon.stub()
+		getCreateQuery: sinon.stub().returns('getCreateQuery response'),
+		getEditQuery: sinon.stub().returns('getEditQuery response'),
+		getUpdateQuery: sinon.stub().returns('getUpdateQuery response'),
+		getShowQuery: sinon.stub().returns('getShowQuery response')
 	},
 	cypherTemplatesShared: {
-		getDeleteQuery: sinon.stub(),
-		getListQuery: sinon.stub()
+		getDeleteQuery: sinon.stub().returns('getDeleteQuery response'),
+		getListQuery: sinon.stub().returns('getListQuery response')
 	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
@@ -183,7 +183,10 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getCreateQuery.calledOnce).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getCreateQuery.calledWithExactly(instance)).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
+					expect(stubs.dbQuery.calledWithExactly('getCreateQuery response')).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
@@ -200,6 +203,7 @@ describe('Production model', () => {
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
+					expect(stubs.cypherTemplatesShared.getDeleteQuery.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
 					expect(result).to.deep.eq({ production: instance });
 					done();
@@ -217,7 +221,10 @@ describe('Production model', () => {
 
 			instance = createInstance();
 			instance.edit().then(result => {
+				expect(stubs.cypherTemplatesProduction.getEditQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesProduction.getEditQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly('getEditQuery response')).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -238,7 +245,10 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getUpdateQuery.calledWithExactly(instance)).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
+					expect(stubs.dbQuery.calledWithExactly('getUpdateQuery response')).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
@@ -256,6 +266,7 @@ describe('Production model', () => {
 				instance.update().then(result => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getCreateQuery.notCalled).to.be.true;
 					expect(stubs.dbQuery.notCalled).to.be.true;
 					expect(result).to.deep.eq({ production: instance });
 					done();
@@ -273,7 +284,10 @@ describe('Production model', () => {
 
 			instance = createInstance();
 			instance.delete().then(result => {
+				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly('getDeleteQuery response')).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -288,7 +302,10 @@ describe('Production model', () => {
 
 			instance = createInstance();
 			instance.show().then(result => {
+				expect(stubs.cypherTemplatesProduction.getShowQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesProduction.getShowQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly('getShowQuery response')).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -303,7 +320,10 @@ describe('Production model', () => {
 
 			const subject = createSubject();
 			subject.list().then(result => {
+				expect(stubs.cypherTemplatesShared.getListQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesShared.getListQuery.calledWithExactly('production')).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly('getListQuery response')).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
