@@ -46,12 +46,12 @@ const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Shared module (Production model usage)', () => {
 
-	describe('deleteQuery function', () => {
+	describe('getDeleteQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const productionInstance = getProductionInstanceFixture();
-			const result = subject.deleteQuery(productionInstance);
+			const result = subject.getDeleteQuery(productionInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(productionInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -75,11 +75,11 @@ describe('Cypher Templates Shared module (Production model usage)', () => {
 
 	});
 
-	describe('listQuery function', () => {
+	describe('getListQuery function', () => {
 
 		it('will return requisite query', () => {
 
-			const result = subject.listQuery('production');
+			const result = subject.getListQuery('production');
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly('production')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;

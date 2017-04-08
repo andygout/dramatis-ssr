@@ -30,7 +30,7 @@ const getHandleRelationshipsAndReturnQuery = instance => {
 
 };
 
-const createQuery = instance => {
+const getCreateQuery = instance => {
 
 	const handleRelationshipsAndReturn = getHandleRelationshipsAndReturnQuery(instance);
 
@@ -41,7 +41,7 @@ const createQuery = instance => {
 
 };
 
-const editQuery = instance => {
+const getEditQuery = instance => {
 
 	return `
 		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
@@ -59,7 +59,7 @@ const editQuery = instance => {
 
 };
 
-const updateQuery = instance => {
+const getUpdateQuery = instance => {
 
 	const handleRelationshipsAndReturn = getHandleRelationshipsAndReturnQuery(instance);
 
@@ -74,7 +74,7 @@ const updateQuery = instance => {
 
 };
 
-const showQuery = instance => {
+const getShowQuery = instance => {
 
 	return `
 		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
@@ -101,8 +101,8 @@ const showQuery = instance => {
 };
 
 export {
-	createQuery,
-	editQuery,
-	updateQuery,
-	showQuery
+	getCreateQuery,
+	getEditQuery,
+	getUpdateQuery,
+	getShowQuery
 };

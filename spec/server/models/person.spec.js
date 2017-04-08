@@ -10,12 +10,12 @@ let instance;
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
 	cypherTemplatesShared: {
-		validateUpdateQuery: sinon.stub(),
-		editQuery: sinon.stub(),
-		updateQuery: sinon.stub(),
-		deleteQuery: sinon.stub(),
-		showQuery: sinon.stub(),
-		listQuery: sinon.stub()
+		getValidateUpdateQuery: sinon.stub(),
+		getEditQuery: sinon.stub(),
+		getUpdateQuery: sinon.stub(),
+		getDeleteQuery: sinon.stub(),
+		getShowQuery: sinon.stub(),
+		getListQuery: sinon.stub()
 	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
@@ -25,12 +25,12 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
-	stubs.cypherTemplatesShared.validateUpdateQuery.reset();
-	stubs.cypherTemplatesShared.editQuery.reset();
-	stubs.cypherTemplatesShared.updateQuery.reset();
-	stubs.cypherTemplatesShared.deleteQuery.reset();
-	stubs.cypherTemplatesShared.showQuery.reset();
-	stubs.cypherTemplatesShared.listQuery.reset();
+	stubs.cypherTemplatesShared.getValidateUpdateQuery.reset();
+	stubs.cypherTemplatesShared.getEditQuery.reset();
+	stubs.cypherTemplatesShared.getUpdateQuery.reset();
+	stubs.cypherTemplatesShared.getDeleteQuery.reset();
+	stubs.cypherTemplatesShared.getShowQuery.reset();
+	stubs.cypherTemplatesShared.getListQuery.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();

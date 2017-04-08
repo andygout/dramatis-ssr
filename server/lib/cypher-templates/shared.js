@@ -31,7 +31,7 @@ const getProductionsData = model => {
 
 };
 
-const validateUpdateQuery = instance => {
+const getValidateUpdateQuery = instance => {
 
 	const data = getQueryData(instance);
 
@@ -42,7 +42,7 @@ const validateUpdateQuery = instance => {
 
 };
 
-const editQuery = instance => {
+const getEditQuery = instance => {
 
 	const data = getQueryData(instance);
 
@@ -57,7 +57,7 @@ const editQuery = instance => {
 
 };
 
-const updateQuery = instance => {
+const getUpdateQuery = instance => {
 
 	const data = getQueryData(instance);
 
@@ -73,7 +73,7 @@ const updateQuery = instance => {
 
 };
 
-const deleteQuery = instance => {
+const getDeleteQuery = instance => {
 
 	const data = getQueryData(instance);
 
@@ -89,7 +89,7 @@ const deleteQuery = instance => {
 
 };
 
-const showQuery = instance => {
+const getShowQuery = instance => {
 
 	const data = Object.assign(getQueryData(instance), getProductionsData(instance.model));
 
@@ -116,7 +116,7 @@ const showQuery = instance => {
 
 };
 
-const listQuery = model => {
+const getListQuery = model => {
 
 	const namingProp = instanceNamingProp(model);
 
@@ -137,10 +137,10 @@ const listQuery = model => {
 };
 
 export {
-	validateUpdateQuery,
-	editQuery,
-	updateQuery,
-	deleteQuery,
-	showQuery,
-	listQuery
+	getValidateUpdateQuery,
+	getEditQuery,
+	getUpdateQuery,
+	getDeleteQuery,
+	getShowQuery,
+	getListQuery
 };

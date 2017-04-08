@@ -26,11 +26,11 @@ const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Theatre module', () => {
 
-	describe('validateDeleteQuery function', () => {
+	describe('getValidateDeleteQuery function', () => {
 
 		it('will return requisite query', () => {
 
-			const result = subject.validateDeleteQuery('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+			const result = subject.getValidateDeleteQuery('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 			expect(stubs.esc.calledOnce).to.be.true;
 			expect(stubs.esc.calledWithExactly('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`

@@ -34,7 +34,7 @@ const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Production module', () => {
 
-	describe('createQuery function', () => {
+	describe('getCreateQuery function', () => {
 
 		context('related person does not have name', () => {
 
@@ -51,7 +51,7 @@ describe('Cypher Templates Production module', () => {
 
 				const subject = createSubject({ esc: escStub });
 
-				const result = subject.createQuery(productionInstance);
+				const result = subject.getCreateQuery(productionInstance);
 
 				expect(escStub.firstCall.calledWithExactly(productionInstance.theatre.name)).to.be.true;
 				expect(escStub.secondCall.calledWithExactly(productionInstance.title)).to.be.true;
@@ -85,7 +85,7 @@ describe('Cypher Templates Production module', () => {
 
 				const subject = createSubject({ esc: escStub });
 
-				const result = subject.createQuery(productionInstance);
+				const result = subject.getCreateQuery(productionInstance);
 
 				expect(escStub.firstCall.calledWithExactly(productionInstance.person.name)).to.be.true;
 				expect(escStub.secondCall.calledWithExactly(productionInstance.theatre.name)).to.be.true;
@@ -111,13 +111,13 @@ describe('Cypher Templates Production module', () => {
 
 	});
 
-	describe('editQuery function', () => {
+	describe('getEditQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const productionInstance = getProductionInstanceFixture();
 			const subject = createSubject();
-			const result = subject.editQuery(productionInstance);
+			const result = subject.getEditQuery(productionInstance);
 			expect(stubs.esc.calledOnce).to.be.true;
 			expect(stubs.esc.calledWithExactly(productionInstance.uuid)).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
@@ -138,7 +138,7 @@ describe('Cypher Templates Production module', () => {
 
 	});
 
-	describe('updateQuery function', () => {
+	describe('getUpdateQuery function', () => {
 
 		context('related person does not have name', () => {
 
@@ -156,7 +156,7 @@ describe('Cypher Templates Production module', () => {
 
 				const subject = createSubject({ esc: escStub });
 
-				const result = subject.updateQuery(productionInstance);
+				const result = subject.getUpdateQuery(productionInstance);
 
 				expect(escStub.firstCall.calledWithExactly(productionInstance.theatre.name)).to.be.true;
 				expect(escStub.secondCall.calledWithExactly(productionInstance.uuid)).to.be.true;
@@ -196,7 +196,7 @@ describe('Cypher Templates Production module', () => {
 
 				const subject = createSubject({ esc: escStub });
 
-				const result = subject.updateQuery(productionInstance);
+				const result = subject.getUpdateQuery(productionInstance);
 
 				expect(escStub.firstCall.calledWithExactly(productionInstance.person.name)).to.be.true;
 				expect(escStub.secondCall.calledWithExactly(productionInstance.theatre.name)).to.be.true;
@@ -227,13 +227,13 @@ describe('Cypher Templates Production module', () => {
 
 	});
 
-	describe('showQuery function', () => {
+	describe('getShowQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const productionInstance = getProductionInstanceFixture();
 			const subject = createSubject();
-			const result = subject.showQuery(productionInstance);
+			const result = subject.getShowQuery(productionInstance);
 			expect(stubs.esc.calledOnce).to.be.true;
 			expect(stubs.esc.calledWithExactly(productionInstance.uuid)).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`

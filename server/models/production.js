@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
 import * as cypherTemplatesProduction from '../lib/cypher-templates/production';
-import { deleteQuery, listQuery } from '../lib/cypher-templates/shared';
+import { getDeleteQuery, getListQuery } from '../lib/cypher-templates/shared';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -52,13 +52,13 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery(cypherTemplatesProduction.createQuery(this));
+		return dbQuery(cypherTemplatesProduction.getCreateQuery(this));
 
 	};
 
 	edit () {
 
-		return dbQuery(cypherTemplatesProduction.editQuery(this));
+		return dbQuery(cypherTemplatesProduction.getEditQuery(this));
 
 	};
 
@@ -66,25 +66,25 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery(cypherTemplatesProduction.updateQuery(this));
+		return dbQuery(cypherTemplatesProduction.getUpdateQuery(this));
 
 	};
 
 	delete () {
 
-		return dbQuery(deleteQuery(this));
+		return dbQuery(getDeleteQuery(this));
 
 	};
 
 	show () {
 
-		return dbQuery(cypherTemplatesProduction.showQuery(this));
+		return dbQuery(cypherTemplatesProduction.getShowQuery(this));
 
 	};
 
 	static list () {
 
-		return dbQuery(listQuery('production'));
+		return dbQuery(getListQuery('production'));
 
 	};
 

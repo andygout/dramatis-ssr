@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
 import * as cypherTemplates from '../lib/cypher-templates/shared';
-import { validateDeleteQuery } from '../lib/cypher-templates/theatre';
+import { getValidateDeleteQuery } from '../lib/cypher-templates/theatre';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -34,7 +34,7 @@ export default class Theatre {
 
 	validateUpdateInDb () {
 
-		return dbQuery(cypherTemplates.validateUpdateQuery(this))
+		return dbQuery(cypherTemplates.getValidateUpdateQuery(this))
 			.then(({ theatreCount }) => {
 
 				if (theatreCount > 0) this.errors.name = ['Name already exists'];
@@ -45,7 +45,7 @@ export default class Theatre {
 
 	validateDeleteInDb () {
 
-		return dbQuery(validateDeleteQuery(this.uuid))
+		return dbQuery(getValidateDeleteQuery(this.uuid))
 			.then(({ relationshipCount }) => {
 
 				if (relationshipCount > 0) this.errors.associations = ['productions'];
@@ -56,7 +56,7 @@ export default class Theatre {
 
 	edit () {
 
-		return dbQuery(cypherTemplates.editQuery(this));
+		return dbQuery(cypherTemplates.getEditQuery(this));
 
 	};
 
@@ -75,7 +75,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery(cypherTemplates.updateQuery(this));
+				return dbQuery(cypherTemplates.getUpdateQuery(this));
 
 			});
 
@@ -90,7 +90,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery(cypherTemplates.deleteQuery(this));
+				return dbQuery(cypherTemplates.getDeleteQuery(this));
 
 			});
 
@@ -98,13 +98,13 @@ export default class Theatre {
 
 	show () {
 
-		return dbQuery(cypherTemplates.showQuery(this));
+		return dbQuery(cypherTemplates.getShowQuery(this));
 
 	};
 
 	static list () {
 
-		return dbQuery(cypherTemplates.listQuery('theatre'));
+		return dbQuery(cypherTemplates.getListQuery('theatre'));
 
 	};
 

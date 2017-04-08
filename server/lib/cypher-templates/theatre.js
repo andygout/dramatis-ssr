@@ -1,6 +1,6 @@
 import esc from '../escape-string';
 
-const validateDeleteQuery = uuid => {
+const getValidateDeleteQuery = uuid => {
 
 	return `
 		MATCH (t:Theatre { uuid: '${esc(uuid)}' })<-[r:PLAYS_AT]-(prd:Production)
@@ -10,5 +10,5 @@ const validateDeleteQuery = uuid => {
 };
 
 export {
-	validateDeleteQuery
+	getValidateDeleteQuery
 };

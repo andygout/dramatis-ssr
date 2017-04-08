@@ -46,12 +46,12 @@ const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Shared module (Person model usage)', () => {
 
-	describe('validateUpdateQuery function', () => {
+	describe('getValidateUpdateQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const personInstance = getPersonInstanceFixture();
-			const result = subject.validateUpdateQuery(personInstance);
+			const result = subject.getValidateUpdateQuery(personInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -70,12 +70,12 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('editQuery function', () => {
+	describe('getEditQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const personInstance = getPersonInstanceFixture();
-			const result = subject.editQuery(personInstance);
+			const result = subject.getEditQuery(personInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -98,12 +98,12 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('updateQuery function', () => {
+	describe('getUpdateQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const personInstance = getPersonInstanceFixture();
-			const result = subject.updateQuery(personInstance);
+			const result = subject.getUpdateQuery(personInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -127,12 +127,12 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('deleteQuery function', () => {
+	describe('getDeleteQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const personInstance = getPersonInstanceFixture();
-			const result = subject.deleteQuery(personInstance);
+			const result = subject.getDeleteQuery(personInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -156,12 +156,12 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('showQuery function', () => {
+	describe('getShowQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const personInstance = getPersonInstanceFixture();
-			const result = subject.showQuery(personInstance);
+			const result = subject.getShowQuery(personInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
@@ -193,11 +193,11 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('listQuery function', () => {
+	describe('getListQuery function', () => {
 
 		it('will return requisite query', () => {
 
-			const result = subject.listQuery('person');
+			const result = subject.getListQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;

@@ -46,12 +46,12 @@ const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
-	describe('validateUpdateQuery function', () => {
+	describe('getValidateUpdateQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.validateUpdateQuery(theatreInstance);
+			const result = subject.getValidateUpdateQuery(theatreInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -70,12 +70,12 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('editQuery function', () => {
+	describe('getEditQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.editQuery(theatreInstance);
+			const result = subject.getEditQuery(theatreInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -98,12 +98,12 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('updateQuery function', () => {
+	describe('getUpdateQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.updateQuery(theatreInstance);
+			const result = subject.getUpdateQuery(theatreInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -127,12 +127,12 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('deleteQuery function', () => {
+	describe('getDeleteQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.deleteQuery(theatreInstance);
+			const result = subject.getDeleteQuery(theatreInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
 			expect(stubs.esc.calledTwice).to.be.true;
@@ -156,12 +156,12 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('showQuery function', () => {
+	describe('getShowQuery function', () => {
 
 		it('will return requisite query', () => {
 
 			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.showQuery(theatreInstance);
+			const result = subject.getShowQuery(theatreInstance);
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
@@ -192,11 +192,11 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('listQuery function', () => {
+	describe('getListQuery function', () => {
 
 		it('will return requisite query', () => {
 
-			const result = subject.listQuery('theatre');
+			const result = subject.getListQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
 			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;

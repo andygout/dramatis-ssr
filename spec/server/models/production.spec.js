@@ -22,14 +22,14 @@ const TheatreStub = function () {
 const stubs = {
 	dbQuery: sinon.stub().resolves(dbQueryFixture),
 	cypherTemplatesProduction: {
-		createQuery: sinon.stub(),
-		editQuery: sinon.stub(),
-		updateQuery: sinon.stub(),
-		showQuery: sinon.stub()
+		getCreateQuery: sinon.stub(),
+		getEditQuery: sinon.stub(),
+		getUpdateQuery: sinon.stub(),
+		getShowQuery: sinon.stub()
 	},
 	cypherTemplatesShared: {
-		deleteQuery: sinon.stub(),
-		listQuery: sinon.stub()
+		getDeleteQuery: sinon.stub(),
+		getListQuery: sinon.stub()
 	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
@@ -41,12 +41,12 @@ const stubs = {
 const resetStubs = () => {
 
 	stubs.dbQuery.reset();
-	stubs.cypherTemplatesProduction.createQuery.reset();
-	stubs.cypherTemplatesProduction.editQuery.reset();
-	stubs.cypherTemplatesProduction.updateQuery.reset();
-	stubs.cypherTemplatesProduction.showQuery.reset();
-	stubs.cypherTemplatesShared.deleteQuery.reset();
-	stubs.cypherTemplatesShared.listQuery.reset();
+	stubs.cypherTemplatesProduction.getCreateQuery.reset();
+	stubs.cypherTemplatesProduction.getEditQuery.reset();
+	stubs.cypherTemplatesProduction.getUpdateQuery.reset();
+	stubs.cypherTemplatesProduction.getShowQuery.reset();
+	stubs.cypherTemplatesShared.getDeleteQuery.reset();
+	stubs.cypherTemplatesShared.getListQuery.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
