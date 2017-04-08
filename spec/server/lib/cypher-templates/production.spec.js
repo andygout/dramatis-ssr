@@ -2,6 +2,8 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
+
 const getProductionInstanceFixture = require('../../../fixtures/productions/get-instance');
 
 const stubs = {
@@ -29,8 +31,6 @@ const createSubject = (stubOverrides = {}) =>
 		'node-uuid': stubs.nodeUuid,
 		'../escape-string': stubOverrides.esc || stubs.esc
 	});
-
-const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Production module', () => {
 

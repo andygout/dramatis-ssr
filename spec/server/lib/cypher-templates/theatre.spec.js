@@ -2,6 +2,8 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
+
 const stubs = {
 	esc: sinon.stub().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
 };
@@ -21,8 +23,6 @@ beforeEach(() => {
 const subject = proxyquire('../../../../dist/lib/cypher-templates/theatre', {
 		'../escape-string': stubs.esc
 	});
-
-const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Theatre module', () => {
 

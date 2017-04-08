@@ -2,6 +2,8 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
+
 const getPersonInstanceFixture = require('../../../fixtures/people/get-instance');
 
 const escStub = sinon.stub();
@@ -41,8 +43,6 @@ const subject = proxyquire('../../../../dist/lib/cypher-templates/shared', {
 		'../instance-naming-value': stubs.instanceNamingValue,
 		'../pluralise': stubs.pluralise
 	});
-
-const removeWhitespace = string => string.replace(/\s\s+/g, ' ').trim();
 
 describe('Cypher Templates Shared module (Person model usage)', () => {
 
