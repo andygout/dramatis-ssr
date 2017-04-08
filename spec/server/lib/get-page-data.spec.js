@@ -55,9 +55,9 @@ describe('Get Page Data module', () => {
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
+				expect(pageData).to.have.property('model');
 				expect(pageData).to.have.property('formAction');
 				expect(pageData).to.have.property('submitValue');
-				expect(pageData).not.to.have.property('model');
 
 			});
 
@@ -71,9 +71,9 @@ describe('Get Page Data module', () => {
 				const pageData = subject(productionInstance, 'update');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
+				expect(pageData).to.have.property('model');
 				expect(pageData).to.have.property('formAction');
 				expect(pageData).to.have.property('submitValue');
-				expect(pageData).not.to.have.property('model');
 
 			});
 
@@ -336,21 +336,25 @@ describe('Get Page Data module', () => {
 
 	describe('model property', () => {
 
-		context('show action', () => {
+		for (let action of ['create', 'update', 'show']) {
 
-			context('production instance', () => {
+			context(`${action} action`, () => {
 
-				it('will be the model of the instance', () => {
+				context('production instance', () => {
 
-					const subject = createSubject();
-					const pageData = subject(productionInstance, 'show');
-					expect(pageData.model).to.eq('production');
+					it('will be the model of the instance', () => {
+
+						const subject = createSubject();
+						const pageData = subject(productionInstance, action);
+						expect(pageData.model).to.eq('production');
+
+					});
 
 				});
 
 			});
 
-		});
+		}
 
 	});
 

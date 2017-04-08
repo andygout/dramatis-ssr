@@ -36,7 +36,7 @@ export default (instance, action, opts = {}) => {
 
 	const documentTitle = instance.documentTitle || getDocumentTitle(instance, action, title, opts);
 
-	if (action === 'show') pageData.model = instance.model;
+	if (['show', 'create', 'update'].includes(action)) pageData.model = instance.model;
 
 	if (['create', 'update'].includes(action)) {
 
