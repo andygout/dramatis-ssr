@@ -6,6 +6,9 @@ module.exports = (opts = {}) => {
 		theatre: {
 			name: 'Almeida Theatre'
 		},
+		person: {
+			name: 'Patrick Stewart'
+		},
 		hasError: opts.hasError || false
 	};
 

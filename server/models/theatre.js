@@ -1,5 +1,6 @@
 import dbQuery from '../database/db-query';
-import esc from '../lib/escape-string';
+import * as cypherTemplates from '../lib/cypher-templates/shared';
+import { getValidateDeleteQuery } from '../lib/cypher-templates/theatre';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -33,10 +34,7 @@ export default class Theatre {
 
 	validateUpdateInDb () {
 
-		return dbQuery(`
-			MATCH (t:Theatre { name: '${esc(this.name)}' }) WHERE t.uuid <> '${esc(this.uuid)}'
-			RETURN SIGN(COUNT(t)) AS theatreCount
-		`)
+		return dbQuery(cypherTemplates.getValidateUpdateQuery(this))
 			.then(({ theatreCount }) => {
 
 				if (theatreCount > 0) this.errors.name = ['Name already exists'];
@@ -47,10 +45,7 @@ export default class Theatre {
 
 	validateDeleteInDb () {
 
-		return dbQuery(`
-			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })<-[r:PLAYS_AT]-(p:Production)
-			RETURN SIGN(COUNT(r)) AS relationshipCount
-		`)
+		return dbQuery(getValidateDeleteQuery(this.uuid))
 			.then(({ relationshipCount }) => {
 
 				if (relationshipCount > 0) this.errors.associations = ['productions'];
@@ -61,14 +56,7 @@ export default class Theatre {
 
 	edit () {
 
-		return dbQuery(`
-			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
-			RETURN {
-				model: 'theatre',
-				uuid: t.uuid,
-				name: t.name
-			} AS theatre
-		`);
+		return dbQuery(cypherTemplates.getEditQuery(this));
 
 	};
 
@@ -87,15 +75,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery(`
-					MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
-					SET t.name = '${esc(this.name)}'
-					RETURN {
-						model: 'theatre',
-						uuid: t.uuid,
-						name: t.name
-					} AS theatre
-				`);
+				return dbQuery(cypherTemplates.getUpdateQuery(this));
 
 			});
 
@@ -110,15 +90,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery(`
-					MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
-					WITH t, t.name AS name
-					DETACH DELETE t
-					RETURN {
-						model: 'theatre',
-						name: name
-					} AS theatre
-				`);
+				return dbQuery(cypherTemplates.getDeleteQuery(this));
 
 			});
 
@@ -126,34 +98,13 @@ export default class Theatre {
 
 	show () {
 
-		return dbQuery(`
-			MATCH (t:Theatre { uuid: '${esc(this.uuid)}' })
-			OPTIONAL MATCH (t)<-[:PLAYS_AT]-(prd:Production)
-			WITH t, CASE WHEN prd IS NOT NULL THEN
-				COLLECT({ model: 'production', uuid: prd.uuid, title: prd.title })
-			ELSE
-				[]
-			END AS productions
-			RETURN {
-				model: 'theatre',
-				uuid: t.uuid,
-				name: t.name,
-				productions: productions
-			} AS theatre
-		`);
+		return dbQuery(cypherTemplates.getShowQuery(this));
 
 	};
 
 	static list () {
 
-		return dbQuery(`
-			MATCH (t:Theatre)
-			RETURN COLLECT({
-				model: 'theatre',
-				uuid: t.uuid,
-				name: t.name
-			}) AS theatres
-		`);
+		return dbQuery(cypherTemplates.getListQuery('theatre'));
 
 	};
 

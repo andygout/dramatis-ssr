@@ -1,0 +1,5 @@
+export default {
+
+	'production': 'title'
+
+};
