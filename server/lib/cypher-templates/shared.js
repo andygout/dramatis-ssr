@@ -19,13 +19,13 @@ const getQueryData = instance => {
 
 const getProductionsData = model => {
 
-	const productionMatches = {
+	const productionRelationships = {
 		'theatre': '(n)<-[:PLAYS_AT]-(prd:Production)',
 		'person': '(n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)'
 	};
 
 	return {
-		productionMatch: productionMatches[model],
+		productionRelationship: productionRelationships[model],
 		theatreObject: (model !== 'theatre') ? theatreObjectString : ''
 	};
 
@@ -95,7 +95,7 @@ const showQuery = instance => {
 
 	return `
 		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
-		OPTIONAL MATCH ${data.productionMatch}
+		OPTIONAL MATCH ${data.productionRelationship}
 		WITH n, ${data.model !== 'theatre' ? 't, ': ''}CASE WHEN prd IS NOT NULL THEN
 			COLLECT({
 				model: 'production',
