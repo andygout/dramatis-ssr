@@ -1,4 +1,3 @@
-import capitalise from '../capitalise';
 import esc from '../escape-string';
 
 const validateDeleteQuery = uuid => {
