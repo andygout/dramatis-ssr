@@ -96,7 +96,7 @@ const getShowQuery = instance => {
 	return `
 		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
 		OPTIONAL MATCH ${data.productionRelationship}
-		WITH n, ${data.model !== 'theatre' ? 't, ': ''}CASE WHEN prd IS NOT NULL THEN
+		WITH n, ${data.model !== 'theatre' ? 't, ': ''} CASE WHEN prd IS NOT NULL THEN
 			COLLECT({
 				model: 'production',
 				uuid: prd.uuid,
