@@ -170,7 +170,7 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (n:Person { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
 				OPTIONAL MATCH (n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
-				WITH n, t, CASE WHEN prd IS NOT NULL THEN
+				WITH n, CASE WHEN prd IS NOT NULL THEN
 					COLLECT({
 						model: 'production',
 						uuid: prd.uuid,
