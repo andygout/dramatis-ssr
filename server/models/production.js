@@ -1,6 +1,7 @@
 import dbQuery from '../database/db-query';
 import * as cypherTemplatesProduction from '../lib/cypher-templates/production';
 import { getDeleteQuery, getListQuery } from '../lib/cypher-templates/shared';
+import prepareAsParams from '../lib/prepare-as-params';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -19,8 +20,12 @@ export default class Production {
 		this.title = props.title;
 		this.pageTitle = props.pageTitle;
 		this.documentTitle = props.documentTitle;
-		this.theatre = new Theatre({ name: props.theatreName });
-		this.person = new Person({ name: props.personName });
+		this.theatre = new Theatre(props.theatre);
+		this.cast = props.cast ?
+			props.cast
+				.filter(castMember => castMember.name.length)
+				.map(castMember => new Person(castMember)) :
+			[];
 		this.hasError = false;
 		this.errors = {};
 
@@ -42,7 +47,7 @@ export default class Production {
 
 		this.theatre.validate({ mandatory: true });
 
-		this.person.validate();
+		this.cast.forEach(castMember => castMember.validate());
 
 		return this.hasError = verifyErrorPresence(this);
 
@@ -52,13 +57,13 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery(cypherTemplatesProduction.getCreateQuery(this));
+		return dbQuery({ query: cypherTemplatesProduction.getCreateQuery(this), params: prepareAsParams(this) });
 
 	};
 
 	edit () {
 
-		return dbQuery(cypherTemplatesProduction.getEditQuery(this));
+		return dbQuery({ query: cypherTemplatesProduction.getEditQuery(this), params: { uuid: this.uuid } });
 
 	};
 
@@ -66,25 +71,25 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery(cypherTemplatesProduction.getUpdateQuery(this));
+		return dbQuery({ query: cypherTemplatesProduction.getUpdateQuery(this), params: prepareAsParams(this) });
 
 	};
 
 	delete () {
 
-		return dbQuery(getDeleteQuery(this));
+		return dbQuery({ query: getDeleteQuery(this) });
 
 	};
 
 	show () {
 
-		return dbQuery(cypherTemplatesProduction.getShowQuery(this));
+		return dbQuery({ query: cypherTemplatesProduction.getShowQuery(this), params: { uuid: this.uuid } });
 
 	};
 
 	static list () {
 
-		return dbQuery(getListQuery('production'));
+		return dbQuery({ query: getListQuery('production') });
 
 	};
 

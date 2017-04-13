@@ -1,4 +1,5 @@
 import capitalise from '../capitalise';
+import concat from './concat';
 import dateFormatNow from './date-format-now';
 import instanceNamingValue from '../instance-naming-value';
 import instanceRoute from '../instance-route';
@@ -9,6 +10,7 @@ import upperCase from './upper-case';
 
 export {
 	capitalise,
+	concat,
 	dateFormatNow,
 	instanceNamingValue,
 	instanceRoute,

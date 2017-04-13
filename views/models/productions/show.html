@@ -8,11 +8,19 @@
 		</div>
 	{{/with}}
 
-	{{#with person}}
+	{{#with cast}}
 		<div class="content-wrapper">
-			{{>content-label}}
+			<div class="content-label">
+				Cast
+			</div>
 			<div class="content">
-				{{>instance-link}}
+				<ul class="list">
+					{{#each this}}
+						<li>
+							{{>instance-link}}
+						</li>
+					{{/each}}
+				</ul>
 			</div>
 		</div>
 	{{/with}}

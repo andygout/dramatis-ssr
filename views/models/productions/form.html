@@ -11,10 +11,9 @@
 	{{#with theatre}}
 		<fieldset class="fieldset">
 			{{>fieldset-header text='Theatre'}}
-
 			{{>input-text
 				propertyName='name'
-				inputName='theatreName'
+				inputName='theatre[name]'
 				value=name
 				errors=errors.name
 				mandatory=true
@@ -22,16 +21,33 @@
 		</fieldset>
 	{{/with}}
 
-	{{#with person}}
-		<fieldset class="fieldset">
-			{{>fieldset-header text='Person'}}
-
+	<fieldset class="fieldset">
+		{{>fieldset-header text='Cast'}}
+		{{#if cast.length}}
+			{{#each cast}}
+				{{>input-text
+					propertyName='name'
+					inputName=(concat 'cast[' @index '][name]')
+					value=name
+					errors=errors.name
+					removeFieldButton=true
+				}}
+			{{/each}}
 			{{>input-text
 				propertyName='name'
-				inputName='personName'
+				inputName=(concat 'cast[' cast.length '][name]')
 				value=name
-				errors=errors.name
+				errors=null
+				lastInArray=true
 			}}
-		</fieldset>
-	{{/with}}
+		{{else}}
+			{{>input-text
+				propertyName='name'
+				inputName='cast[0][name]'
+				value=''
+				errors=null
+				lastInArray=true
+			}}
+		{{/if}}
+	</fieldset>
 {{/with}}

@@ -8,16 +8,16 @@ const models = require('fs')
 	.readdirSync(path.join(__dirname, '..', 'models'))
 	.map(file => capitalise(file.replace('.js', '')));
 
-const createConstraint = model => dbQuery(`
-		CREATE CONSTRAINT ON (node:${model})
-		ASSERT node.uuid IS UNIQUE
-	`, { isReqdResult: false })
+const createConstraint = model =>
+	dbQuery(
+		{ query: `CREATE CONSTRAINT ON (node:${model}) ASSERT node.uuid IS UNIQUE` }, { isReqdResult: false }
+	)
 		.then(() => console.log(`Constraint created for ${model}`))
 		.catch(err => console.log(`Error attempting to create constraint for ${model}: `, err));
 
 export default () => {
 
-	return dbQuery('CALL db.constraints()', { isReqdResult: false, returnArray: true })
+	return dbQuery({ query: 'CALL db.constraints()' }, { isReqdResult: false, returnArray: true })
 		.then(constraints => {
 
 			const modelsWithConstraints = constraints.map(constraint => constraint.description.match(/:(.*) \)/)[1]);

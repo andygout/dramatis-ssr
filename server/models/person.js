@@ -33,7 +33,7 @@ export default class Person {
 
 	validateUpdateInDb () {
 
-		return dbQuery(cypherTemplates.getValidateUpdateQuery(this))
+		return dbQuery({ query: cypherTemplates.getValidateUpdateQuery(this) })
 			.then(({ personCount }) => {
 
 				if (personCount > 0) this.errors.name = ['Name already exists'];
@@ -44,7 +44,7 @@ export default class Person {
 
 	edit () {
 
-		return dbQuery(cypherTemplates.getEditQuery(this));
+		return dbQuery({ query: cypherTemplates.getEditQuery(this) });
 
 	};
 
@@ -63,7 +63,7 @@ export default class Person {
 
 				if (this.hasError) return Promise.resolve({ person: this });
 
-				return dbQuery(cypherTemplates.getUpdateQuery(this));
+				return dbQuery({ query: cypherTemplates.getUpdateQuery(this) });
 
 			});
 
@@ -71,19 +71,19 @@ export default class Person {
 
 	delete () {
 
-		return dbQuery(cypherTemplates.getDeleteQuery(this));
+		return dbQuery({ query: cypherTemplates.getDeleteQuery(this) });
 
 	};
 
 	show () {
 
-		return dbQuery(cypherTemplates.getShowQuery(this));
+		return dbQuery({ query: cypherTemplates.getShowQuery(this) });
 
 	};
 
 	static list () {
 
-		return dbQuery(cypherTemplates.getListQuery('person'));
+		return dbQuery({ query: cypherTemplates.getListQuery('person') });
 
 	};
 
