@@ -4,6 +4,7 @@
   "description": "A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.",
   "main": "server/app-dev.js",
   "scripts": {
+    "build": "webpack",
     "start": "nodemon server/app-dev.js",
     "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
     "pretest": "babel server --out-dir dist --ignore app-dev.js"
@@ -40,7 +41,8 @@
     "node-mocks-http": "^1.5.4",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
-    "sinon-as-promised": "^4.0.2"
+    "sinon-as-promised": "^4.0.2",
+    "webpack": "^2.4.1"
   },
   "engines": {
     "node": "7.4.0"

@@ -18,6 +18,7 @@ Site setup
 - Add favicon: `$ touch ./client/favicons/favicon.ico`.
 - Copy development environment variables from `.env-dev` into `.env` by running command: `$ node transfer-env-dev`.
 - Create Neo4j database called `theatrebase` and run on port 7474 (using [Neo4j Community Edition](https://neo4j.com/download/community-edition)).
+- Build client-side JavaScript: `$ npm run build`.
 - Run server using: `$ npm start` and visit homepage: `localhost:3000`.
 
 
