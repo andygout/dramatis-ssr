@@ -50,11 +50,18 @@
 
 .field__input {
 	box-sizing: border-box;
-	width: 100%;
+	width: calc(100% - 40px);
 }
 
 .field__input--has-error {
 	border-color: $negative-color;
+}
+
+.field__remover-button {
+	padding: 0px 10px;
+	background-color: white;
+	border: 1px solid $border-color;
+	border-radius: 5px;
 }
 
 .field__error-description {

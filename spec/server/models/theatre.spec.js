@@ -120,7 +120,7 @@ describe('Theatre model', () => {
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly('getValidateUpdateQuery response')).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getValidateUpdateQuery response' })).to.be.true;
 				done();
 			});
 
@@ -169,7 +169,7 @@ describe('Theatre model', () => {
 				expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledWithExactly(instance.uuid)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly('getValidateDeleteQuery response')).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getValidateDeleteQuery response' })).to.be.true;
 				done();
 			});
 
@@ -218,7 +218,7 @@ describe('Theatre model', () => {
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly('getEditQuery response')).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getEditQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -242,10 +242,10 @@ describe('Theatre model', () => {
 						stubs.verifyErrorPresence.withArgs(instance),
 						instance.validateUpdateInDb.withArgs(),
 						stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance),
-						stubs.dbQuery.withArgs('getValidateUpdateQuery response'),
+						stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response' }),
 						stubs.verifyErrorPresence.withArgs(instance),
 						stubs.cypherTemplatesShared.getUpdateQuery.withArgs(instance),
-						stubs.dbQuery.withArgs('getUpdateQuery response')
+						stubs.dbQuery.withArgs({ query: 'getUpdateQuery response' })
 					);
 					expect(instance.validate.calledOnce).to.be.true;
 					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
@@ -304,7 +304,7 @@ describe('Theatre model', () => {
 							verifyErrorPresenceStub.withArgs(instance),
 							instance.validateUpdateInDb.withArgs(),
 							stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance),
-							stubs.dbQuery.withArgs('getValidateUpdateQuery response'),
+							stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response' }),
 							verifyErrorPresenceStub.withArgs(instance)
 						);
 						expect(instance.validate.calledOnce).to.be.true;
@@ -337,10 +337,10 @@ describe('Theatre model', () => {
 					sinon.assert.callOrder(
 						instance.validateDeleteInDb.withArgs(),
 						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(instance.uuid),
-						stubs.dbQuery.withArgs('getValidateDeleteQuery response'),
+						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response' }),
 						stubs.verifyErrorPresence.withArgs(instance),
 						stubs.cypherTemplatesShared.getDeleteQuery.withArgs(instance),
-						stubs.dbQuery.withArgs('getDeleteQuery response')
+						stubs.dbQuery.withArgs({ query: 'getDeleteQuery response' })
 					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
 					expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledOnce).to.be.true;
@@ -366,7 +366,7 @@ describe('Theatre model', () => {
 					sinon.assert.callOrder(
 						instance.validateDeleteInDb.withArgs(),
 						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(instance.uuid),
-						stubs.dbQuery.withArgs('getValidateDeleteQuery response'),
+						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response' }),
 						verifyErrorPresenceStub.withArgs(instance)
 					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
@@ -393,7 +393,7 @@ describe('Theatre model', () => {
 				expect(stubs.cypherTemplatesShared.getShowQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getShowQuery.calledWithExactly(instance)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly('getShowQuery response')).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getShowQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -411,7 +411,7 @@ describe('Theatre model', () => {
 				expect(stubs.cypherTemplatesShared.getListQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getListQuery.calledWithExactly('theatre')).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly('getListQuery response')).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getListQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});

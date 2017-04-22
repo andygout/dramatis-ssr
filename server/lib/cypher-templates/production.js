@@ -1,26 +1,13 @@
-import { v4 as uuid } from 'node-uuid';
-
-import esc from '../escape-string';
-
-const getPersonQuery = personName => {
-
-	return personName.length ?
-		`MERGE (p:Person { name: '${esc(personName)}' })
-		ON CREATE SET p.uuid = '${uuid()}'
-		CREATE (prd)<-[:PERFORMS_IN]-(p)` :
-		'';
-
-};
-
 const getRelationshipsAndReturnQuery = instance => {
 
-	const personQuery = getPersonQuery(instance.person.name);
-
 	return `
-		MERGE (t:Theatre { name: '${esc(instance.theatre.name)}' })
-		ON CREATE SET t.uuid = '${uuid()}'
+		MERGE (t:Theatre { name: $theatre.name })
+		ON CREATE SET t.uuid = $theatre.uuid
 		CREATE (prd)-[:PLAYS_AT]->(t)
-		${personQuery}
+		FOREACH (castMember IN $cast |
+			MERGE (p:Person { name: castMember.name })
+			ON CREATE SET p.uuid = castMember.uuid
+			CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p))
 		RETURN {
 			model: 'production',
 			uuid: prd.uuid,
@@ -35,7 +22,7 @@ const getCreateQuery = instance => {
 	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
 
 	return `
-		CREATE (prd:Production { uuid: '${uuid()}', title: '${esc(instance.title)}' })
+		CREATE (prd:Production { uuid: $uuid, title: $title })
 		${relationshipsAndReturnQuery}
 	`;
 
@@ -44,16 +31,18 @@ const getCreateQuery = instance => {
 const getEditQuery = instance => {
 
 	return `
-		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
+		MATCH (prd:Production { uuid: $uuid })
 		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[:PERFORMS_IN]-(p:Person)
-		WITH prd, t, CASE WHEN p IS NOT NULL THEN { name: p.name } ELSE { name: '' } END AS person
+		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
+		WITH prd, t, p, r
+		ORDER BY r.position
+		WITH prd, t, CASE WHEN p IS NOT NULL THEN COLLECT({ name: p.name }) ELSE [] END AS cast
 		RETURN {
 			model: 'production',
 			uuid: prd.uuid,
 			title: prd.title,
 			theatre: { name: t.name },
-			person: person
+			cast: cast
 		} AS production
 	`;
 
@@ -64,11 +53,11 @@ const getUpdateQuery = instance => {
 	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
 
 	return `
-		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
+		MATCH (prd:Production { uuid: $uuid })
 		OPTIONAL MATCH (prd)-[r]-()
 		WITH prd, COLLECT (r) AS rels
 		FOREACH (r IN rels | DELETE r)
-		SET prd.title = '${esc(instance.title)}'
+		SET prd.title = $title
 		${relationshipsAndReturnQuery}
 	`;
 
@@ -77,14 +66,16 @@ const getUpdateQuery = instance => {
 const getShowQuery = instance => {
 
 	return `
-		MATCH (prd:Production { uuid: '${esc(instance.uuid)}' })
+		MATCH (prd:Production { uuid: $uuid })
 		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[:PERFORMS_IN]-(p:Person)
+		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
+		WITH prd, t, p, r
+		ORDER BY r.position
 		WITH prd, t, CASE WHEN p IS NOT NULL THEN
-			{ model: 'person', uuid: p.uuid, name: p.name }
+			COLLECT({ model: 'person', uuid: p.uuid, name: p.name })
 		ELSE
-			null
-		END AS person
+			[]
+		END AS cast
 		RETURN {
 			model: 'production',
 			uuid: prd.uuid,
@@ -94,7 +85,7 @@ const getShowQuery = instance => {
 				uuid: t.uuid,
 				name: t.name
 			},
-			person: person
+			cast: cast
 		} AS production
 	`;
 

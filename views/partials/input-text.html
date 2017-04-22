@@ -10,8 +10,11 @@
 		name="{{#if inputName}}{{inputName}}{{else}}{{propertyName}}{{/if}}"
 		type="text"
 		maxlength="255"
-		class="field__input{{#if errors}} field__input--has-error{{/if}}"
+		class="field__input{{#if errors}} field__input--has-error{{/if}}{{#if lastInArray}} field__input--last-in-array{{/if}}"
 	/>
+	{{#if removeFieldButton}}
+		<a href="" class="field__remover-button">X</a>
+	{{/if}}
 	{{#each errors}}
 		<li class="field__error-description">
 			{{~this~}}

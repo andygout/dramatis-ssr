@@ -3,8 +3,6 @@ const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
 let instance;
-const titleString = 'Hamlet';
-const nameString = 'Almeida Theatre';
 
 const stubs = {
 	propIsObject: sinon.stub().returns(false)
@@ -29,27 +27,52 @@ const createSubject = (stubOverrides = {}) =>
 
 describe('Trim Strings module', () => {
 
-	it('will trim leading and trailing whitespace from top level string values', () => {
+	context('top level string values', () => {
 
-		const subject = createSubject();
-		instance = { title: ` ${titleString} ` };
-		subject(instance);
-		expect(stubs.propIsObject.calledOnce).to.be.true;
-		expect(stubs.propIsObject.calledWithExactly(` ${titleString} `)).to.be.true;
-		expect(instance.title).to.eq(titleString);
+		it('will trim leading and trailing whitespace', () => {
+
+			const subject = createSubject();
+			instance = { title: ' foobar ' };
+			subject(instance);
+			expect(stubs.propIsObject.calledOnce).to.be.true;
+			expect(stubs.propIsObject.calledWithExactly(' foobar ')).to.be.true;
+			expect(instance.title).to.eq('foobar');
+
+		});
 
 	});
 
-	it('will trim leading and trailing whitespace from nested string values', () => {
+	context('nested level string values', () => {
 
-		const propIsObjectStub = sinon.stub();
-		propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-		const subject = createSubject({ propIsObject: propIsObjectStub });
-		instance = { theatre: { name: ` ${nameString} ` } };
-		subject(instance);
-		expect(propIsObjectStub.calledTwice).to.be.true;
-		sinon.assert.calledWithExactly(propIsObjectStub.secondCall, ` ${nameString} `);
-		expect(instance.theatre.name).to.eq(nameString);
+		it('will trim leading and trailing whitespace', () => {
+
+			const propIsObjectStub = sinon.stub();
+			propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
+			const subject = createSubject({ propIsObject: propIsObjectStub });
+			instance = { theatre: { name: ' foobar ' } };
+			subject(instance);
+			expect(propIsObjectStub.calledTwice).to.be.true;
+			sinon.assert.calledWithExactly(propIsObjectStub.secondCall, ' foobar ');
+			expect(instance.theatre.name).to.eq('foobar');
+
+		});
+
+	});
+
+	context('string values of objects in arrays at top level', () => {
+
+		it('will trim leading and trailing whitespace', () => {
+
+			const propIsObjectStub = sinon.stub();
+			propIsObjectStub.onFirstCall().returns(false).onSecondCall().returns(true).onThirdCall().returns(false);
+			const subject = createSubject({ propIsObject: propIsObjectStub });
+			instance = { cast: [{ name: ' foobar ' }] };
+			subject(instance);
+			expect(propIsObjectStub.calledThrice).to.be.true;
+			sinon.assert.calledWithExactly(propIsObjectStub.thirdCall, ' foobar ');
+			expect(instance.cast[0].name).to.eq('foobar');
+
+		});
 
 	});
 
