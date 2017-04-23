@@ -44,7 +44,7 @@ const removeField = event => {
 
 };
 
-exports.init = () => {
+const init = () => {
 
 	const lastInArrayFieldInputs = [...document.getElementsByClassName('field__input--last-in-array')];
 
@@ -55,3 +55,5 @@ exports.init = () => {
 	fieldRemoverButtons.forEach(button => button.addEventListener('click', removeField, false));
 
 };
+
+export { init };

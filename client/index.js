@@ -1,7 +1,8 @@
+import * as scripts from './scripts';
+import './stylesheets/main.scss';
+
 window.onload = () => {
 
-	require('./scripts/add-remove-field').init();
+	scripts.addRemoveField.init();
 
 };
-
-require('./stylesheets/main.scss');
