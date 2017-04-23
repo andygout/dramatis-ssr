@@ -1,5 +1,5 @@
 import * as scripts from './scripts';
-import './stylesheets/main.scss';
+import './stylesheets/index.scss';
 
 window.onload = () => {
 
