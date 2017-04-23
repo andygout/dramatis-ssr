@@ -8,7 +8,6 @@ import flash from 'connect-flash';
 import http from 'http';
 import logger from 'morgan';
 import path from 'path';
-import sassMiddleware from 'node-sass-middleware';
 import session from 'express-session';
 
 import createConstraints from './database/create-constraints';
@@ -33,15 +32,6 @@ app.use(logger('dev'));
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
 app.use(flash());
-
-app.use(
-	sassMiddleware({
-		src: path.join(__dirname, '../', 'client', 'stylesheets'),
-		dest: path.join(__dirname, '../', 'client', 'public'),
-		prefix: '/stylesheets',
-		debug: true
-	})
-);
 
 app.use(express.static(path.join(__dirname, '../', 'client', 'public')));
 
