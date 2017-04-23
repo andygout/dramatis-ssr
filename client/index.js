@@ -3,6 +3,6 @@ import './stylesheets/index.scss';
 
 window.onload = () => {
 
-	scripts.addRemoveField.init();
+	if (document.querySelector('[data-view="form"]')) scripts.addRemoveField.init();
 
 };
