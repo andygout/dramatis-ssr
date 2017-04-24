@@ -1,5 +1,5 @@
 .env
-/client/favicons
+/client/favicons/
 /dist/
 /node_modules/
 /npm-debug.log
