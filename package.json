@@ -7,8 +7,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "nodemon server/app-dev.js",
-    "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
-    "pretest": "babel server --out-dir dist --ignore app-dev.js"
+    "pretest": "babel server --out-dir dist --ignore app-dev.js",
+    "test": "find spec -name '*.spec.js' | xargs mocha -R spec"
   },
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
