@@ -5,7 +5,7 @@ module.exports = {
 	entry: './client/index.js',
 	output: {
 		filename: 'main.js',
-		path: path.join(__dirname, 'client', 'public')
+		path: path.join(__dirname, 'public')
 	},
 	module: {
 		loaders: [
