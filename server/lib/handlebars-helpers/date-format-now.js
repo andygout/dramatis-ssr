@@ -1,3 +1,3 @@
-import dateFormat from 'dateformat';
+import dateformat from 'dateformat';
 
-export default format => dateFormat(new Date(), format);
+export default format => dateformat(new Date(), format);
