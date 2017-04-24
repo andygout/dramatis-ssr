@@ -2,24 +2,22 @@ import propIsObject from './prop-is-object';
 
 const trimStrings = instance => {
 
-	for (const prop in instance) {
-		if (instance.hasOwnProperty(prop)) {
+	for (const prop in instance) if (instance.hasOwnProperty(prop)) {
 
-			if (propIsObject(instance[prop])) {
+		if (propIsObject(instance[prop])) {
 
-				instance[prop] = trimStrings(instance[prop]);
+			instance[prop] = trimStrings(instance[prop]);
 
-			} else if (Array.isArray(instance[prop])) {
+		} else if (Array.isArray(instance[prop])) {
 
-				instance[prop].forEach(item => { if (propIsObject(item)) trimStrings(item); });
+			instance[prop].forEach(item => { if (propIsObject(item)) trimStrings(item); });
 
-			} else {
+		} else {
 
-				if (typeof instance[prop] === 'string') instance[prop] = instance[prop].trim();
-
-			}
+			if (typeof instance[prop] === 'string') instance[prop] = instance[prop].trim();
 
 		}
+
 	}
 
 	return instance;

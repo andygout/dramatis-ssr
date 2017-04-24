@@ -11,16 +11,14 @@ const propHasErrors = (prop, instanceProp) =>
 
 const searchForErrors = instance => {
 
-	for (const prop in instance) {
-		if (instance.hasOwnProperty(prop)) {
+	for (const prop in instance) if (instance.hasOwnProperty(prop)) {
 
-			if (propHasErrors(prop, instance[prop])) return true;
+		if (propHasErrors(prop, instance[prop])) return true;
 
-			if (objectWithErrors(instance[prop])) return true;
+		if (objectWithErrors(instance[prop])) return true;
 
-			if (Array.isArray(instance[prop]) && instance[prop].find(item => objectWithErrors(item))) return true;
+		if (Array.isArray(instance[prop]) && instance[prop].find(item => objectWithErrors(item))) return true;
 
-		}
 	}
 
 	return false;
