@@ -11,7 +11,7 @@ Brief:
 A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.
 
 
-Site setup
+Setup
 -------
 
 - Clone this repo.
