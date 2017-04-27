@@ -118,9 +118,11 @@ describe('Theatre model', () => {
 			instance = createInstance();
 			instance.validateUpdateInDb().then(() => {
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance)).to.be.true;
+				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly({ query: 'getValidateUpdateQuery response' })).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
+					{ query: 'getValidateUpdateQuery response', params: instance }
+				)).to.be.true;
 				done();
 			});
 
@@ -167,9 +169,11 @@ describe('Theatre model', () => {
 			instance = createInstance();
 			instance.validateDeleteInDb().then(() => {
 				expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledWithExactly(instance.uuid)).to.be.true;
+				expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly({ query: 'getValidateDeleteQuery response' })).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
+					{ query: 'getValidateDeleteQuery response', params: instance }
+				)).to.be.true;
 				done();
 			});
 
@@ -216,9 +220,11 @@ describe('Theatre model', () => {
 			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getEditQuery.calledWithExactly(instance)).to.be.true;
+				expect(stubs.cypherTemplatesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly({ query: 'getEditQuery response' })).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
+					{ query: 'getEditQuery response', params: instance }
+				)).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});
@@ -241,11 +247,11 @@ describe('Theatre model', () => {
 						instance.validate.withArgs({ mandatory: true }),
 						stubs.verifyErrorPresence.withArgs(instance),
 						instance.validateUpdateInDb.withArgs(),
-						stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance),
-						stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response' }),
+						stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
+						stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
 						stubs.verifyErrorPresence.withArgs(instance),
-						stubs.cypherTemplatesShared.getUpdateQuery.withArgs(instance),
-						stubs.dbQuery.withArgs({ query: 'getUpdateQuery response' })
+						stubs.cypherTemplatesShared.getUpdateQuery.withArgs(instance.model),
+						stubs.dbQuery.withArgs({ query: 'getUpdateQuery response', params: instance })
 					);
 					expect(instance.validate.calledOnce).to.be.true;
 					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
@@ -303,8 +309,8 @@ describe('Theatre model', () => {
 							instance.validate.withArgs({ mandatory: true }),
 							verifyErrorPresenceStub.withArgs(instance),
 							instance.validateUpdateInDb.withArgs(),
-							stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance),
-							stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response' }),
+							stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
+							stubs.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
 							verifyErrorPresenceStub.withArgs(instance)
 						);
 						expect(instance.validate.calledOnce).to.be.true;
@@ -336,11 +342,11 @@ describe('Theatre model', () => {
 				instance.delete().then(result => {
 					sinon.assert.callOrder(
 						instance.validateDeleteInDb.withArgs(),
-						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(instance.uuid),
-						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response' }),
+						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(),
+						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response', params: instance }),
 						stubs.verifyErrorPresence.withArgs(instance),
-						stubs.cypherTemplatesShared.getDeleteQuery.withArgs(instance),
-						stubs.dbQuery.withArgs({ query: 'getDeleteQuery response' })
+						stubs.cypherTemplatesShared.getDeleteQuery.withArgs(instance.model),
+						stubs.dbQuery.withArgs({ query: 'getDeleteQuery response', params: instance })
 					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
 					expect(stubs.cypherTemplatesTheatre.getValidateDeleteQuery.calledOnce).to.be.true;
@@ -365,8 +371,8 @@ describe('Theatre model', () => {
 				instance.delete().then(result => {
 					sinon.assert.callOrder(
 						instance.validateDeleteInDb.withArgs(),
-						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(instance.uuid),
-						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response' }),
+						stubs.cypherTemplatesTheatre.getValidateDeleteQuery.withArgs(),
+						stubs.dbQuery.withArgs({ query: 'getValidateDeleteQuery response', params: instance }),
 						verifyErrorPresenceStub.withArgs(instance)
 					);
 					expect(instance.validateDeleteInDb.calledOnce).to.be.true;
@@ -391,9 +397,11 @@ describe('Theatre model', () => {
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.cypherTemplatesShared.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getShowQuery.calledWithExactly(instance)).to.be.true;
+				expect(stubs.cypherTemplatesShared.getShowQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly({ query: 'getShowQuery response' })).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
+					{ query: 'getShowQuery response', params: instance }
+				)).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});

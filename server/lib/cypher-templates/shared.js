@@ -1,100 +1,87 @@
 import capitalise from '../capitalise';
-import esc from '../escape-string';
 import instanceNamingProp from '../instance-naming-prop';
-import instanceNamingValue from '../instance-naming-value';
 import pluralise from '../pluralise';
 
 const theatreObjectString = ", theatre: { model: 'theatre', uuid: t.uuid, name: t.name }";
 
-const getQueryData = instance => {
-
-	return {
-		model: instance.model,
-		namingProp: instanceNamingProp(instance.model),
-		namingValue: esc(instanceNamingValue(instance)),
-		uuid: esc(instance.uuid)
-	};
-
-};
-
 const getProductionsData = model => {
 
-	const productionRelationships = {
-		'theatre': '(n)<-[:PLAYS_AT]-(prd:Production)',
-		'person': '(n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)'
+	const productionRelationshipsMap = {
+		theatre: '(n)<-[:PLAYS_AT]-(prd:Production)',
+		person: '(n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)'
 	};
 
 	return {
-		productionRelationship: productionRelationships[model],
+		productionRelationship: productionRelationshipsMap[model],
 		theatreObject: (model !== 'theatre') ? theatreObjectString : ''
 	};
 
 };
 
-const getValidateUpdateQuery = instance => {
+const getValidateUpdateQuery = model => {
 
-	const data = getQueryData(instance);
+	const namingProp = instanceNamingProp(model);
 
 	return `
-		MATCH (n:${capitalise(data.model)} { ${data.namingProp}: '${data.namingValue}' }) WHERE n.uuid <> '${data.uuid}'
-		RETURN SIGN(COUNT(n)) AS ${data.model}Count
+		MATCH (n:${capitalise(model)} { ${namingProp}: $${namingProp} }) WHERE n.uuid <> $uuid
+		RETURN SIGN(COUNT(n)) AS ${model}Count
 	`;
 
 };
 
-const getEditQuery = instance => {
+const getEditQuery = model => {
 
-	const data = getQueryData(instance);
+	const namingProp = instanceNamingProp(model);
 
 	return `
-		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
+		MATCH (n:${capitalise(model)} { uuid: $uuid })
 		RETURN {
-			model: '${data.model}',
+			model: '${model}',
 			uuid: n.uuid,
-			${data.namingProp}: n.${data.namingProp}
-		} AS ${data.model}
+			${namingProp}: n.${namingProp}
+		} AS ${model}
 	`;
 
 };
 
-const getUpdateQuery = instance => {
+const getUpdateQuery = model => {
 
-	const data = getQueryData(instance);
+	const namingProp = instanceNamingProp(model);
 
 	return `
-		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
-		SET n.${data.namingProp} = '${data.namingValue}'
+		MATCH (n:${capitalise(model)} { uuid: $uuid })
+		SET n.${namingProp} = $${namingProp}
 		RETURN {
-			model: '${data.model}',
+			model: '${model}',
 			uuid: n.uuid,
-			${data.namingProp}: n.${data.namingProp}
-		} AS ${data.model}
+			${namingProp}: n.${namingProp}
+		} AS ${model}
 	`;
 
 };
 
-const getDeleteQuery = instance => {
+const getDeleteQuery = model => {
 
-	const data = getQueryData(instance);
+	const namingProp = instanceNamingProp(model);
 
 	return `
-		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
-		WITH n, n.${data.namingProp} AS ${data.namingProp}
+		MATCH (n:${capitalise(model)} { uuid: $uuid })
+		WITH n, n.${namingProp} AS ${namingProp}
 		DETACH DELETE n
 		RETURN {
-			model: '${data.model}',
-			${data.namingProp}: ${data.namingProp}
-		} AS ${data.model}
+			model: '${model}',
+			${namingProp}: ${namingProp}
+		} AS ${model}
 	`;
 
 };
 
-const getShowQuery = instance => {
+const getShowQuery = model => {
 
-	const data = Object.assign(getQueryData(instance), getProductionsData(instance.model));
+	const data = Object.assign({ namingProp: instanceNamingProp(model) }, getProductionsData(model));
 
 	return `
-		MATCH (n:${capitalise(data.model)} { uuid: '${data.uuid}' })
+		MATCH (n:${capitalise(model)} { uuid: $uuid })
 		OPTIONAL MATCH ${data.productionRelationship}
 		WITH n, CASE WHEN prd IS NOT NULL THEN
 			COLLECT({
@@ -107,11 +94,11 @@ const getShowQuery = instance => {
 			[]
 		END AS productions
 		RETURN {
-			model: '${data.model}',
+			model: '${model}',
 			uuid: n.uuid,
 			${data.namingProp}: n.${data.namingProp},
 			productions: productions
-		} AS ${data.model}
+		} AS ${model}
 	`;
 
 };

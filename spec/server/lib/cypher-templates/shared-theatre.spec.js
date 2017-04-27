@@ -4,27 +4,16 @@ const sinon = require('sinon');
 
 const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 
-const getTheatreInstanceFixture = require('../../../fixtures/theatres/get-instance');
-
-const escStub = sinon.stub();
-escStub
-	.onFirstCall().returns('Almeida Theatre')
-	.onSecondCall().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-
 const stubs = {
 	capitalise: sinon.stub().returns('Theatre'),
-	esc: escStub,
 	instanceNamingProp: sinon.stub().returns('name'),
-	instanceNamingValue: sinon.stub().returns('Almeida Theatre'),
 	pluralise: sinon.stub().returns('theatres')
 };
 
 const resetStubs = () => {
 
 	stubs.capitalise.reset();
-	stubs.esc.reset();
 	stubs.instanceNamingProp.reset();
-	stubs.instanceNamingValue.reset();
 	stubs.pluralise.reset();
 
 };
@@ -37,9 +26,7 @@ beforeEach(() => {
 
 const subject = proxyquire('../../../../dist/lib/cypher-templates/shared', {
 		'../capitalise': stubs.capitalise,
-		'../escape-string': stubs.esc,
 		'../instance-naming-prop': stubs.instanceNamingProp,
-		'../instance-naming-value': stubs.instanceNamingValue,
 		'../pluralise': stubs.pluralise
 	});
 
@@ -49,19 +36,13 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.getValidateUpdateQuery(theatreInstance);
+			const result = subject.getValidateUpdateQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Almeida Theatre')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(theatreInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(theatreInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { name: 'Almeida Theatre' }) WHERE n.uuid <> 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+				MATCH (n:Theatre { name: $name }) WHERE n.uuid <> $uuid
 				RETURN SIGN(COUNT(n)) AS theatreCount
 			`));
 
@@ -73,19 +54,13 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.getEditQuery(theatreInstance);
+			const result = subject.getEditQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Almeida Theatre')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(theatreInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(theatreInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Theatre { uuid: $uuid })
 				RETURN {
 					model: 'theatre',
 					uuid: n.uuid,
@@ -101,20 +76,14 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.getUpdateQuery(theatreInstance);
+			const result = subject.getUpdateQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Almeida Theatre')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(theatreInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(theatreInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
-				SET n.name = 'Almeida Theatre'
+				MATCH (n:Theatre { uuid: $uuid })
+				SET n.name = $name
 				RETURN {
 					model: 'theatre',
 					uuid: n.uuid,
@@ -130,19 +99,13 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.getDeleteQuery(theatreInstance);
+			const result = subject.getDeleteQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Almeida Theatre')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(theatreInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(theatreInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Theatre { uuid: $uuid })
 				WITH n, n.name AS name
 				DETACH DELETE n
 				RETURN {
@@ -159,16 +122,13 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const theatreInstance = getTheatreInstanceFixture();
-			const result = subject.getShowQuery(theatreInstance);
+			const result = subject.getShowQuery('theatre');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(theatreInstance.model)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(theatreInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(theatreInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Theatre { uuid: $uuid })
 				OPTIONAL MATCH (n)<-[:PLAYS_AT]-(prd:Production)
 				WITH n, CASE WHEN prd IS NOT NULL THEN
 					COLLECT({

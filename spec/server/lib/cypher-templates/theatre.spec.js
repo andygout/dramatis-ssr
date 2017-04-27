@@ -1,28 +1,8 @@
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
 
 const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 
-const stubs = {
-	esc: sinon.stub().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
-};
-
-const resetStubs = () => {
-
-	stubs.esc.reset();
-
-};
-
-beforeEach(() => {
-
-	resetStubs();
-
-});
-
-const subject = proxyquire('../../../../dist/lib/cypher-templates/theatre', {
-		'../escape-string': stubs.esc
-	});
+const subject = require('../../../../dist/lib/cypher-templates/theatre');
 
 describe('Cypher Templates Theatre module', () => {
 
@@ -30,11 +10,9 @@ describe('Cypher Templates Theatre module', () => {
 
 		it('will return requisite query', () => {
 
-			const result = subject.getValidateDeleteQuery('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-			expect(stubs.esc.calledOnce).to.be.true;
-			expect(stubs.esc.calledWithExactly('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')).to.be.true;
+			const result = subject.getValidateDeleteQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (t:Theatre { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })<-[r:PLAYS_AT]-(prd:Production)
+				MATCH (t:Theatre { uuid: $uuid })<-[r:PLAYS_AT]-(prd:Production)
 				RETURN SIGN(COUNT(r)) AS relationshipCount
 			`));
 

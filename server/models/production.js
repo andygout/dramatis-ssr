@@ -63,7 +63,7 @@ export default class Production {
 
 	edit () {
 
-		return dbQuery({ query: getEditQuery(), params: { uuid: this.uuid } });
+		return dbQuery({ query: getEditQuery(), params: this });
 
 	};
 
@@ -77,13 +77,13 @@ export default class Production {
 
 	delete () {
 
-		return dbQuery({ query: getDeleteQuery(this) });
+		return dbQuery({ query: getDeleteQuery(this.model), params: this });
 
 	};
 
 	show () {
 
-		return dbQuery({ query: getShowQuery(), params: { uuid: this.uuid } });
+		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 

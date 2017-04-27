@@ -34,7 +34,7 @@ export default class Theatre {
 
 	validateUpdateInDb () {
 
-		return dbQuery({ query: cypherTemplates.getValidateUpdateQuery(this) })
+		return dbQuery({ query: cypherTemplates.getValidateUpdateQuery(this.model), params: this })
 			.then(({ theatreCount }) => {
 
 				if (theatreCount > 0) this.errors.name = ['Name already exists'];
@@ -45,7 +45,7 @@ export default class Theatre {
 
 	validateDeleteInDb () {
 
-		return dbQuery({ query: getValidateDeleteQuery(this.uuid) })
+		return dbQuery({ query: getValidateDeleteQuery(), params: this })
 			.then(({ relationshipCount }) => {
 
 				if (relationshipCount > 0) this.errors.associations = ['productions'];
@@ -56,7 +56,7 @@ export default class Theatre {
 
 	edit () {
 
-		return dbQuery({ query: cypherTemplates.getEditQuery(this) });
+		return dbQuery({ query: cypherTemplates.getEditQuery(this.model), params: this });
 
 	};
 
@@ -75,7 +75,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery({ query: cypherTemplates.getUpdateQuery(this) });
+				return dbQuery({ query: cypherTemplates.getUpdateQuery(this.model), params: this });
 
 			});
 
@@ -90,7 +90,7 @@ export default class Theatre {
 
 				if (this.hasError) return Promise.resolve({ theatre: this });
 
-				return dbQuery({ query: cypherTemplates.getDeleteQuery(this) });
+				return dbQuery({ query: cypherTemplates.getDeleteQuery(this.model), params: this });
 
 			});
 
@@ -98,7 +98,7 @@ export default class Theatre {
 
 	show () {
 
-		return dbQuery({ query: cypherTemplates.getShowQuery(this) });
+		return dbQuery({ query: cypherTemplates.getShowQuery(this.model), params: this });
 
 	};
 
