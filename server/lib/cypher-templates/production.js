@@ -1,19 +1,34 @@
 const additionalProps = (model, action) =>
 	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid, ` : '';
 
-const getRelationshipsAndReturnQuery = () => `
-	MERGE (t:Theatre { name: $theatre.name })
-	ON CREATE SET t.uuid = $theatre.uuid
-	CREATE (prd)-[:PLAYS_AT]->(t)
-	FOREACH (castMember IN $cast |
-		MERGE (p:Person { name: castMember.name })
-		ON CREATE SET p.uuid = castMember.uuid
-		CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p))
-	RETURN {
-		model: 'production',
-		uuid: prd.uuid,
-		title: prd.title
-	} AS production`;
+const getCreateUpdateQuery = action => {
+
+	const createUpdateQueryOpeningMap = {
+		create: 'CREATE (prd:Production { uuid: $uuid, title: $title })',
+		update: `MATCH (prd:Production { uuid: $uuid })
+				OPTIONAL MATCH (prd)-[r]-()
+				WITH prd, COLLECT (r) AS rels
+				FOREACH (r IN rels | DELETE r)
+				SET prd.title = $title`
+	};
+
+	return `
+		${createUpdateQueryOpeningMap[action]}
+		MERGE (t:Theatre { name: $theatre.name })
+		ON CREATE SET t.uuid = $theatre.uuid
+		CREATE (prd)-[:PLAYS_AT]->(t)
+		FOREACH (castMember IN $cast |
+			MERGE (p:Person { name: castMember.name })
+			ON CREATE SET p.uuid = castMember.uuid
+			CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p))
+		RETURN {
+			model: 'production',
+			uuid: prd.uuid,
+			title: prd.title
+		} AS production
+	`;
+
+};
 
 const getEditShowQuery = action => `
 	MATCH (prd:Production { uuid: $uuid })
@@ -34,19 +49,11 @@ const getEditShowQuery = action => `
 		cast: cast
 	} AS production`;
 
-const getCreateQuery = () => `
-	CREATE (prd:Production { uuid: $uuid, title: $title })
-	${getRelationshipsAndReturnQuery()}`;
+const getCreateQuery = () => getCreateUpdateQuery('create');
 
 const getEditQuery = () => getEditShowQuery('edit');
 
-const getUpdateQuery = () => `
-	MATCH (prd:Production { uuid: $uuid })
-	OPTIONAL MATCH (prd)-[r]-()
-	WITH prd, COLLECT (r) AS rels
-	FOREACH (r IN rels | DELETE r)
-	SET prd.title = $title
-	${getRelationshipsAndReturnQuery()}`;
+const getUpdateQuery = () => getCreateUpdateQuery('update');
 
 const getShowQuery = () => getEditShowQuery('show');
 
