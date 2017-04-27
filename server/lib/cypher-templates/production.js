@@ -1,3 +1,6 @@
+const additionalProps = (model, action) =>
+	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid, ` : '';
+
 const getRelationshipsAndReturnQuery = () => {
 
 	return `
@@ -17,6 +20,30 @@ const getRelationshipsAndReturnQuery = () => {
 
 };
 
+const getEditShowQuery = action => {
+
+	return `
+		MATCH (prd:Production { uuid: $uuid })
+		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
+		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
+		WITH prd, t, p, r
+		ORDER BY r.position
+		WITH prd, t, CASE WHEN p IS NOT NULL THEN
+			COLLECT({ ${additionalProps('person', action)} name: p.name })
+		ELSE
+			[]
+		END AS cast
+		RETURN {
+			model: 'production',
+			uuid: prd.uuid,
+			title: prd.title,
+			theatre: { ${additionalProps('theatre', action)} name: t.name },
+			cast: cast
+		} AS production
+	`;
+
+};
+
 const getCreateQuery = () => {
 
 	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery();
@@ -28,25 +55,7 @@ const getCreateQuery = () => {
 
 };
 
-const getEditQuery = () => {
-
-	return `
-		MATCH (prd:Production { uuid: $uuid })
-		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
-		WITH prd, t, p, r
-		ORDER BY r.position
-		WITH prd, t, CASE WHEN p IS NOT NULL THEN COLLECT({ name: p.name }) ELSE [] END AS cast
-		RETURN {
-			model: 'production',
-			uuid: prd.uuid,
-			title: prd.title,
-			theatre: { name: t.name },
-			cast: cast
-		} AS production
-	`;
-
-};
+const getEditQuery = () => getEditShowQuery('edit');
 
 const getUpdateQuery = () => {
 
@@ -63,33 +72,7 @@ const getUpdateQuery = () => {
 
 };
 
-const getShowQuery = () => {
-
-	return `
-		MATCH (prd:Production { uuid: $uuid })
-		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
-		WITH prd, t, p, r
-		ORDER BY r.position
-		WITH prd, t, CASE WHEN p IS NOT NULL THEN
-			COLLECT({ model: 'person', uuid: p.uuid, name: p.name })
-		ELSE
-			[]
-		END AS cast
-		RETURN {
-			model: 'production',
-			uuid: prd.uuid,
-			title: prd.title,
-			theatre: {
-				model: 'theatre',
-				uuid: t.uuid,
-				name: t.name
-			},
-			cast: cast
-		} AS production
-	`;
-
-};
+const getShowQuery = () => getEditShowQuery('show');
 
 export {
 	getCreateQuery,
