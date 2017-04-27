@@ -1,4 +1,4 @@
-const getRelationshipsAndReturnQuery = instance => {
+const getRelationshipsAndReturnQuery = () => {
 
 	return `
 		MERGE (t:Theatre { name: $theatre.name })
@@ -17,9 +17,9 @@ const getRelationshipsAndReturnQuery = instance => {
 
 };
 
-const getCreateQuery = instance => {
+const getCreateQuery = () => {
 
-	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
+	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery();
 
 	return `
 		CREATE (prd:Production { uuid: $uuid, title: $title })
@@ -28,7 +28,7 @@ const getCreateQuery = instance => {
 
 };
 
-const getEditQuery = instance => {
+const getEditQuery = () => {
 
 	return `
 		MATCH (prd:Production { uuid: $uuid })
@@ -48,9 +48,9 @@ const getEditQuery = instance => {
 
 };
 
-const getUpdateQuery = instance => {
+const getUpdateQuery = () => {
 
-	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
+	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery();
 
 	return `
 		MATCH (prd:Production { uuid: $uuid })
@@ -63,7 +63,7 @@ const getUpdateQuery = instance => {
 
 };
 
-const getShowQuery = instance => {
+const getShowQuery = () => {
 
 	return `
 		MATCH (prd:Production { uuid: $uuid })

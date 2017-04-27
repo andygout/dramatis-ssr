@@ -187,7 +187,7 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
 					expect(stubs.cypherTemplatesProduction.getCreateQuery.calledOnce).to.be.true;
-					expect(stubs.cypherTemplatesProduction.getCreateQuery.calledWithExactly(instance)).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getCreateQuery.calledWithExactly()).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledWithExactly(
 						{ query: 'getCreateQuery response', params: 'prepareAsParams response' }
@@ -227,7 +227,7 @@ describe('Production model', () => {
 			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.cypherTemplatesProduction.getEditQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesProduction.getEditQuery.calledWithExactly(instance)).to.be.true;
+				expect(stubs.cypherTemplatesProduction.getEditQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getEditQuery response', params: { uuid: instance.uuid } }
@@ -253,7 +253,7 @@ describe('Production model', () => {
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.setErrorStatus.calledWithExactly()).to.be.true;
 					expect(stubs.cypherTemplatesProduction.getUpdateQuery.calledOnce).to.be.true;
-					expect(stubs.cypherTemplatesProduction.getUpdateQuery.calledWithExactly(instance)).to.be.true;
+					expect(stubs.cypherTemplatesProduction.getUpdateQuery.calledWithExactly()).to.be.true;
 					expect(stubs.dbQuery.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledWithExactly(
 						{ query: 'getUpdateQuery response', params: 'prepareAsParams response' }
@@ -312,7 +312,7 @@ describe('Production model', () => {
 			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.cypherTemplatesProduction.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesProduction.getShowQuery.calledWithExactly(instance)).to.be.true;
+				expect(stubs.cypherTemplatesProduction.getShowQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: { uuid: instance.uuid } }

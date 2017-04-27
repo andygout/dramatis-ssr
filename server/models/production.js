@@ -57,13 +57,13 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery({ query: cypherTemplatesProduction.getCreateQuery(this), params: prepareAsParams(this) });
+		return dbQuery({ query: cypherTemplatesProduction.getCreateQuery(), params: prepareAsParams(this) });
 
 	};
 
 	edit () {
 
-		return dbQuery({ query: cypherTemplatesProduction.getEditQuery(this), params: { uuid: this.uuid } });
+		return dbQuery({ query: cypherTemplatesProduction.getEditQuery(), params: { uuid: this.uuid } });
 
 	};
 
@@ -71,7 +71,7 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery({ query: cypherTemplatesProduction.getUpdateQuery(this), params: prepareAsParams(this) });
+		return dbQuery({ query: cypherTemplatesProduction.getUpdateQuery(), params: prepareAsParams(this) });
 
 	};
 
@@ -83,7 +83,7 @@ export default class Production {
 
 	show () {
 
-		return dbQuery({ query: cypherTemplatesProduction.getShowQuery(this), params: { uuid: this.uuid } });
+		return dbQuery({ query: cypherTemplatesProduction.getShowQuery(), params: { uuid: this.uuid } });
 
 	};
 
