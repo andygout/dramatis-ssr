@@ -5,7 +5,7 @@ TheatreBase
 =================
 
 
-Brief:
+Brief
 -------
 
 A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.
