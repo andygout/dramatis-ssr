@@ -14,6 +14,8 @@ A graph database-driven site that provides listings for theatrical productions, 
 Site setup
 -------
 
+- Clone this repo.
+- Install node modules: `$ npm install`.
 - Install [Nodemon](http://nodemon.io): `$ npm install -g nodemon`.
 - Add favicon: `$ touch ./client/favicons/favicon.ico`.
 - Copy development environment variables from `.env-dev` into `.env` by running command: `$ node transfer-env-dev`.
