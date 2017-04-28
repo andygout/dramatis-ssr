@@ -13,7 +13,6 @@ Setup
 
 - Clone this repo.
 - Install node modules: `$ npm install`.
-- Install [Nodemon](http://nodemon.io): `$ npm install -g nodemon`.
 - Add favicon: `$ touch ./client/favicons/favicon.ico`.
 - Copy development environment variables from `.env-dev` into `.env` by running command: `$ node transfer-env-dev`.
 - Create Neo4j database called `theatrebase` and run on port 7474 (using [Neo4j Community Edition](https://neo4j.com/download/community-edition)).
