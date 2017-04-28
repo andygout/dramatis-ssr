@@ -15,9 +15,13 @@
 	{{#if removeFieldButton}}
 		<a href="" class="field__remover-button">X</a>
 	{{/if}}
-	{{#each errors}}
-		<li class="field__error-description">
-			{{~this~}}
-		</li>
-	{{/each}}
+	{{#if errors.length}}
+		<ul class="list">
+			{{#each errors}}
+				<li class="field__error-description">
+					{{~this~}}
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
 </div>
