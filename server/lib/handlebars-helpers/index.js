@@ -5,7 +5,6 @@ import instanceNamingValue from '../instance-naming-value';
 import instanceRoute from '../instance-route';
 import json from './json';
 import model from './model';
-import modelCapitalise from './model-capitalise';
 import upperCase from './upper-case';
 
 export {
@@ -16,6 +15,5 @@ export {
 	instanceRoute,
 	json,
 	model,
-	modelCapitalise,
 	upperCase
 };
