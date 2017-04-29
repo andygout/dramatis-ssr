@@ -62,7 +62,7 @@ export default class Theatre {
 
 	update () {
 
-		this.validate({ mandatory: true });
+		this.validate({ required: true });
 
 		this.hasError = verifyErrorPresence(this);
 

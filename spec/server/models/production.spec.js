@@ -136,8 +136,8 @@ describe('Production model', () => {
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
 			sinon.assert.callOrder(
-				instance.validate.withArgs({ mandatory: true }),
-				instance.theatre.validate.withArgs({ mandatory: true }),
+				instance.validate.withArgs({ required: true }),
+				instance.theatre.validate.withArgs({ required: true }),
 				instance.cast[0].validate.withArgs(),
 				stubs.verifyErrorPresence.withArgs(instance)
 			);

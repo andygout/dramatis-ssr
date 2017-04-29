@@ -43,9 +43,9 @@ export default class Production {
 
 	setErrorStatus () {
 
-		this.validate({ mandatory: true });
+		this.validate({ required: true });
 
-		this.theatre.validate({ mandatory: true });
+		this.theatre.validate({ required: true });
 
 		this.cast.forEach(castMember => castMember.validate());
 

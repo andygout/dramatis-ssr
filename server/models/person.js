@@ -50,7 +50,7 @@ export default class Person {
 
 	update () {
 
-		this.validate({ mandatory: true });
+		this.validate({ required: true });
 
 		this.hasError = verifyErrorPresence(this);
 

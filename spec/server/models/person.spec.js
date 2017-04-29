@@ -188,7 +188,7 @@ describe('Person model', () => {
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
 					sinon.assert.callOrder(
-						instance.validate.withArgs({ mandatory: true }),
+						instance.validate.withArgs({ required: true }),
 						stubs.verifyErrorPresence.withArgs(instance),
 						instance.validateUpdateInDb.withArgs(),
 						stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
@@ -224,7 +224,7 @@ describe('Person model', () => {
 					instance.update().then(result => {
 						expect(instance.validate.calledBefore(verifyErrorPresenceStub)).to.be.true;
 						expect(instance.validate.calledOnce).to.be.true;
-						expect(instance.validate.calledWithExactly({ mandatory: true })).to.be.true;
+						expect(instance.validate.calledWithExactly({ required: true })).to.be.true;
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledWithExactly(instance)).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
@@ -250,7 +250,7 @@ describe('Person model', () => {
 					sinon.spy(instance, 'validateUpdateInDb');
 					instance.update().then(result => {
 						sinon.assert.callOrder(
-							instance.validate.withArgs({ mandatory: true }),
+							instance.validate.withArgs({ required: true }),
 							verifyErrorPresenceStub.withArgs(instance),
 							instance.validateUpdateInDb.withArgs(),
 							stubs.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
