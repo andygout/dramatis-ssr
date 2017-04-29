@@ -4,11 +4,11 @@
   "description": "A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.",
   "main": "server/app-dev.js",
   "scripts": {
+    "pretest": "babel server --out-dir dist --ignore app-dev.js",
+    "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "nodemon server/app-dev.js",
-    "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
-    "pretest": "babel server --out-dir dist --ignore app-dev.js"
+    "start": "nodemon server/app-dev.js"
   },
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
@@ -42,6 +42,7 @@
     "mocha": "^3.2.0",
     "node-mocks-http": "^1.5.4",
     "node-sass": "^4.5.2",
+    "nodemon": "^1.11.0",
     "proxyquire": "^1.7.10",
     "sass-loader": "^6.0.3",
     "sinon": "^1.17.6",

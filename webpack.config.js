@@ -4,8 +4,8 @@ const path = require('path');
 module.exports = {
 	entry: './client/index.js',
 	output: {
-		filename: 'main.js',
-		path: path.join(__dirname, 'public')
+		path: path.join(__dirname, 'public'),
+		filename: 'main.js'
 	},
 	module: {
 		loaders: [

@@ -1,5 +1,5 @@
 import dbQuery from '../database/db-query';
-import * as cypherTemplatesProduction from '../lib/cypher-templates/production';
+import { getCreateQuery, getEditQuery, getUpdateQuery, getShowQuery } from '../lib/cypher-templates/production';
 import { getDeleteQuery, getListQuery } from '../lib/cypher-templates/shared';
 import prepareAsParams from '../lib/prepare-as-params';
 import trimStrings from '../lib/trim-strings';
@@ -43,9 +43,9 @@ export default class Production {
 
 	setErrorStatus () {
 
-		this.validate({ mandatory: true });
+		this.validate({ required: true });
 
-		this.theatre.validate({ mandatory: true });
+		this.theatre.validate({ required: true });
 
 		this.cast.forEach(castMember => castMember.validate());
 
@@ -57,13 +57,13 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery({ query: cypherTemplatesProduction.getCreateQuery(this), params: prepareAsParams(this) });
+		return dbQuery({ query: getCreateQuery(), params: prepareAsParams(this) });
 
 	};
 
 	edit () {
 
-		return dbQuery({ query: cypherTemplatesProduction.getEditQuery(this), params: { uuid: this.uuid } });
+		return dbQuery({ query: getEditQuery(), params: this });
 
 	};
 
@@ -71,19 +71,19 @@ export default class Production {
 
 		if (this.setErrorStatus()) return Promise.resolve({ production: this });
 
-		return dbQuery({ query: cypherTemplatesProduction.getUpdateQuery(this), params: prepareAsParams(this) });
+		return dbQuery({ query: getUpdateQuery(), params: prepareAsParams(this) });
 
 	};
 
 	delete () {
 
-		return dbQuery({ query: getDeleteQuery(this) });
+		return dbQuery({ query: getDeleteQuery(this.model), params: this });
 
 	};
 
 	show () {
 
-		return dbQuery({ query: cypherTemplatesProduction.getShowQuery(this), params: { uuid: this.uuid } });
+		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 

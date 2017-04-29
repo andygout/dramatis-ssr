@@ -85,7 +85,7 @@ describe('Verify Error Presence module', () => {
 		it('will return true', () => {
 
 			const subject = createSubject();
-			instance = { errors: { title: ['Title is too short'] }, theatre: { errors: {} } };
+			instance = { errors: { title: ['Title is too short'] } };
 			const result = subject(instance);
 			expect(stubs.propIsObject.notCalled).to.be.true;
 			expect(result).to.be.true;
@@ -98,14 +98,12 @@ describe('Verify Error Presence module', () => {
 
 		it('will return true', () => {
 
-			const propIsObjectStub = sinon.stub();
-			propIsObjectStub.onFirstCall().returns(false).onSecondCall().returns(true);
+			const propIsObjectStub = sinon.stub().returns(true);
 			const subject = createSubject({ propIsObject: propIsObjectStub });
-			instance = { errors: {}, theatre: { errors: { name: ['Name is too short'] } } };
+			instance = { theatre: { errors: { name: ['Name is too short'] } } };
 			const result = subject(instance);
-			expect(propIsObjectStub.calledTwice).to.be.true;
-			sinon.assert.calledWithExactly(propIsObjectStub.firstCall, {});
-			sinon.assert.calledWithExactly(propIsObjectStub.secondCall, { errors: { name: ['Name is too short'] } });
+			expect(propIsObjectStub.calledOnce).to.be.true;
+			expect(propIsObjectStub.calledWithExactly({ errors: { name: ['Name is too short'] } })).to.be.true;
 			expect(result).to.be.true;
 
 

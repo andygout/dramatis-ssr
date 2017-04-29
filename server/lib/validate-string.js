@@ -4,7 +4,7 @@ export default (stringValue, propName, opts = {}) => {
 
 	const stringErrors = [];
 
-	if (opts.mandatory && (stringValue.length < constants.STRING_MIN_LENGTH)) {
+	if (opts.required && (stringValue.length < constants.STRING_MIN_LENGTH)) {
 
 		stringErrors.push(`${propName} is too short`);
 

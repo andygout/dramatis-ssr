@@ -33,7 +33,7 @@
 	border-radius: 5px;
 }
 
-.fieldset-header {
+.fieldset__header {
 	padding: 5px 0 0 5px;
 	font-size: 16px;
 }
@@ -42,10 +42,14 @@
 	margin-top: 10px;
 }
 
-.label {
+.field__label {
 	padding-left: 5px;
 	display: table-cell;
 	font-weight: bold;
+}
+
+.field__label--required:after {
+	content: ' *';
 }
 
 .field__input {
@@ -66,8 +70,4 @@
 
 .field__error-description {
 	color: $negative-color;
-}
-
-.mandatory:after {
-	content: ' *';
 }

@@ -4,27 +4,16 @@ const sinon = require('sinon');
 
 const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 
-const getPersonInstanceFixture = require('../../../fixtures/people/get-instance');
-
-const escStub = sinon.stub();
-escStub
-	.onFirstCall().returns('Patrick Stewart')
-	.onSecondCall().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-
 const stubs = {
 	capitalise: sinon.stub().returns('Person'),
-	esc: escStub,
 	instanceNamingProp: sinon.stub().returns('name'),
-	instanceNamingValue: sinon.stub().returns('Patrick Stewart'),
 	pluralise: sinon.stub().returns('people')
 };
 
 const resetStubs = () => {
 
 	stubs.capitalise.reset();
-	stubs.esc.reset();
 	stubs.instanceNamingProp.reset();
-	stubs.instanceNamingValue.reset();
 	stubs.pluralise.reset();
 
 };
@@ -37,9 +26,7 @@ beforeEach(() => {
 
 const subject = proxyquire('../../../../dist/lib/cypher-templates/shared', {
 		'../capitalise': stubs.capitalise,
-		'../escape-string': stubs.esc,
 		'../instance-naming-prop': stubs.instanceNamingProp,
-		'../instance-naming-value': stubs.instanceNamingValue,
 		'../pluralise': stubs.pluralise
 	});
 
@@ -49,19 +36,13 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const personInstance = getPersonInstanceFixture();
-			const result = subject.getValidateUpdateQuery(personInstance);
+			const result = subject.getValidateUpdateQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Patrick Stewart')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(personInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(personInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { name: 'Patrick Stewart' }) WHERE n.uuid <> 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+				MATCH (n:Person { name: $name }) WHERE n.uuid <> $uuid
 				RETURN SIGN(COUNT(n)) AS personCount
 			`));
 
@@ -73,19 +54,13 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const personInstance = getPersonInstanceFixture();
-			const result = subject.getEditQuery(personInstance);
+			const result = subject.getEditQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Patrick Stewart')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(personInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(personInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Person { uuid: $uuid })
 				RETURN {
 					model: 'person',
 					uuid: n.uuid,
@@ -101,20 +76,14 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const personInstance = getPersonInstanceFixture();
-			const result = subject.getUpdateQuery(personInstance);
+			const result = subject.getUpdateQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Patrick Stewart')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(personInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(personInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
-				SET n.name = 'Patrick Stewart'
+				MATCH (n:Person { uuid: $uuid })
+				SET n.name = $name
 				RETURN {
 					model: 'person',
 					uuid: n.uuid,
@@ -130,19 +99,13 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const personInstance = getPersonInstanceFixture();
-			const result = subject.getDeleteQuery(personInstance);
+			const result = subject.getDeleteQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.esc.calledTwice).to.be.true;
-			expect(stubs.esc.firstCall.calledWithExactly('Patrick Stewart')).to.be.true;
-			expect(stubs.esc.secondCall.calledWithExactly(personInstance.uuid)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(personInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Person { uuid: $uuid })
 				WITH n, n.name AS name
 				DETACH DELETE n
 				RETURN {
@@ -159,16 +122,13 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 		it('will return requisite query', () => {
 
-			const personInstance = getPersonInstanceFixture();
-			const result = subject.getShowQuery(personInstance);
+			const result = subject.getShowQuery('person');
 			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly(personInstance.model)).to.be.true;
+			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
 			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly(personInstance.model)).to.be.true;
-			expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-			expect(stubs.instanceNamingValue.calledWithExactly(personInstance)).to.be.true;
+			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' })
+				MATCH (n:Person { uuid: $uuid })
 				OPTIONAL MATCH (n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
 				WITH n, CASE WHEN prd IS NOT NULL THEN
 					COLLECT({

@@ -1,20 +1,18 @@
-[![Circle CI](https://circleci.com/gh/andygout/theatrebase/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase)
-
-
-TheatreBase
+TheatreBase [![Circle CI](https://circleci.com/gh/andygout/theatrebase/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase)
 =================
 
 
-Brief:
+Brief
 -------
 
 A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.
 
 
-Site setup
+Setup
 -------
 
-- Install [Nodemon](http://nodemon.io): `$ npm install -g nodemon`.
+- Clone this repo.
+- Install node modules: `$ npm install`.
 - Add favicon: `$ touch ./client/favicons/favicon.ico`.
 - Copy development environment variables from `.env-dev` into `.env` by running command: `$ node transfer-env-dev`.
 - Create Neo4j database called `theatrebase` and run on port 7474 (using [Neo4j Community Edition](https://neo4j.com/download/community-edition)).

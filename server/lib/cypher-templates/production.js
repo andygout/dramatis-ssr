@@ -1,6 +1,19 @@
-const getRelationshipsAndReturnQuery = instance => {
+const additionalProps = (model, action) =>
+	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid, ` : '';
+
+const getCreateUpdateQuery = action => {
+
+	const createUpdateQueryOpeningMap = {
+		create: 'CREATE (prd:Production { uuid: $uuid, title: $title })',
+		update: `MATCH (prd:Production { uuid: $uuid })
+				OPTIONAL MATCH (prd)-[r]-()
+				WITH prd, COLLECT (r) AS rels
+				FOREACH (r IN rels | DELETE r)
+				SET prd.title = $title`
+	};
 
 	return `
+		${createUpdateQueryOpeningMap[action]}
 		MERGE (t:Theatre { name: $theatre.name })
 		ON CREATE SET t.uuid = $theatre.uuid
 		CREATE (prd)-[:PLAYS_AT]->(t)
@@ -17,79 +30,32 @@ const getRelationshipsAndReturnQuery = instance => {
 
 };
 
-const getCreateQuery = instance => {
+const getEditShowQuery = action => `
+	MATCH (prd:Production { uuid: $uuid })
+	MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
+	OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
+	WITH prd, t, p, r
+	ORDER BY r.position
+	WITH prd, t, CASE WHEN p IS NOT NULL THEN
+		COLLECT({ ${additionalProps('person', action)} name: p.name })
+	ELSE
+		[]
+	END AS cast
+	RETURN {
+		model: 'production',
+		uuid: prd.uuid,
+		title: prd.title,
+		theatre: { ${additionalProps('theatre', action)} name: t.name },
+		cast: cast
+	} AS production`;
 
-	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
+const getCreateQuery = () => getCreateUpdateQuery('create');
 
-	return `
-		CREATE (prd:Production { uuid: $uuid, title: $title })
-		${relationshipsAndReturnQuery}
-	`;
+const getEditQuery = () => getEditShowQuery('edit');
 
-};
+const getUpdateQuery = () => getCreateUpdateQuery('update');
 
-const getEditQuery = instance => {
-
-	return `
-		MATCH (prd:Production { uuid: $uuid })
-		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
-		WITH prd, t, p, r
-		ORDER BY r.position
-		WITH prd, t, CASE WHEN p IS NOT NULL THEN COLLECT({ name: p.name }) ELSE [] END AS cast
-		RETURN {
-			model: 'production',
-			uuid: prd.uuid,
-			title: prd.title,
-			theatre: { name: t.name },
-			cast: cast
-		} AS production
-	`;
-
-};
-
-const getUpdateQuery = instance => {
-
-	const relationshipsAndReturnQuery = getRelationshipsAndReturnQuery(instance);
-
-	return `
-		MATCH (prd:Production { uuid: $uuid })
-		OPTIONAL MATCH (prd)-[r]-()
-		WITH prd, COLLECT (r) AS rels
-		FOREACH (r IN rels | DELETE r)
-		SET prd.title = $title
-		${relationshipsAndReturnQuery}
-	`;
-
-};
-
-const getShowQuery = instance => {
-
-	return `
-		MATCH (prd:Production { uuid: $uuid })
-		MATCH (prd)-[:PLAYS_AT]->(t:Theatre)
-		OPTIONAL MATCH (prd)<-[r:PERFORMS_IN]-(p:Person)
-		WITH prd, t, p, r
-		ORDER BY r.position
-		WITH prd, t, CASE WHEN p IS NOT NULL THEN
-			COLLECT({ model: 'person', uuid: p.uuid, name: p.name })
-		ELSE
-			[]
-		END AS cast
-		RETURN {
-			model: 'production',
-			uuid: prd.uuid,
-			title: prd.title,
-			theatre: {
-				model: 'theatre',
-				uuid: t.uuid,
-				name: t.name
-			},
-			cast: cast
-		} AS production
-	`;
-
-};
+const getShowQuery = () => getEditShowQuery('show');
 
 export {
 	getCreateQuery,
