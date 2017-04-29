@@ -1,8 +1,10 @@
 import dbQuery from '../database/db-query';
 import * as cypherTemplates from '../lib/cypher-templates/shared';
+import { getShowQuery } from '../lib/cypher-templates/person';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
+import Role from './role';
 
 export default class Person {
 
@@ -16,6 +18,9 @@ export default class Person {
 		this.name = props.name;
 		this.pageTitle = props.pageTitle;
 		this.productions = [];
+		this.roles = props.roles ?
+			props.roles.filter(role => role.name.length).map(role => new Role(role)) :
+			[];
 		this.hasError = false;
 		this.errors = {};
 
@@ -77,7 +82,7 @@ export default class Person {
 
 	show () {
 
-		return dbQuery({ query: cypherTemplates.getShowQuery(this.model), params: this });
+		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 

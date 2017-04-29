@@ -14,8 +14,10 @@ const stubs = {
 		getEditQuery: sinon.stub().returns('getEditQuery response'),
 		getUpdateQuery: sinon.stub().returns('getUpdateQuery response'),
 		getDeleteQuery: sinon.stub().returns('getDeleteQuery response'),
-		getShowQuery: sinon.stub().returns('getShowQuery response'),
 		getListQuery: sinon.stub().returns('getListQuery response')
+	},
+	cypherTemplatesPerson: {
+		getShowQuery: sinon.stub().returns('getShowQuery response')
 	},
 	trimStrings: sinon.stub(),
 	validateString: sinon.stub().returns([]),
@@ -29,8 +31,8 @@ const resetStubs = () => {
 	stubs.cypherTemplatesShared.getEditQuery.reset();
 	stubs.cypherTemplatesShared.getUpdateQuery.reset();
 	stubs.cypherTemplatesShared.getDeleteQuery.reset();
-	stubs.cypherTemplatesShared.getShowQuery.reset();
 	stubs.cypherTemplatesShared.getListQuery.reset();
+	stubs.cypherTemplatesPerson.getShowQuery.reset();
 	stubs.trimStrings.reset();
 	stubs.validateString.reset();
 	stubs.verifyErrorPresence.reset();
@@ -47,6 +49,7 @@ const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
 		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/cypher-templates/person': stubs.cypherTemplatesPerson,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence
@@ -301,8 +304,8 @@ describe('Person model', () => {
 
 			instance = createInstance();
 			instance.show().then(result => {
-				expect(stubs.cypherTemplatesShared.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getShowQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.cypherTemplatesPerson.getShowQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesPerson.getShowQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }

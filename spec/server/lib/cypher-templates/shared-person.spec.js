@@ -118,40 +118,6 @@ describe('Cypher Templates Shared module (Person model usage)', () => {
 
 	});
 
-	describe('getShowQuery function', () => {
-
-		it('will return requisite query', () => {
-
-			const result = subject.getShowQuery('person');
-			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly('person')).to.be.true;
-			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly('person')).to.be.true;
-			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Person { uuid: $uuid })
-				OPTIONAL MATCH (n)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
-				WITH n, CASE WHEN prd IS NOT NULL THEN
-					COLLECT({
-						model: 'production',
-						uuid: prd.uuid,
-						title: prd.title
-						, theatre: { model: 'theatre', uuid: t.uuid, name: t.name }
-					})
-				ELSE
-					[]
-				END AS productions
-				RETURN {
-					model: 'person',
-					uuid: n.uuid,
-					name: n.name,
-					productions: productions
-				} AS person
-			`));
-
-		});
-
-	});
-
 	describe('getListQuery function', () => {
 
 		it('will return requisite query', () => {
