@@ -5,11 +5,15 @@
 	color: $theme-color;
 }
 
-.note-text {
-	margin: 5px;
+%italic-text {
 	font-style: italic;
 }
 
+.note-text {
+	@extend %italic-text;
+	margin: 5px;
+}
+
 .role-text {
-	font-style: italic;
+	@extend %italic-text;
 }
