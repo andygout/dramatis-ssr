@@ -1,6 +1,6 @@
 {{#with instance}}
 	<fieldset class="fieldset">
-		{{>input-text
+		{{> input-text
 			propertyName='title'
 			value=title
 			errors=errors.title
@@ -10,8 +10,8 @@
 
 	{{#with theatre}}
 		<fieldset class="fieldset">
-			{{>fieldset-header text='Theatre'}}
-			{{>input-text
+			{{> fieldset-header text='Theatre'}}
+			{{> input-text
 				propertyName='name'
 				inputName='theatre[name]'
 				value=name
@@ -22,10 +22,10 @@
 	{{/with}}
 
 	<fieldset class="fieldset">
-		{{>fieldset-header text='Cast'}}
+		{{> fieldset-header text='Cast'}}
 		{{#if cast.length}}
 			{{#each cast}}
-				{{>input-text
+				{{> input-text
 					propertyName='name'
 					inputName=(concat 'cast[' @index '][name]')
 					value=name
@@ -34,7 +34,7 @@
 				}}
 				{{#if roles.length}}
 					{{#each roles}}
-						{{>input-text
+						{{> input-text
 							propertyName='role'
 							inputName=(concat 'cast[' @../index '][roles][' @index '][name]')
 							value=name
@@ -43,7 +43,7 @@
 							nested=true
 						}}
 					{{/each}}
-					{{>input-text
+					{{> input-text
 						propertyName='role'
 						inputName=(concat 'cast[' @index '][roles][' roles.length '][name]')
 						value=''
@@ -52,7 +52,7 @@
 						nested=true
 					}}
 				{{else}}
-					{{>input-text
+					{{> input-text
 						propertyName='role'
 						inputName=(concat 'cast[' @index '][roles][0][name]')
 						value=''
@@ -62,14 +62,14 @@
 					}}
 				{{/if}}
 			{{/each}}
-			{{>input-text
+			{{> input-text
 				propertyName='name'
 				inputName=(concat 'cast[' cast.length '][name]')
 				value=''
 				errors=null
 				lastInArray=true
 			}}
-			{{>input-text
+			{{> input-text
 				propertyName='role'
 				inputName=(concat 'cast[' cast.length '][roles][0][name]')
 				value=''
@@ -78,14 +78,14 @@
 				nested=true
 			}}
 		{{else}}
-			{{>input-text
+			{{> input-text
 				propertyName='name'
 				inputName='cast[0][name]'
 				value=''
 				errors=null
 				lastInArray=true
 			}}
-			{{>input-text
+			{{> input-text
 				propertyName='role'
 				inputName=(concat 'cast[0][roles][0][name]')
 				value=''
