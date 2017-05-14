@@ -28,8 +28,7 @@ const getCreateUpdateQuery = action => {
 			ON CREATE SET p.uuid = castMember.uuid
 			CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p)
 			FOREACH (role in castMember.roles |
-				CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->
-					(r:Role { name: role.name })
+				CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(r:Role { name: role.name })
 			)
 		)
 		RETURN {
