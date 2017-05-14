@@ -22,9 +22,7 @@ export default class Production {
 		this.documentTitle = props.documentTitle;
 		this.theatre = new Theatre(props.theatre);
 		this.cast = props.cast ?
-			props.cast
-				.filter(castMember => castMember.name.length)
-				.map(castMember => new Person(castMember)) :
+			props.cast.filter(castMember => castMember.name.length).map(castMember => new Person(castMember)) :
 			[];
 		this.hasError = false;
 		this.errors = {};
