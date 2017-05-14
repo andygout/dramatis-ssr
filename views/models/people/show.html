@@ -6,7 +6,10 @@
 				<ul class="list">
 					{{#each this}}
 						<li>
-							{{>instance-link}} - {{#with theatre}}{{>instance-link}}{{/with}}
+							{{>instance-link}} - {{#with theatre}}{{>instance-link}}{{/with}} …
+							<span class="role-text">
+								{{join roles 'name'}}
+							</span>
 						</li>
 					{{/each}}
 				</ul>

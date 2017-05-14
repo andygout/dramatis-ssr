@@ -7,8 +7,15 @@ const dbQueryFixture = require('../../fixtures/db-query');
 
 let instance;
 
+const RoleStub = function () {
+
+	this.validate = sinon.stub();
+
+}
+
 const PersonStub = function () {
 
+	this.roles = [new RoleStub];
 	this.validate = sinon.stub();
 
 };
@@ -139,11 +146,13 @@ describe('Production model', () => {
 				instance.validate.withArgs({ required: true }),
 				instance.theatre.validate.withArgs({ required: true }),
 				instance.cast[0].validate.withArgs(),
+				instance.cast[0].roles[0].validate.withArgs(),
 				stubs.verifyErrorPresence.withArgs(instance)
 			);
 			expect(instance.validate.calledOnce).to.be.true;
 			expect(instance.theatre.validate.calledOnce).to.be.true;
 			expect(instance.cast[0].validate.calledOnce).to.be.true;
+			expect(instance.cast[0].roles[0].validate.calledOnce).to.be.true;
 			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
 
 		});

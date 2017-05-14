@@ -15,7 +15,10 @@
 				<ul class="list">
 					{{#each this}}
 						<li>
-							{{>instance-link}}
+							{{>instance-link}} …
+							<span class="role-text">
+								{{join roles 'name'}}
+							</span>
 						</li>
 					{{/each}}
 				</ul>

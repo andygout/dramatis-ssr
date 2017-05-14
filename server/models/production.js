@@ -47,7 +47,13 @@ export default class Production {
 
 		this.theatre.validate({ required: true });
 
-		this.cast.forEach(castMember => castMember.validate());
+		this.cast.forEach(castMember => {
+
+			castMember.validate();
+
+			castMember.roles.forEach(role => role.validate());
+
+		});
 
 		return this.hasError = verifyErrorPresence(this);
 

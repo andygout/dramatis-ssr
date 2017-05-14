@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
 import * as cypherTemplates from '../lib/cypher-templates/shared';
-import { getValidateDeleteQuery } from '../lib/cypher-templates/theatre';
+import { getValidateDeleteQuery, getShowQuery } from '../lib/cypher-templates/theatre';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -98,7 +98,7 @@ export default class Theatre {
 
 	show () {
 
-		return dbQuery({ query: cypherTemplates.getShowQuery(this.model), params: this });
+		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 

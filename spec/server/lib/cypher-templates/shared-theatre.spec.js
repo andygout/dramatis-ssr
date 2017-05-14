@@ -118,39 +118,6 @@ describe('Cypher Templates Shared module (Theatre model usage)', () => {
 
 	});
 
-	describe('getShowQuery function', () => {
-
-		it('will return requisite query', () => {
-
-			const result = subject.getShowQuery('theatre');
-			expect(stubs.capitalise.calledOnce).to.be.true;
-			expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
-			expect(stubs.instanceNamingProp.calledOnce).to.be.true;
-			expect(stubs.instanceNamingProp.calledWithExactly('theatre')).to.be.true;
-			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (n:Theatre { uuid: $uuid })
-				OPTIONAL MATCH (n)<-[:PLAYS_AT]-(prd:Production)
-				WITH n, CASE WHEN prd IS NOT NULL THEN
-					COLLECT({
-						model: 'production',
-						uuid: prd.uuid,
-						title: prd.title
-					})
-				ELSE
-					[]
-				END AS productions
-				RETURN {
-					model: 'theatre',
-					uuid: n.uuid,
-					name: n.name,
-					productions: productions
-				} AS theatre
-			`));
-
-		});
-
-	});
-
 	describe('getListQuery function', () => {
 
 		it('will return requisite query', () => {
