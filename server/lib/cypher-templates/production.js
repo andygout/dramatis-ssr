@@ -1,7 +1,7 @@
 const nullRolesValue = action => (action === 'show') ? '{ name: \'Performer\' }' : '';
 
 const additionalProps = (model, action) =>
-	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid, ` : '';
+	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid,` : '';
 
 const getCreateUpdateQuery = action => {
 
