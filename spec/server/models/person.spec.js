@@ -43,6 +43,8 @@ beforeEach(() => {
 
 	resetStubs();
 
+	instance = createInstance();
+
 });
 
 const createSubject = (stubOverrides = {}) =>
@@ -69,7 +71,6 @@ describe('Person model', () => {
 
 		it('will trim strings before validating name', () => {
 
-			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
@@ -83,7 +84,7 @@ describe('Person model', () => {
 
 			it('will not add properties to errors property', () => {
 
-				instance = createInstance();
+
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
@@ -113,7 +114,6 @@ describe('Person model', () => {
 
 		it('will validate update in database', done => {
 
-			instance = createInstance();
 			instance.validateUpdateInDb().then(() => {
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
@@ -164,7 +164,6 @@ describe('Person model', () => {
 
 		it('will get edit data', done => {
 
-			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
@@ -186,7 +185,7 @@ describe('Person model', () => {
 
 			it('will update', done => {
 
-				instance = createInstance();
+
 				sinon.spy(instance, 'validate');
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
@@ -282,7 +281,6 @@ describe('Person model', () => {
 
 		it('will delete', done => {
 
-			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
@@ -302,7 +300,6 @@ describe('Person model', () => {
 
 		it('will get show data', done => {
 
-			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.cypherTemplatesPerson.getShowQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesPerson.getShowQuery.calledWithExactly()).to.be.true;

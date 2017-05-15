@@ -66,6 +66,8 @@ beforeEach(() => {
 
 	resetStubs();
 
+	instance = createInstance();
+
 });
 
 const createSubject = (stubOverrides = {}) =>
@@ -95,7 +97,6 @@ describe('Production model', () => {
 
 		it('will trim strings before validating title', () => {
 
-			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
@@ -109,7 +110,7 @@ describe('Production model', () => {
 
 			it('will not add properties to errors property', () => {
 
-				instance = createInstance();
+
 				instance.validate();
 				expect(instance.errors).not.to.have.property('title');
 				expect(instance.errors).to.deep.eq({});
@@ -139,7 +140,6 @@ describe('Production model', () => {
 
 		it('will call instance validate method, theatre + person validate methods then verifyErrorPresence', () => {
 
-			instance = createInstance();
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
 			sinon.assert.callOrder(
@@ -161,7 +161,7 @@ describe('Production model', () => {
 
 			it('will set instance hasError property to false and return same value', () => {
 
-				instance = createInstance();
+
 				expect(instance.setErrorStatus()).to.be.false;
 				expect(instance.hasError).to.be.false;
 
@@ -189,7 +189,7 @@ describe('Production model', () => {
 
 			it('will create', done => {
 
-				instance = createInstance();
+
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
 					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
@@ -233,7 +233,6 @@ describe('Production model', () => {
 
 		it('will get edit data', done => {
 
-			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.cypherTemplatesProduction.getEditQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesProduction.getEditQuery.calledWithExactly()).to.be.true;
@@ -255,7 +254,7 @@ describe('Production model', () => {
 
 			it('will update', done => {
 
-				instance = createInstance();
+
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
 					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
@@ -300,7 +299,6 @@ describe('Production model', () => {
 
 		it('will delete', done => {
 
-			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
@@ -320,7 +318,6 @@ describe('Production model', () => {
 
 		it('will get show data', done => {
 
-			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.cypherTemplatesProduction.getShowQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesProduction.getShowQuery.calledWithExactly()).to.be.true;

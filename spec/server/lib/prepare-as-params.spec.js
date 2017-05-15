@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+let subject;
 let instance;
 
 const stubs = {
@@ -22,6 +23,8 @@ beforeEach(() => {
 
 	resetStubs();
 
+	subject = createSubject();
+
 });
 
 const createSubject = (stubOverrides = {}) =>
@@ -38,7 +41,6 @@ describe('Prepare As Params module', () => {
 
 			it('will assign value to uuid properties if empty string', () => {
 
-				const subject = createSubject();
 				instance = { uuid: '' };
 				subject(instance);
 				expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -49,7 +51,6 @@ describe('Prepare As Params module', () => {
 
 			it('will assign value to uuid properties if undefined', () => {
 
-				const subject = createSubject();
 				instance = { uuid: undefined };
 				subject(instance);
 				expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -60,7 +61,6 @@ describe('Prepare As Params module', () => {
 
 			it('will not assign value to uuid properties if already exists', () => {
 
-				const subject = createSubject();
 				instance = { uuid: 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy' };
 				subject(instance);
 				expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -71,7 +71,6 @@ describe('Prepare As Params module', () => {
 
 			it('will not assign value to non-uuid properties', () => {
 
-				const subject = createSubject();
 				instance = { foo: '' };
 				subject(instance);
 				expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -82,7 +81,6 @@ describe('Prepare As Params module', () => {
 
 			it('will not add position property', () => {
 
-				const subject = createSubject();
 				instance = { foo: '' };
 				subject(instance);
 				expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -98,7 +96,7 @@ describe('Prepare As Params module', () => {
 
 				const propIsObjectStub = sinon.stub();
 				propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { theatre: { uuid: '' } };
 				subject(instance);
 				expect(propIsObjectStub.calledTwice).to.be.true;
@@ -111,7 +109,7 @@ describe('Prepare As Params module', () => {
 
 				const propIsObjectStub = sinon.stub();
 				propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { theatre: { uuid: undefined } };
 				subject(instance);
 				expect(propIsObjectStub.calledTwice).to.be.true;
@@ -124,7 +122,7 @@ describe('Prepare As Params module', () => {
 
 				const propIsObjectStub = sinon.stub();
 				propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { theatre: { uuid: 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy' } };
 				subject(instance);
 				expect(propIsObjectStub.calledTwice).to.be.true;
@@ -137,7 +135,7 @@ describe('Prepare As Params module', () => {
 
 				const propIsObjectStub = sinon.stub();
 				propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { theatre: { foo: '' } };
 				subject(instance);
 				expect(propIsObjectStub.calledTwice).to.be.true;
@@ -150,7 +148,7 @@ describe('Prepare As Params module', () => {
 
 				const propIsObjectStub = sinon.stub();
 				propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { theatre: { uuid: '' } };
 				subject(instance);
 				expect(propIsObjectStub.calledTwice).to.be.true;
@@ -170,7 +168,7 @@ describe('Prepare As Params module', () => {
 					.onSecondCall().returns(true)
 					.onThirdCall().returns(false)
 					.onCall(3).returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { cast: [{ uuid: '' }] };
 				subject(instance);
 				expect(propIsObjectStub.callCount).to.eq(4);
@@ -187,7 +185,7 @@ describe('Prepare As Params module', () => {
 					.onSecondCall().returns(true)
 					.onThirdCall().returns(false)
 					.onCall(3).returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { cast: [{ uuid: undefined }] };
 				subject(instance);
 				expect(propIsObjectStub.callCount).to.eq(4);
@@ -204,7 +202,7 @@ describe('Prepare As Params module', () => {
 					.onSecondCall().returns(true)
 					.onThirdCall().returns(false)
 					.onCall(3).returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { cast: [{ uuid: 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy' }] };
 				subject(instance);
 				expect(propIsObjectStub.callCount).to.eq(4);
@@ -221,7 +219,7 @@ describe('Prepare As Params module', () => {
 					.onSecondCall().returns(true)
 					.onThirdCall().returns(false)
 					.onCall(3).returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { cast: [{ foo: '' }] }
 				subject(instance);
 				expect(propIsObjectStub.callCount).to.eq(4);
@@ -238,7 +236,7 @@ describe('Prepare As Params module', () => {
 					.onSecondCall().returns(true)
 					.onThirdCall().returns(false)
 					.onCall(3).returns(false);
-				const subject = createSubject({ propIsObject: propIsObjectStub });
+				subject = createSubject({ propIsObject: propIsObjectStub });
 				instance = { cast: [{ uuid: '' }] };
 				subject(instance);
 				expect(propIsObjectStub.callCount).to.eq(4);

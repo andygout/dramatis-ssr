@@ -20,6 +20,8 @@ beforeEach(() => {
 
 	resetStubs();
 
+	instance = createInstance();
+
 });
 
 const createSubject = (stubOverrides = {}) =>
@@ -42,7 +44,6 @@ describe('Role model', () => {
 
 		it('will trim strings before validating name', () => {
 
-			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
@@ -56,7 +57,7 @@ describe('Role model', () => {
 
 			it('will not add properties to errors property', () => {
 
-				instance = createInstance();
+
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
