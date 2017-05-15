@@ -1,7 +1,8 @@
 {{#with instance}}
 	<fieldset class="fieldset">
 		{{> input-text
-			propertyName='title'
+			labelText='Title'
+			inputName='title'
 			value=title
 			errors=errors.title
 			required=true
@@ -12,7 +13,7 @@
 		<fieldset class="fieldset">
 			{{> fieldset-header text='Theatre'}}
 			{{> input-text
-				propertyName='name'
+				labelText='Name'
 				inputName='theatre[name]'
 				value=name
 				errors=errors.name
@@ -26,7 +27,7 @@
 		{{#if cast.length}}
 			{{#each cast}}
 				{{> input-text
-					propertyName='name'
+					labelText='Cast member'
 					inputName=(concat 'cast[' @index '][name]')
 					value=name
 					errors=errors.name
@@ -35,7 +36,7 @@
 				{{#if roles.length}}
 					{{#each roles}}
 						{{> input-text
-							propertyName='role'
+							labelText='Role'
 							inputName=(concat 'cast[' @../index '][roles][' @index '][name]')
 							value=name
 							errors=errors.name
@@ -44,7 +45,7 @@
 						}}
 					{{/each}}
 					{{> input-text
-						propertyName='role'
+						labelText='Role'
 						inputName=(concat 'cast[' @index '][roles][' roles.length '][name]')
 						value=''
 						errors=null
@@ -53,7 +54,7 @@
 					}}
 				{{else}}
 					{{> input-text
-						propertyName='role'
+						labelText='Role'
 						inputName=(concat 'cast[' @index '][roles][0][name]')
 						value=''
 						errors=null
@@ -63,14 +64,14 @@
 				{{/if}}
 			{{/each}}
 			{{> input-text
-				propertyName='name'
+				labelText='Cast member'
 				inputName=(concat 'cast[' cast.length '][name]')
 				value=''
 				errors=null
 				lastInArray=true
 			}}
 			{{> input-text
-				propertyName='role'
+				labelText='Role'
 				inputName=(concat 'cast[' cast.length '][roles][0][name]')
 				value=''
 				errors=null
@@ -79,14 +80,14 @@
 			}}
 		{{else}}
 			{{> input-text
-				propertyName='name'
+				labelText='Cast member'
 				inputName='cast[0][name]'
 				value=''
 				errors=null
 				lastInArray=true
 			}}
 			{{> input-text
-				propertyName='role'
+				labelText='Role'
 				inputName=(concat 'cast[0][roles][0][name]')
 				value=''
 				errors=null
