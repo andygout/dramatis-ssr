@@ -11,27 +11,27 @@ const getResponseListFixture = require('../../fixtures/get-response-instances-li
 
 const err = new Error('errorText');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let req;
 let res;
 let next;
 let method;
 let methodStub;
 
-const stubs = {
-	handleModelResponse: sinon.stub(),
-	renderPage: sinon.stub()
-};
-
-const resetStubs = () => {
-
-	stubs.handleModelResponse.reset();
-	stubs.renderPage.reset();
-
-};
-
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		handleModelResponse: sandbox.stub(),
+		renderPage: sandbox.stub()
+	};
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 

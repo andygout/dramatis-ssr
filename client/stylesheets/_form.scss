@@ -1,16 +1,15 @@
 .head-alert {
 	margin: 5px;
 	min-height: 15px;
+	font-weight: bold;
 }
 
 .head-alert--success {
 	color: $positive-color;
-	font-weight: bold;
 }
 
 .head-alert--error {
 	color: $negative-color;
-	font-weight: bold;
 }
 
 .button-container {
@@ -67,7 +66,7 @@
 
 .field__remover-button {
 	padding: 0px 10px;
-	background-color: white;
+	background-color: $content-bg-color;
 	border: 1px solid $border-color;
 	border-radius: 5px;
 }

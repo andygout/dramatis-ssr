@@ -6,43 +6,42 @@ const sinon = require('sinon');
 const alertFixture = require('../../../fixtures/alert');
 const getInstanceFixture = require('../../../fixtures/productions/get-instance');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
 let req;
 let res;
 let action;
-
-const stubs = {
-	renderPage: sinon.stub(),
-	alert: {
-		setAlert: sinon.stub()
-	},
-	createAlertData: sinon.stub().returns(alertFixture),
-	instanceRoute: sinon.stub().returns('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
-};
-
-const resetStubs = () => {
-
-	stubs.renderPage.reset();
-	stubs.alert.setAlert.reset();
-	stubs.createAlertData.reset();
-	stubs.instanceRoute.reset();
-
-};
 
 beforeEach(() => {
 
 	req = httpMocks.createRequest();
 	res = httpMocks.createResponse();
-	resetStubs();
+
+	stubs = {
+		renderPage: sandbox.stub(),
+		alert: {
+			setAlert: sandbox.stub()
+		},
+		createAlertData: sandbox.stub().returns(alertFixture),
+		instanceRoute: sandbox.stub().returns('productions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
+	};
+
+	subject = proxyquire('../../../../dist/lib/controllers-helpers/handle-model-response', {
+			'./render-page': stubs.renderPage,
+			'../alert': stubs.alert,
+			'../create-alert-data': stubs.createAlertData,
+			'../instance-route': stubs.instanceRoute
+		});
 
 });
 
-const subject = proxyquire('../../../../dist/lib/controllers-helpers/handle-model-response', {
-		'./render-page': stubs.renderPage,
-		'../alert': stubs.alert,
-		'../create-alert-data': stubs.createAlertData,
-		'../instance-route': stubs.instanceRoute
-	});
+afterEach(() => {
 
+	sandbox.restore();
+
+});
 
 describe('Handle Model Response module', () => {
 

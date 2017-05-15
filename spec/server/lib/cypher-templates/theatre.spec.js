@@ -26,7 +26,7 @@ describe('Cypher Templates Theatre module', () => {
 
 			const result = subject.getShowQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (t:Theatre} { uuid: $uuid })
+				MATCH (t:Theatre { uuid: $uuid })
 				OPTIONAL MATCH (n)<-[:PLAYS_AT]-(prd:Production)
 				WITH t, CASE WHEN prd IS NULL THEN [] ELSE
 					COLLECT({ model: 'production', uuid: prd.uuid, title: prd.title }) END AS productions

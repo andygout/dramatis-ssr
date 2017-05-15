@@ -1,12 +1,12 @@
 {{#with instance}}
 	{{#with productions}}
 		<div class="content-wrapper">
-			{{>content-label text='Productions'}}
+			{{> content-label text='Productions'}}
 			<div class="content">
 				<ul class="list">
 					{{#each this}}
 						<li>
-							{{>instance-link}} - {{#with theatre}}{{>instance-link}}{{/with}} …
+							{{> instance-link}} - {{#with theatre}}{{> instance-link}}{{/with}} …
 							<span class="role-text">
 								{{join roles 'name'}}
 							</span>

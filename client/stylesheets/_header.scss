@@ -1,16 +1,16 @@
 .header {
 	height: 75px;
-	background-color: black;
+	background-color: $header-bg-color;
 	padding-left: 10px;
 	font-size: 400%;
 	font-weight: bold;
 }
 
 .header__home-link {
-	color: $header-color;
+	color: $header-text-color;
 	transition: color 0.5s;
 
 	&:hover {
-		color: $header-hover-color;
+		color: $header-text-color-hover;
 	}
 }

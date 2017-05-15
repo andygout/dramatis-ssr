@@ -1,0 +1,9 @@
+{
+  "ignoreRoot": [],
+  "watch": [
+    "node_modules",
+    "server",
+    "views"
+  ],
+  "ext": "html js"
+}

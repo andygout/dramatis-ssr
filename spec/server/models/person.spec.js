@@ -5,43 +5,37 @@ require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let instance;
-
-const stubs = {
-	dbQuery: sinon.stub().resolves(dbQueryFixture),
-	cypherTemplatesShared: {
-		getValidateUpdateQuery: sinon.stub().returns('getValidateUpdateQuery response'),
-		getEditQuery: sinon.stub().returns('getEditQuery response'),
-		getUpdateQuery: sinon.stub().returns('getUpdateQuery response'),
-		getDeleteQuery: sinon.stub().returns('getDeleteQuery response'),
-		getListQuery: sinon.stub().returns('getListQuery response')
-	},
-	cypherTemplatesPerson: {
-		getShowQuery: sinon.stub().returns('getShowQuery response')
-	},
-	trimStrings: sinon.stub(),
-	validateString: sinon.stub().returns([]),
-	verifyErrorPresence: sinon.stub().returns(false)
-};
-
-const resetStubs = () => {
-
-	stubs.dbQuery.reset();
-	stubs.cypherTemplatesShared.getValidateUpdateQuery.reset();
-	stubs.cypherTemplatesShared.getEditQuery.reset();
-	stubs.cypherTemplatesShared.getUpdateQuery.reset();
-	stubs.cypherTemplatesShared.getDeleteQuery.reset();
-	stubs.cypherTemplatesShared.getListQuery.reset();
-	stubs.cypherTemplatesPerson.getShowQuery.reset();
-	stubs.trimStrings.reset();
-	stubs.validateString.reset();
-	stubs.verifyErrorPresence.reset();
-
-};
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		dbQuery: sandbox.stub().resolves(dbQueryFixture),
+		cypherTemplatesShared: {
+			getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
+			getEditQuery: sandbox.stub().returns('getEditQuery response'),
+			getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
+			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
+			getListQuery: sandbox.stub().returns('getListQuery response')
+		},
+		cypherTemplatesPerson: {
+			getShowQuery: sandbox.stub().returns('getShowQuery response')
+		},
+		trimStrings: sandbox.stub(),
+		validateString: sandbox.stub().returns([]),
+		verifyErrorPresence: sandbox.stub().returns(false)
+	};
+
+	instance = createInstance();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 
@@ -69,7 +63,6 @@ describe('Person model', () => {
 
 		it('will trim strings before validating name', () => {
 
-			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
@@ -83,7 +76,7 @@ describe('Person model', () => {
 
 			it('will not add properties to errors property', () => {
 
-				instance = createInstance();
+
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
@@ -113,7 +106,6 @@ describe('Person model', () => {
 
 		it('will validate update in database', done => {
 
-			instance = createInstance();
 			instance.validateUpdateInDb().then(() => {
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
@@ -164,7 +156,6 @@ describe('Person model', () => {
 
 		it('will get edit data', done => {
 
-			instance = createInstance();
 			instance.edit().then(result => {
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
@@ -186,7 +177,7 @@ describe('Person model', () => {
 
 			it('will update', done => {
 
-				instance = createInstance();
+
 				sinon.spy(instance, 'validate');
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
@@ -282,7 +273,6 @@ describe('Person model', () => {
 
 		it('will delete', done => {
 
-			instance = createInstance();
 			instance.delete().then(result => {
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
@@ -302,7 +292,6 @@ describe('Person model', () => {
 
 		it('will get show data', done => {
 
-			instance = createInstance();
 			instance.show().then(result => {
 				expect(stubs.cypherTemplatesPerson.getShowQuery.calledOnce).to.be.true;
 				expect(stubs.cypherTemplatesPerson.getShowQuery.calledWithExactly()).to.be.true;

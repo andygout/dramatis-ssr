@@ -1,7 +1,8 @@
 {{#with instance}}
 	<fieldset class="fieldset">
-		{{>input-text
-			propertyName='title'
+		{{> input-text
+			labelText='Title'
+			inputName='title'
 			value=title
 			errors=errors.title
 			required=true
@@ -10,9 +11,9 @@
 
 	{{#with theatre}}
 		<fieldset class="fieldset">
-			{{>fieldset-header text='Theatre'}}
-			{{>input-text
-				propertyName='name'
+			{{> fieldset-header text='Theatre'}}
+			{{> input-text
+				labelText='Name'
 				inputName='theatre[name]'
 				value=name
 				errors=errors.name
@@ -22,11 +23,11 @@
 	{{/with}}
 
 	<fieldset class="fieldset">
-		{{>fieldset-header text='Cast'}}
+		{{> fieldset-header text='Cast'}}
 		{{#if cast.length}}
 			{{#each cast}}
-				{{>input-text
-					propertyName='name'
+				{{> input-text
+					labelText='Cast member'
 					inputName=(concat 'cast[' @index '][name]')
 					value=name
 					errors=errors.name
@@ -34,8 +35,8 @@
 				}}
 				{{#if roles.length}}
 					{{#each roles}}
-						{{>input-text
-							propertyName='role'
+						{{> input-text
+							labelText='Role'
 							inputName=(concat 'cast[' @../index '][roles][' @index '][name]')
 							value=name
 							errors=errors.name
@@ -43,8 +44,8 @@
 							nested=true
 						}}
 					{{/each}}
-					{{>input-text
-						propertyName='role'
+					{{> input-text
+						labelText='Role'
 						inputName=(concat 'cast[' @index '][roles][' roles.length '][name]')
 						value=''
 						errors=null
@@ -52,8 +53,8 @@
 						nested=true
 					}}
 				{{else}}
-					{{>input-text
-						propertyName='role'
+					{{> input-text
+						labelText='Role'
 						inputName=(concat 'cast[' @index '][roles][0][name]')
 						value=''
 						errors=null
@@ -62,15 +63,15 @@
 					}}
 				{{/if}}
 			{{/each}}
-			{{>input-text
-				propertyName='name'
+			{{> input-text
+				labelText='Cast member'
 				inputName=(concat 'cast[' cast.length '][name]')
 				value=''
 				errors=null
 				lastInArray=true
 			}}
-			{{>input-text
-				propertyName='role'
+			{{> input-text
+				labelText='Role'
 				inputName=(concat 'cast[' cast.length '][roles][0][name]')
 				value=''
 				errors=null
@@ -78,15 +79,15 @@
 				nested=true
 			}}
 		{{else}}
-			{{>input-text
-				propertyName='name'
+			{{> input-text
+				labelText='Cast member'
 				inputName='cast[0][name]'
 				value=''
 				errors=null
 				lastInArray=true
 			}}
-			{{>input-text
-				propertyName='role'
+			{{> input-text
+				labelText='Role'
 				inputName=(concat 'cast[0][roles][0][name]')
 				value=''
 				errors=null

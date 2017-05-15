@@ -1,15 +1,15 @@
 <div class="field{{#if nested}} field--nested{{/if}}">
 	<label
-		for="{{#if inputName}}{{inputName}}{{else}}{{propertyName}}{{/if}}"
+		for="{{inputName}}"
 		class="field__label{{#if required}} field__label--required{{/if}}"
 	>
-		{{~capitalise propertyName~}}
+		{{~labelText~}}
 	</label>
 	<input
 		value="{{value}}"
-		name="{{#if inputName}}{{inputName}}{{else}}{{propertyName}}{{/if}}"
+		name="{{inputName}}"
 		type="text"
-		maxlength="255"
+		maxlength="1000"
 		class="field__input{{#if errors}} field__input--has-error{{/if}}{{#if lastInArray}} field__input--last-in-array{{/if}}"
 	/>
 	{{#if removeFieldButton}}

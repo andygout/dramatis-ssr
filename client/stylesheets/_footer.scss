@@ -1,7 +1,7 @@
 .footer {
 	margin-top: 60px;
 	height: 20px;
-	background-color: black;
+	background-color: $header-bg-color;
 	border-radius: 0 0 $footer-border-radius $footer-border-radius;
 	font-weight: bold;
 }
@@ -10,7 +10,7 @@
 	margin-top: 4px;
 	padding: 0 10px;
 	font-size: x-small;
-	color: $header-color;
+	color: $header-text-color;
 }
 
 .footer__text--left {

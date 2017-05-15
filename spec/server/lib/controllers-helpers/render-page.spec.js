@@ -7,39 +7,39 @@ const alertFixture = require('../../../fixtures/alert');
 const pageDataFixture = require('../../../fixtures/page-data');
 const getInstanceFixture = require('../../../fixtures/productions/get-instance');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
 let req;
 let res;
-
-const stubs = {
-	alert: {
-		getAlert: sinon.stub().returns(alertFixture)
-	},
-	getPageData: sinon.stub().returns(pageDataFixture),
-	pluralise: sinon.stub().returns('productions')
-};
-
-const resetStubs = () => {
-
-	stubs.alert.getAlert.reset();
-	stubs.getPageData.reset();
-	stubs.pluralise.reset();
-
-};
 
 beforeEach(() => {
 
 	req = httpMocks.createRequest();
 	res = httpMocks.createResponse();
-	resetStubs();
+
+	stubs = {
+		alert: {
+			getAlert: sandbox.stub().returns(alertFixture)
+		},
+		getPageData: sandbox.stub().returns(pageDataFixture),
+		pluralise: sandbox.stub().returns('productions')
+	};
+
+	subject = proxyquire('../../../../dist/lib/controllers-helpers/render-page', {
+			'../alert': stubs.alert,
+			'../get-page-data': stubs.getPageData,
+			'../pluralise': stubs.pluralise
+		});
 
 });
 
-const subject = proxyquire('../../../../dist/lib/controllers-helpers/render-page', {
-		'../alert': stubs.alert,
-		'../get-page-data': stubs.getPageData,
-		'../pluralise': stubs.pluralise
-	});
+afterEach(() => {
 
+	sandbox.restore();
+
+});
 
 describe('Render Page module', () => {
 

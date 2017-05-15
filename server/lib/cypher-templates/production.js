@@ -1,7 +1,7 @@
 const nullRolesValue = action => (action === 'show') ? '{ name: \'Performer\' }' : '';
 
 const additionalProps = (model, action) =>
-	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid, ` : '';
+	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid,` : '';
 
 const getCreateUpdateQuery = action => {
 
@@ -28,8 +28,7 @@ const getCreateUpdateQuery = action => {
 			ON CREATE SET p.uuid = castMember.uuid
 			CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p)
 			FOREACH (role in castMember.roles |
-				CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->
-					(r:Role { name: role.name })
+				CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(r:Role { name: role.name })
 			)
 		)
 		RETURN {

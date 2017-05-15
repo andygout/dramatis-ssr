@@ -2,23 +2,25 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let instance;
-
-const stubs = {
-	trimStrings: sinon.stub(),
-	validateString: sinon.stub().returns([])
-};
-
-const resetStubs = () => {
-
-	stubs.trimStrings.reset();
-	stubs.validateString.reset();
-
-};
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		trimStrings: sandbox.stub(),
+		validateString: sandbox.stub().returns([])
+	};
+
+	instance = createInstance();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 
@@ -42,7 +44,6 @@ describe('Role model', () => {
 
 		it('will trim strings before validating name', () => {
 
-			instance = createInstance();
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
@@ -56,7 +57,7 @@ describe('Role model', () => {
 
 			it('will not add properties to errors property', () => {
 
-				instance = createInstance();
+
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});

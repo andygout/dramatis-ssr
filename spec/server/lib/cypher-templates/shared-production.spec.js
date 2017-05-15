@@ -4,31 +4,32 @@ const sinon = require('sinon');
 
 const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 
-const stubs = {
-	capitalise: sinon.stub().returns('Production'),
-	instanceNamingProp: sinon.stub().returns('title'),
-	pluralise: sinon.stub().returns('productions')
-};
+const sandbox = sinon.sandbox.create();
 
-const resetStubs = () => {
-
-	stubs.capitalise.reset();
-	stubs.instanceNamingProp.reset();
-	stubs.pluralise.reset();
-
-};
+let stubs;
+let subject;
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		capitalise: sandbox.stub().returns('Production'),
+		instanceNamingProp: sandbox.stub().returns('title'),
+		pluralise: sandbox.stub().returns('productions')
+	};
+
+	subject = proxyquire('../../../../dist/lib/cypher-templates/shared', {
+			'../capitalise': stubs.capitalise,
+			'../instance-naming-prop': stubs.instanceNamingProp,
+			'../pluralise': stubs.pluralise
+		});
 
 });
 
-const subject = proxyquire('../../../../dist/lib/cypher-templates/shared', {
-		'../capitalise': stubs.capitalise,
-		'../instance-naming-prop': stubs.instanceNamingProp,
-		'../pluralise': stubs.pluralise
-	});
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Cypher Templates Shared module (Production model usage)', () => {
 

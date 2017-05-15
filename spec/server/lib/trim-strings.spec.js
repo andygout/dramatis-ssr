@@ -2,21 +2,25 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
 let instance;
-
-const stubs = {
-	propIsObject: sinon.stub().returns(false)
-};
-
-const resetStubs = () => {
-
-	stubs.propIsObject.reset();
-
-};
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		propIsObject: sandbox.stub().returns(false)
+	};
+
+	subject = createSubject();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 
@@ -31,7 +35,6 @@ describe('Trim Strings module', () => {
 
 		it('will trim leading and trailing whitespace', () => {
 
-			const subject = createSubject();
 			instance = { title: ' foobar ' };
 			subject(instance);
 			expect(stubs.propIsObject.calledOnce).to.be.true;
@@ -48,7 +51,7 @@ describe('Trim Strings module', () => {
 
 			const propIsObjectStub = sinon.stub();
 			propIsObjectStub.onFirstCall().returns(true).onSecondCall().returns(false);
-			const subject = createSubject({ propIsObject: propIsObjectStub });
+			subject = createSubject({ propIsObject: propIsObjectStub });
 			instance = { theatre: { name: ' foobar ' } };
 			subject(instance);
 			expect(propIsObjectStub.calledTwice).to.be.true;
@@ -65,7 +68,7 @@ describe('Trim Strings module', () => {
 
 			const propIsObjectStub = sinon.stub();
 			propIsObjectStub.onFirstCall().returns(false).onSecondCall().returns(true).onThirdCall().returns(false);
-			const subject = createSubject({ propIsObject: propIsObjectStub });
+			subject = createSubject({ propIsObject: propIsObjectStub });
 			instance = { cast: [{ name: ' foobar ' }] };
 			subject(instance);
 			expect(propIsObjectStub.calledThrice).to.be.true;

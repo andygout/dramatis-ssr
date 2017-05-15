@@ -5,34 +5,31 @@ const sinon = require('sinon');
 const getProductionInstanceFixture = require('../../fixtures/productions/get-instance');
 const getTheatreInstanceFixture = require('../../fixtures/theatres/get-instance');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
 let productionInstance;
 let theatreInstance;
 
-const resetInstances = () => {
+beforeEach(() => {
 
 	productionInstance = getProductionInstanceFixture();
 	theatreInstance = getTheatreInstanceFixture();
 
-};
+	stubs = {
+		capitalise: sandbox.stub().returns('Productions'),
+		instanceNamingValue: sandbox.stub().returns('Hamlet'),
+		pluralise: sandbox.stub().returns('productions')
+	};
 
-const stubs = {
-	capitalise: sinon.stub().returns('Productions'),
-	instanceNamingValue: sinon.stub().returns('Hamlet'),
-	pluralise: sinon.stub().returns('productions')
-};
+	subject = createSubject();
 
-const resetStubs = () => {
+});
 
-	stubs.capitalise.reset();
-	stubs.instanceNamingValue.reset();
-	stubs.pluralise.reset();
+afterEach(() => {
 
-};
-
-beforeEach(() => {
-
-	resetInstances();
-	resetStubs();
+	sandbox.restore();
 
 });
 
@@ -51,7 +48,6 @@ describe('Get Page Data module', () => {
 
 			it('will contain properties: documentTitle, title, formAction + submitValue', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
@@ -67,7 +63,6 @@ describe('Get Page Data module', () => {
 
 			it('will contain properties: documentTitle, title, formAction + submitValue', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'update');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
@@ -83,7 +78,6 @@ describe('Get Page Data module', () => {
 
 			it('will contain properties: documentTitle, title + model', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'show');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
@@ -99,7 +93,6 @@ describe('Get Page Data module', () => {
 
 			it('will contain properties: documentTitle + title', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'list');
 				expect(pageData).to.have.property('documentTitle');
 				expect(pageData).to.have.property('title');
@@ -119,7 +112,6 @@ describe('Get Page Data module', () => {
 
 			it('will read \' | New <model>\'', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.documentTitle).to.eq(' | New production');
 
@@ -133,7 +125,7 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-					const subject = createSubject();
+
 					productionInstance.documentTitle = ' | Edit: Macbeth (Hampstead Theatre) (production)';
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Macbeth (Hampstead Theatre) (production)');
@@ -142,7 +134,7 @@ describe('Get Page Data module', () => {
 
 				it('will generate text \' | Edit: <instance> (<theatre name>) (<model>)\' when documentTitle absent', () => {
 
-					const subject = createSubject();
+
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (Almeida Theatre) (production)');
 
@@ -154,7 +146,7 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-					const subject = createSubject();
+
 					theatreInstance.documentTitle = ' | Edit: Hampstead Theatre (theatre)';
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Hampstead Theatre (theatre)');
@@ -163,7 +155,7 @@ describe('Get Page Data module', () => {
 
 				it('will generate text \' | Edit: <instance> (<model>)\' when documentTitle absent', () => {
 
-					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
+					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Almeida Theatre (theatre)');
 
@@ -179,7 +171,7 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
 
-					const subject = createSubject();
+
 					const pageData = subject(productionInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Hamlet (Almeida Theatre) (production)');
 
@@ -191,7 +183,7 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | <instance> (<model>)\'', () => {
 
-					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
+					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Almeida Theatre (theatre)');
 
@@ -207,7 +199,7 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | Home \'', () => {
 
-					const subject = createSubject();
+
 					const pageData = subject([], 'list', { pluralisedModel: 'productions' });
 					expect(pageData.documentTitle).to.eq(' | Home');
 
@@ -219,7 +211,7 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | <models>\'', () => {
 
-					const subject = createSubject({ capitalise: sinon.stub().returns('Theatres') });
+					subject = createSubject({ capitalise: sinon.stub().returns('Theatres') });
 					const pageData = subject([], 'list', { pluralisedModel: 'theatres' });
 					expect(pageData.documentTitle).to.eq(' | Theatres');
 
@@ -237,7 +229,6 @@ describe('Get Page Data module', () => {
 
 			it('will read \'New <model>\'', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(pageData.title).to.eq('New production');
 
@@ -251,7 +242,7 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of pageTitle property over title property', () => {
 
-					const subject = createSubject();
+
 					productionInstance.pageTitle = 'Macbeth';
 					const pageData = subject(productionInstance, 'update');
 					expect(stubs.instanceNamingValue.notCalled).to.be.true;
@@ -261,7 +252,7 @@ describe('Get Page Data module', () => {
 
 				it('will assign naming value of instance (title) pageTitle absent', () => {
 
-					const subject = createSubject();
+
 					productionInstance.pageTitle = undefined;
 					const pageData = subject(productionInstance, 'update');
 					expect(stubs.instanceNamingValue.calledOnce).to.be.true;
@@ -276,7 +267,7 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of pageTitle property over name property', () => {
 
-					const subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
+					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					theatreInstance.pageTitle = 'Hampstead Theatre';
 					const pageData = subject(theatreInstance, 'update');
 					expect(stubs.instanceNamingValue.notCalled).to.be.true;
@@ -287,7 +278,7 @@ describe('Get Page Data module', () => {
 				it('will assign naming value of instance (name) when pageTitle absent', () => {
 
 					const instanceNamingValueStub = sinon.stub().returns('Almeida Theatre');
-					const subject = createSubject({ instanceNamingValue: instanceNamingValueStub });
+					subject = createSubject({ instanceNamingValue: instanceNamingValueStub });
 					theatreInstance.pageTitle = undefined;
 					const pageData = subject(theatreInstance, 'update');
 					expect(instanceNamingValueStub.calledOnce).to.be.true;
@@ -306,7 +297,7 @@ describe('Get Page Data module', () => {
 
 				it('will assign naming value of instance', () => {
 
-					const subject = createSubject();
+
 					const pageData = subject(productionInstance, 'show');
 					expect(stubs.instanceNamingValue.calledOnce).to.be.true;
 					expect(stubs.instanceNamingValue.calledWithExactly(productionInstance)).to.be.true;
@@ -322,7 +313,6 @@ describe('Get Page Data module', () => {
 
 			it('will use capitalised pluralised model value provided', () => {
 
-				const subject = createSubject();
 				const pageData = subject([], 'list', { pluralisedModel: 'productions' });
 				expect(stubs.capitalise.calledOnce).to.be.true;
 				expect(stubs.capitalise.calledWithExactly('productions')).to.be.true;
@@ -344,7 +334,7 @@ describe('Get Page Data module', () => {
 
 					it('will be the model of the instance', () => {
 
-						const subject = createSubject();
+
 						const pageData = subject(productionInstance, action);
 						expect(pageData.model).to.eq('production');
 
@@ -364,7 +354,6 @@ describe('Get Page Data module', () => {
 
 			it('will be path comprised of pluralised model name', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'create');
 				expect(stubs.pluralise.calledOnce).to.be.true;
 				expect(stubs.pluralise.calledWithExactly(productionInstance.model)).to.be.true;
@@ -378,7 +367,6 @@ describe('Get Page Data module', () => {
 
 			it('will be path comprised of pluralised model name and instance uuid', () => {
 
-				const subject = createSubject();
 				const pageData = subject(productionInstance, 'update');
 				expect(stubs.pluralise.calledOnce).to.be.true;
 				expect(stubs.pluralise.calledWithExactly(productionInstance.model)).to.be.true;
@@ -397,7 +385,7 @@ describe('Get Page Data module', () => {
 			it('will be comprised of action (\'Create\') and model name', () => {
 
 				const capitaliseStub = sinon.stub().returns('Create');
-				const subject = createSubject({ capitalise: capitaliseStub });
+				subject = createSubject({ capitalise: capitaliseStub });
 				const pageData = subject(productionInstance, 'create');
 				expect(capitaliseStub.calledOnce).to.be.true;
 				expect(capitaliseStub.calledWithExactly('create')).to.be.true;
@@ -412,7 +400,7 @@ describe('Get Page Data module', () => {
 			it('will be comprised of action (\'Update\') and model name', () => {
 
 				const capitaliseStub = sinon.stub().returns('Update');
-				const subject = createSubject({ capitalise: capitaliseStub });
+				subject = createSubject({ capitalise: capitaliseStub });
 				const pageData = subject(productionInstance, 'update');
 				expect(capitaliseStub.calledOnce).to.be.true;
 				expect(capitaliseStub.calledWithExactly('update')).to.be.true;
