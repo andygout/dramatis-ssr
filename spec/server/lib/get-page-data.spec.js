@@ -5,37 +5,31 @@ const sinon = require('sinon');
 const getProductionInstanceFixture = require('../../fixtures/productions/get-instance');
 const getTheatreInstanceFixture = require('../../fixtures/theatres/get-instance');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let subject;
 let productionInstance;
 let theatreInstance;
 
-const resetInstances = () => {
+beforeEach(() => {
 
 	productionInstance = getProductionInstanceFixture();
 	theatreInstance = getTheatreInstanceFixture();
 
-};
-
-const stubs = {
-	capitalise: sinon.stub().returns('Productions'),
-	instanceNamingValue: sinon.stub().returns('Hamlet'),
-	pluralise: sinon.stub().returns('productions')
-};
-
-const resetStubs = () => {
-
-	stubs.capitalise.reset();
-	stubs.instanceNamingValue.reset();
-	stubs.pluralise.reset();
-
-};
-
-beforeEach(() => {
-
-	resetInstances();
-	resetStubs();
+	stubs = {
+		capitalise: sandbox.stub().returns('Productions'),
+		instanceNamingValue: sandbox.stub().returns('Hamlet'),
+		pluralise: sandbox.stub().returns('productions')
+	};
 
 	subject = createSubject();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 

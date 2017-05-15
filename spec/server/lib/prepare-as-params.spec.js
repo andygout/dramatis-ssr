@@ -2,28 +2,28 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let subject;
 let instance;
 
-const stubs = {
-	nodeUuid: {
-		v4: sinon.stub().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
-	},
-	propIsObject: sinon.stub().returns(false)
-};
-
-const resetStubs = () => {
-
-	stubs.nodeUuid.v4.reset();
-	stubs.propIsObject.reset();
-
-};
-
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		nodeUuid: {
+			v4: sandbox.stub().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
+		},
+		propIsObject: sandbox.stub().returns(false)
+	};
 
 	subject = createSubject();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 

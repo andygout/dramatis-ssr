@@ -2,25 +2,28 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const stubs = {
-	pluralise: sinon.stub().returns('productions')
-};
+const sandbox = sinon.sandbox.create();
 
-const resetStubs = () => {
-
-	stubs.pluralise.reset();
-
-};
+let stubs;
+let subject;
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		pluralise: sandbox.stub().returns('productions')
+	};
+
+	subject = proxyquire('../../../dist/lib/instance-route', {
+			'./pluralise': stubs.pluralise
+		});
 
 });
 
-const subject = proxyquire('../../../dist/lib/instance-route', {
-		'./pluralise': stubs.pluralise
-	});
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Instance Route module', () => {
 

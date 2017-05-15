@@ -5,27 +5,29 @@ const sinon = require('sinon');
 
 const getInstanceFixture = require('../../fixtures/theatres/get-instance');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
 let action;
-
-const stubs = {
-	instanceNamingValue: sinon.stub().returns('Almeida Theatre')
-};
-
-const resetStubs = () => {
-
-	stubs.instanceNamingValue.reset();
-
-};
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		instanceNamingValue: sandbox.stub().returns('Almeida Theatre')
+	};
+
+	subject = proxyquire('../../../dist/lib/create-alert-data', {
+			'./instance-naming-value': stubs.instanceNamingValue
+		});
 
 });
 
-const subject = proxyquire('../../../dist/lib/create-alert-data', {
-		'./instance-naming-value': stubs.instanceNamingValue
-	});
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Create Alert Data module', () => {
 

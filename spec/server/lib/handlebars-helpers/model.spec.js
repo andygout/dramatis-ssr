@@ -2,25 +2,25 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const stubs = {
-	pluralise: sinon.stub().returns('productions')
-};
-
-const resetStubs = () => {
-
-	stubs.pluralise.reset();
-
-};
+const sandbox = sinon.sandbox.create();
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		pluralise: sandbox.stub().returns('productions')
+	};
+
+	subject = proxyquire('../../../../dist/lib/handlebars-helpers/model', {
+			'../pluralise': stubs.pluralise
+		});
 
 });
 
-const subject = proxyquire('../../../../dist/lib/handlebars-helpers/model', {
-		'../pluralise': stubs.pluralise
-	});
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Model handlebars helper', () => {
 

@@ -2,25 +2,28 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-const stubs = {
-	instanceNamingProp: sinon.stub().returns('title')
-};
+const sandbox = sinon.sandbox.create();
 
-const resetStubs = () => {
-
-	stubs.instanceNamingProp.reset();
-
-};
+let stubs;
+let subject;
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		instanceNamingProp: sandbox.stub().returns('title')
+	};
+
+	subject = proxyquire('../../../dist/lib/instance-naming-value', {
+			'./instance-naming-prop': stubs.instanceNamingProp
+		});
 
 });
 
-const subject = proxyquire('../../../dist/lib/instance-naming-value', {
-		'./instance-naming-prop': stubs.instanceNamingProp
-	});
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Instance Naming Value module', () => {
 

@@ -5,45 +5,37 @@ require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 
+const sandbox = sinon.sandbox.create();
+
+let stubs;
 let instance;
-
-const stubs = {
-	dbQuery: sinon.stub().resolves(dbQueryFixture),
-	cypherTemplatesShared: {
-		getValidateUpdateQuery: sinon.stub().returns('getValidateUpdateQuery response'),
-		getEditQuery: sinon.stub().returns('getEditQuery response'),
-		getUpdateQuery: sinon.stub().returns('getUpdateQuery response'),
-		getDeleteQuery: sinon.stub().returns('getDeleteQuery response'),
-		getListQuery: sinon.stub().returns('getListQuery response')
-	},
-	cypherTemplatesPerson: {
-		getShowQuery: sinon.stub().returns('getShowQuery response')
-	},
-	trimStrings: sinon.stub(),
-	validateString: sinon.stub().returns([]),
-	verifyErrorPresence: sinon.stub().returns(false)
-};
-
-const resetStubs = () => {
-
-	stubs.dbQuery.reset();
-	stubs.cypherTemplatesShared.getValidateUpdateQuery.reset();
-	stubs.cypherTemplatesShared.getEditQuery.reset();
-	stubs.cypherTemplatesShared.getUpdateQuery.reset();
-	stubs.cypherTemplatesShared.getDeleteQuery.reset();
-	stubs.cypherTemplatesShared.getListQuery.reset();
-	stubs.cypherTemplatesPerson.getShowQuery.reset();
-	stubs.trimStrings.reset();
-	stubs.validateString.reset();
-	stubs.verifyErrorPresence.reset();
-
-};
 
 beforeEach(() => {
 
-	resetStubs();
+	stubs = {
+		dbQuery: sandbox.stub().resolves(dbQueryFixture),
+		cypherTemplatesShared: {
+			getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
+			getEditQuery: sandbox.stub().returns('getEditQuery response'),
+			getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
+			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
+			getListQuery: sandbox.stub().returns('getListQuery response')
+		},
+		cypherTemplatesPerson: {
+			getShowQuery: sandbox.stub().returns('getShowQuery response')
+		},
+		trimStrings: sandbox.stub(),
+		validateString: sandbox.stub().returns([]),
+		verifyErrorPresence: sandbox.stub().returns(false)
+	};
 
 	instance = createInstance();
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
 
 });
 
