@@ -1,7 +1,9 @@
 const nullRolesValue = action => (action === 'show') ? '{ name: \'Performer\' }' : '';
 
-const additionalProps = (model, action) =>
-	(action === 'show') ? `model: '${model}', uuid: ${model.charAt(0)}.uuid,` : '';
+const additionalProps = (model, alias, action) =>
+	(action === 'show') ? `model: '${model}', uuid: ${alias}.uuid,` : '';
+
+const nullState = action => (action === 'edit') ? '\'\'': 'null';
 
 const getCreateUpdateQuery = action => {
 
@@ -23,6 +25,11 @@ const getCreateUpdateQuery = action => {
 		MERGE (t:Theatre { name: $theatre.name })
 		ON CREATE SET t.uuid = $theatre.uuid
 		CREATE (prd)-[:PLAYS_AT]->(t)
+		FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
+			MERGE (pt:Playtext { title: $playtext.title })
+			ON CREATE SET pt.uuid = $playtext.uuid
+			CREATE (prd)-[:PRODUCTION_OF]->(pt)
+		)
 		FOREACH (castMember IN $cast |
 			MERGE (p:Person { name: castMember.name })
 			ON CREATE SET p.uuid = castMember.uuid
@@ -42,20 +49,23 @@ const getCreateUpdateQuery = action => {
 
 const getEditShowQuery = action => `
 	MATCH (prd:Production { uuid: $uuid })-[:PLAYS_AT]->(t:Theatre)
+	OPTIONAL MATCH (prd)-[:PRODUCTION_OF]->(pt:Playtext)
 	OPTIONAL MATCH (prd)<-[castRel:PERFORMS_IN]-(p:Person)
 	OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(r:Role)
-	WITH prd, t, castRel, p, roleRel, r
+	WITH prd, t, pt, castRel, p, roleRel, r
 	ORDER BY roleRel.position
-	WITH prd, t, castRel, p,
+	WITH prd, t, pt, castRel, p,
 		CASE WHEN r IS NULL THEN [${nullRolesValue(action)}] ELSE COLLECT({ name: r.name }) END AS roles
 	ORDER BY castRel.position
 	RETURN {
 		model: 'production',
 		uuid: prd.uuid,
 		title: prd.title,
-		theatre: { ${additionalProps('theatre', action)} name: t.name },
+		theatre: { ${additionalProps('theatre', 't', action)} name: t.name },
+		playtext: CASE WHEN pt IS NULL THEN ${nullState(action)} ELSE
+			{ ${additionalProps('playtext', 'pt', action)} title: pt.title } END,
 		cast: CASE WHEN p IS NULL THEN [] ELSE
-			COLLECT({ ${additionalProps('person', action)} name: p.name, roles: roles }) END
+			COLLECT({ ${additionalProps('person', 'p', action)} name: p.name, roles: roles }) END
 	} AS production
 `;
 

@@ -23,6 +23,16 @@
 	{{/with}}
 
 	<fieldset class="fieldset">
+		{{> fieldset-header text='Playtext'}}
+		{{> input-text
+			labelText='Title'
+			inputName='playtext[title]'
+			value=playtext.title
+			errors=playtext.errors.title
+		}}
+	</fieldset>
+
+	<fieldset class="fieldset">
 		{{> fieldset-header text='Cast'}}
 		{{#if cast.length}}
 			{{#each cast}}

@@ -29,6 +29,13 @@ router.delete('/people/:uuid', controllers.people.deleteRoute);
 router.get('/people/:uuid', controllers.people.showRoute);
 router.get('/people', controllers.people.listRoute);
 
+// Playtexts
+router.get('/playtexts/:uuid/edit', controllers.playtexts.editRoute);
+router.post('/playtexts/:uuid', controllers.playtexts.updateRoute);
+router.delete('/playtexts/:uuid', controllers.playtexts.deleteRoute);
+router.get('/playtexts/:uuid', controllers.playtexts.showRoute);
+router.get('/playtexts', controllers.playtexts.listRoute);
+
 // Productions
 router.get('/productions/new', controllers.productions.newRoute);
 router.post('/productions', controllers.productions.createRoute);
