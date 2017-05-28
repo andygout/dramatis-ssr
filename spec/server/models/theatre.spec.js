@@ -1,7 +1,6 @@
 const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 const dbQueryFixture = require('../../fixtures/db-query');
 

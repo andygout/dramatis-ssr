@@ -2,7 +2,6 @@ const expect = require('chai').expect;
 const httpMocks = require('node-mocks-http');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 const Production = require('../../../dist/models/production');
 
