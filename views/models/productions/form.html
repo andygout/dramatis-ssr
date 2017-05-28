@@ -9,18 +9,16 @@
 		}}
 	</fieldset>
 
-	{{#with theatre}}
-		<fieldset class="fieldset">
-			{{> fieldset-header text='Theatre'}}
-			{{> input-text
-				labelText='Name'
-				inputName='theatre[name]'
-				value=name
-				errors=errors.name
-				required=true
-			}}
-		</fieldset>
-	{{/with}}
+	<fieldset class="fieldset">
+		{{> fieldset-header text='Theatre'}}
+		{{> input-text
+			labelText='Name'
+			inputName='theatre[name]'
+			value=theatre.name
+			errors=theatre.errors.name
+			required=true
+		}}
+	</fieldset>
 
 	<fieldset class="fieldset">
 		{{> fieldset-header text='Playtext'}}
