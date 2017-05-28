@@ -26,10 +26,10 @@
     "method-override": "^2.3.6",
     "morgan": "^1.5.1",
     "neo4j": "^2.0.0-RC2",
-    "node-uuid": "^1.4.7",
     "pg": "^6.1.0",
     "pg-format": "^1.0.3",
-    "serve-favicon": "^2.2.0"
+    "serve-favicon": "^2.2.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
