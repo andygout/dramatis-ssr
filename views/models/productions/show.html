@@ -8,6 +8,15 @@
 		</div>
 	{{/with}}
 
+	{{#with playtext}}
+		<div class="content-wrapper">
+			{{> content-label text='Playtext'}}
+			<div class="content">
+				{{> instance-link}}
+			</div>
+		</div>
+	{{/with}}
+
 	{{#with cast}}
 		<div class="content-wrapper">
 			{{> content-label text='Cast'}}

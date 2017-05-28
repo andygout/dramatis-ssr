@@ -6,6 +6,7 @@ import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
 import Person from './person';
+import Playtext from './playtext';
 import Theatre from './theatre';
 
 export default class Production {
@@ -21,6 +22,7 @@ export default class Production {
 		this.pageTitle = props.pageTitle;
 		this.documentTitle = props.documentTitle;
 		this.theatre = new Theatre(props.theatre);
+		this.playtext = new Playtext(props.playtext);
 		this.cast = props.cast ?
 			props.cast.filter(castMember => castMember.name.length).map(castMember => new Person(castMember)) :
 			[];
@@ -44,6 +46,8 @@ export default class Production {
 		this.validate({ required: true });
 
 		this.theatre.validate({ required: true });
+
+		this.playtext.validate();
 
 		this.cast.forEach(castMember => {
 

@@ -20,6 +20,11 @@ describe('Cypher Templates Production module', () => {
 				MERGE (t:Theatre { name: $theatre.name })
 				ON CREATE SET t.uuid = $theatre.uuid
 				CREATE (prd)-[:PLAYS_AT]->(t)
+				FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
+					MERGE (pt:Playtext { title: $playtext.title })
+					ON CREATE SET pt.uuid = $playtext.uuid
+					CREATE (prd)-[:PRODUCTION_OF]->(pt)
+				)
 				FOREACH (castMember IN $cast |
 					MERGE (p:Person { name: castMember.name })
 					ON CREATE SET p.uuid = castMember.uuid
@@ -46,17 +51,19 @@ describe('Cypher Templates Production module', () => {
 			const result = subject.getEditQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (prd:Production { uuid: $uuid })-[:PLAYS_AT]->(t:Theatre)
+				OPTIONAL MATCH (prd)-[:PRODUCTION_OF]->(pt:Playtext)
 				OPTIONAL MATCH (prd)<-[castRel:PERFORMS_IN]-(p:Person)
 				OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(r:Role)
-				WITH prd, t, castRel, p, roleRel, r
+				WITH prd, t, pt, castRel, p, roleRel, r
 				ORDER BY roleRel.position
-				WITH prd, t, castRel, p, CASE WHEN r IS NULL THEN [] ELSE COLLECT({ name: r.name }) END AS roles
+				WITH prd, t, pt, castRel, p, CASE WHEN r IS NULL THEN [] ELSE COLLECT({ name: r.name }) END AS roles
 				ORDER BY castRel.position
 				RETURN {
 					model: 'production',
 					uuid: prd.uuid,
 					title: prd.title,
 					theatre: { name: t.name },
+					playtext: CASE WHEN pt IS NULL THEN '' ELSE { title: pt.title } END,
 					cast: CASE WHEN p IS NULL THEN [] ELSE COLLECT({ name: p.name, roles: roles }) END
 				} AS production
 			`));
@@ -83,6 +90,11 @@ describe('Cypher Templates Production module', () => {
 				MERGE (t:Theatre { name: $theatre.name })
 				ON CREATE SET t.uuid = $theatre.uuid
 				CREATE (prd)-[:PLAYS_AT]->(t)
+				FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
+					MERGE (pt:Playtext { title: $playtext.title })
+					ON CREATE SET pt.uuid = $playtext.uuid
+					CREATE (prd)-[:PRODUCTION_OF]->(pt)
+				)
 				FOREACH (castMember IN $cast |
 					MERGE (p:Person { name: castMember.name })
 					ON CREATE SET p.uuid = castMember.uuid
@@ -109,11 +121,12 @@ describe('Cypher Templates Production module', () => {
 			const result = subject.getShowQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (prd:Production { uuid: $uuid })-[:PLAYS_AT]->(t:Theatre)
+				OPTIONAL MATCH (prd)-[:PRODUCTION_OF]->(pt:Playtext)
 				OPTIONAL MATCH (prd)<-[castRel:PERFORMS_IN]-(p:Person)
 				OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(r:Role)
-				WITH prd, t, castRel, p, roleRel, r
+				WITH prd, t, pt, castRel, p, roleRel, r
 				ORDER BY roleRel.position
-				WITH prd, t, castRel, p,
+				WITH prd, t, pt, castRel, p,
 					CASE WHEN r IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: r.name }) END AS roles
 				ORDER BY castRel.position
 				RETURN {
@@ -121,6 +134,7 @@ describe('Cypher Templates Production module', () => {
 					uuid: prd.uuid,
 					title: prd.title,
 					theatre: { model: 'theatre', uuid: t.uuid, name: t.name },
+					playtext: CASE WHEN pt IS NULL THEN null ELSE { model: 'playtext', uuid: pt.uuid, title: pt.title } END,
 					cast: CASE WHEN p IS NULL THEN [] ELSE
 						COLLECT({ model: 'person', uuid: p.uuid, name: p.name, roles: roles }) END
 				} AS production

@@ -23,6 +23,12 @@ const PersonStub = function () {
 
 };
 
+const PlaytextStub = function () {
+
+	this.validate = sinon.stub();
+
+};
+
 const TheatreStub = function () {
 
 	this.validate = sinon.stub();
@@ -69,6 +75,7 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./person': PersonStub,
+		'./playtext': PlaytextStub,
 		'./theatre': TheatreStub
 	});
 
@@ -134,12 +141,14 @@ describe('Production model', () => {
 			sinon.assert.callOrder(
 				instance.validate.withArgs({ required: true }),
 				instance.theatre.validate.withArgs({ required: true }),
+				instance.playtext.validate.withArgs(),
 				instance.cast[0].validate.withArgs(),
 				instance.cast[0].roles[0].validate.withArgs(),
 				stubs.verifyErrorPresence.withArgs(instance)
 			);
 			expect(instance.validate.calledOnce).to.be.true;
 			expect(instance.theatre.validate.calledOnce).to.be.true;
+			expect(instance.playtext.validate.calledOnce).to.be.true;
 			expect(instance.cast[0].validate.calledOnce).to.be.true;
 			expect(instance.cast[0].roles[0].validate.calledOnce).to.be.true;
 			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
