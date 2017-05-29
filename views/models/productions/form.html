@@ -1,14 +1,6 @@
-{{#with instance}}
-	<fieldset class="fieldset">
-		{{> input-text
-			labelText='Title'
-			inputName='title'
-			value=title
-			errors=errors.title
-			required=true
-		}}
-	</fieldset>
+{{> fieldset-input-text-title}}
 
+{{#with instance}}
 	<fieldset class="fieldset">
 		{{> fieldset-header text='Theatre'}}
 		{{> input-text
