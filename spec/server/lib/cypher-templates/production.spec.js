@@ -16,27 +16,27 @@ describe('Cypher Templates Production module', () => {
 
 			const result = subject.getCreateQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				CREATE (prd:Production { uuid: $uuid, title: $title })
-				MERGE (t:Theatre { name: $theatre.name })
-				ON CREATE SET t.uuid = $theatre.uuid
-				CREATE (prd)-[:PLAYS_AT]->(t)
+				CREATE (production:Production { uuid: $uuid, title: $title })
+				MERGE (theatre:Theatre { name: $theatre.name })
+				ON CREATE SET theatre.uuid = $theatre.uuid
+				CREATE (production)-[:PLAYS_AT]->(theatre)
 				FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
-					MERGE (pt:Playtext { title: $playtext.title })
-					ON CREATE SET pt.uuid = $playtext.uuid
-					CREATE (prd)-[:PRODUCTION_OF]->(pt)
+					MERGE (playtext:Playtext { title: $playtext.title })
+					ON CREATE SET playtext.uuid = $playtext.uuid
+					CREATE (production)-[:PRODUCTION_OF]->(playtext)
 				)
 				FOREACH (castMember IN $cast |
-					MERGE (p:Person { name: castMember.name })
-					ON CREATE SET p.uuid = castMember.uuid
-					CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p)
+					MERGE (person:Person { name: castMember.name })
+					ON CREATE SET person.uuid = castMember.uuid
+					CREATE (production)<-[:PERFORMS_IN { position: castMember.position }]-(person)
 					FOREACH (role in castMember.roles |
-						CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(r:Role { name: role.name })
+						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(:Role { name: role.name })
 					)
 				)
 				RETURN {
 					model: 'production',
-					uuid: prd.uuid,
-					title: prd.title
+					uuid: production.uuid,
+					title: production.title
 				} AS production
 			`));
 
@@ -50,21 +50,22 @@ describe('Cypher Templates Production module', () => {
 
 			const result = subject.getEditQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (prd:Production { uuid: $uuid })-[:PLAYS_AT]->(t:Theatre)
-				OPTIONAL MATCH (prd)-[:PRODUCTION_OF]->(pt:Playtext)
-				OPTIONAL MATCH (prd)<-[castRel:PERFORMS_IN]-(p:Person)
-				OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(r:Role)
-				WITH prd, t, pt, castRel, p, roleRel, r
+				MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
+				OPTIONAL MATCH (production)-[:PRODUCTION_OF]->(playtext:Playtext)
+				OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
+				OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
+				WITH production, theatre, playtext, castRel, person, roleRel, role
 				ORDER BY roleRel.position
-				WITH prd, t, pt, castRel, p, CASE WHEN r IS NULL THEN [] ELSE COLLECT({ name: r.name }) END AS roles
+				WITH production, theatre, playtext, castRel, person,
+					CASE WHEN role IS NULL THEN [] ELSE COLLECT({ name: role.name }) END AS roles
 				ORDER BY castRel.position
 				RETURN {
 					model: 'production',
-					uuid: prd.uuid,
-					title: prd.title,
-					theatre: { name: t.name },
-					playtext: CASE WHEN pt IS NULL THEN '' ELSE { title: pt.title } END,
-					cast: CASE WHEN p IS NULL THEN [] ELSE COLLECT({ name: p.name, roles: roles }) END
+					uuid: production.uuid,
+					title: production.title,
+					theatre: { name: theatre.name },
+					playtext: CASE WHEN playtext IS NULL THEN '' ELSE { title: playtext.title } END,
+					cast: CASE WHEN person IS NULL THEN [] ELSE COLLECT({ name: person.name, roles: roles }) END
 				} AS production
 			`));
 
@@ -78,35 +79,35 @@ describe('Cypher Templates Production module', () => {
 
 			const result = subject.getUpdateQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (prd:Production { uuid: $uuid })
-				OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]-(r:Role)
-				WITH prd, COLLECT(r) AS roles
-				FOREACH (r in roles | DETACH DELETE r)
-				WITH prd
-				OPTIONAL MATCH (prd)-[r]-()
-				WITH prd, COLLECT(r) AS rels
-				FOREACH (r IN rels | DELETE r)
-				SET prd.title = $title
-				MERGE (t:Theatre { name: $theatre.name })
-				ON CREATE SET t.uuid = $theatre.uuid
-				CREATE (prd)-[:PLAYS_AT]->(t)
+				MATCH (production:Production { uuid: $uuid })
+				OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]-(role:Role)
+				WITH production, COLLECT(role) AS roles
+				FOREACH (role in roles | DETACH DELETE role)
+				WITH production
+				OPTIONAL MATCH (production)-[relationship]-()
+				WITH production, COLLECT(relationship) AS relationships
+				FOREACH (relationship IN relationships | DELETE relationship)
+				SET production.title = $title
+				MERGE (theatre:Theatre { name: $theatre.name })
+				ON CREATE SET theatre.uuid = $theatre.uuid
+				CREATE (production)-[:PLAYS_AT]->(theatre)
 				FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
-					MERGE (pt:Playtext { title: $playtext.title })
-					ON CREATE SET pt.uuid = $playtext.uuid
-					CREATE (prd)-[:PRODUCTION_OF]->(pt)
+					MERGE (playtext:Playtext { title: $playtext.title })
+					ON CREATE SET playtext.uuid = $playtext.uuid
+					CREATE (production)-[:PRODUCTION_OF]->(playtext)
 				)
 				FOREACH (castMember IN $cast |
-					MERGE (p:Person { name: castMember.name })
-					ON CREATE SET p.uuid = castMember.uuid
-					CREATE (prd)<-[:PERFORMS_IN { position: castMember.position }]-(p)
+					MERGE (person:Person { name: castMember.name })
+					ON CREATE SET person.uuid = castMember.uuid
+					CREATE (production)<-[:PERFORMS_IN { position: castMember.position }]-(person)
 					FOREACH (role in castMember.roles |
-						CREATE (p)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(r:Role { name: role.name })
+						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(:Role { name: role.name })
 					)
 				)
 				RETURN {
 					model: 'production',
-					uuid: prd.uuid,
-					title: prd.title
+					uuid: production.uuid,
+					title: production.title
 				} AS production
 			`));
 
@@ -120,23 +121,23 @@ describe('Cypher Templates Production module', () => {
 
 			const result = subject.getShowQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (prd:Production { uuid: $uuid })-[:PLAYS_AT]->(t:Theatre)
-				OPTIONAL MATCH (prd)-[:PRODUCTION_OF]->(pt:Playtext)
-				OPTIONAL MATCH (prd)<-[castRel:PERFORMS_IN]-(p:Person)
-				OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(r:Role)
-				WITH prd, t, pt, castRel, p, roleRel, r
+				MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
+				OPTIONAL MATCH (production)-[:PRODUCTION_OF]->(playtext:Playtext)
+				OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
+				OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
+				WITH production, theatre, playtext, castRel, person, roleRel, role
 				ORDER BY roleRel.position
-				WITH prd, t, pt, castRel, p,
-					CASE WHEN r IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: r.name }) END AS roles
+				WITH production, theatre, playtext, castRel, person,
+					CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: role.name }) END AS roles
 				ORDER BY castRel.position
 				RETURN {
 					model: 'production',
-					uuid: prd.uuid,
-					title: prd.title,
-					theatre: { model: 'theatre', uuid: t.uuid, name: t.name },
-					playtext: CASE WHEN pt IS NULL THEN null ELSE { model: 'playtext', uuid: pt.uuid, title: pt.title } END,
-					cast: CASE WHEN p IS NULL THEN [] ELSE
-						COLLECT({ model: 'person', uuid: p.uuid, name: p.name, roles: roles }) END
+					uuid: production.uuid,
+					title: production.title,
+					theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name },
+					playtext: CASE WHEN playtext IS NULL THEN null ELSE { model: 'playtext', uuid: playtext.uuid, title: playtext.title } END,
+					cast: CASE WHEN person IS NULL THEN [] ELSE
+						COLLECT({ model: 'person', uuid: person.uuid, name: person.name, roles: roles }) END
 				} AS production
 			`));
 

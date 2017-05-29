@@ -1,17 +1,17 @@
 const getValidateDeleteQuery = () => `
-	MATCH (t:Theatre { uuid: $uuid })<-[r:PLAYS_AT]-(prd:Production)
-	RETURN SIGN(COUNT(r)) AS relationshipCount
+	MATCH (theatre:Theatre { uuid: $uuid })<-[relationship:PLAYS_AT]-(production:Production)
+	RETURN SIGN(COUNT(relationship)) AS relationshipCount
 `;
 
 const getShowQuery = () => `
-	MATCH (t:Theatre { uuid: $uuid })
-	OPTIONAL MATCH (t)<-[:PLAYS_AT]-(prd:Production)
-	WITH t, CASE WHEN prd IS NULL THEN [] ELSE
-		COLLECT({ model: 'production', uuid: prd.uuid, title: prd.title }) END AS productions
+	MATCH (theatre:Theatre { uuid: $uuid })
+	OPTIONAL MATCH (theatre)<-[:PLAYS_AT]-(production:Production)
+	WITH theatre, CASE WHEN production IS NULL THEN [] ELSE
+		COLLECT({ model: 'production', uuid: production.uuid, title: production.title }) END AS productions
 	RETURN {
 		model: 'theatre',
-		uuid: t.uuid,
-		name: t.name,
+		uuid: theatre.uuid,
+		name: theatre.name,
 		productions: productions
 	} AS theatre
 `;

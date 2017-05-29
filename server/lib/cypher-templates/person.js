@@ -1,23 +1,24 @@
 const getShowQuery = () => `
-	MATCH (p:Person { uuid: $uuid })
-	OPTIONAL MATCH (p)-[:PERFORMS_IN]->(prd:Production)-[:PLAYS_AT]->(t:Theatre)
-	WITH p, prd, t
-	OPTIONAL MATCH (p)-[roleRel:PERFORMS_AS { prodUuid: prd.uuid }]->(r:Role)
-	WITH p, prd, t, roleRel, r
+	MATCH (person:Person { uuid: $uuid })
+	OPTIONAL MATCH (person)-[:PERFORMS_IN]->(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
+	WITH person, production, theatre
+	OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: production.uuid }]->(role:Role)
+	WITH person, production, theatre, roleRel, role
 	ORDER BY roleRel.position
-	WITH p, prd, t, CASE WHEN r IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: r.name }) END AS roles
-	WITH p, CASE WHEN prd IS NULL THEN [] ELSE
+	WITH person, production, theatre,
+		CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: role.name }) END AS roles
+	WITH person, CASE WHEN production IS NULL THEN [] ELSE
 		COLLECT({
 			model: 'production',
-			uuid: prd.uuid,
-			title: prd.title,
-			theatre: { model: 'theatre', uuid: t.uuid, name: t.name },
+			uuid: production.uuid,
+			title: production.title,
+			theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name },
 			roles: roles
 		}) END AS productions
 	RETURN {
 		model: 'person',
-		uuid: p.uuid,
-		name: p.name,
+		uuid: person.uuid,
+		name: person.name,
 		productions: productions
 	} AS person
 `;

@@ -12,20 +12,20 @@ describe('Cypher Templates Playtext module', () => {
 
 			const result = subject.getShowQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-				MATCH (pt:Playtext { uuid: $uuid })
-				OPTIONAL MATCH (pt)<-[:PRODUCTION_OF]-(prd:Production)-[:PLAYS_AT]->(t:Theatre)
-				WITH pt, prd, t
-				WITH pt, CASE WHEN prd IS NULL THEN [] ELSE
+				MATCH (playtext:Playtext { uuid: $uuid })
+				OPTIONAL MATCH (playtext)<-[:PRODUCTION_OF]-(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
+				WITH playtext, production, theatre
+				WITH playtext, CASE WHEN production IS NULL THEN [] ELSE
 					COLLECT({
 						model: 'production',
-						uuid: prd.uuid,
-						title: prd.title,
-						theatre: { model: 'theatre', uuid: t.uuid, name: t.name }
+						uuid: production.uuid,
+						title: production.title,
+						theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name }
 					}) END AS productions
 				RETURN {
 					model: 'playtext',
-					uuid: pt.uuid,
-					title: pt.title,
+					uuid: playtext.uuid,
+					title: playtext.title,
 					productions: productions
 				} AS playtext
 			`));
