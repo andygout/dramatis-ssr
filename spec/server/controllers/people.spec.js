@@ -50,7 +50,7 @@ const createInstance = (method, methodStub) => {
 
 	const PersonModel = (method !== 'list') ?
 		function () { this[method] = methodStub; } :
-		sinon.stub(Person, 'list', function () { return methodStub });
+		sinon.stub(Person, 'list').callsFake(() => { return methodStub });
 
 	const subject = createSubject({ PersonModel });
 

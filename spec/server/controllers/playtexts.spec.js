@@ -50,7 +50,7 @@ const createInstance = (method, methodStub) => {
 
 	const PlaytextModel = (method !== 'list') ?
 		function () { this[method] = methodStub; } :
-		sinon.stub(Playtext, 'list', function () { return methodStub });
+		sinon.stub(Playtext, 'list').callsFake(() => { return methodStub });
 
 	const subject = createSubject({ PlaytextModel });
 

@@ -53,7 +53,7 @@ const createInstance = (method, methodStub) => {
 			case 'new':
 				return methodStub;
 			case 'list':
-				return sinon.stub(Production, 'list', function () { return methodStub });
+				return sinon.stub(Production, 'list').callsFake(() => { return methodStub });
 			default:
 				return function () { this[method] = methodStub; };
 		}
