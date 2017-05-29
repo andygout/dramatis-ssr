@@ -19,6 +19,6 @@ export default (req, res, instance, page, opts = {}) => {
 
 	page === 'list' ? renderData.instances = instance : renderData.instance = instance;
 
-	res.render(`models/${opts.pluralisedModel || pluralise(instance.model)}/${page}`, renderData);
+	return res.render(`models/${opts.pluralisedModel || pluralise(instance.model)}/${page}`, renderData);
 
 };

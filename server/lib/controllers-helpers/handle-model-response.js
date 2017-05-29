@@ -9,13 +9,13 @@ export default (req, res, instance, action) => {
 
 	if (instance.hasError) {
 
-		['create', 'update'].includes(action) ?
+		return ['create', 'update'].includes(action) ?
 			renderPage(req, res, instance, 'form', { action }) :
 			res.redirect(instanceRoute(instance));
 
 	} else {
 
-		res.redirect(action !== 'delete' ? instanceRoute(instance) : '/');
+		return res.redirect(action !== 'delete' ? instanceRoute(instance) : '/');
 
 	}
 

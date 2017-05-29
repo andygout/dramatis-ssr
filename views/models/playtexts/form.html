@@ -1,9 +1,6 @@
-<fieldset class="fieldset">
-	{{> input-text
-		labelText='Title'
-		inputName='title'
-		value=instance.title
-		errors=instance.errors.title
-		required=true
-	}}
-</fieldset>
+{{> fieldset-input-text
+	labelText='Title'
+	inputName='title'
+	value=instance.title
+	errors=instance.errors.title
+}}

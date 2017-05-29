@@ -2,7 +2,6 @@ const expect = require('chai').expect;
 const httpMocks = require('node-mocks-http');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 const Playtext = require('../../../dist/models/playtext');
 
@@ -51,7 +50,7 @@ const createInstance = (method, methodStub) => {
 
 	const PlaytextModel = (method !== 'list') ?
 		function () { this[method] = methodStub; } :
-		sinon.stub(Playtext, 'list', function () { return methodStub });
+		sinon.stub(Playtext, 'list').callsFake(() => { return methodStub });
 
 	const subject = createSubject({ PlaytextModel });
 

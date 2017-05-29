@@ -2,7 +2,6 @@ const expect = require('chai').expect;
 const httpMocks = require('node-mocks-http');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 const Production = require('../../../dist/models/production');
 
@@ -54,7 +53,7 @@ const createInstance = (method, methodStub) => {
 			case 'new':
 				return methodStub;
 			case 'list':
-				return sinon.stub(Production, 'list', function () { return methodStub });
+				return sinon.stub(Production, 'list').callsFake(() => { return methodStub });
 			default:
 				return function () { this[method] = methodStub; };
 		}

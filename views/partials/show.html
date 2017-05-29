@@ -1,0 +1,22 @@
+{{#with instance}}
+	{{#with productions}}
+		<div class="content-wrapper">
+			{{> content-label text='Productions'}}
+			<div class="content">
+				<ul class="list">
+					{{#each this}}
+						<li>
+							{{> instance-link}}{{#with theatre}} - {{> instance-link}}{{/with}}
+							{{#if roles}}
+								…
+								<span class="role-text">
+									{{join roles 'name'}}
+								</span>
+							{{/if}}
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+	{{/with}}
+{{/with}}

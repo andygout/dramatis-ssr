@@ -11,7 +11,7 @@ let instance;
 beforeEach(() => {
 
 	stubs = {
-		nodeUuid: {
+		uuid: {
 			v4: sandbox.stub().returns('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx')
 		},
 		propIsObject: sandbox.stub().returns(false)
@@ -29,7 +29,7 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/lib/prepare-as-params', {
-		'node-uuid': stubs.nodeUuid,
+		'uuid': stubs.uuid,
 		'./prop-is-object': stubOverrides.propIsObject || stubs.propIsObject
 	});
 
