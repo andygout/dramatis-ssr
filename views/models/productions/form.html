@@ -1,11 +1,6 @@
-{{#with instance}}
-	{{> fieldset-input-text
-		labelText='Title'
-		inputName='title'
-		value=title
-		errors=errors.title
-	}}
+{{> fieldset-input-text}}
 
+{{#with instance}}
 	<fieldset class="fieldset">
 		{{> fieldset-header text='Theatre'}}
 		{{> input-text
@@ -20,10 +15,10 @@
 	<fieldset class="fieldset">
 		{{> fieldset-header text='Playtext'}}
 		{{> input-text
-			labelText='Title'
-			inputName='playtext[title]'
-			value=playtext.title
-			errors=playtext.errors.title
+			labelText='Name'
+			inputName='playtext[name]'
+			value=playtext.name
+			errors=playtext.errors.name
 		}}
 	</fieldset>
 

@@ -19,7 +19,6 @@ beforeEach(() => {
 
 	stubs = {
 		capitalise: sandbox.stub().returns('Productions'),
-		instanceNamingValue: sandbox.stub().returns('Hamlet'),
 		pluralise: sandbox.stub().returns('productions')
 	};
 
@@ -36,7 +35,6 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/lib/get-page-data', {
 		'./capitalise': stubOverrides.capitalise || stubs.capitalise,
-		'./instance-naming-value': stubOverrides.instanceNamingValue || stubs.instanceNamingValue,
 		'./pluralise': stubs.pluralise
 	});
 
@@ -125,7 +123,6 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-
 					productionInstance.documentTitle = ' | Edit: Macbeth (Hampstead Theatre) (production)';
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Macbeth (Hampstead Theatre) (production)');
@@ -133,7 +130,6 @@ describe('Get Page Data module', () => {
 				});
 
 				it('will generate text \' | Edit: <instance> (<theatre name>) (<model>)\' when documentTitle absent', () => {
-
 
 					const pageData = subject(productionInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (Almeida Theatre) (production)');
@@ -146,7 +142,6 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-
 					theatreInstance.documentTitle = ' | Edit: Hampstead Theatre (theatre)';
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Hampstead Theatre (theatre)');
@@ -155,7 +150,6 @@ describe('Get Page Data module', () => {
 
 				it('will generate text \' | Edit: <instance> (<model>)\' when documentTitle absent', () => {
 
-					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'update');
 					expect(pageData.documentTitle).to.eq(' | Edit: Almeida Theatre (theatre)');
 
@@ -171,7 +165,6 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
 
-
 					const pageData = subject(productionInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Hamlet (Almeida Theatre) (production)');
 
@@ -183,7 +176,6 @@ describe('Get Page Data module', () => {
 
 				it('will read \' | <instance> (<model>)\'', () => {
 
-					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
 					const pageData = subject(theatreInstance, 'show');
 					expect(pageData.documentTitle).to.eq(' | Almeida Theatre (theatre)');
 
@@ -198,7 +190,6 @@ describe('Get Page Data module', () => {
 			context('productions instances', () => {
 
 				it('will read \' | Home \'', () => {
-
 
 					const pageData = subject([], 'list', { pluralisedModel: 'productions' });
 					expect(pageData.documentTitle).to.eq(' | Home');
@@ -238,54 +229,19 @@ describe('Get Page Data module', () => {
 
 		context('update action', () => {
 
-			context('production instance', () => {
+			it('will prioritise use of pageTitle property over title property', () => {
 
-				it('will prioritise use of pageTitle property over title property', () => {
-
-
-					productionInstance.pageTitle = 'Macbeth';
-					const pageData = subject(productionInstance, 'update');
-					expect(stubs.instanceNamingValue.notCalled).to.be.true;
-					expect(pageData.title).to.eq('Macbeth');
-
-				});
-
-				it('will assign naming value of instance (title) pageTitle absent', () => {
-
-
-					productionInstance.pageTitle = undefined;
-					const pageData = subject(productionInstance, 'update');
-					expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-					expect(stubs.instanceNamingValue.calledWithExactly(productionInstance)).to.be.true;
-					expect(pageData.title).to.eq('Hamlet');
-
-				});
+				productionInstance.pageTitle = 'Macbeth';
+				const pageData = subject(productionInstance, 'update');
+				expect(pageData.title).to.eq('Macbeth');
 
 			});
 
-			context('theatre instance', () => {
+			it('will assign name value of instance if pageTitle absent', () => {
 
-				it('will prioritise use of pageTitle property over name property', () => {
-
-					subject = createSubject({ instanceNamingValue: sinon.stub().returns('Almeida Theatre') });
-					theatreInstance.pageTitle = 'Hampstead Theatre';
-					const pageData = subject(theatreInstance, 'update');
-					expect(stubs.instanceNamingValue.notCalled).to.be.true;
-					expect(pageData.title).to.eq('Hampstead Theatre');
-
-				});
-
-				it('will assign naming value of instance (name) when pageTitle absent', () => {
-
-					const instanceNamingValueStub = sinon.stub().returns('Almeida Theatre');
-					subject = createSubject({ instanceNamingValue: instanceNamingValueStub });
-					theatreInstance.pageTitle = undefined;
-					const pageData = subject(theatreInstance, 'update');
-					expect(instanceNamingValueStub.calledOnce).to.be.true;
-					expect(instanceNamingValueStub.calledWithExactly(theatreInstance)).to.be.true;
-					expect(pageData.title).to.eq('Almeida Theatre');
-
-				});
+				productionInstance.pageTitle = undefined;
+				const pageData = subject(productionInstance, 'update');
+				expect(pageData.title).to.eq('Hamlet');
 
 			});
 
@@ -293,17 +249,10 @@ describe('Get Page Data module', () => {
 
 		context('show action', () => {
 
-			context('production instance', () => {
+			it('will assign name value of instance', () => {
 
-				it('will assign naming value of instance', () => {
-
-
-					const pageData = subject(productionInstance, 'show');
-					expect(stubs.instanceNamingValue.calledOnce).to.be.true;
-					expect(stubs.instanceNamingValue.calledWithExactly(productionInstance)).to.be.true;
-					expect(pageData.title).to.eq('Hamlet');
-
-				});
+				const pageData = subject(productionInstance, 'show');
+				expect(pageData.title).to.eq('Hamlet');
 
 			});
 
@@ -330,15 +279,10 @@ describe('Get Page Data module', () => {
 
 			context(`${action} action`, () => {
 
-				context('production instance', () => {
+				it('will be the model of the instance', () => {
 
-					it('will be the model of the instance', () => {
-
-
-						const pageData = subject(productionInstance, action);
-						expect(pageData.model).to.eq('production');
-
-					});
+					const pageData = subject(productionInstance, action);
+					expect(pageData.model).to.eq('production');
 
 				});
 

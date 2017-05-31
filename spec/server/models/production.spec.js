@@ -82,7 +82,7 @@ const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ title: 'Hamlet', cast: [{ name: 'Patrick Stewart' }] });
+	return new subject({ name: 'Hamlet', cast: [{ name: 'Patrick Stewart' }] });
 
 };
 
@@ -90,14 +90,14 @@ describe('Production model', () => {
 
 	describe('validate method', () => {
 
-		it('will trim strings before validating title', () => {
+		it('will trim strings before validating name', () => {
 
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
 			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
-			expect(stubs.validateString.calledWithExactly(instance.title, 'Title', {})).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
 
 		});
 
@@ -107,7 +107,7 @@ describe('Production model', () => {
 
 
 				instance.validate();
-				expect(instance.errors).not.to.have.property('title');
+				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
 
 			});
@@ -118,12 +118,12 @@ describe('Production model', () => {
 
 			it('will add properties that are arrays to errors property', () => {
 
-				instance = createInstance({ validateString: sinon.stub().returns(['Title is too short']) });
+				instance = createInstance({ validateString: sinon.stub().returns(['Name is too short']) });
 				instance.validate();
 				expect(instance.errors)
-					.to.have.property('title')
+					.to.have.property('name')
 					.that.is.an('array')
-					.that.deep.eq(['Title is too short']);
+					.that.deep.eq(['Name is too short']);
 
 			});
 

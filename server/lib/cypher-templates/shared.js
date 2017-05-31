@@ -1,68 +1,41 @@
 import capitalise from '../capitalise';
-import instanceNamingProp from '../instance-naming-prop';
 import pluralise from '../pluralise';
 
-const getValidateUpdateQuery = model => {
+const getValidateUpdateQuery = model => `
+	MATCH (n:${capitalise(model)} { name: $name }) WHERE n.uuid <> $uuid
+	RETURN SIGN(COUNT(n)) AS ${model}Count
+`;
 
-	const namingProp = instanceNamingProp(model);
+const getEditQuery = model => `
+	MATCH (n:${capitalise(model)} { uuid: $uuid })
+	RETURN {
+		model: '${model}',
+		uuid: n.uuid,
+		name: n.name
+	} AS ${model}
+`;
 
-	return `
-		MATCH (n:${capitalise(model)} { ${namingProp}: $${namingProp} }) WHERE n.uuid <> $uuid
-		RETURN SIGN(COUNT(n)) AS ${model}Count
-	`;
+const getUpdateQuery = model => `
+	MATCH (n:${capitalise(model)} { uuid: $uuid })
+	SET n.name = $name
+	RETURN {
+		model: '${model}',
+		uuid: n.uuid,
+		name: n.name
+	} AS ${model}
+`;
 
-};
-
-const getEditQuery = model => {
-
-	const namingProp = instanceNamingProp(model);
-
-	return `
-		MATCH (n:${capitalise(model)} { uuid: $uuid })
-		RETURN {
-			model: '${model}',
-			uuid: n.uuid,
-			${namingProp}: n.${namingProp}
-		} AS ${model}
-	`;
-
-};
-
-const getUpdateQuery = model => {
-
-	const namingProp = instanceNamingProp(model);
-
-	return `
-		MATCH (n:${capitalise(model)} { uuid: $uuid })
-		SET n.${namingProp} = $${namingProp}
-		RETURN {
-			model: '${model}',
-			uuid: n.uuid,
-			${namingProp}: n.${namingProp}
-		} AS ${model}
-	`;
-
-};
-
-const getDeleteQuery = model => {
-
-	const namingProp = instanceNamingProp(model);
-
-	return `
-		MATCH (n:${capitalise(model)} { uuid: $uuid })
-		WITH n, n.${namingProp} AS ${namingProp}
-		DETACH DELETE n
-		RETURN {
-			model: '${model}',
-			${namingProp}: ${namingProp}
-		} AS ${model}
-	`;
-
-};
+const getDeleteQuery = model => `
+	MATCH (n:${capitalise(model)} { uuid: $uuid })
+	WITH n, n.name AS name
+	DETACH DELETE n
+	RETURN {
+		model: '${model}',
+		name: name
+	} AS ${model}
+`;
 
 const getListQuery = model => {
-
-	const namingProp = instanceNamingProp(model);
 
 	const theatreRelationship = (model === 'production') ? '-[:PLAYS_AT]->(t:Theatre)' : '';
 
@@ -73,7 +46,7 @@ const getListQuery = model => {
 		RETURN COLLECT({
 			model: '${model}',
 			uuid: n.uuid,
-			${namingProp}: n.${namingProp}
+			name: n.name
 			${theatreObject}
 		}) AS ${pluralise(model)}
 	`;

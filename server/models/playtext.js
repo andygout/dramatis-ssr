@@ -14,7 +14,7 @@ export default class Playtext {
 		});
 
 		this.uuid = props.uuid;
-		this.title = props.title;
+		this.name = props.name;
 		this.pageTitle = props.pageTitle;
 		this.productions = [];
 		this.hasError = false;
@@ -26,9 +26,9 @@ export default class Playtext {
 
 		trimStrings(this);
 
-		const titleErrors = validateString(this.title, 'Title', opts);
+		const nameErrors = validateString(this.name, 'Name', opts);
 
-		if (titleErrors.length) this.errors.title = titleErrors;
+		if (nameErrors.length) this.errors.name = nameErrors;
 
 	};
 
@@ -37,7 +37,7 @@ export default class Playtext {
 		return dbQuery({ query: cypherTemplates.getValidateUpdateQuery(this.model), params: this })
 			.then(({ playtextCount }) => {
 
-				if (playtextCount > 0) this.errors.title = ['Title already exists'];
+				if (playtextCount > 0) this.errors.name = ['Name already exists'];
 
 			});
 

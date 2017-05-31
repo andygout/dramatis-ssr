@@ -52,7 +52,7 @@ const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ title: 'Hamlet' });
+	return new subject({ name: 'Hamlet' });
 
 };
 
@@ -60,14 +60,14 @@ describe('Playtext model', () => {
 
 	describe('validate method', () => {
 
-		it('will trim strings before validating title', () => {
+		it('will trim strings before validating name', () => {
 
 			instance.validate();
 			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
 			expect(stubs.trimStrings.calledOnce).to.be.true;
 			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
-			expect(stubs.validateString.calledWithExactly(instance.title, 'Title', {})).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
 
 		});
 
@@ -77,7 +77,7 @@ describe('Playtext model', () => {
 
 
 				instance.validate();
-				expect(instance.errors).not.to.have.property('title');
+				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
 
 			});
@@ -88,12 +88,12 @@ describe('Playtext model', () => {
 
 			it('will add properties that are arrays to errors property', () => {
 
-				instance = createInstance({ validateString: sinon.stub().returns(['Title is too short']) });
+				instance = createInstance({ validateString: sinon.stub().returns(['Name is too short']) });
 				instance.validate();
 				expect(instance.errors)
-					.to.have.property('title')
+					.to.have.property('name')
 					.that.is.an('array')
-					.that.deep.eq(['Title is too short']);
+					.that.deep.eq(['Name is too short']);
 
 			});
 
@@ -117,13 +117,13 @@ describe('Playtext model', () => {
 
 		});
 
-		context('valid data (results returned that indicate title does not already exist)', () => {
+		context('valid data (results returned that indicate name does not already exist)', () => {
 
 			it('will not add properties to errors property', done => {
 
 				instance = createInstance({ dbQuery: sinon.stub().resolves({ playtextCount: 0 }) });
 				instance.validateUpdateInDb().then(() => {
-					expect(instance.errors).not.to.have.property('title');
+					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
 					done();
 				});
@@ -132,16 +132,16 @@ describe('Playtext model', () => {
 
 		});
 
-		context('invalid data (results returned that indicate title already exists)', () => {
+		context('invalid data (results returned that indicate name already exists)', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 
 				instance = createInstance({ dbQuery: sinon.stub().resolves({ playtextCount: 1 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
-						.to.have.property('title')
+						.to.have.property('name')
 						.that.is.an('array')
-						.that.deep.eq(['Title already exists']);
+						.that.deep.eq(['Name already exists']);
 					done();
 				});
 

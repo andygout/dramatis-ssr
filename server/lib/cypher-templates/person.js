@@ -11,7 +11,7 @@ const getShowQuery = () => `
 		COLLECT({
 			model: 'production',
 			uuid: production.uuid,
-			title: production.title,
+			name: production.name,
 			theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name },
 			roles: roles
 		}) END AS productions
