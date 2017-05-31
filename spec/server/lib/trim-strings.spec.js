@@ -35,11 +35,11 @@ describe('Trim Strings module', () => {
 
 		it('will trim leading and trailing whitespace', () => {
 
-			instance = { title: ' foobar ' };
+			instance = { name: ' foobar ' };
 			subject(instance);
 			expect(stubs.propIsObject.calledOnce).to.be.true;
 			expect(stubs.propIsObject.calledWithExactly(' foobar ')).to.be.true;
-			expect(instance.title).to.eq('foobar');
+			expect(instance.name).to.eq('foobar');
 
 		});
 

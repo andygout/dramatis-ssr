@@ -19,13 +19,13 @@ describe('Cypher Templates Playtext module', () => {
 					COLLECT({
 						model: 'production',
 						uuid: production.uuid,
-						title: production.title,
+						name: production.name,
 						theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name }
 					}) END AS productions
 				RETURN {
 					model: 'playtext',
 					uuid: playtext.uuid,
-					title: playtext.title,
+					name: playtext.name,
 					productions: productions
 				} AS playtext
 			`));

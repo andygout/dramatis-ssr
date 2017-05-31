@@ -18,7 +18,7 @@ export default class Production {
 		});
 
 		this.uuid = props.uuid;
-		this.title = props.title;
+		this.name = props.name;
 		this.pageTitle = props.pageTitle;
 		this.documentTitle = props.documentTitle;
 		this.theatre = new Theatre(props.theatre);
@@ -35,9 +35,9 @@ export default class Production {
 
 		trimStrings(this);
 
-		const titleErrors = validateString(this.title, 'Title', opts);
+		const nameErrors = validateString(this.name, 'Name', opts);
 
-		if (titleErrors.length) this.errors.title = titleErrors;
+		if (nameErrors.length) this.errors.name = nameErrors;
 
 	};
 

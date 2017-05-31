@@ -7,7 +7,7 @@ const nullState = action => (action === 'edit') ? '\'\'': 'null';
 const getCreateUpdateQuery = action => {
 
 	const createUpdateQueryOpeningMap = {
-		create: 'CREATE (production:Production { uuid: $uuid, title: $title })',
+		create: 'CREATE (production:Production { uuid: $uuid, name: $name })',
 		update: `
 			MATCH (production:Production { uuid: $uuid })
 			OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]-(role:Role)
@@ -17,7 +17,7 @@ const getCreateUpdateQuery = action => {
 			OPTIONAL MATCH (production)-[relationship]-()
 			WITH production, COLLECT(relationship) AS relationships
 			FOREACH (relationship IN relationships | DELETE relationship)
-			SET production.title = $title
+			SET production.name = $name
 		`
 	};
 
@@ -26,8 +26,8 @@ const getCreateUpdateQuery = action => {
 		MERGE (theatre:Theatre { name: $theatre.name })
 		ON CREATE SET theatre.uuid = $theatre.uuid
 		CREATE (production)-[:PLAYS_AT]->(theatre)
-		FOREACH (item IN CASE WHEN $playtext.title <> '' THEN [1] ELSE [] END |
-			MERGE (playtext:Playtext { title: $playtext.title })
+		FOREACH (item IN CASE WHEN $playtext.name <> '' THEN [1] ELSE [] END |
+			MERGE (playtext:Playtext { name: $playtext.name })
 			ON CREATE SET playtext.uuid = $playtext.uuid
 			CREATE (production)-[:PRODUCTION_OF]->(playtext)
 		)
@@ -42,7 +42,7 @@ const getCreateUpdateQuery = action => {
 		RETURN {
 			model: 'production',
 			uuid: production.uuid,
-			title: production.title
+			name: production.name
 		} AS production
 	`;
 
@@ -61,10 +61,10 @@ const getEditShowQuery = action => `
 	RETURN {
 		model: 'production',
 		uuid: production.uuid,
-		title: production.title,
+		name: production.name,
 		theatre: { ${additionalProps('theatre', action)} name: theatre.name },
 		playtext: CASE WHEN playtext IS NULL THEN ${nullState(action)} ELSE
-			{ ${additionalProps('playtext', action)} title: playtext.title } END,
+			{ ${additionalProps('playtext', action)} name: playtext.name } END,
 		cast: CASE WHEN person IS NULL THEN [] ELSE
 			COLLECT({ ${additionalProps('person', action)} name: person.name, roles: roles }) END
 	} AS production

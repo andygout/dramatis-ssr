@@ -1,5 +1,4 @@
 import capitalise from './capitalise';
-import instanceNamingValue from './instance-naming-value';
 import pluralise from './pluralise';
 
 const getDocumentTitle = (instance, action, title, opts) => {
@@ -32,7 +31,7 @@ export default (instance, action, opts = {}) => {
 		`New ${instance.model}` :
 		action === 'list' ?
 			capitalise(opts.pluralisedModel) :
-			instance.pageTitle || instanceNamingValue(instance);
+			instance.pageTitle || instance.name;
 
 	const documentTitle = instance.documentTitle || getDocumentTitle(instance, action, title, opts);
 

@@ -1,10 +1,8 @@
-import instanceNamingValue from './instance-naming-value';
-
 export default (instance, action) => {
 
 	let text = `${instance.model.toUpperCase()} ${instance.hasError ?
 		'ERRORS' :
-		action.toUpperCase() + 'D: ' + instanceNamingValue(instance)}
+		action.toUpperCase() + 'D: ' + instance.name}
 	`.trim();
 
 	if (instance.errors && instance.errors.associations) text += `

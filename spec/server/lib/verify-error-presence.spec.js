@@ -70,11 +70,11 @@ describe('Verify Error Presence module', () => {
 
 		it('will return false if errors present in form of array', () => {
 
-			instance = { errors: ['Title is too short'] };
+			instance = { errors: ['Name is too short'] };
 			const result = subject(instance);
 			expect(stubs.propIsObject.calledTwice).to.be.true;
-			sinon.assert.calledWithExactly(stubs.propIsObject.firstCall, ['Title is too short']);
-			sinon.assert.calledWithExactly(stubs.propIsObject.secondCall, 'Title is too short');
+			sinon.assert.calledWithExactly(stubs.propIsObject.firstCall, ['Name is too short']);
+			sinon.assert.calledWithExactly(stubs.propIsObject.secondCall, 'Name is too short');
 			expect(result).to.be.false;
 
 		});
@@ -85,7 +85,7 @@ describe('Verify Error Presence module', () => {
 
 		it('will return true', () => {
 
-			instance = { errors: { title: ['Title is too short'] } };
+			instance = { errors: { name: ['Name is too short'] } };
 			const result = subject(instance);
 			expect(stubs.propIsObject.notCalled).to.be.true;
 			expect(result).to.be.true;
