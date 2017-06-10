@@ -75,7 +75,7 @@ describe('Cypher Templates Shared module', () => {
 				expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 				expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 					MATCH (n:Theatre { name: $name }) WHERE n.uuid <> $uuid
-					RETURN SIGN(COUNT(n)) AS theatreCount
+					RETURN SIGN(COUNT(n)) AS instanceCount
 				`));
 
 			});

@@ -3,7 +3,7 @@ import pluralise from '../pluralise';
 
 const getValidateUpdateQuery = model => `
 	MATCH (n:${capitalise(model)} { name: $name }) WHERE n.uuid <> $uuid
-	RETURN SIGN(COUNT(n)) AS ${model}Count
+	RETURN SIGN(COUNT(n)) AS instanceCount
 `;
 
 const getEditQuery = model => `

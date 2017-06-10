@@ -44,7 +44,7 @@ const showRoute = (req, res, next) => {
 
 const listRoute = (req, res, next) => {
 
-	return Playtext.list()
+	return Playtext.list('playtext')
 		.then(({ playtexts }) => renderPage(req, res, playtexts, 'list', { pluralisedModel: 'playtexts' }))
 		.catch(err => next(err));
 

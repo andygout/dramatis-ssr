@@ -44,7 +44,7 @@ const showRoute = (req, res, next) => {
 
 const listRoute = (req, res, next) => {
 
-	return Theatre.list()
+	return Theatre.list('theatre')
 		.then(({ theatres }) => renderPage(req, res, theatres, 'list', { pluralisedModel: 'theatres' }))
 		.catch(err => next(err));
 
