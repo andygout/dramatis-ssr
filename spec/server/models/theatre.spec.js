@@ -194,7 +194,6 @@ describe('Theatre model', () => {
 
 			it('will update', done => {
 
-
 				sinon.spy(instance, 'validate');
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {

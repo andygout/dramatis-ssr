@@ -251,7 +251,6 @@ describe('Production model', () => {
 
 			it('will update', done => {
 
-
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {
 					expect(instance.setErrorStatus.calledBefore(stubs.dbQuery)).to.be.true;
