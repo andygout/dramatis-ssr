@@ -34,4 +34,4 @@ export default class Person extends Base {
 
 	};
 
-}
+};

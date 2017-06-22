@@ -29,4 +29,4 @@ export default class Playtext extends Base {
 
 	};
 
-}
+};
