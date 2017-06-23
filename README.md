@@ -8,7 +8,7 @@ Brief
 A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.
 
 
-Setup
+To run locally
 -------
 
 - Clone this repo.
@@ -20,7 +20,7 @@ Setup
 - Run server using: `$ npm start` and visit homepage: `localhost:3000`.
 
 
-Testing
+To test
 -------
 
 - Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`.
