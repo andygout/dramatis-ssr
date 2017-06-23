@@ -13,7 +13,7 @@ const RoleStub = function () {
 
 	this.validate = sinon.stub();
 
-}
+};
 
 const PersonStub = function () {
 
