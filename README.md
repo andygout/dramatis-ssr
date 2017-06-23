@@ -23,5 +23,5 @@ To run locally
 To test
 -------
 
-- Install [mocha](https://www.npmjs.com/package/mocha) globally: `$ npm install -g mocha`.
+- Ensure `$ npm install` has been run.
 - `$ npm test`.
