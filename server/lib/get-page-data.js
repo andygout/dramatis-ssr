@@ -17,7 +17,7 @@ const getDocumentTitle = (instance, action, title, opts) => {
 
 	if (opts.pluralisedModel && opts.pluralisedModel === 'productions') documentTitle = 'Home';
 
-	return ` | ${documentTitle}`;
+	return documentTitle;
 
 };
 

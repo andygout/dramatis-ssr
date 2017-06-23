@@ -108,10 +108,10 @@ describe('Get Page Data module', () => {
 
 		context('create action', () => {
 
-			it('will read \' | New <model>\'', () => {
+			it('will read \'New <model>\'', () => {
 
 				const pageData = subject(productionInstance, 'create');
-				expect(pageData.documentTitle).to.eq(' | New production');
+				expect(pageData.documentTitle).to.eq('New production');
 
 			});
 
@@ -123,16 +123,16 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-					productionInstance.documentTitle = ' | Edit: Macbeth (Hampstead Theatre) (production)';
+					productionInstance.documentTitle = 'Edit: Macbeth (Hampstead Theatre) (production)';
 					const pageData = subject(productionInstance, 'update');
-					expect(pageData.documentTitle).to.eq(' | Edit: Macbeth (Hampstead Theatre) (production)');
+					expect(pageData.documentTitle).to.eq('Edit: Macbeth (Hampstead Theatre) (production)');
 
 				});
 
-				it('will generate text \' | Edit: <instance> (<theatre name>) (<model>)\' when documentTitle absent', () => {
+				it('will generate text \'Edit: <instance> (<theatre name>) (<model>)\' when documentTitle absent', () => {
 
 					const pageData = subject(productionInstance, 'update');
-					expect(pageData.documentTitle).to.eq(' | Edit: Hamlet (Almeida Theatre) (production)');
+					expect(pageData.documentTitle).to.eq('Edit: Hamlet (Almeida Theatre) (production)');
 
 				});
 
@@ -142,16 +142,16 @@ describe('Get Page Data module', () => {
 
 				it('will prioritise use of documentTitle property over generated value', () => {
 
-					theatreInstance.documentTitle = ' | Edit: Hampstead Theatre (theatre)';
+					theatreInstance.documentTitle = 'Edit: Hampstead Theatre (theatre)';
 					const pageData = subject(theatreInstance, 'update');
-					expect(pageData.documentTitle).to.eq(' | Edit: Hampstead Theatre (theatre)');
+					expect(pageData.documentTitle).to.eq('Edit: Hampstead Theatre (theatre)');
 
 				});
 
-				it('will generate text \' | Edit: <instance> (<model>)\' when documentTitle absent', () => {
+				it('will generate text \'Edit: <instance> (<model>)\' when documentTitle absent', () => {
 
 					const pageData = subject(theatreInstance, 'update');
-					expect(pageData.documentTitle).to.eq(' | Edit: Almeida Theatre (theatre)');
+					expect(pageData.documentTitle).to.eq('Edit: Almeida Theatre (theatre)');
 
 				});
 
@@ -163,10 +163,10 @@ describe('Get Page Data module', () => {
 
 			context('production instance', () => {
 
-				it('will read \' | <instance> (<theatre name>) (<model>)\'', () => {
+				it('will read \'<instance> (<theatre name>) (<model>)\'', () => {
 
 					const pageData = subject(productionInstance, 'show');
-					expect(pageData.documentTitle).to.eq(' | Hamlet (Almeida Theatre) (production)');
+					expect(pageData.documentTitle).to.eq('Hamlet (Almeida Theatre) (production)');
 
 				});
 
@@ -174,10 +174,10 @@ describe('Get Page Data module', () => {
 
 			context('theatre instance', () => {
 
-				it('will read \' | <instance> (<model>)\'', () => {
+				it('will read \'<instance> (<model>)\'', () => {
 
 					const pageData = subject(theatreInstance, 'show');
-					expect(pageData.documentTitle).to.eq(' | Almeida Theatre (theatre)');
+					expect(pageData.documentTitle).to.eq('Almeida Theatre (theatre)');
 
 				});
 
@@ -189,10 +189,10 @@ describe('Get Page Data module', () => {
 
 			context('productions instances', () => {
 
-				it('will read \' | Home \'', () => {
+				it('will read \'Home \'', () => {
 
 					const pageData = subject([], 'list', { pluralisedModel: 'productions' });
-					expect(pageData.documentTitle).to.eq(' | Home');
+					expect(pageData.documentTitle).to.eq('Home');
 
 				});
 
@@ -200,11 +200,11 @@ describe('Get Page Data module', () => {
 
 			context('theatres instances', () => {
 
-				it('will read \' | <models>\'', () => {
+				it('will read \'<models>\'', () => {
 
 					subject = createSubject({ capitalise: sinon.stub().returns('Theatres') });
 					const pageData = subject([], 'list', { pluralisedModel: 'theatres' });
-					expect(pageData.documentTitle).to.eq(' | Theatres');
+					expect(pageData.documentTitle).to.eq('Theatres');
 
 				});
 
