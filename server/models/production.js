@@ -35,7 +35,7 @@ export default class Production {
 
 		trimStrings(this);
 
-		const nameErrors = validateString(this.name, 'Name', opts);
+		const nameErrors = validateString(this.name, opts);
 
 		if (nameErrors.length) this.errors.name = nameErrors;
 
