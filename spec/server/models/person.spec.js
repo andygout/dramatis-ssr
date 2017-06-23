@@ -37,7 +37,8 @@ beforeEach(() => {
 			trimStrings: sandbox.stub(),
 			validateString: sandbox.stub().returns([]),
 			verifyErrorPresence: sandbox.stub().returns(false)
-		}
+		},
+		Role: RoleStub
 	};
 
 	instance = createInstance();
@@ -62,7 +63,7 @@ const createSubject = (stubOverrides = {}) =>
 			'../lib/validate-string': stubs.Base.validateString,
 			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence
 		}),
-		'./role': RoleStub
+		'./role': stubs.Role
 	});
 
 const createInstance = (stubOverrides = {}) => {

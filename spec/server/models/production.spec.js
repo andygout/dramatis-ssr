@@ -51,7 +51,10 @@ beforeEach(() => {
 		prepareAsParams: sandbox.stub().returns('prepareAsParams response'),
 		trimStrings: sandbox.stub(),
 		validateString: sandbox.stub().returns([]),
-		verifyErrorPresence: sandbox.stub().returns(false)
+		verifyErrorPresence: sandbox.stub().returns(false),
+		Person: PersonStub,
+		Playtext: PlaytextStub,
+		Theatre: TheatreStub
 	};
 
 	instance = createInstance();
@@ -73,9 +76,9 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-		'./person': PersonStub,
-		'./playtext': PlaytextStub,
-		'./theatre': TheatreStub
+		'./person': stubs.Person,
+		'./playtext': stubs.Playtext,
+		'./theatre': stubs.Theatre
 	});
 
 const createInstance = (stubOverrides = {}) => {
