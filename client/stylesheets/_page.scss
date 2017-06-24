@@ -31,11 +31,11 @@ a {
 	display: flex;
 	flex-direction: column;
 	flex: auto;
-	margin: auto;
+	margin: 0 auto;
 	background-color: $content-bg-color;
-	border: solid $border-color;
+	border-left: solid $border-color;
+	border-right: solid $border-color;
 	border-width: 0 $border-width $border-width;
-	border-radius: 0 0 $container-border-radius $container-border-radius;
 	box-shadow:  5px 5px 100px $border-color, 5px 5px 100px $box-shadow-color;
 	text-align: left;
 }
