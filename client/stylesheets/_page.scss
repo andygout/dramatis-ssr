@@ -7,8 +7,15 @@
 }
 
 html {
+	height: 100%;
 	text-align: center;
 	background-color: $html-bg-color;
+}
+
+body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 a {
@@ -20,8 +27,11 @@ a {
 }
 
 .container {
-	margin: auto;
 	width: 1000px;
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	margin: auto;
 	background-color: $content-bg-color;
 	border: solid $border-color;
 	border-width: 0 $border-width $border-width;
@@ -31,7 +41,8 @@ a {
 }
 
 .main-content {
-	margin-bottom: 20px;
+	flex: auto;
+	margin-bottom: 80px;
 	padding: 0 50px;
 	width: 900px;
 	font-size: small;
