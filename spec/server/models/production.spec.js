@@ -13,7 +13,7 @@ const RoleStub = function () {
 
 	this.validate = sinon.stub();
 
-}
+};
 
 const PersonStub = function () {
 
@@ -51,7 +51,10 @@ beforeEach(() => {
 		prepareAsParams: sandbox.stub().returns('prepareAsParams response'),
 		trimStrings: sandbox.stub(),
 		validateString: sandbox.stub().returns([]),
-		verifyErrorPresence: sandbox.stub().returns(false)
+		verifyErrorPresence: sandbox.stub().returns(false),
+		Person: PersonStub,
+		Playtext: PlaytextStub,
+		Theatre: TheatreStub
 	};
 
 	instance = createInstance();
@@ -73,9 +76,9 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-		'./person': PersonStub,
-		'./playtext': PlaytextStub,
-		'./theatre': TheatreStub
+		'./person': stubs.Person,
+		'./playtext': stubs.Playtext,
+		'./theatre': stubs.Theatre
 	});
 
 const createInstance = (stubOverrides = {}) => {
@@ -97,7 +100,7 @@ describe('Production model', () => {
 			expect(stubs.trimStrings.calledOnce).to.be.true;
 			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
-			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, {})).to.be.true;
 
 		});
 
@@ -250,7 +253,6 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will update', done => {
-
 
 				sinon.spy(instance, 'setErrorStatus');
 				instance.update().then(result => {

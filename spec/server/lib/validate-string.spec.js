@@ -30,13 +30,13 @@ describe('Validate String module', () => {
 
 		it('will add error to stringErrors array if string is too short and is required', () => {
 
-			expect(subject(subMinLengthString, 'Name', { required: true })).to.deep.eq(['Name is too short']);
+			expect(subject(subMinLengthString, { required: true })).to.deep.eq(['Name is too short']);
 
 		});
 
 		it('will add error to stringErrors array if string is too long', () => {
 
-			expect(subject(surMaxLengthString, 'Name')).to.deep.eq(['Name is too long']);
+			expect(subject(surMaxLengthString)).to.deep.eq(['Name is too long']);
 
 		});
 

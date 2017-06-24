@@ -1,16 +1,16 @@
 import constants from '../config/constants';
 
-export default (stringValue, propName, opts = {}) => {
+export default (stringValue, opts = {}) => {
 
 	const stringErrors = [];
 
 	if (opts.required && (stringValue.length < constants.STRING_MIN_LENGTH)) {
 
-		stringErrors.push(`${propName} is too short`);
+		stringErrors.push('Name is too short');
 
 	}
 
-	if (stringValue.length > constants.STRING_MAX_LENGTH) stringErrors.push(`${propName} is too long`);
+	if (stringValue.length > constants.STRING_MAX_LENGTH) stringErrors.push('Name is too long');
 
 	return stringErrors;
 

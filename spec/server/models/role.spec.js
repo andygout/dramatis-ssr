@@ -49,7 +49,7 @@ describe('Role model', () => {
 			expect(stubs.trimStrings.calledOnce).to.be.true;
 			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
 			expect(stubs.validateString.calledOnce).to.be.true;
-			expect(stubs.validateString.calledWithExactly(instance.name, 'Name', {})).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, {})).to.be.true;
 
 		});
 

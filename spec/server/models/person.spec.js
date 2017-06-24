@@ -2,12 +2,20 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const Role = require('../../../dist/models/role');
+
 const dbQueryFixture = require('../../fixtures/db-query');
 
 const sandbox = sinon.sandbox.create();
 
 let stubs;
 let instance;
+
+const RoleStub = function () {
+
+	return sinon.createStubInstance(Role);
+
+};
 
 beforeEach(() => {
 
@@ -29,7 +37,8 @@ beforeEach(() => {
 			trimStrings: sandbox.stub(),
 			validateString: sandbox.stub().returns([]),
 			verifyErrorPresence: sandbox.stub().returns(false)
-		}
+		},
+		Role: RoleStub
 	};
 
 	instance = createInstance();
@@ -53,7 +62,8 @@ const createSubject = (stubOverrides = {}) =>
 			'../lib/trim-strings': stubs.Base.trimStrings,
 			'../lib/validate-string': stubs.Base.validateString,
 			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence
-		})
+		}),
+		'./role': stubs.Role
 	});
 
 const createInstance = (stubOverrides = {}) => {
@@ -140,7 +150,6 @@ describe('Person model', () => {
 		context('valid data', () => {
 
 			it('will update', done => {
-
 
 				sinon.spy(instance, 'validate');
 				sinon.spy(instance, 'validateUpdateInDb');
