@@ -7,8 +7,15 @@
 }
 
 html {
+	height: 100%;
 	text-align: center;
 	background-color: $html-bg-color;
+}
+
+body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 a {
@@ -20,18 +27,22 @@ a {
 }
 
 .container {
-	margin: auto;
 	width: 1000px;
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	margin: 0 auto;
 	background-color: $content-bg-color;
-	border: solid $border-color;
+	border-left: solid $border-color;
+	border-right: solid $border-color;
 	border-width: 0 $border-width $border-width;
-	border-radius: 0 0 $container-border-radius $container-border-radius;
 	box-shadow:  5px 5px 100px $border-color, 5px 5px 100px $box-shadow-color;
 	text-align: left;
 }
 
 .main-content {
-	margin-bottom: 20px;
+	flex: auto;
+	margin-bottom: 80px;
 	padding: 0 50px;
 	width: 900px;
 	font-size: small;
