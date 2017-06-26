@@ -9,27 +9,31 @@ const sandbox = sinon.sandbox.create();
 let stubs;
 let instance;
 
+const CharacterStub = function () {
+
+	this.validate = sinon.stub();
+
+};
+
 beforeEach(() => {
 
 	stubs = {
 		dbQuery: sandbox.stub().resolves(dbQueryFixture),
-		cypherTemplatesShared: {
-			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
-		},
 		cypherTemplatesPlaytext: {
+			getEditQuery: sandbox.stub().returns('getEditQuery response'),
+			getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
 			getShowQuery: sandbox.stub().returns('getShowQuery response')
 		},
-		Base: {
-			dbQuery: sandbox.stub().resolves(dbQueryFixture),
-			cypherTemplatesShared: {
-				getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
-				getEditQuery: sandbox.stub().returns('getEditQuery response'),
-				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response')
-			},
-			trimStrings: sandbox.stub(),
-			validateString: sandbox.stub().returns([]),
-			verifyErrorPresence: sandbox.stub().returns(false)
-		}
+		cypherTemplatesShared: {
+			getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
+			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
+			getListQuery: sandbox.stub().returns('getListQuery response')
+		},
+		prepareAsParams: sandbox.stub().returns('prepareAsParams response'),
+		trimStrings: sandbox.stub(),
+		validateString: sandbox.stub().returns([]),
+		verifyErrorPresence: sandbox.stub().returns(false),
+		Character: CharacterStub
 	};
 
 	instance = createInstance();
@@ -45,36 +49,76 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/playtext', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
 		'../lib/cypher-templates/playtext': stubs.cypherTemplatesPlaytext,
-		'./base': proxyquire('../../../dist/models/base', {
-			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
-			'../lib/cypher-templates/shared': stubs.Base.cypherTemplatesShared,
-			'../lib/trim-strings': stubs.Base.trimStrings,
-			'../lib/validate-string': stubs.Base.validateString,
-			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence
-		})
+		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/prepare-as-params': stubs.prepareAsParams,
+		'../lib/trim-strings': stubs.trimStrings,
+		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
+		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
+		'./character': stubs.Character
 	});
 
 const createInstance = (stubOverrides = {}) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ name: 'Hamlet' });
+	return new subject({ name: 'Hamlet', characters: [{ name: 'Hamlet' }] });
 
 };
 
 describe('Playtext model', () => {
+
+	describe('validate method', () => {
+
+		it('will trim strings before validating name', () => {
+
+			instance.validate();
+			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
+			expect(stubs.trimStrings.calledOnce).to.be.true;
+			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
+			expect(stubs.validateString.calledOnce).to.be.true;
+			expect(stubs.validateString.calledWithExactly(instance.name, {})).to.be.true;
+
+		});
+
+		context('valid data', () => {
+
+			it('will not add properties to errors property', () => {
+
+				instance.validate();
+				expect(instance.errors).not.to.have.property('name');
+				expect(instance.errors).to.deep.eq({});
+
+			});
+
+		});
+
+		context('invalid data', () => {
+
+			it('will add properties that are arrays to errors property', () => {
+
+				instance = createInstance({ validateString: sinon.stub().returns(['Name is too short']) });
+				instance.validate();
+				expect(instance.errors)
+					.to.have.property('name')
+					.that.is.an('array')
+					.that.deep.eq(['Name is too short']);
+
+			});
+
+		});
+
+	});
 
 	describe('validateUpdateInDb method', () => {
 
 		it('will validate update in database', done => {
 
 			instance.validateUpdateInDb().then(() => {
-				expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-				expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
-				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
-				expect(stubs.Base.dbQuery.calledWithExactly(
+				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getValidateUpdateQuery response', params: instance }
 				)).to.be.true;
 				done();
@@ -86,7 +130,7 @@ describe('Playtext model', () => {
 
 			it('will not add properties to errors property', done => {
 
-				instance = createInstance({ Base: { dbQuery: sinon.stub().resolves({ instanceCount: 0 }) } });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ instanceCount: 0 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors).not.to.have.property('name');
 					expect(instance.errors).to.deep.eq({});
@@ -101,7 +145,7 @@ describe('Playtext model', () => {
 
 			it('will add properties that are arrays to errors property', done => {
 
-				instance = createInstance({ Base: { dbQuery: sinon.stub().resolves({ instanceCount: 1 }) } });
+				instance = createInstance({ dbQuery: sinon.stub().resolves({ instanceCount: 1 }) });
 				instance.validateUpdateInDb().then(() => {
 					expect(instance.errors)
 						.to.have.property('name')
@@ -116,15 +160,58 @@ describe('Playtext model', () => {
 
 	});
 
+	describe('setErrorStatus method', () => {
+
+		it('will call instance validate method + associated models\' validate methods then verifyErrorPresence', () => {
+
+			sinon.spy(instance, 'validate');
+			instance.setErrorStatus();
+			sinon.assert.callOrder(
+				instance.validate.withArgs({ required: true }),
+				instance.characters[0].validate.withArgs(),
+				stubs.verifyErrorPresence.withArgs(instance)
+			);
+			expect(instance.validate.calledOnce).to.be.true;
+			expect(instance.characters[0].validate.calledOnce).to.be.true;
+			expect(stubs.verifyErrorPresence.calledOnce).to.be.true;
+
+		});
+
+		context('valid data', () => {
+
+			it('will set instance hasError property to false and return same value', () => {
+
+
+				expect(instance.setErrorStatus()).to.be.false;
+				expect(instance.hasError).to.be.false;
+
+			});
+
+		});
+
+		context('invalid data', () => {
+
+			it('will set instance hasError property to true and return same value', () => {
+
+				instance = createInstance({ verifyErrorPresence: sinon.stub().returns(true) });
+				expect(instance.setErrorStatus()).to.be.true;
+				expect(instance.hasError).to.be.true;
+
+			});
+
+		});
+
+	});
+
 	describe('edit method', () => {
 
 		it('will get edit data', done => {
 
 			instance.edit().then(result => {
-				expect(stubs.Base.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
-				expect(stubs.Base.cypherTemplatesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
-				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
-				expect(stubs.Base.dbQuery.calledWithExactly(
+				expect(stubs.cypherTemplatesPlaytext.getEditQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesPlaytext.getEditQuery.calledWithExactly()).to.be.true;
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getEditQuery response', params: instance }
 				)).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
@@ -141,25 +228,23 @@ describe('Playtext model', () => {
 
 			it('will update', done => {
 
-				sinon.spy(instance, 'validate');
+				sinon.spy(instance, 'setErrorStatus');
 				sinon.spy(instance, 'validateUpdateInDb');
 				instance.update().then(result => {
 					sinon.assert.callOrder(
-						instance.validate.withArgs({ required: true }),
-						stubs.Base.verifyErrorPresence.withArgs(instance),
+						instance.setErrorStatus.withArgs(),
 						instance.validateUpdateInDb.withArgs(),
-						stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
-						stubs.Base.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
-						stubs.Base.verifyErrorPresence.withArgs(instance),
-						stubs.Base.cypherTemplatesShared.getUpdateQuery.withArgs(instance.model),
-						stubs.Base.dbQuery.withArgs({ query: 'getUpdateQuery response', params: instance })
+						stubs.verifyErrorPresence.withArgs(instance),
+						stubs.cypherTemplatesPlaytext.getUpdateQuery.withArgs(),
+						stubs.prepareAsParams.withArgs(instance),
+						stubs.dbQuery.withArgs({ query: 'getUpdateQuery response', params: 'prepareAsParams response' })
 					);
-					expect(instance.validate.calledOnce).to.be.true;
-					expect(stubs.Base.verifyErrorPresence.calledTwice).to.be.true;
+					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
-					expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-					expect(stubs.Base.dbQuery.calledTwice).to.be.true;
-					expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
+					expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.prepareAsParams.calledOnce).to.be.true;
+					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
@@ -175,19 +260,16 @@ describe('Playtext model', () => {
 				it('will return instance without updating', done => {
 
 					const verifyErrorPresenceStub = sinon.stub().returns(true);
-					instance = createInstance({ Base: { verifyErrorPresence: verifyErrorPresenceStub } });
-					sinon.spy(instance, 'validate');
+					instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
+					sinon.spy(instance, 'setErrorStatus');
 					sinon.spy(instance, 'validateUpdateInDb');
 					instance.update().then(result => {
-						expect(instance.validate.calledBefore(verifyErrorPresenceStub)).to.be.true;
-						expect(instance.validate.calledOnce).to.be.true;
-						expect(instance.validate.calledWithExactly({ required: true })).to.be.true;
+						expect(instance.setErrorStatus.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
-						expect(verifyErrorPresenceStub.calledWithExactly(instance)).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.notCalled).to.be.true;
-						expect(stubs.Base.dbQuery.notCalled).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.prepareAsParams.notCalled).to.be.true;
+						expect(stubs.dbQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ playtext: instance });
 						done();
 					});
@@ -202,24 +284,21 @@ describe('Playtext model', () => {
 
 					const verifyErrorPresenceStub = sinon.stub();
 					verifyErrorPresenceStub.onFirstCall().returns(false).onSecondCall().returns(true);
-					instance = createInstance({ Base: { verifyErrorPresence: verifyErrorPresenceStub } });
-					sinon.spy(instance, 'validate');
+					instance = createInstance({ verifyErrorPresence: verifyErrorPresenceStub });
+					sinon.spy(instance, 'setErrorStatus');
 					sinon.spy(instance, 'validateUpdateInDb');
 					instance.update().then(result => {
 						sinon.assert.callOrder(
-							instance.validate.withArgs({ required: true }),
-							verifyErrorPresenceStub.withArgs(instance),
+							instance.setErrorStatus.withArgs(),
 							instance.validateUpdateInDb.withArgs(),
-							stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
-							stubs.Base.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
 							verifyErrorPresenceStub.withArgs(instance)
 						);
-						expect(instance.validate.calledOnce).to.be.true;
-						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
+						expect(instance.setErrorStatus.calledOnce).to.be.true;
 						expect(instance.validateUpdateInDb.calledOnce).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-						expect(stubs.Base.dbQuery.calledOnce).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.notCalled).to.be.true;
+						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
+						expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.prepareAsParams.notCalled).to.be.true;
+						expect(stubs.dbQuery.calledOnce).to.be.true;
 						expect(result).to.deep.eq({ playtext: instance });
 						done();
 					});
@@ -262,6 +341,24 @@ describe('Playtext model', () => {
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }
 				)).to.be.true;
+				expect(result).to.deep.eq(dbQueryFixture);
+				done();
+			});
+
+		});
+
+	});
+
+	describe('list method', () => {
+
+		it('will get list data', done => {
+
+			const subject = createSubject();
+			subject.list().then(result => {
+				expect(stubs.cypherTemplatesShared.getListQuery.calledOnce).to.be.true;
+				expect(stubs.cypherTemplatesShared.getListQuery.calledWithExactly('playtext')).to.be.true;
+				expect(stubs.dbQuery.calledOnce).to.be.true;
+				expect(stubs.dbQuery.calledWithExactly({ query: 'getListQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
 				done();
 			});

@@ -1,1 +1,33 @@
 {{> fieldset-input-text}}
+
+{{#with instance}}
+	<fieldset class="fieldset">
+		{{> fieldset-header text='Characters'}}
+		{{#if characters.length}}
+			{{#each characters}}
+				{{> input-text
+					labelText='Character'
+					inputName=(concat 'characters[' @index '][name]')
+					value=name
+					errors=errors.name
+					removeFieldButton=true
+				}}
+			{{/each}}
+			{{> input-text
+				labelText='Character'
+				inputName=(concat 'characters[' characters.length '][name]')
+				value=''
+				errors=null
+				lastInArray=true
+			}}
+		{{else}}
+			{{> input-text
+				labelText='Character'
+				inputName='characters[0][name]'
+				value=''
+				errors=null
+				lastInArray=true
+			}}
+		{{/if}}
+	</fieldset>
+{{/with}}
