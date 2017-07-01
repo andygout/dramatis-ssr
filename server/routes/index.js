@@ -22,6 +22,13 @@ router.use(methodOverride((req, res) => {
 // Home
 router.get('/', controllers.productions.listRoute);
 
+// Characters
+router.get('/characters/:uuid/edit', controllers.characters.editRoute);
+router.post('/characters/:uuid', controllers.characters.updateRoute);
+router.delete('/characters/:uuid', controllers.characters.deleteRoute);
+router.get('/characters/:uuid', controllers.characters.showRoute);
+router.get('/characters', controllers.characters.listRoute);
+
 // People
 router.get('/people/:uuid/edit', controllers.people.editRoute);
 router.post('/people/:uuid', controllers.people.updateRoute);
