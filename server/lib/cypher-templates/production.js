@@ -1,9 +1,3 @@
-const nullRolesValue = action => (action === 'show') ? '{ name: \'Performer\' }' : '';
-
-const additionalProps = (model, action) => (action === 'show') ? `model: '${model}', uuid: ${model}.uuid,` : '';
-
-const nullState = action => (action === 'edit') ? '\'\'': 'null';
-
 const getCreateUpdateQuery = action => {
 
 	const createUpdateQueryOpeningMap = {
@@ -48,7 +42,9 @@ const getCreateUpdateQuery = action => {
 
 };
 
-const getEditShowQuery = action => `
+const getCreateQuery = () => getCreateUpdateQuery('create');
+
+const getEditQuery = () => `
 	MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
 	OPTIONAL MATCH (production)-[:PRODUCTION_OF]->(playtext:Playtext)
 	OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
@@ -56,27 +52,43 @@ const getEditShowQuery = action => `
 	WITH production, theatre, playtext, castRel, person, roleRel, role
 	ORDER BY roleRel.position
 	WITH production, theatre, playtext, castRel, person,
-		CASE WHEN role IS NULL THEN [${nullRolesValue(action)}] ELSE COLLECT({ name: role.name }) END AS roles
+		CASE WHEN role IS NULL THEN [] ELSE COLLECT({ name: role.name }) END AS roles
 	ORDER BY castRel.position
 	RETURN {
 		model: 'production',
 		uuid: production.uuid,
 		name: production.name,
-		theatre: { ${additionalProps('theatre', action)} name: theatre.name },
-		playtext: CASE WHEN playtext IS NULL THEN ${nullState(action)} ELSE
-			{ ${additionalProps('playtext', action)} name: playtext.name } END,
-		cast: CASE WHEN person IS NULL THEN [] ELSE
-			COLLECT({ ${additionalProps('person', action)} name: person.name, roles: roles }) END
+		theatre: { name: theatre.name },
+		playtext: CASE WHEN playtext IS NULL THEN '' ELSE { name: playtext.name } END,
+		cast: CASE WHEN person IS NULL THEN [] ELSE COLLECT({ name: person.name, roles: roles }) END
 	} AS production
 `;
 
-const getCreateQuery = () => getCreateUpdateQuery('create');
-
-const getEditQuery = () => getEditShowQuery('edit');
-
 const getUpdateQuery = () => getCreateUpdateQuery('update');
 
-const getShowQuery = () => getEditShowQuery('show');
+const getShowQuery = () => `
+	MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
+	OPTIONAL MATCH (production)-[:PRODUCTION_OF]->(playtext:Playtext)
+	OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
+	OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
+	OPTIONAL MATCH (role)<-[:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
+		(playtext)-[:INCLUDES_CHARACTER]->(character) WHERE role.name = character.name
+	WITH production, theatre, playtext, castRel, person, roleRel, role, character
+	ORDER BY roleRel.position
+	WITH production, theatre, playtext, castRel, person, CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE
+		COLLECT({ model: 'character', uuid: character.uuid, name: role.name }) END AS roles
+	ORDER BY castRel.position
+	RETURN {
+		model: 'production',
+		uuid: production.uuid,
+		name: production.name,
+		theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name },
+		playtext: CASE WHEN playtext IS NULL THEN null ELSE
+			{ model: 'playtext', uuid: playtext.uuid, name: playtext.name } END,
+		cast: CASE WHEN person IS NULL THEN [] ELSE
+			COLLECT({ model: 'person', uuid: person.uuid, name: person.name, roles: roles }) END
+	} AS production
+`;
 
 export {
 	getCreateQuery,
