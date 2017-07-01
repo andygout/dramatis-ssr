@@ -13,6 +13,15 @@
 									{{{join roles}}}
 								</span>
 							{{/if}}
+							{{#if performers}}
+								{{#each performers}}
+									({{> instance-link}} … <span class="role-text">{{this.role.name}}</span>
+									{{~#if this.otherRoles.length~}}
+										; also performed:
+										<span class="role-text">{{{join otherRoles}}}</span>
+									{{~/if~}})
+								{{/each}}
+							{{/if}}
 						</li>
 					{{/each}}
 				</ul>
