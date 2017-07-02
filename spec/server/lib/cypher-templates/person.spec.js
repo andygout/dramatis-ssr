@@ -14,12 +14,13 @@ describe('Cypher Templates Person module', () => {
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (person:Person { uuid: $uuid })
 				OPTIONAL MATCH (person)-[:PERFORMS_IN]->(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
-				WITH person, production, theatre
 				OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: production.uuid }]->(role:Role)
-				WITH person, production, theatre, roleRel, role
+				OPTIONAL MATCH (role)<-[:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
+					(playtext)-[:INCLUDES_CHARACTER]->(character) WHERE role.name = character.name
+				WITH person, production, theatre, roleRel, role, character
 				ORDER BY roleRel.position
-				WITH person, production, theatre,
-					CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE COLLECT({ name: role.name }) END AS roles
+				WITH person, production, theatre, CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE
+					COLLECT({ model: 'character', uuid: character.uuid, name: role.name }) END AS roles
 				WITH person, CASE WHEN production IS NULL THEN [] ELSE
 					COLLECT({
 						model: 'production',

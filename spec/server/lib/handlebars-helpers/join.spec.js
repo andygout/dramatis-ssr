@@ -1,13 +1,43 @@
 const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
-const subject = require('../../../../dist/lib/handlebars-helpers/join');
+const sandbox = sinon.sandbox.create();
+
+let stubs;
+let subject;
+
+beforeEach(() => {
+
+	stubs = {
+		instanceLink: sandbox.stub().returns('instanceLink response')
+	};
+
+	subject = proxyquire('../../../../dist/lib/handlebars-helpers/join', {
+			'../instance-link': stubs.instanceLink
+		});
+
+});
+
+afterEach(() => {
+
+	sandbox.restore();
+
+});
 
 describe('Join handlebars helper', () => {
 
-	it('will return specified property value from each object in array as single concatenated string', () => {
+	it('will return instanceLink response when model and uuid present otherwise will return instance name value', () => {
 
-		const objectArray = [{ name: 'Hamlet' }, { name: 'Claudius' }, { name: 'Gertrude' }];
-		expect(subject(objectArray, 'name')).to.eq('Hamlet / Claudius / Gertrude');
+		const instancesArray = [
+			{ name: 'Hamlet' },
+			{ model: 'character', name: 'Claudius' },
+			{ name: 'Gertrude', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' },
+			{ model: 'character', name: 'Ophelia', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' }
+		];
+		expect(subject(instancesArray)).to.eq('Hamlet / Claudius / Gertrude / instanceLink response');
+		expect(stubs.instanceLink.calledOnce).to.be.true;
+		expect(stubs.instanceLink.calledWithExactly(instancesArray[3])).to.be.true;
 
 	});
 
