@@ -65,7 +65,6 @@ describe('Base model', () => {
 
 			it('will not add properties to errors property', () => {
 
-
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});

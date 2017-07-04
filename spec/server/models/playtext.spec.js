@@ -181,7 +181,6 @@ describe('Playtext model', () => {
 
 			it('will set instance hasError property to false and return same value', () => {
 
-
 				expect(instance.setErrorStatus()).to.be.false;
 				expect(instance.hasError).to.be.false;
 

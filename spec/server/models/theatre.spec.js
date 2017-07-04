@@ -291,7 +291,6 @@ describe('Theatre model', () => {
 
 			it('will delete', done => {
 
-
 				sinon.spy(instance, 'validateDeleteInDb');
 				instance.delete().then(result => {
 					sinon.assert.callOrder(

@@ -108,7 +108,6 @@ describe('Production model', () => {
 
 			it('will not add properties to errors property', () => {
 
-
 				instance.validate();
 				expect(instance.errors).not.to.have.property('name');
 				expect(instance.errors).to.deep.eq({});
@@ -161,7 +160,6 @@ describe('Production model', () => {
 
 			it('will set instance hasError property to false and return same value', () => {
 
-
 				expect(instance.setErrorStatus()).to.be.false;
 				expect(instance.hasError).to.be.false;
 
@@ -188,7 +186,6 @@ describe('Production model', () => {
 		context('valid data', () => {
 
 			it('will create', done => {
-
 
 				sinon.spy(instance, 'setErrorStatus');
 				instance.create().then(result => {
