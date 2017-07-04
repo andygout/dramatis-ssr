@@ -13,9 +13,9 @@ describe('Cypher Templates Person module', () => {
 			const result = subject.getShowQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (person:Person { uuid: $uuid })
-				OPTIONAL MATCH (person)-[:PERFORMS_IN]->(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
+				OPTIONAL MATCH (person)-[castRel:PERFORMS_IN]->(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
 				OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: production.uuid }]->(role:Role)
-				OPTIONAL MATCH (role)<-[:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
+				OPTIONAL MATCH (role)<-[roleRel]-(person)-[castRel]->(production)-[:PRODUCTION_OF]->
 					(:Playtext)-[:INCLUDES_CHARACTER]->(character:Character) WHERE role.name = character.name
 				WITH person, production, theatre, roleRel, role, character
 				ORDER BY roleRel.position

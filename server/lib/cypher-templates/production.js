@@ -68,10 +68,10 @@ const getUpdateQuery = () => getCreateUpdateQuery('update');
 
 const getShowQuery = () => `
 	MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
-	OPTIONAL MATCH (production)-[:PRODUCTION_OF]->(playtext:Playtext)
+	OPTIONAL MATCH (production)-[playtextRel:PRODUCTION_OF]->(playtext:Playtext)
 	OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
 	OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
-	OPTIONAL MATCH (role)<-[:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
+	OPTIONAL MATCH (role)<-[roleRel]-(person)-[castRel]->(production)-[playtextRel]->
 		(playtext)-[:INCLUDES_CHARACTER]->(character:Character) WHERE role.name = character.name
 	WITH production, theatre, playtext, castRel, person, roleRel, role, character
 	ORDER BY roleRel.position
