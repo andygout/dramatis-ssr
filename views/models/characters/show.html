@@ -1,18 +1,9 @@
-{{#with instance}}
-	{{#with playtexts}}
-		<div class="content-wrapper">
-			{{> content-label text='Playtexts'}}
-			<div class="content">
-				<ul class="list">
-					{{#each this}}
-						<li>
-							{{> instance-link}}
-						</li>
-					{{/each}}
-				</ul>
-			</div>
-		</div>
-	{{/with}}
-{{/with}}
+{{> show-instances
+	instances=instance.playtexts
+	contentLabelText='Playtexts'
+}}
 
-{{> show}}
+{{> show-instances
+	instances=instance.productions
+	contentLabelText='Productions'
+}}

@@ -17,19 +17,8 @@
 		</div>
 	{{/with}}
 
-	{{#with cast}}
-		<div class="content-wrapper">
-			{{> content-label text='Cast'}}
-			<div class="content">
-				<ul class="list">
-					{{#each this}}
-						<li>
-							{{> instance-link}} …
-							<span class="role-text">{{{join roles}}}</span>
-						</li>
-					{{/each}}
-				</ul>
-			</div>
-		</div>
-	{{/with}}
+	{{> show-instances
+		instances=cast
+		contentLabelText='Cast'
+	}}
 {{/with}}

@@ -1,0 +1,25 @@
+{{#with instances}}
+	<div class="content-wrapper">
+		{{> content-label text=../contentLabelText}}
+		<div class="content">
+			<ul class="list">
+				{{#each this}}
+					<li>
+						{{> instance-link}}{{#with theatre}} - {{> instance-link}}{{/with}}
+						{{#if roles}}
+							… <span class="role-text">{{{join roles}}}</span>
+						{{/if}}
+						{{#if performers}}
+							{{#each performers}}
+								({{> instance-link}} … <span class="role-text">{{this.role.name}}</span>
+								{{~#if this.otherRoles.length~}}
+									; also performed: <span class="role-text">{{{join otherRoles}}}</span>
+								{{~/if~}})
+							{{/each}}
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+{{/with}}
