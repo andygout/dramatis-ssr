@@ -21,11 +21,11 @@ beforeEach(() => {
 
 	stubs = {
 		dbQuery: sandbox.stub().resolves(dbQueryFixture),
-		cypherTemplatesShared: {
-			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
-		},
 		cypherTemplatesPerson: {
 			getShowQuery: sandbox.stub().returns('getShowQuery response')
+		},
+		cypherTemplatesShared: {
+			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
 		},
 		Base: {
 			dbQuery: sandbox.stub().resolves(dbQueryFixture),
@@ -54,8 +54,8 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
 		'../lib/cypher-templates/person': stubs.cypherTemplatesPerson,
+		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
 		'./base': proxyquire('../../../dist/models/base', {
 			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
 			'../lib/cypher-templates/shared': stubs.Base.cypherTemplatesShared,

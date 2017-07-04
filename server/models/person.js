@@ -1,7 +1,6 @@
 import dbQuery from '../database/db-query';
-import * as cypherTemplates from '../lib/cypher-templates/shared';
-import { getDeleteQuery } from '../lib/cypher-templates/shared';
 import { getShowQuery } from '../lib/cypher-templates/person';
+import { getDeleteQuery } from '../lib/cypher-templates/shared';
 import Base from './base';
 import Role from './role';
 
