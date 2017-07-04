@@ -135,7 +135,7 @@ describe('Production model', () => {
 
 	describe('setErrorStatus method', () => {
 
-		it('will call instance validate method, theatre + person validate methods then verifyErrorPresence', () => {
+		it('will call instance validate method + associated models\' validate methods then verifyErrorPresence', () => {
 
 			sinon.spy(instance, 'validate');
 			instance.setErrorStatus();
