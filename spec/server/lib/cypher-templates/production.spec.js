@@ -126,7 +126,7 @@ describe('Cypher Templates Production module', () => {
 				OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
 				OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
 				OPTIONAL MATCH (role)<-[:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
-					(playtext)-[:INCLUDES_CHARACTER]->(character) WHERE role.name = character.name
+					(playtext)-[:INCLUDES_CHARACTER]->(character:Character) WHERE role.name = character.name
 				WITH production, theatre, playtext, castRel, person, roleRel, role, character
 				ORDER BY roleRel.position
 				WITH production, theatre, playtext, castRel, person, CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE
