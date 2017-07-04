@@ -64,7 +64,7 @@ describe('Cypher Templates Shared module', () => {
 
 	});
 
-	context('Theatre model usage', () => {
+	context('Theatre (i.e. non-Production) model usage', () => {
 
 		describe('getValidateUpdateQuery function', () => {
 
