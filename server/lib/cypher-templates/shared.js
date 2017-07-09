@@ -1,3 +1,6 @@
+import { getShowQuery as getCharacterShowQuery } from './character';
+import { getShowQuery as getPersonShowQuery } from './person';
+import { getShowQuery as getTheatreShowQuery } from './theatre';
 import capitalise from '../capitalise';
 import pluralise from '../pluralise';
 
@@ -35,6 +38,12 @@ const getDeleteQuery = model => `
 	} AS ${model}
 `;
 
+const getShowQueries = {
+	character: getCharacterShowQuery,
+	person: getPersonShowQuery,
+	theatre: getTheatreShowQuery
+};
+
 const getListQuery = model => {
 
 	const theatreRelationship = (model === 'production') ? '-[:PLAYS_AT]->(t:Theatre)' : '';
@@ -58,5 +67,6 @@ export {
 	getEditQuery,
 	getUpdateQuery,
 	getDeleteQuery,
+	getShowQueries,
 	getListQuery
 };

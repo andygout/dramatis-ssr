@@ -1,5 +1,11 @@
 import dbQuery from '../database/db-query';
-import { getValidateUpdateQuery, getEditQuery, getUpdateQuery, getListQuery } from '../lib/cypher-templates/shared';
+import {
+	getValidateUpdateQuery,
+	getEditQuery,
+	getUpdateQuery,
+	getShowQueries,
+	getListQuery
+} from '../lib/cypher-templates/shared';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';
@@ -71,6 +77,12 @@ export default class Base {
 				return dbQuery({ query: getUpdateQuery(this.model), params: this });
 
 			});
+
+	};
+
+	show () {
+
+		return dbQuery({ query: getShowQueries[this.model](), params: this });
 
 	};
 

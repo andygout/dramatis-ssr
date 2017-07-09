@@ -1,5 +1,4 @@
 import dbQuery from '../database/db-query';
-import { getShowQuery } from '../lib/cypher-templates/person';
 import { getDeleteQuery } from '../lib/cypher-templates/shared';
 import Base from './base';
 import Role from './role';
@@ -24,12 +23,6 @@ export default class Person extends Base {
 	delete () {
 
 		return dbQuery({ query: getDeleteQuery(this.model), params: this });
-
-	};
-
-	show () {
-
-		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 
