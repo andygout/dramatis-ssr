@@ -24,15 +24,15 @@ beforeEach(() => {
 		cypherTemplatesShared: {
 			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
 		},
-		cypherTemplatesPerson: {
-			getShowQuery: sandbox.stub().returns('getShowQuery response')
-		},
 		Base: {
 			dbQuery: sandbox.stub().resolves(dbQueryFixture),
 			cypherTemplatesShared: {
 				getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
 				getEditQuery: sandbox.stub().returns('getEditQuery response'),
-				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response')
+				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
+				getShowQueries: {
+					person: sandbox.stub().returns('getShowQuery response')
+				}
 			},
 			trimStrings: sandbox.stub(),
 			validateString: sandbox.stub().returns([]),
@@ -55,7 +55,6 @@ const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
 		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
-		'../lib/cypher-templates/person': stubs.cypherTemplatesPerson,
 		'./base': proxyquire('../../../dist/models/base', {
 			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
 			'../lib/cypher-templates/shared': stubs.Base.cypherTemplatesShared,
@@ -266,10 +265,10 @@ describe('Person model', () => {
 		it('will get show data', done => {
 
 			instance.show().then(result => {
-				expect(stubs.cypherTemplatesPerson.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesPerson.getShowQuery.calledWithExactly()).to.be.true;
-				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly(
+				expect(stubs.Base.cypherTemplatesShared.getShowQueries.person.calledOnce).to.be.true;
+				expect(stubs.Base.cypherTemplatesShared.getShowQueries.person.calledWithExactly()).to.be.true;
+				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
+				expect(stubs.Base.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }
 				)).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);

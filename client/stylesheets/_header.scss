@@ -1,12 +1,11 @@
 .header {
-	height: 75px;
 	background-color: $header-bg-color;
-	padding-left: 10px;
-	font-size: 400%;
-	font-weight: bold;
+	padding: 0 10px;
 }
 
 .header__home-link {
+	font-size: 65px;
+	font-weight: bold;
 	color: $header-text-color;
 	transition: color 0.5s;
 

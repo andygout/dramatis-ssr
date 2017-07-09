@@ -19,31 +19,26 @@ router.use(methodOverride((req, res) => {
 
 }));
 
-// Home
 router.get('/', controllers.productions.listRoute);
 
-// Characters
 router.get('/characters/:uuid/edit', controllers.characters.editRoute);
 router.post('/characters/:uuid', controllers.characters.updateRoute);
 router.delete('/characters/:uuid', controllers.characters.deleteRoute);
 router.get('/characters/:uuid', controllers.characters.showRoute);
 router.get('/characters', controllers.characters.listRoute);
 
-// People
 router.get('/people/:uuid/edit', controllers.people.editRoute);
 router.post('/people/:uuid', controllers.people.updateRoute);
 router.delete('/people/:uuid', controllers.people.deleteRoute);
 router.get('/people/:uuid', controllers.people.showRoute);
 router.get('/people', controllers.people.listRoute);
 
-// Playtexts
 router.get('/playtexts/:uuid/edit', controllers.playtexts.editRoute);
 router.post('/playtexts/:uuid', controllers.playtexts.updateRoute);
 router.delete('/playtexts/:uuid', controllers.playtexts.deleteRoute);
 router.get('/playtexts/:uuid', controllers.playtexts.showRoute);
 router.get('/playtexts', controllers.playtexts.listRoute);
 
-// Productions
 router.get('/productions/new', controllers.productions.newRoute);
 router.post('/productions', controllers.productions.createRoute);
 router.get('/productions/:uuid/edit', controllers.productions.editRoute);
@@ -52,7 +47,6 @@ router.delete('/productions/:uuid', controllers.productions.deleteRoute);
 router.get('/productions/:uuid', controllers.productions.showRoute);
 router.get('/productions', (req, res) => res.redirect('/'));
 
-// Theatres
 router.get('/theatres/:uuid/edit', controllers.theatres.editRoute);
 router.post('/theatres/:uuid', controllers.theatres.updateRoute);
 router.delete('/theatres/:uuid', controllers.theatres.deleteRoute);

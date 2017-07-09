@@ -1,12 +1,12 @@
 const getShowQuery = () => `
 	MATCH (character:Character { uuid: $uuid })
-	OPTIONAL MATCH (character)<-[:INCLUDES_CHARACTER]-(playtext:Playtext)
-	OPTIONAL MATCH (character)<-[:INCLUDES_CHARACTER]-(playtext)<-[:PRODUCTION_OF]-(production:Production)<-
-		[castRel:PERFORMS_IN]-(person:Person)-[:PERFORMS_AS]->(role:Role)
+	OPTIONAL MATCH (character)<-[playtextRel:INCLUDES_CHARACTER]-(playtext:Playtext)
+	OPTIONAL MATCH (character)<-[playtextRel]-(playtext)<-[prodRel:PRODUCTION_OF]-(production:Production)<-
+		[castRel:PERFORMS_IN]-(person:Person)-[:PERFORMS_AS { prodUuid: production.uuid }]->(role:Role)
 		WHERE character.name = role.name
-	OPTIONAL MATCH (otherRole:Role)<-[otherRoleRel:PERFORMS_AS]-(person)-[:PERFORMS_IN]->(production)-[:PRODUCTION_OF]->
-		(playtext)-[:INCLUDES_CHARACTER]->(otherCharacter:Character)
-		WHERE otherCharacter <> character AND otherRole.name = otherCharacter.name
+	OPTIONAL MATCH (person)-[otherRoleRel:PERFORMS_AS { prodUuid: production.uuid }]->(otherRole:Role)
+		WHERE otherRole.name <> character.name
+	OPTIONAL MATCH (otherRole)<-[otherRoleRel]-(person)-[castRel]->(production)-[prodRel]->(playtext)-[:INCLUDES_CHARACTER]->(otherCharacter:Character) WHERE otherRole.name = otherCharacter.name
 	OPTIONAL MATCH (production)-[:PLAYS_AT]->(theatre:Theatre)
 	WITH character, production, theatre, castRel, person, role, otherRole, otherRoleRel, otherCharacter, CASE WHEN playtext IS NULL THEN [] ELSE
 		COLLECT({

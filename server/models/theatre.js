@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
 import { getDeleteQuery } from '../lib/cypher-templates/shared';
-import { getValidateDeleteQuery, getShowQuery } from '../lib/cypher-templates/theatre';
+import { getValidateDeleteQuery } from '../lib/cypher-templates/theatre';
 import verifyErrorPresence from '../lib/verify-error-presence';
 import Base from './base';
 
@@ -41,12 +41,6 @@ export default class Theatre extends Base {
 				return dbQuery({ query: getDeleteQuery(this.model), params: this });
 
 			});
-
-	};
-
-	show () {
-
-		return dbQuery({ query: getShowQuery(), params: this });
 
 	};
 

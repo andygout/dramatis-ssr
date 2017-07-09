@@ -17,8 +17,7 @@ beforeEach(() => {
 			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
 		},
 		cypherTemplatesTheatre: {
-			getValidateDeleteQuery: sandbox.stub().returns('getValidateDeleteQuery response'),
-			getShowQuery: sandbox.stub().returns('getShowQuery response')
+			getValidateDeleteQuery: sandbox.stub().returns('getValidateDeleteQuery response')
 		},
 		verifyErrorPresence: sandbox.stub().returns(false),
 		Base: {
@@ -26,7 +25,10 @@ beforeEach(() => {
 			cypherTemplatesShared: {
 				getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
 				getEditQuery: sandbox.stub().returns('getEditQuery response'),
-				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response')
+				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
+				getShowQueries: {
+					theatre: sandbox.stub().returns('getShowQuery response')
+				}
 			},
 			trimStrings: sandbox.stub(),
 			validateString: sandbox.stub().returns([]),
@@ -291,7 +293,6 @@ describe('Theatre model', () => {
 
 			it('will delete', done => {
 
-
 				sinon.spy(instance, 'validateDeleteInDb');
 				instance.delete().then(result => {
 					sinon.assert.callOrder(
@@ -349,10 +350,10 @@ describe('Theatre model', () => {
 		it('will get show data', done => {
 
 			instance.show().then(result => {
-				expect(stubs.cypherTemplatesTheatre.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesTheatre.getShowQuery.calledWithExactly()).to.be.true;
-				expect(stubs.dbQuery.calledOnce).to.be.true;
-				expect(stubs.dbQuery.calledWithExactly(
+				expect(stubs.Base.cypherTemplatesShared.getShowQueries.theatre.calledOnce).to.be.true;
+				expect(stubs.Base.cypherTemplatesShared.getShowQueries.theatre.calledWithExactly()).to.be.true;
+				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
+				expect(stubs.Base.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }
 				)).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);
