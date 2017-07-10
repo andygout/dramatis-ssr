@@ -10,6 +10,7 @@ export default class Role {
 		});
 
 		this.name = props.name;
+		this.characterName = (props.characterName && props.characterName.length) ? props.characterName : null;
 		this.hasError = false;
 		this.errors = {};
 
@@ -22,6 +23,10 @@ export default class Role {
 		const nameErrors = validateString(this.name, opts);
 
 		if (nameErrors.length) this.errors.name = nameErrors;
+
+		const characterNameErrors = validateString(this.characterName, opts);
+
+		if (characterNameErrors.length) this.errors.characterName = characterNameErrors;
 
 	};
 

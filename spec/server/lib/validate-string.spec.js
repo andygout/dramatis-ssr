@@ -42,4 +42,14 @@ describe('Validate String module', () => {
 
 	});
 
+	context('null data', () => {
+
+		it('will return empty stringErrors array', () => {
+
+			expect(subject(null)).to.deep.eq([]);
+
+		});
+
+	});
+
 });

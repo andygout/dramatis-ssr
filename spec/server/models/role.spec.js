@@ -42,14 +42,16 @@ describe('Role model', () => {
 
 	describe('validate method', () => {
 
-		it('will trim strings before validating name', () => {
+		it('will trim strings before validating name and characterName', () => {
 
 			instance.validate();
-			expect(stubs.trimStrings.calledBefore(stubs.validateString)).to.be.true;
+			sinon.assert.callOrder(
+				stubs.trimStrings.withArgs(instance),
+				stubs.validateString.withArgs(instance.name, {}),
+				stubs.validateString.withArgs(instance.characterName, {})
+			);
 			expect(stubs.trimStrings.calledOnce).to.be.true;
-			expect(stubs.trimStrings.calledWithExactly(instance)).to.be.true;
-			expect(stubs.validateString.calledOnce).to.be.true;
-			expect(stubs.validateString.calledWithExactly(instance.name, {})).to.be.true;
+			expect(stubs.validateString.calledTwice).to.be.true;
 
 		});
 
