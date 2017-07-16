@@ -35,7 +35,8 @@ const addField = event => {
 			const newFieldInput = newField.getElementsByTagName('input')[0];
 			newFieldInput.setAttribute('name', newFieldInputName);
 			newFieldInput.value = '';
-			newFieldInput.addEventListener('input', addField, false);
+			const requiresInputListener = newFieldInput.classList.contains('field__input--last-in-array')
+			if (requiresInputListener) newFieldInput.addEventListener('input', addField, false);
 
 			newField.getElementsByTagName('label')[0].setAttribute('for', newFieldInputName);
 

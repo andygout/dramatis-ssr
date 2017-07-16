@@ -30,7 +30,8 @@ const getCreateUpdateQuery = action => {
 			ON CREATE SET person.uuid = castMember.uuid
 			CREATE (production)<-[:PERFORMS_IN { position: castMember.position }]-(person)
 			FOREACH (role in castMember.roles |
-				CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(:Role { name: role.name })
+				CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->
+					(:Role { name: role.name, characterName: role.characterName })
 			)
 		)
 		RETURN {
@@ -52,7 +53,7 @@ const getEditQuery = () => `
 	WITH production, theatre, playtext, castRel, person, roleRel, role
 	ORDER BY roleRel.position
 	WITH production, theatre, playtext, castRel, person,
-		CASE WHEN role IS NULL THEN [] ELSE COLLECT({ name: role.name }) END AS roles
+		CASE WHEN role IS NULL THEN [] ELSE COLLECT({ name: role.name, characterName: role.characterName }) END AS roles
 	ORDER BY castRel.position
 	RETURN {
 		model: 'production',
@@ -72,7 +73,8 @@ const getShowQuery = () => `
 	OPTIONAL MATCH (production)<-[castRel:PERFORMS_IN]-(person:Person)
 	OPTIONAL MATCH (person)-[roleRel:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
 	OPTIONAL MATCH (role)<-[roleRel]-(person)-[castRel]->(production)-[playtextRel]->
-		(playtext)-[:INCLUDES_CHARACTER]->(character:Character) WHERE role.name = character.name
+		(playtext)-[:INCLUDES_CHARACTER]->(character:Character)
+		WHERE role.name = character.name OR role.characterName = character.name
 	WITH production, theatre, playtext, castRel, person, roleRel, role, character
 	ORDER BY roleRel.position
 	WITH production, theatre, playtext, castRel, person, CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE

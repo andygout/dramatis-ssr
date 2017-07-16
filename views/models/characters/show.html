@@ -3,6 +3,13 @@
 	contentLabelText='Playtexts'
 }}
 
+<div class="content-wrapper">
+	{{> content-label text='Variant names'}}
+	<div class="content">
+		<span class="role-text">{{join instance.variantNames}}</span>
+	</div>
+</div>
+
 {{> show-instances
 	instances=instance.productions
 	contentLabelText='Productions'

@@ -43,6 +43,13 @@
 							removeFieldButton=true
 							nested=true
 						}}
+						{{> input-text
+							labelText='Character'
+							inputName=(concat 'cast[' @../index '][roles][' @index '][characterName]')
+							value=characterName
+							errors=errors.characterName
+							nested=true
+						}}
 					{{/each}}
 					{{> input-text
 						labelText='Role'
@@ -50,6 +57,13 @@
 						value=''
 						errors=null
 						lastInArray=true
+						nested=true
+					}}
+					{{> input-text
+						labelText='Character'
+						inputName=(concat 'cast[' @index '][roles][' roles.length '][characterName]')
+						value=''
+						errors=null
 						nested=true
 					}}
 				{{else}}
@@ -78,6 +92,13 @@
 				lastInArray=true
 				nested=true
 			}}
+			{{> input-text
+				labelText='Character'
+				inputName=(concat 'cast[' cast.length '][roles][0][characterName]')
+				value=''
+				errors=null
+				nested=true
+			}}
 		{{else}}
 			{{> input-text
 				labelText='Cast member'
@@ -92,6 +113,13 @@
 				value=''
 				errors=null
 				lastInArray=true
+				nested=true
+			}}
+			{{> input-text
+				labelText='Character'
+				inputName=(concat 'cast[0][roles][0][characterName]')
+				value=''
+				errors=null
 				nested=true
 			}}
 		{{/if}}

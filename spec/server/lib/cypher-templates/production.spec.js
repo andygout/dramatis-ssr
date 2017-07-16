@@ -30,7 +30,8 @@ describe('Cypher Templates Production module', () => {
 					ON CREATE SET person.uuid = castMember.uuid
 					CREATE (production)<-[:PERFORMS_IN { position: castMember.position }]-(person)
 					FOREACH (role in castMember.roles |
-						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(:Role { name: role.name })
+						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->
+							(:Role { name: role.name, characterName: role.characterName })
 					)
 				)
 				RETURN {
@@ -72,7 +73,8 @@ describe('Cypher Templates Production module', () => {
 					ON CREATE SET person.uuid = castMember.uuid
 					CREATE (production)<-[:PERFORMS_IN { position: castMember.position }]-(person)
 					FOREACH (role in castMember.roles |
-						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->(:Role { name: role.name })
+						CREATE (person)-[:PERFORMS_AS { position: role.position, prodUuid: $uuid }]->
+							(:Role { name: role.name, characterName: role.characterName })
 					)
 				)
 				RETURN {

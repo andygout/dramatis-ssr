@@ -27,17 +27,18 @@ afterEach(() => {
 
 describe('Join handlebars helper', () => {
 
-	it('will return instanceLink response when model and uuid present otherwise will return instance name value', () => {
+	it('will return instanceLink response when model and uuid present otherwise instance name value or instance itself if name value absent', () => {
 
 		const instancesArray = [
-			{ name: 'Hamlet' },
-			{ model: 'character', name: 'Claudius' },
-			{ name: 'Gertrude', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' },
-			{ model: 'character', name: 'Ophelia', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' }
+			{ model: 'character', name: 'Hamlet', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' },
+			{ name: 'Claudius', uuid: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' },
+			{ model: 'character', name: 'Gertrude' },
+			{ name: 'Ophelia' },
+			'Polonius'
 		];
-		expect(subject(instancesArray)).to.eq('Hamlet / Claudius / Gertrude / instanceLink response');
+		expect(subject(instancesArray)).to.eq('instanceLink response / Claudius / Gertrude / Ophelia / Polonius');
 		expect(stubs.instanceLink.calledOnce).to.be.true;
-		expect(stubs.instanceLink.calledWithExactly(instancesArray[3])).to.be.true;
+		expect(stubs.instanceLink.calledWithExactly(instancesArray[0])).to.be.true;
 
 	});
 
