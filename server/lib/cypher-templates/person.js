@@ -7,9 +7,11 @@ const getShowQuery = () => `
 		WHERE role.name = character.name OR role.characterName = character.name
 	WITH person, production, theatre, roleRel, role, character
 	ORDER BY roleRel.position
-	WITH person, production, theatre, CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE
+	WITH person, production, theatre,
+		CASE WHEN role IS NULL THEN [{ name: 'Performer' }] ELSE
 		COLLECT({ model: 'character', uuid: character.uuid, name: role.name }) END AS roles
-	WITH person, CASE WHEN production IS NULL THEN [] ELSE
+	WITH person,
+		CASE WHEN production IS NULL THEN [] ELSE
 		COLLECT({
 			model: 'production',
 			uuid: production.uuid,

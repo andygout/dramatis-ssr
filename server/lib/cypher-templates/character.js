@@ -13,19 +13,11 @@ const getShowQuery = () => `
 	OPTIONAL MATCH (production)-[:PLAYS_AT]->(theatre:Theatre)
 	WITH character, production, theatre, castRel, person, role, otherRole, otherRoleRel, otherCharacter,
 		CASE WHEN playtext IS NULL THEN [] ELSE
-			COLLECT({
-				model: 'playtext',
-				uuid: playtext.uuid,
-				name: playtext.name
-			}) END AS playtexts
+		COLLECT({ model: 'playtext', uuid: playtext.uuid, name: playtext.name }) END AS playtexts
 	ORDER BY otherRoleRel.position
 	WITH character, playtexts, production, theatre, castRel, person, role,
 		CASE WHEN otherRole IS NULL THEN [] ELSE
-			COLLECT({
-				model: 'character',
-				uuid: otherCharacter.uuid,
-				name: otherRole.name
-			}) END AS otherRoles
+		COLLECT({ model: 'character', uuid: otherCharacter.uuid, name: otherRole.name }) END AS otherRoles
 	ORDER BY castRel.position
 	WITH character, playtexts, production, theatre, role,
 		COLLECT({
