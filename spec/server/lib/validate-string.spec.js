@@ -14,13 +14,13 @@ describe('Validate String module', () => {
 
 		it('will not add error to stringErrors array if string is acceptable length', () => {
 
-			expect(subject(validLengthString, 'Name')).to.deep.eq([]);
+			expect(subject(validLengthString)).to.deep.eq([]);
 
 		});
 
 		it('will not add error to stringErrors array if string has no length but is not required', () => {
 
-			expect(subject(subMinLengthString, 'Name')).to.deep.eq([]);
+			expect(subject(subMinLengthString)).to.deep.eq([]);
 
 		});
 
