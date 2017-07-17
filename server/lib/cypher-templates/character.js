@@ -28,14 +28,13 @@ const getShowQuery = () => `
 			}) END AS otherRoles
 	ORDER BY castRel.position
 	WITH character, playtexts, production, theatre, role,
-		CASE WHEN person IS NULL THEN [] ELSE
-			COLLECT({
-				model: 'person',
-				uuid: person.uuid,
-				name: person.name,
-				role: { name: role.name },
-				otherRoles: otherRoles
-			}) END AS performers
+		COLLECT({
+			model: 'person',
+			uuid: person.uuid,
+			name: person.name,
+			role: { name: role.name },
+			otherRoles: otherRoles
+		}) END AS performers
 	RETURN {
 		model: 'character',
 		uuid: character.uuid,
