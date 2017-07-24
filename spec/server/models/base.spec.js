@@ -13,7 +13,7 @@ beforeEach(() => {
 
 	stubs = {
 		dbQuery: sandbox.stub().resolves(dbQueryFixture),
-		cypherTemplatesShared: {
+		cypherQueriesShared: {
 			getListQuery: sandbox.stub().returns('getListQuery response')
 		},
 		trimStrings: sandbox.stub(),
@@ -33,7 +33,7 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/base', {
 		'../database/db-query': stubs.dbQuery,
-		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString
 	});
@@ -96,8 +96,8 @@ describe('Base model', () => {
 
 			const subject = createSubject();
 			subject.list('model').then(result => {
-				expect(stubs.cypherTemplatesShared.getListQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getListQuery.calledWithExactly('model')).to.be.true;
+				expect(stubs.cypherQueriesShared.getListQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesShared.getListQuery.calledWithExactly('model')).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly({ query: 'getListQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);

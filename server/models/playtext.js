@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
-import { getEditQuery, getUpdateQuery, getShowQuery } from '../lib/cypher-templates/playtext';
-import { getValidateUpdateQuery, getDeleteQuery, getListQuery } from '../lib/cypher-templates/shared';
+import { getEditQuery, getUpdateQuery, getShowQuery } from '../lib/cypher-queries/playtext';
+import { getValidateUpdateQuery, getDeleteQuery, getListQuery } from '../lib/cypher-queries/shared';
 import prepareAsParams from '../lib/prepare-as-params';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';

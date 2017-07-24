@@ -1,6 +1,6 @@
 import dbQuery from '../database/db-query';
-import { getDeleteQuery } from '../lib/cypher-templates/shared';
-import { getValidateDeleteQuery } from '../lib/cypher-templates/theatre';
+import { getDeleteQuery } from '../lib/cypher-queries/shared';
+import { getValidateDeleteQuery } from '../lib/cypher-queries/theatre';
 import verifyErrorPresence from '../lib/verify-error-presence';
 import Base from './base';
 

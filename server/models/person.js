@@ -1,5 +1,5 @@
 import dbQuery from '../database/db-query';
-import { getDeleteQuery } from '../lib/cypher-templates/shared';
+import { getDeleteQuery } from '../lib/cypher-queries/shared';
 import Base from './base';
 import Role from './role';
 

@@ -19,12 +19,12 @@ beforeEach(() => {
 
 	stubs = {
 		dbQuery: sandbox.stub().resolves(dbQueryFixture),
-		cypherTemplatesPlaytext: {
+		cypherQueriesPlaytext: {
 			getEditQuery: sandbox.stub().returns('getEditQuery response'),
 			getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
 			getShowQuery: sandbox.stub().returns('getShowQuery response')
 		},
-		cypherTemplatesShared: {
+		cypherQueriesShared: {
 			getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
 			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
 			getListQuery: sandbox.stub().returns('getListQuery response')
@@ -49,8 +49,8 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/playtext', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-templates/playtext': stubs.cypherTemplatesPlaytext,
-		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/cypher-queries/playtext': stubs.cypherQueriesPlaytext,
+		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/prepare-as-params': stubs.prepareAsParams,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
@@ -115,8 +115,8 @@ describe('Playtext model', () => {
 		it('will validate update in database', done => {
 
 			instance.validateUpdateInDb().then(() => {
-				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.cypherQueriesShared.getValidateUpdateQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getValidateUpdateQuery response', params: instance }
@@ -207,8 +207,8 @@ describe('Playtext model', () => {
 		it('will get edit data', done => {
 
 			instance.edit().then(result => {
-				expect(stubs.cypherTemplatesPlaytext.getEditQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesPlaytext.getEditQuery.calledWithExactly()).to.be.true;
+				expect(stubs.cypherQueriesPlaytext.getEditQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesPlaytext.getEditQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getEditQuery response', params: instance }
@@ -234,14 +234,14 @@ describe('Playtext model', () => {
 						instance.setErrorStatus.withArgs(),
 						instance.validateUpdateInDb.withArgs(),
 						stubs.verifyErrorPresence.withArgs(instance),
-						stubs.cypherTemplatesPlaytext.getUpdateQuery.withArgs(),
+						stubs.cypherQueriesPlaytext.getUpdateQuery.withArgs(),
 						stubs.prepareAsParams.withArgs(instance),
 						stubs.dbQuery.withArgs({ query: 'getUpdateQuery response', params: 'prepareAsParams response' })
 					);
 					expect(instance.setErrorStatus.calledOnce).to.be.true;
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 					expect(stubs.verifyErrorPresence.calledTwice).to.be.true;
-					expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.cypherQueriesPlaytext.getUpdateQuery.calledOnce).to.be.true;
 					expect(stubs.prepareAsParams.calledOnce).to.be.true;
 					expect(stubs.dbQuery.calledTwice).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
@@ -266,7 +266,7 @@ describe('Playtext model', () => {
 						expect(instance.setErrorStatus.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
-						expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.cypherQueriesPlaytext.getUpdateQuery.notCalled).to.be.true;
 						expect(stubs.prepareAsParams.notCalled).to.be.true;
 						expect(stubs.dbQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ playtext: instance });
@@ -295,7 +295,7 @@ describe('Playtext model', () => {
 						expect(instance.setErrorStatus.calledOnce).to.be.true;
 						expect(instance.validateUpdateInDb.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
-						expect(stubs.cypherTemplatesPlaytext.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.cypherQueriesPlaytext.getUpdateQuery.notCalled).to.be.true;
 						expect(stubs.prepareAsParams.notCalled).to.be.true;
 						expect(stubs.dbQuery.calledOnce).to.be.true;
 						expect(result).to.deep.eq({ playtext: instance });
@@ -315,8 +315,8 @@ describe('Playtext model', () => {
 		it('will delete', done => {
 
 			instance.delete().then(result => {
-				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.cypherQueriesShared.getDeleteQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getDeleteQuery response', params: instance }
@@ -334,8 +334,8 @@ describe('Playtext model', () => {
 		it('will get show data', done => {
 
 			instance.show().then(result => {
-				expect(stubs.cypherTemplatesPlaytext.getShowQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesPlaytext.getShowQuery.calledWithExactly()).to.be.true;
+				expect(stubs.cypherQueriesPlaytext.getShowQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesPlaytext.getShowQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }
@@ -354,8 +354,8 @@ describe('Playtext model', () => {
 
 			const subject = createSubject();
 			subject.list().then(result => {
-				expect(stubs.cypherTemplatesShared.getListQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getListQuery.calledWithExactly('playtext')).to.be.true;
+				expect(stubs.cypherQueriesShared.getListQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesShared.getListQuery.calledWithExactly('playtext')).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly({ query: 'getListQuery response' })).to.be.true;
 				expect(result).to.deep.eq(dbQueryFixture);

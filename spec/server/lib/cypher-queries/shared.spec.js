@@ -27,12 +27,12 @@ afterEach(() => {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../../dist/lib/cypher-templates/shared', {
+	proxyquire('../../../../dist/lib/cypher-queries/shared', {
 		'../capitalise': stubOverrides.capitalise || stubs.capitalise,
 		'../pluralise': stubOverrides.pluralise || stubs.pluralise
 	});
 
-describe('Cypher Templates Shared module', () => {
+describe('Cypher Queries Shared module', () => {
 
 	context('Production model usage', () => {
 
