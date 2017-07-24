@@ -26,7 +26,7 @@ const getShowQuery = () => `
 			name: person.name,
 			role: { name: role.name },
 			otherRoles: otherRoles
-		}) END AS performers
+		}) AS performers
 	RETURN {
 		model: 'character',
 		uuid: character.uuid,
