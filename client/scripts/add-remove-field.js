@@ -86,9 +86,9 @@ const removeField = event => {
 
 const init = () => {
 
-	const lastInArrayFieldInputs = [...document.getElementsByClassName('field__input--duplicable')];
+	const duplicableFieldInputs = [...document.getElementsByClassName('field__input--duplicable')];
 
-	lastInArrayFieldInputs.forEach(fieldInput => fieldInput.addEventListener('input', addField, false));
+	duplicableFieldInputs.forEach(fieldInput => fieldInput.addEventListener('input', addField, false));
 
 	const fieldRemoverButtons = [...document.getElementsByClassName('field__remover-button')];
 

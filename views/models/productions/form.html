@@ -56,7 +56,7 @@
 						inputName=(concat 'cast[' @index '][roles][' roles.length '][name]')
 						value=''
 						errors=null
-						lastInArray=true
+						duplicable=true
 						nested=true
 					}}
 					{{> input-text
@@ -72,7 +72,7 @@
 						inputName=(concat 'cast[' @index '][roles][0][name]')
 						value=''
 						errors=null
-						lastInArray=true
+						duplicable=true
 						nested=true
 					}}
 				{{/if}}
@@ -82,14 +82,14 @@
 				inputName=(concat 'cast[' cast.length '][name]')
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 			}}
 			{{> input-text
 				labelText='Role'
 				inputName=(concat 'cast[' cast.length '][roles][0][name]')
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 				nested=true
 			}}
 			{{> input-text
@@ -105,14 +105,14 @@
 				inputName='cast[0][name]'
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 			}}
 			{{> input-text
 				labelText='Role'
 				inputName=(concat 'cast[0][roles][0][name]')
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 				nested=true
 			}}
 			{{> input-text
