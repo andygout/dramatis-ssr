@@ -65,15 +65,38 @@ const createSubject = (stubOverrides = {}) =>
 		'./role': stubs.Role
 	});
 
-const createInstance = (stubOverrides = {}) => {
+const createInstance = (stubOverrides = {}, props = { name: 'Ian McKellen' }) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ name: 'Ian McKellen' });
+	return new subject(props);
 
 };
 
 describe('Person model', () => {
+
+	describe('constructor method', () => {
+
+		describe('roles property', () => {
+
+			it('will assign as empty array if not included in props', () => {
+
+				expect(instance.roles).to.deep.eq([]);
+
+			});
+
+			it('will assign as array of roles if included in props, filtering out those with empty string names', () => {
+
+				const props = { name: 'Ian McKellen', roles: [{ name: 'King Lear' }, { name: '' }] };
+				instance = createInstance({}, props);
+				expect(instance.roles.length).to.eq(1);
+				expect(instance.roles[0].constructor.name).to.eq('Role');
+
+			});
+
+		});
+
+	});
 
 	describe('validateUpdateInDb method', () => {
 

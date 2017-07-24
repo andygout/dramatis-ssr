@@ -2,6 +2,8 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
+const Person = require('../../../dist/models/person');
+
 const dbQueryFixture = require('../../fixtures/db-query');
 
 const sandbox = sinon.sandbox.create();
@@ -76,20 +78,46 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
-		'./person': stubs.Person,
+		'./person': stubOverrides.Person || stubs.Person,
 		'./playtext': stubs.Playtext,
 		'./theatre': stubs.Theatre
 	});
 
-const createInstance = (stubOverrides = {}) => {
+const createInstance = (stubOverrides = {}, props = { name: 'Hamlet', cast: [{ name: 'Patrick Stewart' }] }) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ name: 'Hamlet', cast: [{ name: 'Patrick Stewart' }] });
+	return new subject(props);
 
 };
 
 describe('Production model', () => {
+
+	describe('constructor method', () => {
+
+		describe('cast property', () => {
+
+			it('will assign as empty array if not included in props', () => {
+
+				const props = { name: 'Hamlet' };
+				instance = createInstance({}, props);
+				expect(instance.cast).to.deep.eq([]);
+
+			});
+
+			it('will assign as array of cast if included in props, filtering out those with empty string names', () => {
+
+				const PersonStubOverride = function () { return sinon.createStubInstance(Person); };
+				const props = { name: 'Hamlet', cast: [{ name: 'Patrick Stewart' }, { name: '' }] };
+				instance = createInstance({ Person: PersonStubOverride }, props);
+				expect(instance.cast.length).to.eq(1);
+				expect(instance.cast[0].constructor.name).to.eq('Person');
+
+			});
+
+		});
+
+	});
 
 	describe('validate method', () => {
 

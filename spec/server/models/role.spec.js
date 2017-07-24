@@ -30,15 +30,43 @@ const createSubject = (stubOverrides = {}) =>
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString
 	});
 
-const createInstance = (stubOverrides = {}) => {
+const createInstance = (stubOverrides = {}, props = { name: 'Hamlet, Prince of Denmark' }) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ name: 'Hamlet' });
+	return new subject(props);
 
 };
 
 describe('Role model', () => {
+
+	describe('constructor method', () => {
+
+		describe('characterName property', () => {
+
+			it('will assign as null if not included in props', () => {
+
+				expect(instance.characterName).to.eq(null);
+
+			});
+
+			it('will assign as null if included in props but value is empty string', () => {
+
+				instance = createInstance({}, { name: 'Hamlet, Prince of Denmark', characterName: '' });
+				expect(instance.characterName).to.eq(null);
+
+			});
+
+			it('will assign value if included in props and value is string with length', () => {
+
+				instance = createInstance({}, { name: 'Hamlet, Prince of Denmark', characterName: 'Hamlet' });
+				expect(instance.characterName).to.eq('Hamlet');
+
+			});
+
+		});
+
+	});
 
 	describe('validate method', () => {
 
