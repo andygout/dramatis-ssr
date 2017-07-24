@@ -53,8 +53,6 @@ const addField = event => {
 
 	});
 
-	fieldInput.classList.remove('field__input--duplicable');
-
 	const fieldRemoverButton = document.createElement('a');
 	fieldRemoverButton.href = '';
 	fieldRemoverButton.classList.add('field__remover-button');
