@@ -12,15 +12,29 @@ describe('Validate String module', () => {
 
 	context('valid data', () => {
 
-		it('will not add error to stringErrors array if string is acceptable length', () => {
+		context('string is required', () => {
 
-			expect(subject(validLengthString, 'Name')).to.deep.eq([]);
+			it('will not add error to stringErrors array if string is between minimum and maximum', () => {
+
+				expect(subject(validLengthString, { required: true })).to.deep.eq([]);
+
+			});
 
 		});
 
-		it('will not add error to stringErrors array if string has no length but is not required', () => {
+		context('string is not required', () => {
 
-			expect(subject(subMinLengthString, 'Name')).to.deep.eq([]);
+			it('will not add error to stringErrors array if string is between minimum and maximum', () => {
+
+				expect(subject(validLengthString)).to.deep.eq([]);
+
+			});
+
+			it('will not add error to stringErrors array if string is shorter than minimum', () => {
+
+				expect(subject(subMinLengthString)).to.deep.eq([]);
+
+			});
 
 		});
 
@@ -28,15 +42,29 @@ describe('Validate String module', () => {
 
 	context('invalid data', () => {
 
-		it('will add error to stringErrors array if string is too short and is required', () => {
+		context('string is required', () => {
 
-			expect(subject(subMinLengthString, { required: true })).to.deep.eq(['Name is too short']);
+			it('will add error to stringErrors array if string is shorter than minimum', () => {
+
+				expect(subject(subMinLengthString, { required: true })).to.deep.eq(['Name is too short']);
+
+			});
+
+			it('will add error to stringErrors array if string is longer than maximum', () => {
+
+				expect(subject(surMaxLengthString, { required: true })).to.deep.eq(['Name is too long']);
+
+			});
 
 		});
 
-		it('will add error to stringErrors array if string is too long', () => {
+		context('string is not required', () => {
 
-			expect(subject(surMaxLengthString)).to.deep.eq(['Name is too long']);
+			it('will add error to stringErrors array if string is longer than maximum', () => {
+
+				expect(subject(surMaxLengthString)).to.deep.eq(['Name is too long']);
+
+			});
 
 		});
 
@@ -44,9 +72,23 @@ describe('Validate String module', () => {
 
 	context('null data', () => {
 
-		it('will return empty stringErrors array', () => {
+		context('string is required', () => {
 
-			expect(subject(null)).to.deep.eq([]);
+			it('will return empty stringErrors array', () => {
+
+				expect(subject(null, { required: true })).to.deep.eq([]);
+
+			});
+
+		});
+
+		context('string is not required', () => {
+
+			it('will return empty stringErrors array', () => {
+
+				expect(subject(null)).to.deep.eq([]);
+
+			});
 
 		});
 

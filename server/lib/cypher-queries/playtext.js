@@ -7,8 +7,7 @@ const getEditQuery = () => `
 		model: 'playtext',
 		uuid: playtext.uuid,
 		name: playtext.name,
-		characters: CASE WHEN character IS NULL THEN [] ELSE
-			COLLECT({ name: character.name }) END
+		characters: CASE WHEN character IS NULL THEN [] ELSE COLLECT({ name: character.name }) END
 	} AS playtext
 `;
 
@@ -39,11 +38,7 @@ const getShowQuery = () => `
 	ORDER BY charRel.position
 	WITH playtext, production, theatre,
 		CASE WHEN character IS NULL THEN [] ELSE
-			COLLECT({
-				model: 'character',
-				uuid: character.uuid,
-				name: character.name
-			}) END AS characters
+		COLLECT({ model: 'character', uuid: character.uuid, name: character.name }) END AS characters
 	RETURN {
 		model: 'playtext',
 		uuid: playtext.uuid,

@@ -6,11 +6,7 @@ export default (stringValue, opts = {}) => {
 
 	if (stringValue === null) return stringErrors;
 
-	if (opts.required && (stringValue.length < constants.STRING_MIN_LENGTH)) {
-
-		stringErrors.push('Name is too short');
-
-	}
+	if (opts.required && (stringValue.length < constants.STRING_MIN_LENGTH)) stringErrors.push('Name is too short');
 
 	if (stringValue.length > constants.STRING_MAX_LENGTH) stringErrors.push('Name is too long');
 

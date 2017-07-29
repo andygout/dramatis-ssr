@@ -35,7 +35,7 @@ const addField = event => {
 			const newFieldInput = newField.getElementsByTagName('input')[0];
 			newFieldInput.setAttribute('name', newFieldInputName);
 			newFieldInput.value = '';
-			const requiresInputListener = newFieldInput.classList.contains('field__input--last-in-array')
+			const requiresInputListener = newFieldInput.classList.contains('field__input--duplicable')
 			if (requiresInputListener) newFieldInput.addEventListener('input', addField, false);
 
 			newField.getElementsByTagName('label')[0].setAttribute('for', newFieldInputName);
@@ -52,8 +52,6 @@ const addField = event => {
 		}
 
 	});
-
-	fieldInput.classList.remove('field__input--last-in-array');
 
 	const fieldRemoverButton = document.createElement('a');
 	fieldRemoverButton.href = '';
@@ -86,9 +84,9 @@ const removeField = event => {
 
 const init = () => {
 
-	const lastInArrayFieldInputs = [...document.getElementsByClassName('field__input--last-in-array')];
+	const duplicableFieldInputs = [...document.getElementsByClassName('field__input--duplicable')];
 
-	lastInArrayFieldInputs.forEach(fieldInput => fieldInput.addEventListener('input', addField, false));
+	duplicableFieldInputs.forEach(fieldInput => fieldInput.addEventListener('input', addField, false));
 
 	const fieldRemoverButtons = [...document.getElementsByClassName('field__remover-button')];
 

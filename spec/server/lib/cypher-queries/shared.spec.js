@@ -27,12 +27,12 @@ afterEach(() => {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../../dist/lib/cypher-templates/shared', {
+	proxyquire('../../../../dist/lib/cypher-queries/shared', {
 		'../capitalise': stubOverrides.capitalise || stubs.capitalise,
 		'../pluralise': stubOverrides.pluralise || stubs.pluralise
 	});
 
-describe('Cypher Templates Shared module', () => {
+describe('Cypher Queries Shared module', () => {
 
 	context('Production model usage', () => {
 
@@ -74,7 +74,8 @@ describe('Cypher Templates Shared module', () => {
 				expect(stubs.capitalise.calledOnce).to.be.true;
 				expect(stubs.capitalise.calledWithExactly('theatre')).to.be.true;
 				expect(removeWhitespace(result)).to.eq(removeWhitespace(`
-					MATCH (n:Theatre { name: $name }) WHERE n.uuid <> $uuid
+					MATCH (n:Theatre { name: $name })
+					WHERE n.uuid <> $uuid
 					RETURN SIGN(COUNT(n)) AS instanceCount
 				`));
 

@@ -3,12 +3,14 @@
 	contentLabelText='Playtexts'
 }}
 
-<div class="content-wrapper">
-	{{> content-label text='Variant names'}}
-	<div class="content">
-		<span class="role-text">{{join instance.variantNames}}</span>
+{{#if instance.variantNames.length}}
+	<div class="content-wrapper">
+		{{> content-label text='Variant names'}}
+		<div class="content">
+			<span class="role-text">{{join instance.variantNames}}</span>
+		</div>
 	</div>
-</div>
+{{/if}}
 
 {{> show-instances
 	instances=instance.productions

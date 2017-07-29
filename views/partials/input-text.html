@@ -10,7 +10,7 @@
 		name="{{inputName}}"
 		type="text"
 		maxlength="1000"
-		class="field__input{{#if errors}} field__input--has-error{{/if}}{{#if lastInArray}} field__input--last-in-array{{/if}}"
+		class="field__input{{#if errors}} field__input--has-error{{/if}}{{#if duplicable}} field__input--duplicable{{/if}}"
 	/>
 	{{#if removeFieldButton}}
 		<a href="" class="field__remover-button">X</a>

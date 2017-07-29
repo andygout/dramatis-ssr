@@ -18,7 +18,7 @@
 				inputName=(concat 'characters[' characters.length '][name]')
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 			}}
 		{{else}}
 			{{> input-text
@@ -26,7 +26,7 @@
 				inputName='characters[0][name]'
 				value=''
 				errors=null
-				lastInArray=true
+				duplicable=true
 			}}
 		{{/if}}
 	</fieldset>

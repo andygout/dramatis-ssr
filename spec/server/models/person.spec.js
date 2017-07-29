@@ -21,12 +21,12 @@ beforeEach(() => {
 
 	stubs = {
 		dbQuery: sandbox.stub().resolves(dbQueryFixture),
-		cypherTemplatesShared: {
+		cypherQueriesShared: {
 			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response')
 		},
 		Base: {
 			dbQuery: sandbox.stub().resolves(dbQueryFixture),
-			cypherTemplatesShared: {
+			cypherQueriesShared: {
 				getValidateUpdateQuery: sandbox.stub().returns('getValidateUpdateQuery response'),
 				getEditQuery: sandbox.stub().returns('getEditQuery response'),
 				getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
@@ -54,10 +54,10 @@ afterEach(() => {
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/person', {
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-templates/shared': stubs.cypherTemplatesShared,
+		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'./base': proxyquire('../../../dist/models/base', {
 			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
-			'../lib/cypher-templates/shared': stubs.Base.cypherTemplatesShared,
+			'../lib/cypher-queries/shared': stubs.Base.cypherQueriesShared,
 			'../lib/trim-strings': stubs.Base.trimStrings,
 			'../lib/validate-string': stubs.Base.validateString,
 			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence
@@ -65,23 +65,46 @@ const createSubject = (stubOverrides = {}) =>
 		'./role': stubs.Role
 	});
 
-const createInstance = (stubOverrides = {}) => {
+const createInstance = (stubOverrides = {}, props = { name: 'Ian McKellen' }) => {
 
 	const subject = createSubject(stubOverrides);
 
-	return new subject({ name: 'Ian McKellen' });
+	return new subject(props);
 
 };
 
 describe('Person model', () => {
+
+	describe('constructor method', () => {
+
+		describe('roles property', () => {
+
+			it('will assign as empty array if not included in props', () => {
+
+				expect(instance.roles).to.deep.eq([]);
+
+			});
+
+			it('will assign as array of roles if included in props, filtering out those with empty string names', () => {
+
+				const props = { name: 'Ian McKellen', roles: [{ name: 'King Lear' }, { name: '' }] };
+				instance = createInstance({}, props);
+				expect(instance.roles.length).to.eq(1);
+				expect(instance.roles[0].constructor.name).to.eq('Role');
+
+			});
+
+		});
+
+	});
 
 	describe('validateUpdateInDb method', () => {
 
 		it('will validate update in database', done => {
 
 			instance.validateUpdateInDb().then(() => {
-				expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
-				expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getValidateUpdateQuery.calledOnce).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getValidateUpdateQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
 				expect(stubs.Base.dbQuery.calledWithExactly(
 					{ query: 'getValidateUpdateQuery response', params: instance }
@@ -130,8 +153,8 @@ describe('Person model', () => {
 		it('will get edit data', done => {
 
 			instance.edit().then(result => {
-				expect(stubs.Base.cypherTemplatesShared.getEditQuery.calledOnce).to.be.true;
-				expect(stubs.Base.cypherTemplatesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getEditQuery.calledOnce).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getEditQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
 				expect(stubs.Base.dbQuery.calledWithExactly(
 					{ query: 'getEditQuery response', params: instance }
@@ -157,18 +180,18 @@ describe('Person model', () => {
 						instance.validate.withArgs({ required: true }),
 						stubs.Base.verifyErrorPresence.withArgs(instance),
 						instance.validateUpdateInDb.withArgs(),
-						stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
+						stubs.Base.cypherQueriesShared.getValidateUpdateQuery.withArgs(instance.model),
 						stubs.Base.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
 						stubs.Base.verifyErrorPresence.withArgs(instance),
-						stubs.Base.cypherTemplatesShared.getUpdateQuery.withArgs(instance.model),
+						stubs.Base.cypherQueriesShared.getUpdateQuery.withArgs(instance.model),
 						stubs.Base.dbQuery.withArgs({ query: 'getUpdateQuery response', params: instance })
 					);
 					expect(instance.validate.calledOnce).to.be.true;
 					expect(stubs.Base.verifyErrorPresence.calledTwice).to.be.true;
 					expect(instance.validateUpdateInDb.calledOnce).to.be.true;
-					expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.Base.cypherQueriesShared.getValidateUpdateQuery.calledOnce).to.be.true;
 					expect(stubs.Base.dbQuery.calledTwice).to.be.true;
-					expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.calledOnce).to.be.true;
+					expect(stubs.Base.cypherQueriesShared.getUpdateQuery.calledOnce).to.be.true;
 					expect(result).to.deep.eq(dbQueryFixture);
 					done();
 				});
@@ -194,9 +217,9 @@ describe('Person model', () => {
 						expect(verifyErrorPresenceStub.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledWithExactly(instance)).to.be.true;
 						expect(instance.validateUpdateInDb.notCalled).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.notCalled).to.be.true;
+						expect(stubs.Base.cypherQueriesShared.getValidateUpdateQuery.notCalled).to.be.true;
 						expect(stubs.Base.dbQuery.notCalled).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.Base.cypherQueriesShared.getUpdateQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ person: instance });
 						done();
 					});
@@ -219,16 +242,16 @@ describe('Person model', () => {
 							instance.validate.withArgs({ required: true }),
 							verifyErrorPresenceStub.withArgs(instance),
 							instance.validateUpdateInDb.withArgs(),
-							stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.withArgs(instance.model),
+							stubs.Base.cypherQueriesShared.getValidateUpdateQuery.withArgs(instance.model),
 							stubs.Base.dbQuery.withArgs({ query: 'getValidateUpdateQuery response', params: instance }),
 							verifyErrorPresenceStub.withArgs(instance)
 						);
 						expect(instance.validate.calledOnce).to.be.true;
 						expect(verifyErrorPresenceStub.calledTwice).to.be.true;
 						expect(instance.validateUpdateInDb.calledOnce).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getValidateUpdateQuery.calledOnce).to.be.true;
+						expect(stubs.Base.cypherQueriesShared.getValidateUpdateQuery.calledOnce).to.be.true;
 						expect(stubs.Base.dbQuery.calledOnce).to.be.true;
-						expect(stubs.Base.cypherTemplatesShared.getUpdateQuery.notCalled).to.be.true;
+						expect(stubs.Base.cypherQueriesShared.getUpdateQuery.notCalled).to.be.true;
 						expect(result).to.deep.eq({ person: instance });
 						done();
 					});
@@ -246,8 +269,8 @@ describe('Person model', () => {
 		it('will delete', done => {
 
 			instance.delete().then(result => {
-				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledOnce).to.be.true;
-				expect(stubs.cypherTemplatesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.cypherQueriesShared.getDeleteQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getDeleteQuery response', params: instance }
@@ -265,8 +288,8 @@ describe('Person model', () => {
 		it('will get show data', done => {
 
 			instance.show().then(result => {
-				expect(stubs.Base.cypherTemplatesShared.getShowQueries.person.calledOnce).to.be.true;
-				expect(stubs.Base.cypherTemplatesShared.getShowQueries.person.calledWithExactly()).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getShowQueries.person.calledOnce).to.be.true;
+				expect(stubs.Base.cypherQueriesShared.getShowQueries.person.calledWithExactly()).to.be.true;
 				expect(stubs.Base.dbQuery.calledOnce).to.be.true;
 				expect(stubs.Base.dbQuery.calledWithExactly(
 					{ query: 'getShowQuery response', params: instance }

@@ -5,7 +5,8 @@ import capitalise from '../capitalise';
 import pluralise from '../pluralise';
 
 const getValidateUpdateQuery = model => `
-	MATCH (n:${capitalise(model)} { name: $name }) WHERE n.uuid <> $uuid
+	MATCH (n:${capitalise(model)} { name: $name })
+	WHERE n.uuid <> $uuid
 	RETURN SIGN(COUNT(n)) AS instanceCount
 `;
 

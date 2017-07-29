@@ -5,7 +5,7 @@ import {
 	getUpdateQuery,
 	getShowQueries,
 	getListQuery
-} from '../lib/cypher-templates/shared';
+} from '../lib/cypher-queries/shared';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';

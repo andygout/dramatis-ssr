@@ -1,7 +1,7 @@
-.env
 /client/favicons/
 /dist/
 /node_modules/
+/public/
+/.env
 /npm-debug.log
 /package-lock.json
-/public/
