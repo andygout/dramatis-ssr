@@ -5,7 +5,6 @@ import instanceRoute from '../instance-route';
 import join from './join';
 import json from './json';
 import model from './model';
-import upperCase from './upper-case';
 
 export {
 	concat,
@@ -14,6 +13,5 @@ export {
 	instanceRoute,
 	join,
 	json,
-	model,
-	upperCase
+	model
 };
