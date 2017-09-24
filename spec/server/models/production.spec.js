@@ -71,9 +71,9 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
+		'../database/cypher-queries/production': stubs.cypherQueriesProduction,
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../database/db-query': stubs.dbQuery,
-		'../lib/cypher-queries/production': stubs.cypherQueriesProduction,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/prepare-as-params': stubs.prepareAsParams,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,

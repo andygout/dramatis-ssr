@@ -1,8 +1,8 @@
 import { getShowQuery as getCharacterShowQuery } from './character';
 import { getShowQuery as getPersonShowQuery } from './person';
 import { getShowQuery as getTheatreShowQuery } from './theatre';
-import capitalise from '../capitalise';
-import pluralise from '../pluralise';
+import capitalise from '../../lib/capitalise';
+import pluralise from '../../lib/pluralise';
 
 const getValidateUpdateQuery = model => `
 	MATCH (n:${capitalise(model)} { name: $name })

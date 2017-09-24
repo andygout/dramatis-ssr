@@ -6,7 +6,7 @@ const removeWhitespace = require('../../../spec-helpers').removeWhitespace;
 
 const getProductionInstanceFixture = require('../../../fixtures/productions/get-instance');
 
-const subject = require('../../../../dist/lib/cypher-queries/production');
+const subject = require('../../../../dist/database/cypher-queries/production');
 
 describe('Cypher Queries Production module', () => {
 

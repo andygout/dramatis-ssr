@@ -48,13 +48,13 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/theatre', {
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
+		'../database/cypher-queries/theatre': stubs.cypherQueriesTheatre,
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
-		'../lib/cypher-queries/theatre': stubs.cypherQueriesTheatre,
 		'../lib/verify-error-presence': stubOverrides.verifyErrorPresence || stubs.verifyErrorPresence,
 		'./base': proxyquire('../../../dist/models/base', {
+			'../database/cypher-queries/shared': stubs.Base.cypherQueriesShared,
 			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
-			'../lib/cypher-queries/shared': stubs.Base.cypherQueriesShared,
 			'../lib/trim-strings': stubs.Base.trimStrings,
 			'../lib/validate-string': stubs.Base.validateString,
 			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence

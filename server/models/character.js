@@ -1,5 +1,5 @@
+import { getDeleteQuery } from '../database/cypher-queries/shared';
 import dbQuery from '../database/db-query';
-import { getDeleteQuery } from '../lib/cypher-queries/shared';
 import Base from './base';
 
 export default class Character extends Base {
