@@ -9,9 +9,7 @@ const models = require('fs')
 	.map(file => capitalise(file.replace('.js', '')));
 
 const createConstraint = model =>
-	dbQuery(
-		{ query: `CREATE CONSTRAINT ON (node:${model}) ASSERT node.uuid IS UNIQUE` }, { isReqdResult: false }
-	)
+	dbQuery({ query: `CREATE CONSTRAINT ON (node:${model}) ASSERT node.uuid IS UNIQUE` }, { isReqdResult: false })
 		.then(() => console.log(`Constraint created for ${model}`))
 		.catch(err => console.log(`Error attempting to create constraint for ${model}: `, err));
 
