@@ -16,9 +16,15 @@ describe('Prop Is Object module', () => {
 
 	});
 
-	it('will not consider array (which is type of object) as valid object', () => {
+	it('will not consider empty array (which is type of object) as valid object', () => {
 
 		expect(subject([])).to.be.false;
+
+	});
+
+	it('will not consider populated array (which is type of object) as valid object', () => {
+
+		expect(subject([1, 2, 3])).to.be.false;
 
 	});
 
