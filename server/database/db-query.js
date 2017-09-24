@@ -20,7 +20,7 @@ export default (queryData, queryOpts = {}) => {
 			if (err) return reject(err);
 
 			return (!results.length && isReqdResult) ?
-				reject(err) :
+				reject(new Error('Not Found')) :
 				resolve(returnArray ? results : results[0]);
 
 		});
