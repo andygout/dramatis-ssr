@@ -6,7 +6,8 @@ import capitalise from '../lib/capitalise';
 
 const models = require('fs')
 	.readdirSync(path.join(__dirname, '..', 'models'))
-	.map(file => capitalise(file.replace('.js', '')));
+	.filter(filename => filename !== 'base.js')
+	.map(filename => capitalise(filename.replace('.js', '')));
 
 const createConstraint = model =>
 	dbQuery({ query: `CREATE CONSTRAINT ON (node:${model}) ASSERT node.uuid IS UNIQUE` }, { isReqdResult: false })
