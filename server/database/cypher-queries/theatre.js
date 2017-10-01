@@ -6,15 +6,13 @@ const getValidateDeleteQuery = () => `
 const getShowQuery = () => `
 	MATCH (theatre:Theatre { uuid: $uuid })
 	OPTIONAL MATCH (theatre)<-[:PLAYS_AT]-(production:Production)
-	WITH theatre,
-		COLLECT(CASE WHEN production IS NULL THEN null ELSE
-				{ model: 'production', uuid: production.uuid, name: production.name }
-			END) AS productions
 	RETURN {
 		model: 'theatre',
 		uuid: theatre.uuid,
 		name: theatre.name,
-		productions: productions
+		productions: COLLECT(CASE WHEN production IS NULL THEN null ELSE
+				{ model: 'production', uuid: production.uuid, name: production.name }
+			END)
 	} AS theatre
 `;
 

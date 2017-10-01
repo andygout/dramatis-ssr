@@ -11,8 +11,11 @@ const getShowQuery = () => `
 		COLLECT(CASE WHEN role IS NULL THEN { name: 'Performer' } ELSE
 				{ model: 'character', uuid: character.uuid, name: role.name }
 			END) AS roles
-	WITH person,
-		COLLECT(CASE WHEN production IS NULL THEN null ELSE
+	RETURN {
+		model: 'person',
+		uuid: person.uuid,
+		name: person.name,
+		productions: COLLECT(CASE WHEN production IS NULL THEN null ELSE
 				{
 					model: 'production',
 					uuid: production.uuid,
@@ -20,12 +23,7 @@ const getShowQuery = () => `
 					theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name },
 					roles: roles
 				}
-			END) AS productions
-	RETURN {
-		model: 'person',
-		uuid: person.uuid,
-		name: person.name,
-		productions: productions
+			END)
 	} AS person
 `;
 
