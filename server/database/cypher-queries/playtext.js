@@ -34,8 +34,8 @@ const getShowQuery = () => `
 	MATCH (playtext:Playtext { uuid: $uuid })
 	OPTIONAL MATCH (playtext)-[charRel:INCLUDES_CHARACTER]->(character:Character)
 	OPTIONAL MATCH (playtext)<-[:PRODUCTION_OF]-(production:Production)-[:PLAYS_AT]->(theatre:Theatre)
-	WITH playtext, charRel, character, production, theatre
-	ORDER BY charRel.position
+	WITH playtext, character, production, theatre
+		ORDER BY charRel.position
 	WITH playtext, production, theatre,
 		COLLECT(CASE WHEN character IS NULL THEN null ELSE
 				{ model: 'character', uuid: character.uuid, name: character.name }
