@@ -6,6 +6,8 @@ const getValidateDeleteQuery = () => `
 const getShowQuery = () => `
 	MATCH (theatre:Theatre { uuid: $uuid })
 	OPTIONAL MATCH (theatre)<-[:PLAYS_AT]-(production:Production)
+	WITH theatre, production
+		ORDER BY production.name, theatre.name
 	RETURN {
 		model: 'theatre',
 		uuid: theatre.uuid,

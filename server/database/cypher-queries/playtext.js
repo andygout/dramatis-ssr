@@ -40,6 +40,7 @@ const getShowQuery = () => `
 		COLLECT(CASE WHEN character IS NULL THEN null ELSE
 				{ model: 'character', uuid: character.uuid, name: character.name }
 			END) AS characters
+		ORDER BY production.name, theatre.name
 	RETURN {
 		model: 'playtext',
 		uuid: playtext.uuid,
