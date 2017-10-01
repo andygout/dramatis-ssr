@@ -7,7 +7,7 @@ const getEditQuery = () => `
 		model: 'playtext',
 		uuid: playtext.uuid,
 		name: playtext.name,
-		characters: CASE WHEN character IS NULL THEN [] ELSE COLLECT({ name: character.name }) END
+		characters: COLLECT(CASE WHEN character IS NULL THEN null ELSE { name: character.name } END)
 	} AS playtext
 `;
 
@@ -37,20 +37,22 @@ const getShowQuery = () => `
 	WITH playtext, charRel, character, production, theatre
 	ORDER BY charRel.position
 	WITH playtext, production, theatre,
-		CASE WHEN character IS NULL THEN [] ELSE
-		COLLECT({ model: 'character', uuid: character.uuid, name: character.name }) END AS characters
+		COLLECT(CASE WHEN character IS NULL THEN null ELSE
+				{ model: 'character', uuid: character.uuid, name: character.name }
+			END) AS characters
 	RETURN {
 		model: 'playtext',
 		uuid: playtext.uuid,
 		name: playtext.name,
 		characters: characters,
-		productions: CASE WHEN production IS NULL THEN [] ELSE
-			COLLECT({
-				model: 'production',
-				uuid: production.uuid,
-				name: production.name,
-				theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name }
-			}) END
+		productions: COLLECT(CASE WHEN production IS NULL THEN null ELSE
+				{
+					model: 'production',
+					uuid: production.uuid,
+					name: production.name,
+					theatre: { model: 'theatre', uuid: theatre.uuid, name: theatre.name }
+				}
+			END)
 	} AS playtext
 `;
 

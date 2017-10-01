@@ -53,12 +53,14 @@ const getListQuery = model => {
 
 	return `
 		MATCH (n:${capitalise(model)})${theatreRelationship}
-		RETURN COLLECT({
-			model: '${model}',
-			uuid: n.uuid,
-			name: n.name
-			${theatreObject}
-		}) AS ${pluralise(model)}
+		RETURN COLLECT(CASE WHEN n IS NULL THEN null ELSE
+			{
+				model: '${model}',
+				uuid: n.uuid,
+				name: n.name
+				${theatreObject}
+			}
+		END) AS ${pluralise(model)}
 	`;
 
 };
