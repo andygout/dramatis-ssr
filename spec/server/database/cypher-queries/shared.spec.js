@@ -50,14 +50,12 @@ describe('Cypher Queries Shared module', () => {
 				expect(pluraliseStub.calledWithExactly('production')).to.be.true;
 				expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 					MATCH (n:Production)-[:PLAYS_AT]->(t:Theatre)
-					RETURN COLLECT(CASE WHEN n IS NULL THEN null ELSE
-						{
-							model: 'production',
-							uuid: n.uuid,
-							name: n.name
-							, theatre: { model: 'theatre', uuid: t.uuid, name: t.name }
-						}
-					END) AS productions
+					RETURN COLLECT({
+						model: 'production',
+						uuid: n.uuid,
+						name: n.name
+						, theatre: { model: 'theatre', uuid: t.uuid, name: t.name }
+					}) AS productions
 				`));
 
 			});
@@ -158,13 +156,11 @@ describe('Cypher Queries Shared module', () => {
 				expect(stubs.pluralise.calledWithExactly('theatre')).to.be.true;
 				expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 					MATCH (n:Theatre)
-					RETURN COLLECT(CASE WHEN n IS NULL THEN null ELSE
-						{
-							model: 'theatre',
-							uuid: n.uuid,
-							name: n.name
-						}
-					END) AS theatres
+					RETURN COLLECT({
+						model: 'theatre',
+						uuid: n.uuid,
+						name: n.name
+					}) AS theatres
 				`));
 
 			});
