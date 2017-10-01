@@ -1,5 +1,11 @@
-import { getCreateQuery, getEditQuery, getUpdateQuery, getShowQuery } from '../database/cypher-queries/production';
-import { getDeleteQuery, getListQuery } from '../database/cypher-queries/shared';
+import {
+	getCreateQuery,
+	getEditQuery,
+	getUpdateQuery,
+	getDeleteQuery,
+	getShowQuery
+} from '../database/cypher-queries/production';
+import { getListQuery } from '../database/cypher-queries/shared';
 import dbQuery from '../database/db-query';
 import prepareAsParams from '../lib/prepare-as-params';
 import trimStrings from '../lib/trim-strings';
@@ -85,7 +91,7 @@ export default class Production {
 
 	delete () {
 
-		return dbQuery({ query: getDeleteQuery(this.model), params: this });
+		return dbQuery({ query: getDeleteQuery(), params: this });
 
 	};
 

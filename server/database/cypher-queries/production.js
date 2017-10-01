@@ -69,6 +69,19 @@ const getEditQuery = () => `
 
 const getUpdateQuery = () => getCreateUpdateQuery('update');
 
+const getDeleteQuery = () => `
+	MATCH (production:Production { uuid: $uuid })
+	OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
+	WITH production, COLLECT(role) AS roles
+	FOREACH (role in roles | DETACH DELETE role)
+	WITH production, production.name AS name
+	DETACH DELETE production
+	RETURN {
+		model: 'production',
+		name: name
+	} AS production
+`;
+
 const getShowQuery = () => `
 	MATCH (production:Production { uuid: $uuid })-[:PLAYS_AT]->(theatre:Theatre)
 	OPTIONAL MATCH (production)-[playtextRel:PRODUCTION_OF]->(playtext:Playtext)
@@ -101,5 +114,6 @@ export {
 	getCreateQuery,
 	getEditQuery,
 	getUpdateQuery,
+	getDeleteQuery,
 	getShowQuery
 };
