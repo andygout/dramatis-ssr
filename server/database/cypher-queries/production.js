@@ -4,7 +4,7 @@ const getCreateUpdateQuery = action => {
 		create: 'CREATE (production:Production { uuid: $uuid, name: $name })',
 		update: `
 			MATCH (production:Production { uuid: $uuid })
-			OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]-(role:Role)
+			OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
 			WITH production, COLLECT(role) AS roles
 			FOREACH (role in roles | DETACH DELETE role)
 			WITH production

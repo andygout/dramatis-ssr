@@ -52,7 +52,7 @@ describe('Cypher Queries Production module', () => {
 			const result = subject.getUpdateQuery();
 			expect(removeWhitespace(result)).to.eq(removeWhitespace(`
 				MATCH (production:Production { uuid: $uuid })
-				OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]-(role:Role)
+				OPTIONAL MATCH (:Person)-[:PERFORMS_AS { prodUuid: $uuid }]->(role:Role)
 				WITH production, COLLECT(role) AS roles
 				FOREACH (role in roles | DETACH DELETE role)
 				WITH production
