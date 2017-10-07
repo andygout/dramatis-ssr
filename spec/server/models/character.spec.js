@@ -44,11 +44,11 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/character', {
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'./base': proxyquire('../../../dist/models/base', {
+			'../database/cypher-queries/shared': stubs.Base.cypherQueriesShared,
 			'../database/db-query': stubOverrides.Base && stubOverrides.Base.dbQuery || stubs.Base.dbQuery,
-			'../lib/cypher-queries/shared': stubs.Base.cypherQueriesShared,
 			'../lib/trim-strings': stubs.Base.trimStrings,
 			'../lib/validate-string': stubs.Base.validateString,
 			'../lib/verify-error-presence': stubOverrides.Base && stubOverrides.Base.verifyErrorPresence || stubs.Base.verifyErrorPresence

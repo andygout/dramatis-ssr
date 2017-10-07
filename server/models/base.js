@@ -1,11 +1,11 @@
-import dbQuery from '../database/db-query';
 import {
 	getValidateUpdateQuery,
 	getEditQuery,
 	getUpdateQuery,
 	getShowQueries,
 	getListQuery
-} from '../lib/cypher-queries/shared';
+} from '../database/cypher-queries/shared';
+import dbQuery from '../database/db-query';
 import trimStrings from '../lib/trim-strings';
 import validateString from '../lib/validate-string';
 import verifyErrorPresence from '../lib/verify-error-presence';

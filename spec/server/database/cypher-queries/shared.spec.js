@@ -27,9 +27,9 @@ afterEach(() => {
 });
 
 const createSubject = (stubOverrides = {}) =>
-	proxyquire('../../../../dist/lib/cypher-queries/shared', {
-		'../capitalise': stubOverrides.capitalise || stubs.capitalise,
-		'../pluralise': stubOverrides.pluralise || stubs.pluralise
+	proxyquire('../../../../dist/database/cypher-queries/shared', {
+		'../../lib/capitalise': stubOverrides.capitalise || stubs.capitalise,
+		'../../lib/pluralise': stubOverrides.pluralise || stubs.pluralise
 	});
 
 describe('Cypher Queries Shared module', () => {

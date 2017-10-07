@@ -1,5 +1,4 @@
 export default instanceProp =>
-	instanceProp !== null &&
-	typeof instanceProp === 'object' &&
+	Object(instanceProp) === instanceProp &&
 	!Array.isArray(instanceProp) &&
 	Object.keys(instanceProp).length > 0;

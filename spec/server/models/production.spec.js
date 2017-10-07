@@ -44,10 +44,10 @@ beforeEach(() => {
 			getCreateQuery: sandbox.stub().returns('getCreateQuery response'),
 			getEditQuery: sandbox.stub().returns('getEditQuery response'),
 			getUpdateQuery: sandbox.stub().returns('getUpdateQuery response'),
+			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
 			getShowQuery: sandbox.stub().returns('getShowQuery response')
 		},
 		cypherQueriesShared: {
-			getDeleteQuery: sandbox.stub().returns('getDeleteQuery response'),
 			getListQuery: sandbox.stub().returns('getListQuery response')
 		},
 		prepareAsParams: sandbox.stub().returns('prepareAsParams response'),
@@ -71,9 +71,9 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/production', {
+		'../database/cypher-queries/production': stubs.cypherQueriesProduction,
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../database/db-query': stubs.dbQuery,
-		'../lib/cypher-queries/production': stubs.cypherQueriesProduction,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/prepare-as-params': stubs.prepareAsParams,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
@@ -329,8 +329,8 @@ describe('Production model', () => {
 		it('will delete', done => {
 
 			instance.delete().then(result => {
-				expect(stubs.cypherQueriesShared.getDeleteQuery.calledOnce).to.be.true;
-				expect(stubs.cypherQueriesShared.getDeleteQuery.calledWithExactly(instance.model)).to.be.true;
+				expect(stubs.cypherQueriesProduction.getDeleteQuery.calledOnce).to.be.true;
+				expect(stubs.cypherQueriesProduction.getDeleteQuery.calledWithExactly()).to.be.true;
 				expect(stubs.dbQuery.calledOnce).to.be.true;
 				expect(stubs.dbQuery.calledWithExactly(
 					{ query: 'getDeleteQuery response', params: instance }

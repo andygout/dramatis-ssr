@@ -1,7 +1,7 @@
-@import 'normalize';
+@import 'lib/shared-variables';
+@import 'lib/color-variables';
 
-@import 'shared-variables';
-@import 'color-variables';
+@import 'normalize';
 
 @import 'content';
 @import 'footer';

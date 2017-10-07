@@ -32,8 +32,8 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/base', {
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../database/db-query': stubs.dbQuery,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString
 	});

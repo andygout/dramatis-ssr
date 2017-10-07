@@ -50,9 +50,9 @@ afterEach(() => {
 
 const createSubject = (stubOverrides = {}) =>
 	proxyquire('../../../dist/models/playtext', {
+		'../database/cypher-queries/playtext': stubs.cypherQueriesPlaytext,
+		'../database/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../database/db-query': stubOverrides.dbQuery || stubs.dbQuery,
-		'../lib/cypher-queries/playtext': stubs.cypherQueriesPlaytext,
-		'../lib/cypher-queries/shared': stubs.cypherQueriesShared,
 		'../lib/prepare-as-params': stubs.prepareAsParams,
 		'../lib/trim-strings': stubs.trimStrings,
 		'../lib/validate-string': stubOverrides.validateString || stubs.validateString,
