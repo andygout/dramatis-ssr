@@ -6,12 +6,14 @@ import pluralise from '../../lib/pluralise';
 
 const getValidateUpdateQuery = model => `
 	MATCH (n:${capitalise(model)} { name: $name })
-	WHERE n.uuid <> $uuid
+		WHERE n.uuid <> $uuid
+
 	RETURN SIGN(COUNT(n)) AS instanceCount
 `;
 
 const getEditQuery = model => `
 	MATCH (n:${capitalise(model)} { uuid: $uuid })
+
 	RETURN {
 		model: '${model}',
 		uuid: n.uuid,
@@ -21,7 +23,8 @@ const getEditQuery = model => `
 
 const getUpdateQuery = model => `
 	MATCH (n:${capitalise(model)} { uuid: $uuid })
-	SET n.name = $name
+		SET n.name = $name
+
 	RETURN {
 		model: '${model}',
 		uuid: n.uuid,
@@ -31,8 +34,10 @@ const getUpdateQuery = model => `
 
 const getDeleteQuery = model => `
 	MATCH (n:${capitalise(model)} { uuid: $uuid })
+
 	WITH n, n.name AS name
-	DETACH DELETE n
+		DETACH DELETE n
+
 	RETURN {
 		model: '${model}',
 		name: name
@@ -53,6 +58,7 @@ const getListQuery = model => {
 
 	return `
 		MATCH (n:${capitalise(model)})${theatreRelationship}
+
 		RETURN COLLECT({
 			model: '${model}',
 			uuid: n.uuid,
