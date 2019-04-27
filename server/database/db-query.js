@@ -1,6 +1,7 @@
 import neo4j from 'neo4j-driver';
 
 import convertRecordsToObjects from './convert-records-to-objects';
+import _ from '../dotenv';
 
 const { DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, NODE_ENV } = process.env;
 
