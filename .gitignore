@@ -1,7 +1,6 @@
-/client/favicons/
-/dist/
+/built/
 /node_modules/
 /public/
-/.env
+/src/client/favicons/
 /npm-debug.log
 /package-lock.json

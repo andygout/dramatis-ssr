@@ -1,9 +1,6 @@
 {
-  "ignoreRoot": [],
   "watch": [
-    "node_modules",
-    "server",
-    "views"
+    "src"
   ],
-  "ext": "html js"
+  "ext": "js jsx"
 }

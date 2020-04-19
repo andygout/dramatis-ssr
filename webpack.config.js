@@ -1,25 +1,86 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
-module.exports = {
-	entry: './client/index.js',
+const serverConfig = {
+	mode: 'none', // i.e. not production or development (see: https://webpack.js.org/configuration/mode).
+	target: 'node',
+	node: {
+		__dirname: false
+	},
+	externals: [nodeExternals()],
+	entry: {
+		main: './src/server.js'
+	},
+	output: {
+		path: path.join(__dirname, 'built'),
+		filename: 'main.js'
+	},
+	module: {
+		rules: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: [/node_modules/],
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env', '@babel/preset-react']
+					}
+
+				}
+			}
+		]
+	},
+	plugins: [
+		new FaviconsWebpackPlugin({
+			logo: './src/client/favicons/favicon.ico',
+			prefix: 'favicons/',
+			icons: {
+				android: false,
+				appleIcon: false,
+				appleStartup: false,
+				favicons: true,
+				firefox: false,
+			}
+		})
+	],
+	resolve: {
+		extensions: ['.js', '.jsx'],
+		modules: ['node_modules'],
+		descriptionFiles: ['package.json']
+	}
+};
+
+const clientConfig = {
+	mode: 'none', // i.e. not production or development (see: https://webpack.js.org/configuration/mode).
+	entry: {
+		main: './src/client/stylesheets/main.scss'
+	},
 	output: {
 		path: path.join(__dirname, 'public'),
 		filename: 'main.js'
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.scss$/,
-				loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+				use: [
+					{
+						loader: MiniCssExtractPlugin.loader
+					},
+					'css-loader',
+					'sass-loader'
+				]
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin({
-			filename: 'main.css',
-			allChunks: true,
-			disable: false
-		})
+		new MiniCssExtractPlugin()
 	]
 };
+
+module.exports = [
+	serverConfig,
+	clientConfig
+];
