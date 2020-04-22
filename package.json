@@ -1,50 +1,57 @@
 {
   "name": "theatrebase",
   "version": "0.0.0",
-  "description": "A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.",
-  "main": "server/app-dev.js",
+  "description": "Front end rendering of site that provides listings for theatrical productions, playtexts and associated data.",
+  "main": "src/server.js",
   "scripts": {
-    "pretest": "babel server --out-dir dist --ignore app-dev.js",
-    "test": "find spec -name '*.spec.js' | xargs mocha -R spec",
+    "lint": "eslint --ext .js src/",
+    "lintspaces": "git ls-files | xargs lintspaces -e .editorconfig",
+    "lint-check": "npm run lint && npm run lintspaces",
+    "unit-test": "mocha --require @babel/register test/**/*.test.js",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "nodemon server/app-dev.js"
+    "start": "nodemon built/main.js"
   },
+  "pre-commit": [
+    "lint-check",
+    "unit-test"
+  ],
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
   "dependencies": {
-    "body-parser": "^1.10.2",
-    "connect-flash": "~0.1.1",
-    "dateformat": "^2.0.0",
-    "directly": "^2.0.4",
-    "dotenv": "^2.0.0",
+    "core-js": "^3.1.4",
     "express": "^4.14.0",
-    "express-handlebars": "^3.0.0",
     "express-session": "^1.14.1",
-    "method-override": "^2.3.6",
     "morgan": "^1.5.1",
-    "neo4j-driver": "^1.7.3",
-    "serve-favicon": "^2.2.0",
-    "uuid": "^3.0.1"
+    "node-fetch": "^2.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "regenerator-runtime": "^0.13.2",
+    "serve-favicon": "^2.2.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
-    "babel-register": "^6.22.0",
-    "chai": "^3.5.0",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.9.0",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
     "css-loader": "^0.28.0",
-    "extract-text-webpack-plugin": "^2.1.0",
-    "mocha": "^3.2.0",
-    "node-mocks-http": "^1.5.4",
-    "node-sass": "^4.5.2",
+    "eslint": "^4.11.0",
+    "favicons-webpack-plugin": "^3.0.1",
+    "lintspaces-cli": "^0.6.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "mocha": "^7.1.1",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.11.0",
-    "proxyquire": "^1.7.10",
+    "pre-commit": "^1.2.2",
     "sass-loader": "^6.0.3",
-    "sinon": "^2.3.2",
-    "webpack": "^2.4.1"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   },
   "engines": {
-    "node": "8.1.4"
+    "node": "12.14.1",
+    "npm": "6.13.6"
   }
 }

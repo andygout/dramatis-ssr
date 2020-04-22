@@ -1,27 +1,19 @@
-TheatreBase [![Circle CI](https://circleci.com/gh/andygout/theatrebase/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase)
-=================
+# theatrebase-gui [![CircleCI](https://circleci.com/gh/andygout/theatrebase-gui/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-gui/tree/master)
 
+Front end rendering of site that provides listings for theatrical productions, playtexts and associated data.
 
-Brief
--------
-
-A graph database-driven site that provides listings for theatrical productions, playtexts and associated data.
-
-
-To run locally
--------
-
+## Setup
 - Clone this repo.
 - Install node modules: `$ npm install`.
-- Add favicon: `$ touch ./client/favicons/favicon.ico`.
-- Copy development environment variables from `.env-dev` into `.env` by running command: `$ node transfer-env-dev`.
-- Create Neo4j database called `theatrebase` and run on port `localhost:7474` (using [Neo4j Community Edition](https://neo4j.com/download/community-edition)).
-- Build client-side JavaScript and CSS: `$ npm run build`; build and update on change with `$ npm run watch`.
-- Run server using: `$ npm start` and visit homepage: `localhost:3000`.
+- Add favicon: `$ touch ./src/client/favicons/favicon.ico`.
 
+## To run locally
+- Build client-side JavaScript and CSS: `$ npm run build`; build and update on change: `$ npm run watch`.
+- Ensure an instance of [`theatrebase-api`](https://github.com/andygout/theatrebase-api) is running on `http://localhost:3000`.
+- Run server using `$ npm start` and visit homepage at `http://localhost:3001`.
 
-To test
--------
+## To run linting checks
+- `$ npm run lint-check`.
 
-- Ensure `$ npm install` has been run.
-- `$ npm test`.
+## To run unit tests
+- `$ npm run unit-test`.
