@@ -1,7 +1,7 @@
 {
-  "name": "theatrebase-gui",
+  "name": "theatrebase-ssr",
   "version": "0.0.0",
-  "description": "Front end rendering of site that provides listings for theatrical productions, playtexts and associated data.",
+  "description": "Server-side rendered (SSR) application that provides listings for theatrical productions, playtexts and associated data.",
   "main": "src/server.js",
   "scripts": {
     "lint": "eslint --ext .js src/",
