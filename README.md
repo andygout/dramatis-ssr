@@ -1,6 +1,6 @@
-# theatrebase-gui [![CircleCI](https://circleci.com/gh/andygout/theatrebase-gui/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-gui/tree/master)
+# theatrebase-ssr [![CircleCI](https://circleci.com/gh/andygout/theatrebase-ssr/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-ssr/tree/master)
 
-Front end rendering of site that provides listings for theatrical productions, playtexts and associated data.
+Server-side rendered (SSR) application that provides listings for theatrical productions, playtexts and associated data.
 
 ## Setup
 - Clone this repo.
