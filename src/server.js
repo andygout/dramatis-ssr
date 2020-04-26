@@ -14,7 +14,7 @@ import router from './router';
 const app = express();
 
 app.use(
-	favicon(path.join(__dirname, 'favicons', 'favicon.ico')), // Path is relative to `built/main.js`.
+	favicon(path.join(__dirname, 'assets', 'favicon.ico')), // Path is relative to `built/main.js`.
 	logger('dev'),
 	session({ secret: 'secret', resave: false, saveUninitialized: true }),
 	express.static('public'),
