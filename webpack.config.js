@@ -34,15 +34,7 @@ const serverConfig = {
 	},
 	plugins: [
 		new FaviconsWebpackPlugin({
-			logo: './src/client/favicons/favicon.ico',
-			prefix: 'favicons/',
-			icons: {
-				android: false,
-				appleIcon: false,
-				appleStartup: false,
-				favicons: true,
-				firefox: false,
-			}
+			logo: './src/client/assets/favicon.ico',
 		})
 	],
 	resolve: {
