@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { App, RelatedInstance } from '../../components';
+import { App, InstanceFacet, JoinedRoles, List } from '../../components';
 
 export default class Character extends React.Component {
 
@@ -15,19 +15,31 @@ export default class Character extends React.Component {
 
 				{
 					playtexts && playtexts.length > 0 && (
-						<RelatedInstance labelText='Playtexts' instance={playtexts} />
+						<InstanceFacet labelText='Playtexts'>
+
+							<List instances={playtexts} />
+
+						</InstanceFacet>
 					)
 				}
 
 				{
 					variantNames && variantNames.length > 0 && (
-						<RelatedInstance labelText='Variant names' instance={variantNames} join />
+						<InstanceFacet labelText='Variant names'>
+
+							<JoinedRoles instances={variantNames} />
+
+						</InstanceFacet>
 					)
 				}
 
 				{
 					productions && productions.length > 0 && (
-						<RelatedInstance labelText='Productions' instance={productions} />
+						<InstanceFacet labelText='Productions'>
+
+							<List instances={productions} />
+
+						</InstanceFacet>
 					)
 				}
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { App, RelatedInstance } from '../../components';
+import { App, InstanceFacet, InstanceLink, List } from '../../components';
 
 export default class Production extends React.Component {
 
@@ -15,19 +15,31 @@ export default class Production extends React.Component {
 
 				{
 					theatre && (
-						<RelatedInstance labelText='Theatre' instance={theatre} />
+						<InstanceFacet labelText='Theatre'>
+
+							<InstanceLink instance={theatre} />
+
+						</InstanceFacet>
 					)
 				}
 
 				{
 					playtext && (
-						<RelatedInstance labelText='Playtext' instance={playtext} />
+						<InstanceFacet labelText='Playtext'>
+
+							<InstanceLink instance={playtext} />
+
+						</InstanceFacet>
 					)
 				}
 
 				{
 					cast && cast.length > 0 && (
-						<RelatedInstance labelText='Cast' instance={cast} />
+						<InstanceFacet labelText='Cast'>
+
+							<List instances={cast} />
+
+						</InstanceFacet>
 					)
 				}
 

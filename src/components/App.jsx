@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ContentHeader, Footer, Head, Header, Navigation, PageTitle } from '.';
+import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
 
 export default class App extends Component {
 
@@ -23,7 +23,11 @@ export default class App extends Component {
 
 						<main className="main-content">
 
-							{ model && <ContentHeader text={model} /> }
+							{
+								model && (
+									<InstanceLabel text={model} />
+								)
+							}
 
 							<PageTitle text={pageTitle} />
 
