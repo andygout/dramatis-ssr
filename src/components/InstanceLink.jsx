@@ -6,7 +6,9 @@ export default function (props) {
 
 	const { instance: { model, uuid, name } } = props;
 
-	const instancePath = `/${irregularPluralNounsMap[model] || model + 's'}/${uuid}`;
+	const pluralisedModel = irregularPluralNounsMap[model] || `${model}s`;
+
+	const instancePath = `/${pluralisedModel}/${uuid}`;
 
 	return (
 		<a href={instancePath}>
