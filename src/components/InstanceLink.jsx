@@ -4,15 +4,13 @@ import { irregularPluralNounsMap } from '../utils/constants';
 
 export default function (props) {
 
-	const { instance } = props;
+	const { instance: { model, uuid, name } } = props;
 
-	const model = instance.model;
-
-	const instancePath = `/${irregularPluralNounsMap[model] || model + 's'}/${instance.uuid}`;
+	const instancePath = `/${irregularPluralNounsMap[model] || model + 's'}/${uuid}`;
 
 	return (
 		<a href={instancePath}>
-			{ instance.name }
+			{ name }
 		</a>
 	);
 

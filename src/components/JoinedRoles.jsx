@@ -14,7 +14,7 @@ export default function (props) {
 					.map((instance, index) =>
 						<span key={index}>
 							{
-								isObjectWithKeys(instance) && instance.model && instance.uuid
+								isObjectWithKeys(instance) && instance.uuid
 									? <InstanceLink instance={instance} />
 									: isObjectWithKeys(instance)
 										? instance.name

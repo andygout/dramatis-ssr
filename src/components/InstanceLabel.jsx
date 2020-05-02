@@ -5,8 +5,8 @@ export default function (props) {
 	const { text } = props;
 
 	return (
-		<div className="content-header">
-			{text}
+		<div className="instance-label">
+			{ text }
 		</div>
 	);
 

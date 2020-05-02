@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { App, RelatedInstance } from '../../components';
+import { App, InstanceFacet, List } from '../../components';
 
 export default class Playtext extends React.Component {
 
@@ -15,13 +15,21 @@ export default class Playtext extends React.Component {
 
 				{
 					productions && productions.length > 0 && (
-						<RelatedInstance labelText='Productions' instance={productions} />
+						<InstanceFacet labelText='Productions'>
+
+							<List instances={productions} />
+
+						</InstanceFacet>
 					)
 				}
 
 				{
 					characters && characters.length > 0 && (
-						<RelatedInstance labelText='Characters' instance={characters} />
+						<InstanceFacet labelText='Characters'>
+
+							<List instances={characters} />
+
+						</InstanceFacet>
 					)
 				}
 

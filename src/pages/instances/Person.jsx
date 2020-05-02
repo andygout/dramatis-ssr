@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { App, RelatedInstance } from '../../components';
+import { App, InstanceFacet, List } from '../../components';
 
 export default class Person extends React.Component {
 
@@ -15,7 +15,11 @@ export default class Person extends React.Component {
 
 				{
 					productions && productions.length > 0 && (
-						<RelatedInstance labelText='Productions' instance={productions} />
+						<InstanceFacet labelText='Productions'>
+
+							<List instances={productions} />
+
+						</InstanceFacet>
 					)
 				}
 
