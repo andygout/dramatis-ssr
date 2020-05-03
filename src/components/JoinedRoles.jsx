@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { InstanceLink } from '.';
-import isObjectWithKeys from '../lib/is-object-with-keys';
 
 export default function (props) {
 
@@ -14,11 +13,9 @@ export default function (props) {
 					.map((instance, index) =>
 						<span key={index}>
 							{
-								isObjectWithKeys(instance) && instance.uuid
+								instance.uuid
 									? <InstanceLink instance={instance} />
-									: isObjectWithKeys(instance)
-										? instance.name
-										: instance
+									: instance.name || instance
 							}
 						</span>
 					)
