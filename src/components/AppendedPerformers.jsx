@@ -22,7 +22,7 @@ export default function (props) {
 
 								<span>&nbsp;…&nbsp;</span>
 
-								<span className="role-text">{performer.role.name}</span>
+								<span className="role-text">{performer.roleName}</span>
 
 							</React.Fragment>
 
