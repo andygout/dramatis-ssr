@@ -1,21 +1,17 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, List } from '../../components';
 
-export default class Theatres extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, theatres } = props;
 
-		const { documentTitle, pageTitle, theatres } = this.props;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle}>
+			<List instances={theatres} />
 
-				<List instances={theatres} />
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

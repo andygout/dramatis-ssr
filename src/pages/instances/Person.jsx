@@ -1,31 +1,27 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, InstanceFacet, List } from '../../components';
 
-export default class Person extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, person } = props;
 
-		const { documentTitle, pageTitle, person } = this.props;
+	const { model, productions } = person;
 
-		const { model, productions } = person;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{
+				productions && productions.length > 0 && (
+					<InstanceFacet labelText='Productions'>
 
-				{
-					productions && productions.length > 0 && (
-						<InstanceFacet labelText='Productions'>
+						<List instances={productions} />
 
-							<List instances={productions} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

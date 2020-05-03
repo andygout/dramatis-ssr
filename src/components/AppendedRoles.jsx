@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, h } from 'preact';
 
 import { JoinedRoles } from '.';
 
@@ -7,13 +7,13 @@ export default function (props) {
 	const { roles } = props;
 
 	return (
-		<React.Fragment>
+		<Fragment>
 
 			<span>&nbsp;…&nbsp;</span>
 
 			<JoinedRoles instances={roles} />
 
-		</React.Fragment>
+		</Fragment>
 	);
 
 };

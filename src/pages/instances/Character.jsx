@@ -1,51 +1,47 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, InstanceFacet, JoinedRoles, List } from '../../components';
 
-export default class Character extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, character } = props;
 
-		const { documentTitle, pageTitle, character } = this.props;
+	const { model, playtexts, variantNames, productions } = character;
 
-		const { model, playtexts, variantNames, productions } = character;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{
+				playtexts && playtexts.length > 0 && (
+					<InstanceFacet labelText='Playtexts'>
 
-				{
-					playtexts && playtexts.length > 0 && (
-						<InstanceFacet labelText='Playtexts'>
+						<List instances={playtexts} />
 
-							<List instances={playtexts} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
+			{
+				variantNames && variantNames.length > 0 && (
+					<InstanceFacet labelText='Variant names'>
 
-				{
-					variantNames && variantNames.length > 0 && (
-						<InstanceFacet labelText='Variant names'>
+						<JoinedRoles instances={variantNames} />
 
-							<JoinedRoles instances={variantNames} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
+			{
+				productions && productions.length > 0 && (
+					<InstanceFacet labelText='Productions'>
 
-				{
-					productions && productions.length > 0 && (
-						<InstanceFacet labelText='Productions'>
+						<List instances={productions} />
 
-							<List instances={productions} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

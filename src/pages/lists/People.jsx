@@ -1,21 +1,17 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, List } from '../../components';
 
-export default class People extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, people } = props;
 
-		const { documentTitle, pageTitle, people } = this.props;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle}>
+			<List instances={people} />
 
-				<List instances={people} />
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

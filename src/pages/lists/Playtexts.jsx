@@ -1,21 +1,17 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, List } from '../../components';
 
-export default class Playtexts extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, playtexts } = props;
 
-		const { documentTitle, pageTitle, playtexts } = this.props;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle}>
+			<List instances={playtexts} />
 
-				<List instances={playtexts} />
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };
