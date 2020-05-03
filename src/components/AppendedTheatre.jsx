@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, h } from 'preact';
 
 import { InstanceLink } from '.';
 
@@ -7,13 +7,13 @@ export default function (props) {
 	const { theatre } = props;
 
 	return (
-		<React.Fragment>
+		<Fragment>
 
 			<span>&nbsp;-&nbsp;</span>
 
 			<InstanceLink instance={theatre} />
 
-		</React.Fragment>
+		</Fragment>
 	);
 
 };

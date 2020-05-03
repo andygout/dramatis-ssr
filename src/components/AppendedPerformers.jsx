@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, h } from 'preact';
 
 import { InstanceLink, AppendedPerformerOtherRoles } from '.';
 
@@ -7,16 +7,16 @@ export default function (props) {
 	const { performers } = props;
 
 	return (
-		<React.Fragment>
+		<Fragment>
 
 			<span>&nbsp;- performed by:&nbsp;</span>
 
 			{
 				performers
 					.map((performer, index) =>
-						<React.Fragment key={index}>
+						<Fragment key={index}>
 
-							<React.Fragment>
+							<Fragment>
 
 								<InstanceLink instance={performer} />
 
@@ -24,7 +24,7 @@ export default function (props) {
 
 								<span className="role-text">{performer.roleName}</span>
 
-							</React.Fragment>
+							</Fragment>
 
 							{
 								performer.otherRoles.length > 0 && (
@@ -32,12 +32,12 @@ export default function (props) {
 								)
 							}
 
-						</React.Fragment>
+						</Fragment>
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])
 			}
 
-		</React.Fragment>
+		</Fragment>
 	);
 
 };

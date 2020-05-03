@@ -1,41 +1,37 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, InstanceFacet, List } from '../../components';
 
-export default class Playtext extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, playtext } = props;
 
-		const { documentTitle, pageTitle, playtext } = this.props;
+	const { model, productions, characters } = playtext;
 
-		const { model, productions, characters } = playtext;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{
+				productions && productions.length > 0 && (
+					<InstanceFacet labelText='Productions'>
 
-				{
-					productions && productions.length > 0 && (
-						<InstanceFacet labelText='Productions'>
+						<List instances={productions} />
 
-							<List instances={productions} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
+			{
+				characters && characters.length > 0 && (
+					<InstanceFacet labelText='Characters'>
 
-				{
-					characters && characters.length > 0 && (
-						<InstanceFacet labelText='Characters'>
+						<List instances={characters} />
 
-							<List instances={characters} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

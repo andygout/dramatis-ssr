@@ -1,21 +1,17 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App } from '../components';
 
-export default class ErrorPage extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle } = props;
 
-		const { documentTitle, pageTitle } = this.props;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle}>
+			<div>This is the error page</div>
 
-				<div>This is the error page</div>
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

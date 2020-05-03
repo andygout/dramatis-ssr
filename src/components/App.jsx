@@ -1,49 +1,45 @@
-import React, { Component } from 'react';
+import { h } from 'preact';
 
 import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
 
-export default class App extends Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, model, children } = props;
 
-		const { documentTitle, pageTitle, model, children } = this.props;
+	return (
+		<html>
 
-		return (
-			<html>
+			<Head documentTitle={documentTitle} />
 
-				<Head documentTitle={documentTitle} />
+			<body>
 
-				<body>
+				<div className="page-container">
 
-					<div className="page-container">
+					<Header />
 
-						<Header />
+					<Navigation />
 
-						<Navigation />
+					<main className="main-content">
 
-						<main className="main-content">
+						{
+							model && (
+								<InstanceLabel text={model} />
+							)
+						}
 
-							{
-								model && (
-									<InstanceLabel text={model} />
-								)
-							}
+						<PageTitle text={pageTitle} />
 
-							<PageTitle text={pageTitle} />
+						{ children }
 
-							{ children }
+					</main>
 
-						</main>
+					<Footer />
 
-						<Footer />
+				</div>
 
-					</div>
+			</body>
 
-				</body>
+		</html>
+	);
 
-			</html>
-		);
-
-	}
-
-}
+};

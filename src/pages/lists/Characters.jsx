@@ -1,21 +1,17 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, List } from '../../components';
 
-export default class Characters extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, characters } = props;
 
-		const { documentTitle, pageTitle, characters } = this.props;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle}>
+			<List instances={characters} />
 
-				<List instances={characters} />
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };

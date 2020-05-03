@@ -1,51 +1,47 @@
-import React from 'react';
+import { h } from 'preact';
 
 import { App, InstanceFacet, InstanceLink, List } from '../../components';
 
-export default class Production extends React.Component {
+export default function (props) {
 
-	render () {
+	const { documentTitle, pageTitle, production } = props;
 
-		const { documentTitle, pageTitle, production } = this.props;
+	const { model, theatre, playtext, cast } = production;
 
-		const { model, theatre, playtext, cast } = production;
+	return (
+		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
-		return (
-			<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{
+				theatre && (
+					<InstanceFacet labelText='Theatre'>
 
-				{
-					theatre && (
-						<InstanceFacet labelText='Theatre'>
+						<InstanceLink instance={theatre} />
 
-							<InstanceLink instance={theatre} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
+			{
+				playtext && (
+					<InstanceFacet labelText='Playtext'>
 
-				{
-					playtext && (
-						<InstanceFacet labelText='Playtext'>
+						<InstanceLink instance={playtext} />
 
-							<InstanceLink instance={playtext} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
+			{
+				cast && cast.length > 0 && (
+					<InstanceFacet labelText='Cast'>
 
-				{
-					cast && cast.length > 0 && (
-						<InstanceFacet labelText='Cast'>
+						<List instances={cast} />
 
-							<List instances={cast} />
+					</InstanceFacet>
+				)
+			}
 
-						</InstanceFacet>
-					)
-				}
-
-			</App>
-		);
-
-	};
+		</App>
+	);
 
 };
