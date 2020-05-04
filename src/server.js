@@ -1,12 +1,13 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import http from 'http';
+import path from 'path';
+
 import express from 'express';
 import session from 'express-session';
-import favicon from 'serve-favicon';
-import http from 'http';
 import logger from 'morgan';
-import path from 'path';
+import favicon from 'serve-favicon';
 
 import { errorHandler } from './middleware';
 import router from './router';
