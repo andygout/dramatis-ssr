@@ -2,11 +2,11 @@ import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
 import { capitalise } from '../lib/strings';
 import { instancePages } from '../pages';
-import { irregularSingularNounsMap } from '../utils/constants';
+import { IRREGULAR_SINGULAR_NOUNS_MAP } from '../utils/constants';
 
 function getSingularFormOfModel (pluralisedModel) {
 
-	return irregularSingularNounsMap[pluralisedModel] || pluralisedModel.slice(0, -1);
+	return IRREGULAR_SINGULAR_NOUNS_MAP[pluralisedModel] || pluralisedModel.slice(0, -1);
 
 }
 
