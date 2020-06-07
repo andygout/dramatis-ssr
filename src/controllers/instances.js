@@ -2,13 +2,7 @@ import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
 import { capitalise } from '../lib/strings';
 import { instancePages } from '../pages';
-import { IRREGULAR_SINGULAR_NOUNS_MAP } from '../utils/constants';
-
-function getSingularFormOfModel (pluralisedModel) {
-
-	return IRREGULAR_SINGULAR_NOUNS_MAP[pluralisedModel] || pluralisedModel.slice(0, -1);
-
-}
+import { singularise } from '../lib/strings';
 
 export default async function (request, response, next) {
 
@@ -20,7 +14,7 @@ export default async function (request, response, next) {
 
 		const pluralisedModel = request.path.split('/')[1];
 
-		const model = getSingularFormOfModel(pluralisedModel);
+		const model = singularise(pluralisedModel);
 
 		const title = instance.name;
 
