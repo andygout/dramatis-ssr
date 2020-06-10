@@ -15,6 +15,7 @@ export default async apiPath => {
 			const { status, statusText } = response;
 
 			const error = new Error(statusText);
+
 			error.status = status;
 
 			throw error;
@@ -34,6 +35,7 @@ export default async apiPath => {
 		// but instead have a `code` attribute whose value is 'ECONNREFUSED',
 		// making a 500 response code the most instructive for this scenario.
 		const internalServerError = new Error('Internal Server Error');
+
 		internalServerError.status = 500;
 
 		throw internalServerError;
