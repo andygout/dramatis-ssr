@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { capitalise, pluralise, singularise } from '../../src/lib/strings';
+import { capitalise, pluralise, singularise } from '../../../src/lib/strings';
 
 describe('Strings module', () => {
 
