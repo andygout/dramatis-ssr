@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-export default function () {
+export default () => {
 
 	return (
 		<header className="header">

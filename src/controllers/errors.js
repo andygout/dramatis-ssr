@@ -1,7 +1,7 @@
 import sendResponse from './helpers/send-response';
 import { ErrorPage } from '../pages';
 
-export default function (error, request, response) {
+export default (error, request, response) => {
 
 	const title = `Error: ${error.status} ${error.message}`;
 

@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact';
 
 import { InstanceLink, AppendedPerformerOtherRoles } from '.';
 
-export default function (props) {
+export default props => {
 
 	const { performers } = props;
 

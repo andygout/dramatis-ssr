@@ -4,7 +4,7 @@ import { capitalise } from '../lib/strings';
 import { instancePages } from '../pages';
 import { singularise } from '../lib/strings';
 
-export default async function (request, response, next) {
+export default async (request, response, next) => {
 
 	const apiPath = request.path;
 

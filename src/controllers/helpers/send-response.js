@@ -1,6 +1,6 @@
 import renderComponentToString from './render-component-to-string';
 
-export default async function (response, PageComponent, props) {
+export default async (response, PageComponent, props) => {
 
 	return response.send(
 		`

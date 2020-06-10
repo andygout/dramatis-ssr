@@ -3,7 +3,7 @@ import fetchFromApi from '../lib/fetch-from-api';
 import { capitalise } from '../lib/strings';
 import { listPages } from '../pages';
 
-export default async function (request, response, next) {
+export default async (request, response, next) => {
 
 	const apiPath = request.path;
 

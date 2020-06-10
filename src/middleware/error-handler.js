@@ -1,6 +1,6 @@
 import { errors as errorsController } from '../controllers';
 
-export default function (error, request, response, next) {
+export default (error, request, response, next) => {
 
 	response.status(error.status);
 

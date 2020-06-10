@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-export default function (props) {
+export default props => {
 
 	const { text } = props;
 

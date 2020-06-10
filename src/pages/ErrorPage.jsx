@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { App } from '../components';
 
-export default function (props) {
+export default props => {
 
 	const { documentTitle, pageTitle } = props;
 

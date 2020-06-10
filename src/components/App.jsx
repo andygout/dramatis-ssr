@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
 
-export default function (props) {
+export default props => {
 
 	const { documentTitle, pageTitle, model, children } = props;
 
