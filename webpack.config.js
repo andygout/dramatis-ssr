@@ -11,7 +11,7 @@ const serverConfig = {
 	},
 	externals: [nodeExternals()],
 	entry: {
-		main: './src/server.js'
+		main: './src/app.js'
 	},
 	output: {
 		path: path.join(__dirname, 'built'),

@@ -9,7 +9,7 @@
 html {
 	height: 100%;
 	text-align: center;
-	background-color: $html-bg-color;
+	background-color: $html-background-color;
 }
 
 body {
@@ -32,7 +32,7 @@ a {
 	margin: 0 auto;
 	width: 1000px;
 	flex-direction: column;
-	background-color: $content-bg-color;
+	background-color: $content-background-color;
 	border-left: solid $border-color;
 	border-right: solid $border-color;
 	border-width: 0 2px 2px;

@@ -2,7 +2,7 @@
   "name": "theatrebase-ssr",
   "version": "0.0.0",
   "description": "Server-side rendered (SSR) application that provides listings for theatrical productions, playtexts, and associated data.",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
     "lint": "eslint --ext .js src/",
     "lintspaces": "git ls-files ':!:*.ico' | xargs lintspaces -e .editorconfig",
