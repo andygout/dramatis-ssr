@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact';
 
 import { JoinedRoles } from '.';
 
-export default function (props) {
+export default props => {
 
 	const { otherRoles } = props;
 

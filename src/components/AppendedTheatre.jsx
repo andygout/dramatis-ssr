@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact';
 
 import { InstanceLink } from '.';
 
-export default function (props) {
+export default props => {
 
 	const { theatre } = props;
 

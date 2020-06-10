@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { AppendedPerformers, AppendedRoles, AppendedTheatre, InstanceLink } from '.';
 
-export default function (props) {
+export default props => {
 
 	const { instances } = props;
 

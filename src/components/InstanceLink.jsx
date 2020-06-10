@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { pluralise } from '../lib/strings';
 
-export default function (props) {
+export default props => {
 
 	const { instance: { model, uuid, name } } = props;
 

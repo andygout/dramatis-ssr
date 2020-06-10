@@ -1,7 +1,7 @@
 import sendResponse from './helpers/send-response';
 import { Home } from '../pages';
 
-export default function (response) {
+export default response => {
 
 	const title = 'Home';
 
