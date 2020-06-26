@@ -10,9 +10,7 @@ const serverConfig = {
 		__dirname: false
 	},
 	externals: [nodeExternals()],
-	entry: {
-		main: './src/app.js'
-	},
+	entry: './src/app.js',
 	output: {
 		path: path.join(__dirname, 'built'),
 		filename: 'main.js'
@@ -57,9 +55,7 @@ const serverConfig = {
 
 const clientConfig = {
 	mode: 'none', // i.e. not production or development (see: https://webpack.js.org/configuration/mode).
-	entry: {
-		main: './src/client/stylesheets/main.scss'
-	},
+	entry: './src/client/stylesheets/main.scss',
 	output: {
 		path: path.join(__dirname, 'public'),
 		filename: 'main.js'
