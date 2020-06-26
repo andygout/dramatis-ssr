@@ -4,9 +4,6 @@
     "node": true
   },
   "extends": ["eslint:recommended"],
-  "globals": {
-    "fetch": false
-  },
   "parserOptions": {
       "sourceType": "module",
       "ecmaVersion": 2018
