@@ -32,7 +32,7 @@ export default props => {
 			}
 
 			{
-				cast && cast.length > 0 && (
+				cast?.length > 0 && (
 					<InstanceFacet labelText='Cast'>
 
 						<List instances={cast} />
