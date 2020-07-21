@@ -6,4 +6,4 @@ export default (error, request, response, next) => {
 
 	return errorsController(error, request, response, next);
 
-}
+};
