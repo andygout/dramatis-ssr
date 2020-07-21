@@ -12,7 +12,7 @@ export default props => {
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				productions && productions.length > 0 && (
+				productions?.length > 0 && (
 					<InstanceFacet labelText='Productions'>
 
 						<List instances={productions} />
@@ -22,7 +22,7 @@ export default props => {
 			}
 
 			{
-				characters && characters.length > 0 && (
+				characters?.length > 0 && (
 					<InstanceFacet labelText='Characters'>
 
 						<List instances={characters} />

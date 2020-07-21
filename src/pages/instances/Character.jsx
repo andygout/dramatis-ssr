@@ -12,7 +12,7 @@ export default props => {
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				playtexts && playtexts.length > 0 && (
+				playtexts?.length > 0 && (
 					<InstanceFacet labelText='Playtexts'>
 
 						<List instances={playtexts} />
@@ -22,7 +22,7 @@ export default props => {
 			}
 
 			{
-				variantNames && variantNames.length > 0 && (
+				variantNames?.length > 0 && (
 					<InstanceFacet labelText='Variant names'>
 
 						<JoinedRoles instances={variantNames} />
@@ -32,7 +32,7 @@ export default props => {
 			}
 
 			{
-				productions && productions.length > 0 && (
+				productions?.length > 0 && (
 					<InstanceFacet labelText='Productions'>
 
 						<List instances={productions} />
