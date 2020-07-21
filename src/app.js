@@ -20,7 +20,7 @@ app.use(
 	errorHandler
 );
 
-const port = '3002';
+const port = '3003';
 
 app.set('port', port);
 
