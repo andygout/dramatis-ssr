@@ -14,4 +14,4 @@ export default (error, request, response) => {
 
 	return sendResponse(response, PageComponent, props);
 
-}
+};

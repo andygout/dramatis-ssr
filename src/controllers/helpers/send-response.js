@@ -9,4 +9,4 @@ export default async (response, PageComponent, props) => {
 		`
 	);
 
-}
+};
