@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { pluralise } from '../lib/strings';
 
-export default props => {
+const InstanceLink = props => {
 
 	const { instance: { model, uuid, name } } = props;
 
@@ -17,3 +17,5 @@ export default props => {
 	);
 
 };
+
+export default InstanceLink;

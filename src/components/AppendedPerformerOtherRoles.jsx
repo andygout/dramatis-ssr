@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact';
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { JoinedRoles } from '.';
 
-export default props => {
+const AppendedPerformerOtherRoles = props => {
 
 	const { otherRoles } = props;
 
@@ -17,3 +17,5 @@ export default props => {
 	);
 
 };
+
+export default AppendedPerformerOtherRoles;

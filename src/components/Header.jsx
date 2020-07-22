@@ -1,6 +1,6 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-export default () => {
+const Header = () => {
 
 	return (
 		<header className="header">
@@ -11,3 +11,5 @@ export default () => {
 	);
 
 };
+
+export default Header;

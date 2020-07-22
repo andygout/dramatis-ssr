@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact';
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { InstanceLink, AppendedPerformerOtherRoles } from '.';
 
-export default props => {
+const AppendedPerformers = props => {
 
 	const { performers } = props;
 
@@ -41,3 +41,5 @@ export default props => {
 	);
 
 };
+
+export default AppendedPerformers;

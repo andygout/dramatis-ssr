@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { AppendedPerformers, AppendedRoles, AppendedTheatre, InstanceLink } from '.';
 
-export default props => {
+const List = props => {
 
 	const { instances } = props;
 
@@ -39,3 +39,5 @@ export default props => {
 	);
 
 };
+
+export default List;

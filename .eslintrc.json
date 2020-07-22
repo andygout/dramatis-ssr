@@ -3,10 +3,16 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
       "sourceType": "module",
-      "ecmaVersion": 2020
+      "ecmaVersion": 2020,
+      "ecmaFeatures": {
+        "jsx": true
+      }
   },
   "rules": {
     "eqeqeq": 2,
@@ -25,6 +31,8 @@
     "no-var": 2,
     "one-var": [2, "never"],
     "quotes": [2, "single"],
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
     "semi": 2,
     "space-before-function-paren": [2, "always"],
     "spaced-comment": 2,

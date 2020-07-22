@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 import render from 'preact-render-to-string';
 
 export default (PageComponent, props) => {
