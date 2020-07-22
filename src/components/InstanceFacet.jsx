@@ -1,6 +1,6 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-export default props => {
+const InstanceFacet = props => {
 
 	const { labelText, children } = props;
 
@@ -19,3 +19,5 @@ export default props => {
 	);
 
 };
+
+export default InstanceFacet;

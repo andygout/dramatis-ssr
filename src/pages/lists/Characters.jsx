@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { App, List } from '../../components';
 
-export default props => {
+const Characters = props => {
 
 	const { documentTitle, pageTitle, characters } = props;
 
@@ -15,3 +15,5 @@ export default props => {
 	);
 
 };
+
+export default Characters;

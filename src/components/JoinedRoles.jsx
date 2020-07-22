@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { InstanceLink } from '.';
 
-export default props => {
+const JoinedRoles = props => {
 
 	const { instances } = props;
 
@@ -25,3 +25,5 @@ export default props => {
 	);
 
 };
+
+export default JoinedRoles;

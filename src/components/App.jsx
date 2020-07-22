@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
 
-export default props => {
+const App = props => {
 
 	const { documentTitle, pageTitle, model, children } = props;
 
@@ -43,3 +43,5 @@ export default props => {
 	);
 
 };
+
+export default App;

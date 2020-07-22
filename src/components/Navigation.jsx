@@ -1,6 +1,6 @@
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-export default () => {
+const Navigation = () => {
 
 	return (
 		<nav className="navigation">
@@ -25,3 +25,5 @@ export default () => {
 	);
 
 };
+
+export default Navigation;
