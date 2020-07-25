@@ -8,11 +8,11 @@
     "plugin:react/recommended"
   ],
   "parserOptions": {
-      "sourceType": "module",
-      "ecmaVersion": 2020,
-      "ecmaFeatures": {
-        "jsx": true
-      }
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "rules": {
     "eqeqeq": 2,
@@ -34,7 +34,7 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "semi": 2,
-    "space-before-function-paren": [2, "always"],
+    "space-before-function-paren": 2,
     "spaced-comment": 2,
     "strict": [2, "global"],
     "wrap-iife": 2
