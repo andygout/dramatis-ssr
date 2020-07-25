@@ -8,11 +8,11 @@
     "plugin:react/recommended"
   ],
   "parserOptions": {
-      "sourceType": "module",
-      "ecmaVersion": 2020,
-      "ecmaFeatures": {
-        "jsx": true
-      }
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "rules": {
     "eqeqeq": 2,
