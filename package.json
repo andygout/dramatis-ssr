@@ -6,7 +6,7 @@
   "license": "MS-RSL",
   "main": "src/app.js",
   "scripts": {
-    "lint": "eslint --ext .js,.jsx src/",
+    "lint": "eslint --ext .js,.jsx src/ test/",
     "lintspaces": "git ls-files ':!:*.ico' | xargs lintspaces -e .editorconfig",
     "lint-check": "npm run lint && npm run lintspaces",
     "unit-test": "mocha --require @babel/register test/**/*.test.js",
@@ -40,6 +40,7 @@
     "chai": "^4.2.0",
     "css-loader": "^0.28.0",
     "eslint": "^7.5.0",
+    "eslint-plugin-no-only-tests": "^2.4.0",
     "eslint-plugin-react": "^7.20.3",
     "favicons-webpack-plugin": "^3.0.1",
     "lintspaces-cli": "^0.6.0",
