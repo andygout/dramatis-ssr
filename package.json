@@ -12,7 +12,7 @@
     "unit-test": "mocha --require @babel/register test/**/*.test.js",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "nodemon --require source-map-support/register built/main.js"
+    "start": "npm run watch & nodemon --require source-map-support/register built/main.js"
   },
   "pre-commit": [
     "lint-check",
