@@ -1,6 +1,7 @@
 {
   "watch": [
-    "src"
+    "built",
+    "public"
   ],
-  "ext": "js jsx"
+  "ext": "css js"
 }
