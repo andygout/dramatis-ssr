@@ -4,7 +4,7 @@ Server-side rendered (SSR) application that provides listings for theatrical pro
 
 ## Setup
 - Clone this repo.
-- Set local Node version to same as listed in `package.json` `engines.node`.
+- Set Node to version specified in `.nvmrc`, which can be achieved by running `$ nvm use`.
 - Install node modules: `$ npm install`.
 - Compile code: `$ npm run build`.
 
