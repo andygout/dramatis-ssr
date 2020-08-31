@@ -16,11 +16,23 @@ export default async (request, response, next) => {
 
 		const model = singularise(pluralisedModel);
 
-		const title = instance.name;
+		let documentTitle = `${instance.name} (${model})`;
+
+		let pageTitle = instance.name;
+
+		if (instance.differentiator) {
+
+			const differentiatorSuffix = ` (${instance.differentiator})`;
+
+			documentTitle += differentiatorSuffix;
+
+			pageTitle += differentiatorSuffix;
+
+		}
 
 		const props = {
-			documentTitle: `${title} (${model})`,
-			pageTitle: title,
+			documentTitle,
+			pageTitle,
 			[model]: instance
 		};
 
