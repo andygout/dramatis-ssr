@@ -1,8 +1,8 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
-import { capitalise } from '../lib/strings';
+import getDifferentiatorSuffix from '../lib/get-differentiator-suffix';
+import { capitalise, singularise } from '../lib/strings';
 import { instancePages } from '../pages';
-import { singularise } from '../lib/strings';
 
 export default async (request, response, next) => {
 
@@ -12,17 +12,19 @@ export default async (request, response, next) => {
 
 		const instance = await fetchFromApi(apiPath);
 
+		const { name, differentiator } = instance;
+
 		const pluralisedModel = request.path.split('/')[1];
 
 		const model = singularise(pluralisedModel);
 
-		let documentTitle = `${instance.name} (${model})`;
+		let documentTitle = `${name} (${model})`;
 
-		let pageTitle = instance.name;
+		let pageTitle = name;
 
-		if (instance.differentiator) {
+		if (differentiator) {
 
-			const differentiatorSuffix = ` (${instance.differentiator})`;
+			const differentiatorSuffix = getDifferentiatorSuffix(differentiator);
 
 			documentTitle += differentiatorSuffix;
 
