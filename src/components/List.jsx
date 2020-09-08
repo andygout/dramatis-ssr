@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedPerformers, AppendedRoles, AppendedTheatre, InstanceLink } from '.';
+import { AppendedPerformers, AppendedRoles, AppendedQualifiers, AppendedTheatre, InstanceLink } from '.';
 
 const List = props => {
 
@@ -27,8 +27,20 @@ const List = props => {
 						}
 
 						{
+							instance.qualifiers?.length > 0 && (
+								<AppendedQualifiers qualifiers={instance.qualifiers} />
+							)
+						}
+
+						{
 							instance.performers?.length > 0 && (
 								<AppendedPerformers performers={instance.performers} />
+							)
+						}
+
+						{
+							instance.qualifier && (
+								<span> ({instance.qualifier})</span>
 							)
 						}
 

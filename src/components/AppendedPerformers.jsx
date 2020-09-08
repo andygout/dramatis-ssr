@@ -22,7 +22,16 @@ const AppendedPerformers = props => {
 
 								<span>&nbsp;…&nbsp;</span>
 
-								<span className="role-text">{performer.roleName}</span>
+								<span className="role-text">
+									{
+										performer.roleName
+									}
+									{
+										performer.qualifier && (
+											<span> ({ performer.qualifier })</span>
+										)
+									}
+								</span>
 
 							</Fragment>
 
