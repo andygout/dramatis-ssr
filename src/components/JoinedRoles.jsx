@@ -17,6 +17,11 @@ const JoinedRoles = props => {
 									? <InstanceLink instance={instance} />
 									: instance.name || instance
 							}
+							{
+								instance.qualifier && (
+									<span> ({ instance.qualifier })</span>
+								)
+							}
 						</span>
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])

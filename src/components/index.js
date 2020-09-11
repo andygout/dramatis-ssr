@@ -1,6 +1,7 @@
 import App from './App';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
+import AppendedQualifiers from './AppendedQualifiers';
 import AppendedRoles from './AppendedRoles';
 import AppendedTheatre from './AppendedTheatre';
 import Footer from './Footer';
@@ -18,6 +19,7 @@ export {
 	App,
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
+	AppendedQualifiers,
 	AppendedRoles,
 	AppendedTheatre,
 	Footer,
