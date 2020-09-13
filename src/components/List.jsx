@@ -1,6 +1,13 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedPerformers, AppendedRoles, AppendedQualifiers, AppendedTheatre, InstanceLink } from '.';
+import {
+	AppendedGroups,
+	AppendedPerformers,
+	AppendedRoles,
+	AppendedQualifiers,
+	AppendedTheatre,
+	InstanceLink
+} from '.';
 
 const List = props => {
 
@@ -12,7 +19,11 @@ const List = props => {
 				instances.map((instance, index) => (
 					<li key={index}>
 
-						<InstanceLink instance={instance} />
+						{
+							instance.uuid
+								? <InstanceLink instance={instance} />
+								: <span>{ instance.name }</span>
+						}
 
 						{
 							instance.theatre && (
@@ -29,6 +40,12 @@ const List = props => {
 						{
 							instance.qualifiers?.length > 0 && (
 								<AppendedQualifiers qualifiers={instance.qualifiers} />
+							)
+						}
+
+						{
+							instance.groups?.length > 0 && (
+								<AppendedGroups groups={instance.groups} />
 							)
 						}
 
