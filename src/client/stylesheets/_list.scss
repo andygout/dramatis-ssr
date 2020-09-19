@@ -1,3 +1,7 @@
 .list {
-	list-style-position: inside;
+	list-style: disc inside;
+}
+
+.list--no-bullets {
+	list-style-type: none;
 }

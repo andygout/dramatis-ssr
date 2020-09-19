@@ -1,4 +1,5 @@
 import App from './App';
+import AppendedGroups from './AppendedGroups';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
 import AppendedQualifiers from './AppendedQualifiers';
@@ -17,6 +18,7 @@ import PageTitle from './PageTitle';
 
 export {
 	App,
+	AppendedGroups,
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
 	AppendedQualifiers,
