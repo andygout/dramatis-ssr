@@ -1,6 +1,7 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
+	AppendedDisplayName,
 	AppendedGroups,
 	AppendedPerformers,
 	AppendedRoles,
@@ -34,6 +35,12 @@ const List = props => {
 						{
 							instance.roles?.length > 0 && (
 								<AppendedRoles roles={instance.roles} />
+							)
+						}
+
+						{
+							instance.characterDisplayName && (
+								<AppendedDisplayName displayName={instance.characterDisplayName} />
 							)
 						}
 

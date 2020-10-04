@@ -6,10 +6,20 @@ const Character = props => {
 
 	const { documentTitle, pageTitle, character } = props;
 
-	const { model, playtexts, variantNames, productions } = character;
+	const { model, variantNamedDepictions, playtexts, variantNamedPortrayals, productions } = character;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+
+			{
+				variantNamedDepictions?.length > 0 && (
+					<InstanceFacet labelText='Variant named depictions'>
+
+						<JoinedRoles instances={variantNamedDepictions} />
+
+					</InstanceFacet>
+				)
+			}
 
 			{
 				playtexts?.length > 0 && (
@@ -22,10 +32,10 @@ const Character = props => {
 			}
 
 			{
-				variantNames?.length > 0 && (
-					<InstanceFacet labelText='Variant names'>
+				variantNamedPortrayals?.length > 0 && (
+					<InstanceFacet labelText='Variant named portrayals'>
 
-						<JoinedRoles instances={variantNames} />
+						<JoinedRoles instances={variantNamedPortrayals} />
 
 					</InstanceFacet>
 				)
