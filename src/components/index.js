@@ -1,9 +1,7 @@
 import App from './App';
-import AppendedDisplayName from './AppendedDisplayName';
-import AppendedGroups from './AppendedGroups';
+import AppendedDepictions from './AppendedDepictions';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
-import AppendedQualifiers from './AppendedQualifiers';
 import AppendedRoles from './AppendedRoles';
 import AppendedTheatre from './AppendedTheatre';
 import Footer from './Footer';
@@ -19,11 +17,9 @@ import PageTitle from './PageTitle';
 
 export {
 	App,
-	AppendedDisplayName,
-	AppendedGroups,
+	AppendedDepictions,
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
-	AppendedQualifiers,
 	AppendedRoles,
 	AppendedTheatre,
 	Footer,

@@ -1,11 +1,9 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
-	AppendedDisplayName,
-	AppendedGroups,
+	AppendedDepictions,
 	AppendedPerformers,
 	AppendedRoles,
-	AppendedQualifiers,
 	AppendedTheatre,
 	InstanceLink
 } from '.';
@@ -39,20 +37,8 @@ const List = props => {
 						}
 
 						{
-							instance.characterDisplayName && (
-								<AppendedDisplayName displayName={instance.characterDisplayName} />
-							)
-						}
-
-						{
-							instance.qualifiers?.length > 0 && (
-								<AppendedQualifiers qualifiers={instance.qualifiers} />
-							)
-						}
-
-						{
-							instance.groups?.length > 0 && (
-								<AppendedGroups groups={instance.groups} />
+							instance.depictions?.length > 0 && (
+								<AppendedDepictions depictions={instance.depictions} />
 							)
 						}
 
