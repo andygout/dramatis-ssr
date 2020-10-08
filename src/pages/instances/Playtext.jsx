@@ -15,16 +15,6 @@ const Playtext = props => {
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				productions?.length > 0 && (
-					<InstanceFacet labelText='Productions'>
-
-						<List instances={productions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
 				characterGroups?.length > 0 && (
 					<InstanceFacet labelText='Characters'>
 
@@ -65,6 +55,16 @@ const Playtext = props => {
 									</ul>
 								)
 						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				productions?.length > 0 && (
+					<InstanceFacet labelText='Productions'>
+
+						<List instances={productions} />
 
 					</InstanceFacet>
 				)
