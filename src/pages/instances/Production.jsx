@@ -12,20 +12,20 @@ const Production = props => {
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				theatre && (
-					<InstanceFacet labelText='Theatre'>
+				playtext && (
+					<InstanceFacet labelText='Playtext'>
 
-						<InstanceLink instance={theatre} />
+						<InstanceLink instance={playtext} />
 
 					</InstanceFacet>
 				)
 			}
 
 			{
-				playtext && (
-					<InstanceFacet labelText='Playtext'>
+				theatre && (
+					<InstanceFacet labelText='Theatre'>
 
-						<InstanceLink instance={playtext} />
+						<InstanceLink instance={theatre} />
 
 					</InstanceFacet>
 				)
