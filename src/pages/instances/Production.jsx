@@ -25,6 +25,12 @@ const Production = props => {
 				theatre && (
 					<InstanceFacet labelText='Theatre'>
 
+						{
+							theatre.surTheatre && (
+								<span><InstanceLink instance={theatre.surTheatre} />: </span>
+							)
+						}
+
 						<InstanceLink instance={theatre} />
 
 					</InstanceFacet>

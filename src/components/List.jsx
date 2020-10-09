@@ -4,6 +4,7 @@ import {
 	AppendedDepictions,
 	AppendedPerformers,
 	AppendedRoles,
+	AppendedSubTheatres,
 	AppendedTheatre,
 	InstanceLink
 } from '.';
@@ -27,6 +28,18 @@ const List = props => {
 						{
 							instance.theatre && (
 								<AppendedTheatre theatre={instance.theatre} />
+							)
+						}
+
+						{
+							instance.subTheatre && (
+								<AppendedTheatre theatre={instance.subTheatre} />
+							)
+						}
+
+						{
+							instance.subTheatres?.length > 0 && (
+								<AppendedSubTheatres subTheatres={instance.subTheatres} />
 							)
 						}
 
