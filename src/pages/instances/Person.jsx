@@ -6,10 +6,20 @@ const Person = props => {
 
 	const { documentTitle, pageTitle, person } = props;
 
-	const { model, productions } = person;
+	const { model, playtexts, productions } = person;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+
+			{
+				playtexts?.length > 0 && (
+					<InstanceFacet labelText='Playtexts'>
+
+						<List instances={playtexts} />
+
+					</InstanceFacet>
+				)
+			}
 
 			{
 				productions?.length > 0 && (
