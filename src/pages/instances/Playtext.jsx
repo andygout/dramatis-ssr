@@ -1,18 +1,28 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, List } from '../../components';
+import { App, CommaSeparatedInstanceLinks, InstanceFacet, List } from '../../components';
 
 const Playtext = props => {
 
 	const { documentTitle, pageTitle, playtext } = props;
 
-	const { model, productions, characterGroups } = playtext;
+	const { model, writers, productions, characterGroups } = playtext;
 
 	const instanceFacetSubheader = subheaderText =>
 		<div className="instance-facet-subheader">{ subheaderText }</div>;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+
+			{
+				writers?.length > 0 && (
+					<InstanceFacet labelText='Writers'>
+
+						<CommaSeparatedInstanceLinks instances={writers} />
+
+					</InstanceFacet>
+				)
+			}
 
 			{
 				characterGroups?.length > 0 && (

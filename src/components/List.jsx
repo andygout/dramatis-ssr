@@ -1,11 +1,13 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
+	AppendedCoWriters,
 	AppendedDepictions,
 	AppendedPerformers,
 	AppendedRoles,
 	AppendedSubTheatres,
 	AppendedTheatre,
+	AppendedWriters,
 	InstanceLink
 } from '.';
 
@@ -46,6 +48,18 @@ const List = props => {
 						{
 							instance.roles?.length > 0 && (
 								<AppendedRoles roles={instance.roles} />
+							)
+						}
+
+						{
+							instance.writers?.length > 0 && (
+								<AppendedWriters writers={instance.writers} />
+							)
+						}
+
+						{
+							instance.coWriters?.length > 0 && (
+								<AppendedCoWriters coWriters={instance.coWriters} />
 							)
 						}
 
