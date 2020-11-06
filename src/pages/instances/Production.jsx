@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedWriters, InstanceFacet, InstanceLink, List } from '../../components';
+import { App, AppendedWriterGroups, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Production = props => {
 
@@ -18,8 +18,8 @@ const Production = props => {
 						<InstanceLink instance={playtext} />
 
 						{
-							playtext.writers?.length > 0 && (
-								<AppendedWriters writers={playtext.writers} />
+							playtext.writerGroups?.length > 0 && (
+								<AppendedWriterGroups writerGroups={playtext.writerGroups} />
 							)
 						}
 
