@@ -1,4 +1,4 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { InstanceLink } from '.';
 
@@ -11,7 +11,7 @@ const JoinedRoles = props => {
 			{
 				instances
 					.map((instance, index) =>
-						<span key={index}>
+						<Fragment key={index}>
 							{
 								instance.uuid
 									? <InstanceLink instance={instance} />
@@ -19,10 +19,10 @@ const JoinedRoles = props => {
 							}
 							{
 								instance.qualifier && (
-									<span> ({ instance.qualifier })</span>
+									<Fragment>&nbsp;({ instance.qualifier })</Fragment>
 								)
 							}
-						</span>
+						</Fragment>
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])
 			}

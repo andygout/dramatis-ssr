@@ -7,7 +7,10 @@ const AppendedSubTheatres = props => {
 	const { subTheatres } = props;
 
 	return (
-		<Fragment>:&nbsp;
+		<Fragment>
+
+			<Fragment>:&nbsp;</Fragment>
+
 			{
 				subTheatres
 					.map((subTheatre, index) =>
@@ -15,6 +18,7 @@ const AppendedSubTheatres = props => {
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])
 			}
+
 		</Fragment>
 	);
 
