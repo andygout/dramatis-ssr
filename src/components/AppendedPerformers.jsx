@@ -9,7 +9,7 @@ const AppendedPerformers = props => {
 	return (
 		<Fragment>
 
-			<span>&nbsp;- performed by:&nbsp;</span>
+			<Fragment>&nbsp;- performed by:&nbsp;</Fragment>
 
 			{
 				performers
@@ -20,7 +20,7 @@ const AppendedPerformers = props => {
 
 								<InstanceLink instance={performer} />
 
-								<span>&nbsp;…&nbsp;</span>
+								<Fragment>&nbsp;…&nbsp;</Fragment>
 
 								<span className="role-text">
 									{
@@ -28,7 +28,7 @@ const AppendedPerformers = props => {
 									}
 									{
 										performer.qualifier && (
-											<span> ({ performer.qualifier })</span>
+											<Fragment>&nbsp;({ performer.qualifier })</Fragment>
 										)
 									}
 								</span>

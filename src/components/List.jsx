@@ -1,4 +1,4 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	AppendedDepictions,
@@ -23,7 +23,7 @@ const List = props => {
 						{
 							instance.uuid
 								? <InstanceLink instance={instance} />
-								: <span>{ instance.name }</span>
+								: <Fragment>{ instance.name }</Fragment>
 						}
 
 						{
@@ -70,7 +70,7 @@ const List = props => {
 
 						{
 							instance.qualifier && (
-								<span> ({instance.qualifier})</span>
+								<Fragment>&nbsp;({instance.qualifier})</Fragment>
 							)
 						}
 

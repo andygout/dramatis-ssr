@@ -9,11 +9,11 @@ const AppendedTheatre = props => {
 	return (
 		<Fragment>
 
-			<span>&nbsp;-&nbsp;</span>
+			<Fragment>&nbsp;-&nbsp;</Fragment>
 
 			{
 				theatre.surTheatre && (
-					<span><InstanceLink instance={theatre.surTheatre} />: </span>
+					<Fragment><InstanceLink instance={theatre.surTheatre} />:&nbsp;</Fragment>
 				)
 			}
 
