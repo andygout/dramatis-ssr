@@ -6,7 +6,7 @@ const Person = props => {
 
 	const { documentTitle, pageTitle, person } = props;
 
-	const { model, playtexts, productions } = person;
+	const { model, playtexts, subsequentVersionPlaytexts, productions } = person;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -16,6 +16,16 @@ const Person = props => {
 					<InstanceFacet labelText='Playtexts'>
 
 						<List instances={playtexts} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				subsequentVersionPlaytexts?.length > 0 && (
+					<InstanceFacet labelText='Subsequent versions of their playtexts'>
+
+						<List instances={subsequentVersionPlaytexts} />
 
 					</InstanceFacet>
 				)
