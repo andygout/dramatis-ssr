@@ -1,12 +1,19 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, List, WriterGroups } from '../../components';
+import { App, AppendedWriterGroups, InstanceFacet, InstanceLink, List, WriterGroups } from '../../components';
 
 const Playtext = props => {
 
 	const { documentTitle, pageTitle, playtext } = props;
 
-	const { model, writerGroups, productions, characterGroups } = playtext;
+	const {
+		model,
+		writerGroups,
+		characterGroups,
+		originalVersionPlaytext,
+		subsequentVersionPlaytexts,
+		productions
+	} = playtext;
 
 	const instanceFacetSubheader = subheaderText =>
 		<div className="instance-facet-subheader">{ subheaderText }</div>;
@@ -65,6 +72,32 @@ const Playtext = props => {
 									</ul>
 								)
 						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				originalVersionPlaytext && (
+					<InstanceFacet labelText='Original version'>
+
+						<InstanceLink instance={originalVersionPlaytext} />
+
+						{
+							originalVersionPlaytext.writerGroups?.length > 0 && (
+								<AppendedWriterGroups writerGroups={originalVersionPlaytext.writerGroups} />
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				subsequentVersionPlaytexts?.length > 0 && (
+					<InstanceFacet labelText='Subsequent versions'>
+
+						<List instances={subsequentVersionPlaytexts} />
 
 					</InstanceFacet>
 				)
