@@ -12,7 +12,9 @@ const Playtext = props => {
 		characterGroups,
 		originalVersionPlaytext,
 		subsequentVersionPlaytexts,
-		productions
+		productions,
+		sourcingPlaytexts,
+		sourcingPlaytextProductions
 	} = playtext;
 
 	const instanceFacetSubheader = subheaderText =>
@@ -108,6 +110,26 @@ const Playtext = props => {
 					<InstanceFacet labelText='Productions'>
 
 						<List instances={productions} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				sourcingPlaytexts?.length > 0 && (
+					<InstanceFacet labelText='Playtexts as source material'>
+
+						<List instances={sourcingPlaytexts} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				sourcingPlaytextProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions of playtexts as source material'>
+
+						<List instances={sourcingPlaytextProductions} />
 
 					</InstanceFacet>
 				)
