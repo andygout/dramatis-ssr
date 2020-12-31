@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { CommaSeparatedInstanceLinks } from '.';
+import { WriterEntities } from '.';
 import { capitalise } from '../lib/strings';
 
 const WriterGroups = props => {
@@ -23,7 +23,7 @@ const WriterGroups = props => {
 
 								<Fragment>{ writerGroupName }&nbsp;</Fragment>
 
-								<CommaSeparatedInstanceLinks instances={writerGroup.writers} />
+								<WriterEntities entities={writerGroup.writers} />
 
 							</Fragment>
 						);

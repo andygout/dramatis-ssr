@@ -17,6 +17,7 @@ import JoinedRoles from './JoinedRoles';
 import List from './List';
 import Navigation from './Navigation';
 import PageTitle from './PageTitle';
+import WriterEntities from './WriterEntities';
 import WriterGroups from './WriterGroups';
 
 export {
@@ -39,5 +40,6 @@ export {
 	List,
 	Navigation,
 	PageTitle,
+	WriterEntities,
 	WriterGroups
 };
