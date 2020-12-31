@@ -56,7 +56,7 @@ const Playtext = props => {
 									<ul className="list list--no-bullets">
 
 										{
-											characterGroups.map((characterGroup, index) => (
+											characterGroups.map((characterGroup, index) =>
 												<li key={index} className="instance-facet-group">
 
 													{
@@ -68,7 +68,7 @@ const Playtext = props => {
 													<List instances={characterGroup.characters} />
 
 												</li>
-											))
+											)
 										}
 
 									</ul>

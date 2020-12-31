@@ -17,7 +17,7 @@ const List = props => {
 	return (
 		<ul className="list">
 			{
-				instances.map((instance, index) => (
+				instances.map((instance, index) =>
 					<li key={index}>
 
 						{
@@ -75,7 +75,7 @@ const List = props => {
 						}
 
 					</li>
-				))
+				)
 			}
 		</ul>
 	);
