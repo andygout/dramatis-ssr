@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, WriterGroups } from '.';
+import { AppendedFormat, InstanceLink, WriterGroups } from '.';
 
 const WriterEntities = props => {
 
@@ -18,6 +18,12 @@ const WriterEntities = props => {
 								entity.uuid
 									? <InstanceLink instance={entity} />
 									: entity.name
+							}
+
+							{
+								entity.format && (
+									<AppendedFormat format={entity.format} />
+								)
 							}
 
 							{

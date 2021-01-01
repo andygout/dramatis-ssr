@@ -1,13 +1,13 @@
 import Character from './Character';
+import Material from './Material';
 import Person from './Person';
-import Playtext from './Playtext';
 import Production from './Production';
 import Theatre from './Theatre';
 
 export {
 	Character,
+	Material,
 	Person,
-	Playtext,
 	Production,
 	Theatre
 };

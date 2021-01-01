@@ -1,25 +1,31 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedWriterGroups, InstanceFacet, InstanceLink, List } from '../../components';
+import { App, AppendedFormat, AppendedWriterGroups, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Production = props => {
 
 	const { documentTitle, pageTitle, production } = props;
 
-	const { model, theatre, playtext, cast } = production;
+	const { model, theatre, material, cast } = production;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				playtext && (
-					<InstanceFacet labelText='Playtext'>
+				material && (
+					<InstanceFacet labelText='Material'>
 
-						<InstanceLink instance={playtext} />
+						<InstanceLink instance={material} />
+
+							{
+								material.format && (
+									<AppendedFormat format={material.format} />
+								)
+							}
 
 						{
-							playtext.writerGroups?.length > 0 && (
-								<AppendedWriterGroups writerGroups={playtext.writerGroups} />
+							material.writerGroups?.length > 0 && (
+								<AppendedWriterGroups writerGroups={material.writerGroups} />
 							)
 						}
 

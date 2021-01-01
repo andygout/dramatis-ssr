@@ -6,26 +6,26 @@ const Person = props => {
 
 	const { documentTitle, pageTitle, person } = props;
 
-	const { model, playtexts, subsequentVersionPlaytexts, sourcingPlaytexts, productions } = person;
+	const { model, materials, subsequentVersionMaterials, sourcingMaterials, productions } = person;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				playtexts?.length > 0 && (
-					<InstanceFacet labelText='Playtexts'>
+				materials?.length > 0 && (
+					<InstanceFacet labelText='Materials'>
 
-						<List instances={playtexts} />
+						<List instances={materials} />
 
 					</InstanceFacet>
 				)
 			}
 
 			{
-				subsequentVersionPlaytexts?.length > 0 && (
-					<InstanceFacet labelText='Subsequent versions of their playtexts'>
+				subsequentVersionMaterials?.length > 0 && (
+					<InstanceFacet labelText='Subsequent versions of their materials'>
 
-						<List instances={subsequentVersionPlaytexts} />
+						<List instances={subsequentVersionMaterials} />
 
 					</InstanceFacet>
 				)
@@ -42,10 +42,10 @@ const Person = props => {
 			}
 
 			{
-				sourcingPlaytexts?.length > 0 && (
-					<InstanceFacet labelText='Playtexts as source material writer'>
+				sourcingMaterials?.length > 0 && (
+					<InstanceFacet labelText='Materials as source material writer'>
 
-						<List instances={sourcingPlaytexts} />
+						<List instances={sourcingMaterials} />
 
 					</InstanceFacet>
 				)

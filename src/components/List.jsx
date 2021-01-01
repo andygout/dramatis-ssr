@@ -2,6 +2,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	AppendedDepictions,
+	AppendedFormat,
 	AppendedPerformers,
 	AppendedRoles,
 	AppendedSubTheatres,
@@ -24,6 +25,12 @@ const List = props => {
 							instance.uuid
 								? <InstanceLink instance={instance} />
 								: <Fragment>{ instance.name }</Fragment>
+						}
+
+						{
+							instance.format && (
+								<AppendedFormat format={instance.format} />
+							)
 						}
 
 						{
