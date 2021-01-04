@@ -1,27 +1,47 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedWriterGroups, InstanceFacet, InstanceLink, List, WriterGroups } from '../../components';
+import {
+	App,
+	AppendedFormat,
+	AppendedWriterGroups,
+	InstanceFacet,
+	InstanceLink,
+	List,
+	WriterGroups
+} from '../../components';
+import { capitalise } from '../../lib/strings';
 
-const Playtext = props => {
+const Material = props => {
 
-	const { documentTitle, pageTitle, playtext } = props;
+	const { documentTitle, pageTitle, material } = props;
 
 	const {
 		model,
+		format,
 		writerGroups,
 		characterGroups,
-		originalVersionPlaytext,
-		subsequentVersionPlaytexts,
+		originalVersionMaterial,
+		subsequentVersionMaterials,
 		productions,
-		sourcingPlaytexts,
-		sourcingPlaytextProductions
-	} = playtext;
+		sourcingMaterials,
+		sourcingMaterialProductions
+	} = material;
 
 	const instanceFacetSubheader = subheaderText =>
 		<div className="instance-facet-subheader">{ subheaderText }</div>;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+
+			{
+				format && (
+					<InstanceFacet labelText='Format'>
+
+						<Fragment>{ capitalise(format) }</Fragment>
+
+					</InstanceFacet>
+				)
+			}
 
 			{
 				writerGroups?.length > 0 && (
@@ -80,14 +100,20 @@ const Playtext = props => {
 			}
 
 			{
-				originalVersionPlaytext && (
+				originalVersionMaterial && (
 					<InstanceFacet labelText='Original version'>
 
-						<InstanceLink instance={originalVersionPlaytext} />
+						<InstanceLink instance={originalVersionMaterial} />
 
 						{
-							originalVersionPlaytext.writerGroups?.length > 0 && (
-								<AppendedWriterGroups writerGroups={originalVersionPlaytext.writerGroups} />
+							originalVersionMaterial.format && (
+								<AppendedFormat format={originalVersionMaterial.format} />
+							)
+						}
+
+						{
+							originalVersionMaterial.writerGroups?.length > 0 && (
+								<AppendedWriterGroups writerGroups={originalVersionMaterial.writerGroups} />
 							)
 						}
 
@@ -96,10 +122,10 @@ const Playtext = props => {
 			}
 
 			{
-				subsequentVersionPlaytexts?.length > 0 && (
+				subsequentVersionMaterials?.length > 0 && (
 					<InstanceFacet labelText='Subsequent versions'>
 
-						<List instances={subsequentVersionPlaytexts} />
+						<List instances={subsequentVersionMaterials} />
 
 					</InstanceFacet>
 				)
@@ -116,20 +142,20 @@ const Playtext = props => {
 			}
 
 			{
-				sourcingPlaytexts?.length > 0 && (
-					<InstanceFacet labelText='Playtexts as source material'>
+				sourcingMaterials?.length > 0 && (
+					<InstanceFacet labelText='Materials as source material'>
 
-						<List instances={sourcingPlaytexts} />
+						<List instances={sourcingMaterials} />
 
 					</InstanceFacet>
 				)
 			}
 
 			{
-				sourcingPlaytextProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions of playtexts as source material'>
+				sourcingMaterialProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions of materials as source material'>
 
-						<List instances={sourcingPlaytextProductions} />
+						<List instances={sourcingMaterialProductions} />
 
 					</InstanceFacet>
 				)
@@ -140,4 +166,4 @@ const Playtext = props => {
 
 };
 
-export default Playtext;
+export default Material;

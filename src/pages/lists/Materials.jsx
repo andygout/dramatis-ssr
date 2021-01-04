@@ -2,18 +2,18 @@ import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { App, List } from '../../components';
 
-const Playtexts = props => {
+const Materials = props => {
 
-	const { documentTitle, pageTitle, playtexts } = props;
+	const { documentTitle, pageTitle, materials } = props;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<List instances={playtexts} />
+			<List instances={materials} />
 
 		</App>
 	);
 
 };
 
-export default Playtexts;
+export default Materials;

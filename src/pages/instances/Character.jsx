@@ -6,7 +6,7 @@ const Character = props => {
 
 	const { documentTitle, pageTitle, character } = props;
 
-	const { model, variantNamedDepictions, playtexts, variantNamedPortrayals, productions } = character;
+	const { model, variantNamedDepictions, materials, variantNamedPortrayals, productions } = character;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -22,10 +22,10 @@ const Character = props => {
 			}
 
 			{
-				playtexts?.length > 0 && (
-					<InstanceFacet labelText='Playtexts'>
+				materials?.length > 0 && (
+					<InstanceFacet labelText='Materials'>
 
-						<List instances={playtexts} />
+						<List instances={materials} />
 
 					</InstanceFacet>
 				)
