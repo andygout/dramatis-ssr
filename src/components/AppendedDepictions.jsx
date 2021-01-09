@@ -32,7 +32,7 @@ const AppendedDepictions = props => {
 
 						</Fragment>
 					)
-					.reduce((prev, curr) => [prev, ' / ', curr])
+					.reduce((prev, curr) => [prev, ' /', curr])
 			}
 
 		</Fragment>
