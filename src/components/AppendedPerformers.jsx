@@ -16,24 +16,23 @@ const AppendedPerformers = props => {
 					.map((performer, index) =>
 						<Fragment key={index}>
 
-							<Fragment>
+							<InstanceLink instance={performer} />
 
-								<InstanceLink instance={performer} />
+							<Fragment>&nbsp;…&nbsp;</Fragment>
 
-								<Fragment>&nbsp;…&nbsp;</Fragment>
+							<span className="role-text">
 
-								<span className="role-text">
-									{
-										performer.roleName
-									}
-									{
-										performer.qualifier && (
-											<Fragment>&nbsp;({ performer.qualifier })</Fragment>
-										)
-									}
-								</span>
+								{
+									performer.roleName
+								}
 
-							</Fragment>
+								{
+									performer.qualifier && (
+										<Fragment>&nbsp;({ performer.qualifier })</Fragment>
+									)
+								}
+
+							</span>
 
 							{
 								performer.otherRoles.length > 0 && (
