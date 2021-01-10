@@ -3,11 +3,11 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 import {
 	App,
 	AppendedFormat,
-	AppendedWriterGroups,
+	AppendedWritingCredits,
 	InstanceFacet,
 	InstanceLink,
 	List,
-	WriterGroups
+	WritingCredits
 } from '../../components';
 import { capitalise } from '../../lib/strings';
 
@@ -18,7 +18,7 @@ const Material = props => {
 	const {
 		model,
 		format,
-		writerGroups,
+		writingCredits,
 		characterGroups,
 		originalVersionMaterial,
 		subsequentVersionMaterials,
@@ -44,10 +44,10 @@ const Material = props => {
 			}
 
 			{
-				writerGroups?.length > 0 && (
+				writingCredits?.length > 0 && (
 					<InstanceFacet labelText='Writers'>
 
-						<WriterGroups writerGroups={writerGroups} isAppendage={false} />
+						<WritingCredits writingCredits={writingCredits} isAppendage={false} />
 
 					</InstanceFacet>
 				)
@@ -112,8 +112,8 @@ const Material = props => {
 						}
 
 						{
-							originalVersionMaterial.writerGroups?.length > 0 && (
-								<AppendedWriterGroups writerGroups={originalVersionMaterial.writerGroups} />
+							originalVersionMaterial.writingCredits?.length > 0 && (
+								<AppendedWritingCredits writingCredits={originalVersionMaterial.writingCredits} />
 							)
 						}
 

@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedFormat, AppendedWriterGroups, InstanceFacet, InstanceLink, List } from '../../components';
+import { App, AppendedFormat, AppendedWritingCredits, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Production = props => {
 
@@ -24,8 +24,8 @@ const Production = props => {
 							}
 
 						{
-							material.writerGroups?.length > 0 && (
-								<AppendedWriterGroups writerGroups={material.writerGroups} />
+							material.writingCredits?.length > 0 && (
+								<AppendedWritingCredits writingCredits={material.writingCredits} />
 							)
 						}
 
