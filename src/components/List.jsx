@@ -7,7 +7,7 @@ import {
 	AppendedRoles,
 	AppendedSubTheatres,
 	AppendedTheatre,
-	AppendedWriterGroups,
+	AppendedWritingCredits,
 	InstanceLink
 } from '.';
 
@@ -59,8 +59,8 @@ const List = props => {
 						}
 
 						{
-							instance.writerGroups?.length > 0 && (
-								<AppendedWriterGroups writerGroups={instance.writerGroups} />
+							instance.writingCredits?.length > 0 && (
+								<AppendedWritingCredits writingCredits={instance.writingCredits} />
 							)
 						}
 
