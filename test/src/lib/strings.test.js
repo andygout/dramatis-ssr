@@ -44,7 +44,16 @@ describe('Strings module', () => {
 
 			it('returns specific plural noun', () => {
 
-				expect(pluralise('person')).to.equal('people');
+				const nouns = [
+					{ singular: 'person', plural: 'people' },
+					{ singular: 'company', plural: 'companies' }
+				];
+
+				nouns.forEach(noun => {
+
+					expect(pluralise(noun.singular)).to.equal(noun.plural);
+
+				});
 
 			});
 
@@ -68,7 +77,16 @@ describe('Strings module', () => {
 
 			it('returns specific singular noun', () => {
 
-				expect(singularise('people')).to.equal('person');
+				const nouns = [
+					{ singular: 'person', plural: 'people' },
+					{ singular: 'company', plural: 'companies' }
+				];
+
+				nouns.forEach(noun => {
+
+					expect(singularise(noun.plural)).to.equal(noun.singular);
+
+				});
 
 			});
 
