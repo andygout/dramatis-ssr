@@ -11,6 +11,8 @@ const Navigation = () => {
 
 				<li><a href='/characters'>Characters</a></li>
 
+				<li><a href='/companies'>Companies</a></li>
+
 				<li><a href='/materials'>Materials</a></li>
 
 				<li><a href='/people'>People</a></li>
