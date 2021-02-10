@@ -6,7 +6,14 @@ const Person = props => {
 
 	const { documentTitle, pageTitle, person } = props;
 
-	const { model, materials, subsequentVersionMaterials, sourcingMaterials, productions } = person;
+	const {
+		model,
+		materials,
+		subsequentVersionMaterials,
+		sourcingMaterials,
+		rightsGrantorMaterials,
+		productions
+	} = person;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -46,6 +53,16 @@ const Person = props => {
 					<InstanceFacet labelText='Materials as source material writer'>
 
 						<List instances={sourcingMaterials} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				rightsGrantorMaterials?.length > 0 && (
+					<InstanceFacet labelText='Materials as rights grantor'>
+
+						<List instances={rightsGrantorMaterials} />
 
 					</InstanceFacet>
 				)
