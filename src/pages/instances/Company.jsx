@@ -6,7 +6,14 @@ const Company = props => {
 
 	const { documentTitle, pageTitle, company } = props;
 
-	const { model, materials, subsequentVersionMaterials, sourcingMaterials, rightsGrantorMaterials } = company;
+	const {
+		model,
+		materials,
+		subsequentVersionMaterials,
+		sourcingMaterials,
+		rightsGrantorMaterials,
+		creativeProductions
+	} = company;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -46,6 +53,16 @@ const Company = props => {
 					<InstanceFacet labelText='Materials as rights grantor'>
 
 						<List instances={rightsGrantorMaterials} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				creativeProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions as creative team member'>
+
+						<List instances={creativeProductions} />
 
 					</InstanceFacet>
 				)

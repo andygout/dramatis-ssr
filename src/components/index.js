@@ -1,4 +1,7 @@
 import App from './App';
+import AppendedCoCreditedEntities from './AppendedCoCreditedEntities';
+import AppendedCreativeCredits from './AppendedCreativeCredits';
+import AppendedCreativeEntities from './AppendedCreativeEntities';
 import AppendedDepictions from './AppendedDepictions';
 import AppendedFormat from './AppendedFormat';
 import AppendedPerformers from './AppendedPerformers';
@@ -23,6 +26,9 @@ import WritingEntities from './WritingEntities';
 
 export {
 	App,
+	AppendedCoCreditedEntities,
+	AppendedCreativeCredits,
+	AppendedCreativeEntities,
 	AppendedDepictions,
 	AppendedFormat,
 	AppendedPerformers,

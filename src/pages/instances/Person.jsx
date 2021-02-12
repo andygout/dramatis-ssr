@@ -12,7 +12,8 @@ const Person = props => {
 		subsequentVersionMaterials,
 		sourcingMaterials,
 		rightsGrantorMaterials,
-		productions
+		productions,
+		creativeProductions
 	} = person;
 
 	return (
@@ -39,16 +40,6 @@ const Person = props => {
 			}
 
 			{
-				productions?.length > 0 && (
-					<InstanceFacet labelText='Productions'>
-
-						<List instances={productions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
 				sourcingMaterials?.length > 0 && (
 					<InstanceFacet labelText='Materials as source material writer'>
 
@@ -63,6 +54,26 @@ const Person = props => {
 					<InstanceFacet labelText='Materials as rights grantor'>
 
 						<List instances={rightsGrantorMaterials} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				productions?.length > 0 && (
+					<InstanceFacet labelText='Productions'>
+
+						<List instances={productions} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				creativeProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions as creative team member'>
+
+						<List instances={creativeProductions} />
 
 					</InstanceFacet>
 				)
