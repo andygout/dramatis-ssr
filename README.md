@@ -1,4 +1,4 @@
-# theatrebase-ssr [![CircleCI](https://circleci.com/gh/andygout/theatrebase-ssr/tree/master.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-ssr/tree/master)
+# theatrebase-ssr [![CircleCI](https://circleci.com/gh/andygout/theatrebase-spa/tree/main.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-ssr/tree/main)
 
 Server-side rendered (SSR) application that provides listings for theatrical productions, materials, and associated data.
 
