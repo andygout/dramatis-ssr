@@ -12,7 +12,7 @@ const Person = props => {
 		subsequentVersionMaterials,
 		sourcingMaterials,
 		rightsGrantorMaterials,
-		productions,
+		castMemberProductions,
 		creativeProductions
 	} = person;
 
@@ -60,10 +60,10 @@ const Person = props => {
 			}
 
 			{
-				productions?.length > 0 && (
+				castMemberProductions?.length > 0 && (
 					<InstanceFacet labelText='Productions'>
 
-						<List instances={productions} />
+						<List instances={castMemberProductions} />
 
 					</InstanceFacet>
 				)
