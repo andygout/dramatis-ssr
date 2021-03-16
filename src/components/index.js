@@ -2,6 +2,8 @@ import App from './App';
 import AppendedCoCreditedEntities from './AppendedCoCreditedEntities';
 import AppendedCreativeCredits from './AppendedCreativeCredits';
 import AppendedCreativeEntities from './AppendedCreativeEntities';
+import AppendedCreditedEmployerCompany from './AppendedCreditedEmployerCompany';
+import AppendedCreditedMembers from './AppendedCreditedMembers';
 import AppendedDepictions from './AppendedDepictions';
 import AppendedFormat from './AppendedFormat';
 import AppendedPerformers from './AppendedPerformers';
@@ -11,6 +13,7 @@ import AppendedSubTheatres from './AppendedSubTheatres';
 import AppendedTheatre from './AppendedTheatre';
 import AppendedWritingCredits from './AppendedWritingCredits';
 import CommaSeparatedInstanceLinks from './CommaSeparatedInstanceLinks';
+import CreditedEntities from './CreditedEntities';
 import Footer from './Footer';
 import Head from './Head';
 import Header from './Header';
@@ -29,6 +32,8 @@ export {
 	AppendedCoCreditedEntities,
 	AppendedCreativeCredits,
 	AppendedCreativeEntities,
+	AppendedCreditedEmployerCompany,
+	AppendedCreditedMembers,
 	AppendedDepictions,
 	AppendedFormat,
 	AppendedPerformers,
@@ -38,6 +43,7 @@ export {
 	AppendedTheatre,
 	AppendedWritingCredits,
 	CommaSeparatedInstanceLinks,
+	CreditedEntities,
 	Footer,
 	Head,
 	Header,
