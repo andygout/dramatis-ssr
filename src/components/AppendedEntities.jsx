@@ -2,20 +2,20 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { CreditedEntities } from '.';
 
-const AppendedCreativeEntities = props => {
+const AppendedEntities = props => {
 
-	const { creativeEntities } = props;
+	const { entities } = props;
 
 	return (
 		<Fragment>
 
 			<Fragment>&nbsp;…&nbsp;</Fragment>
 
-			<CreditedEntities creditedEntities={creativeEntities} />
+			<CreditedEntities creditedEntities={entities} />
 
 		</Fragment>
 	);
 
 };
 
-export default AppendedCreativeEntities;
+export default AppendedEntities;
