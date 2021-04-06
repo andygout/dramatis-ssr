@@ -1,9 +1,9 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
-	AppendedCreativeCredits,
-	AppendedCreativeEntities,
+	AppendedCreativeCrewCredits,
 	AppendedDepictions,
+	AppendedEntities,
 	AppendedFormat,
 	AppendedPerformers,
 	AppendedRoles,
@@ -68,13 +68,25 @@ const List = props => {
 
 						{
 							instance.creativeCredits?.length > 0 && (
-								<AppendedCreativeCredits creativeCredits={instance.creativeCredits} />
+								<AppendedCreativeCrewCredits credits={instance.creativeCredits} />
+							)
+						}
+
+						{
+							instance.crewCredits?.length > 0 && (
+								<AppendedCreativeCrewCredits credits={instance.crewCredits} />
 							)
 						}
 
 						{
 							instance.creativeEntities?.length > 0 && (
-								<AppendedCreativeEntities creativeEntities={instance.creativeEntities} />
+								<AppendedEntities entities={instance.creativeEntities} />
+							)
+						}
+
+						{
+							instance.crewEntities?.length > 0 && (
+								<AppendedEntities entities={instance.crewEntities} />
 							)
 						}
 

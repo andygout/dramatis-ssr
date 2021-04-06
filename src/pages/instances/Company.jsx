@@ -12,7 +12,8 @@ const Company = props => {
 		subsequentVersionMaterials,
 		sourcingMaterials,
 		rightsGrantorMaterials,
-		creativeProductions
+		creativeProductions,
+		crewProductions
 	} = company;
 
 	return (
@@ -63,6 +64,16 @@ const Company = props => {
 					<InstanceFacet labelText='Productions as creative team member'>
 
 						<List instances={creativeProductions} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				crewProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions as crew member'>
+
+						<List instances={crewProductions} />
 
 					</InstanceFacet>
 				)
