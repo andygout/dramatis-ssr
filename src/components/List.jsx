@@ -79,14 +79,8 @@ const List = props => {
 						}
 
 						{
-							instance.creativeEntities?.length > 0 && (
-								<AppendedEntities entities={instance.creativeEntities} />
-							)
-						}
-
-						{
-							instance.crewEntities?.length > 0 && (
-								<AppendedEntities entities={instance.crewEntities} />
+							instance.entities?.length > 0 && (
+								<AppendedEntities entities={instance.entities} />
 							)
 						}
 
