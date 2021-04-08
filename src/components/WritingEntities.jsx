@@ -4,34 +4,34 @@ import { AppendedFormat, InstanceLink, WritingCredits } from '.';
 
 const WritingEntities = props => {
 
-	const { writingEntities } = props;
+	const { entities } = props;
 
 	return (
 		<Fragment>
 
 			{
-				writingEntities
-					.map((writingEntity, index) =>
+				entities
+					.map((entity, index) =>
 						<Fragment key={index}>
 
 							{
-								writingEntity.uuid
-									? <InstanceLink instance={writingEntity} />
-									: writingEntity.name
+								entity.uuid
+									? <InstanceLink instance={entity} />
+									: entity.name
 							}
 
 							{
-								writingEntity.format && (
-									<AppendedFormat format={writingEntity.format} />
+								entity.format && (
+									<AppendedFormat format={entity.format} />
 								)
 							}
 
 							{
-								writingEntity.sourceMaterialWritingCredits?.length > 0 && (
+								entity.sourceMaterialWritingCredits?.length > 0 && (
 									<Fragment>&nbsp;
 
 										<WritingCredits
-											writingCredits={writingEntity.sourceMaterialWritingCredits}
+											writingCredits={entity.sourceMaterialWritingCredits}
 											isAppendage={true}
 										/>
 
