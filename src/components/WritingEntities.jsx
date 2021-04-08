@@ -27,11 +27,11 @@ const WritingEntities = props => {
 							}
 
 							{
-								entity.sourceMaterialWritingCredits?.length > 0 && (
+								entity.writingCredits?.length > 0 && (
 									<Fragment>&nbsp;
 
 										<WritingCredits
-											writingCredits={entity.sourceMaterialWritingCredits}
+											writingCredits={entity.writingCredits}
 											isAppendage={true}
 										/>
 
