@@ -23,7 +23,7 @@ const WritingCredits = props => {
 
 								<Fragment>{ writingCreditName }&nbsp;</Fragment>
 
-								<WritingEntities writingEntities={writingCredit.writingEntities} />
+								<WritingEntities entities={writingCredit.entities} />
 
 							</Fragment>
 						);
