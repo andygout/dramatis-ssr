@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { AppendedCoCreditedEntities, AppendedCreditedEmployerCompany, AppendedCreditedMembers } from '.';
 
-const AppendedCreativeCrewCredits = props => {
+const AppendedProductionTeamCredits = props => {
 
 	const { credits } = props;
 
@@ -50,4 +50,4 @@ const AppendedCreativeCrewCredits = props => {
 
 };
 
-export default AppendedCreativeCrewCredits;
+export default AppendedProductionTeamCredits;

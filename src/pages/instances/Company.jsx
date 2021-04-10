@@ -12,6 +12,7 @@ const Company = props => {
 		subsequentVersionMaterials,
 		sourcingMaterials,
 		rightsGrantorMaterials,
+		producerProductions,
 		creativeProductions,
 		crewProductions
 	} = company;
@@ -54,6 +55,16 @@ const Company = props => {
 					<InstanceFacet labelText='Materials as rights grantor'>
 
 						<List instances={rightsGrantorMaterials} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				producerProductions?.length > 0 && (
+					<InstanceFacet labelText='Productions as producer'>
+
+						<List instances={producerProductions} />
 
 					</InstanceFacet>
 				)
