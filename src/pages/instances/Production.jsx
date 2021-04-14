@@ -6,7 +6,7 @@ const Production = props => {
 
 	const { documentTitle, pageTitle, production } = props;
 
-	const { model, theatre, material, cast, creativeCredits, crewCredits } = production;
+	const { model, theatre, material, producerCredits, cast, creativeCredits, crewCredits } = production;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -44,6 +44,16 @@ const Production = props => {
 						}
 
 						<InstanceLink instance={theatre} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				producerCredits?.length > 0 && (
+					<InstanceFacet labelText='Producers'>
+
+						<List instances={producerCredits} />
 
 					</InstanceFacet>
 				)
