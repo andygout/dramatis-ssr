@@ -6,7 +6,7 @@ const Production = props => {
 
 	const { documentTitle, pageTitle, production } = props;
 
-	const { model, theatre, material, producerCredits, cast, creativeCredits, crewCredits } = production;
+	const { model, material, theatre, producerCredits, cast, creativeCredits, crewCredits } = production;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
