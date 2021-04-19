@@ -20,6 +20,8 @@ const Production = props => {
 		crewCredits
 	} = production;
 
+	const dateFormatOptions = { weekday: 'long', month: 'long' };
+
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
@@ -52,7 +54,7 @@ const Production = props => {
 						{
 							startDate && (
 								<div>
-									<b>Starts:</b>&nbsp;{ formatDate(startDate, { weekday: 'long', month: 'long' }) }
+									<b>Starts:</b>&nbsp;{ formatDate(startDate, dateFormatOptions) }
 								</div>
 							)
 						}
@@ -60,7 +62,7 @@ const Production = props => {
 						{
 							pressDate && (
 								<div>
-									<b>Press:</b>&nbsp;{ formatDate(pressDate, { weekday: 'long', month: 'long' }) }
+									<b>Press:</b>&nbsp;{ formatDate(pressDate, dateFormatOptions) }
 								</div>
 							)
 						}
@@ -68,7 +70,7 @@ const Production = props => {
 						{
 							endDate && (
 								<div>
-									<b>Ends:</b>&nbsp;{ formatDate(endDate, { weekday: 'long', month: 'long' }) }
+									<b>Ends:</b>&nbsp;{ formatDate(endDate, dateFormatOptions) }
 								</div>
 							)
 						}
