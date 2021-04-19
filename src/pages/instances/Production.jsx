@@ -1,12 +1,24 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { App, AppendedFormat, AppendedWritingCredits, InstanceFacet, InstanceLink, List } from '../../components';
+import { formatDate } from '../../lib/format-date';
 
 const Production = props => {
 
 	const { documentTitle, pageTitle, production } = props;
 
-	const { model, material, theatre, producerCredits, cast, creativeCredits, crewCredits } = production;
+	const {
+		model,
+		material,
+		startDate,
+		pressDate,
+		endDate,
+		theatre,
+		producerCredits,
+		cast,
+		creativeCredits,
+		crewCredits
+	} = production;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
@@ -26,6 +38,38 @@ const Production = props => {
 						{
 							material.writingCredits?.length > 0 && (
 								<AppendedWritingCredits writingCredits={material.writingCredits} />
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				(startDate || pressDate || endDate) && (
+					<InstanceFacet labelText='Dates'>
+
+						{
+							startDate && (
+								<div>
+									<b>Starts:</b>&nbsp;{ formatDate(startDate, { weekday: 'long', month: 'long' }) }
+								</div>
+							)
+						}
+
+						{
+							pressDate && (
+								<div>
+									<b>Press:</b>&nbsp;{ formatDate(pressDate, { weekday: 'long', month: 'long' }) }
+								</div>
+							)
+						}
+
+						{
+							endDate && (
+								<div>
+									<b>Ends:</b>&nbsp;{ formatDate(endDate, { weekday: 'long', month: 'long' }) }
+								</div>
 							)
 						}
 
