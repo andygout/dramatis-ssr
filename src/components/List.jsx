@@ -6,6 +6,7 @@ import {
 	AppendedFormat,
 	AppendedPerformers,
 	AppendedProductionDates,
+	AppendedProducerCredits,
 	AppendedProductionTeamCredits,
 	AppendedRoles,
 	AppendedSubTheatres,
@@ -75,7 +76,7 @@ const List = props => {
 
 						{
 							instance.producerCredits?.length > 0 && (
-								<AppendedProductionTeamCredits credits={instance.producerCredits} />
+								<AppendedProducerCredits credits={instance.producerCredits} />
 							)
 						}
 
