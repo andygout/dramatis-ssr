@@ -1,6 +1,14 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedFormat, AppendedWritingCredits, InstanceFacet, InstanceLink, List } from '../../components';
+import {
+	App,
+	AppendedFormat,
+	AppendedWritingCredits,
+	InstanceFacet,
+	InstanceLink,
+	List,
+	ProducerCredits
+} from '../../components';
 import { formatDate } from '../../lib/format-date';
 
 const Production = props => {
@@ -99,7 +107,7 @@ const Production = props => {
 				producerCredits?.length > 0 && (
 					<InstanceFacet labelText='Producers'>
 
-						<List instances={producerCredits} />
+						<ProducerCredits credits={producerCredits} />
 
 					</InstanceFacet>
 				)

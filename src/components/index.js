@@ -8,6 +8,7 @@ import AppendedFormat from './AppendedFormat';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
 import AppendedProductionDates from './AppendedProductionDates';
+import AppendedProducerCredits from './AppendedProducerCredits';
 import AppendedProductionTeamCredits from './AppendedProductionTeamCredits';
 import AppendedRoles from './AppendedRoles';
 import AppendedSubTheatres from './AppendedSubTheatres';
@@ -25,6 +26,9 @@ import JoinedRoles from './JoinedRoles';
 import List from './List';
 import Navigation from './Navigation';
 import PageTitle from './PageTitle';
+import PrependedCreditedMembers from './PrependedCreditedMembers';
+import ProducerCredits from './ProducerCredits';
+import ProducerEntities from './ProducerEntities';
 import WritingCredits from './WritingCredits';
 import WritingEntities from './WritingEntities';
 
@@ -39,6 +43,7 @@ export {
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
 	AppendedProductionDates,
+	AppendedProducerCredits,
 	AppendedProductionTeamCredits,
 	AppendedRoles,
 	AppendedSubTheatres,
@@ -56,6 +61,9 @@ export {
 	List,
 	Navigation,
 	PageTitle,
+	PrependedCreditedMembers,
+	ProducerCredits,
+	ProducerEntities,
 	WritingCredits,
 	WritingEntities
 };
