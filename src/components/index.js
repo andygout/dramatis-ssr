@@ -11,8 +11,8 @@ import AppendedProductionDates from './AppendedProductionDates';
 import AppendedProducerCredits from './AppendedProducerCredits';
 import AppendedProductionTeamCredits from './AppendedProductionTeamCredits';
 import AppendedRoles from './AppendedRoles';
-import AppendedSubTheatres from './AppendedSubTheatres';
-import AppendedTheatre from './AppendedTheatre';
+import AppendedSubVenues from './AppendedSubVenues';
+import AppendedVenue from './AppendedVenue';
 import AppendedWritingCredits from './AppendedWritingCredits';
 import CommaSeparatedInstanceLinks from './CommaSeparatedInstanceLinks';
 import CreditedEntities from './CreditedEntities';
@@ -46,8 +46,8 @@ export {
 	AppendedProducerCredits,
 	AppendedProductionTeamCredits,
 	AppendedRoles,
-	AppendedSubTheatres,
-	AppendedTheatre,
+	AppendedSubVenues,
+	AppendedVenue,
 	AppendedWritingCredits,
 	CommaSeparatedInstanceLinks,
 	CreditedEntities,

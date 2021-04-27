@@ -19,8 +19,8 @@ router.get('/people', (request, response, next) => listsController(request, resp
 router.get('/people/:uuid', (request, response, next) => instancesController(request, response, next));
 router.get('/productions', (request, response, next) => listsController(request, response, next));
 router.get('/productions/:uuid', (request, response, next) => instancesController(request, response, next));
-router.get('/theatres', (request, response, next) => listsController(request, response, next));
-router.get('/theatres/:uuid', (request, response, next) => instancesController(request, response, next));
+router.get('/venues', (request, response, next) => listsController(request, response, next));
+router.get('/venues/:uuid', (request, response, next) => instancesController(request, response, next));
 
 router.get('*', (request, response, next) => {
 

@@ -2,16 +2,16 @@ import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { App, InstanceFacet, InstanceLink, List } from '../../components';
 
-const Theatre = props => {
+const Venue = props => {
 
 	let { documentTitle, pageTitle } = props;
 
-	const { theatre: { model, surTheatre, subTheatres, productions } } = props;
+	const { venue: { model, surVenue, subVenues, productions } } = props;
 
-	if (surTheatre) {
+	if (surVenue) {
 
-		documentTitle = `${surTheatre.name}: ${documentTitle}`;
-		pageTitle = `${surTheatre.name}: ${pageTitle}`;
+		documentTitle = `${surVenue.name}: ${documentTitle}`;
+		pageTitle = `${surVenue.name}: ${pageTitle}`;
 
 	}
 
@@ -19,20 +19,20 @@ const Theatre = props => {
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				surTheatre && (
+				surVenue && (
 					<InstanceFacet labelText='Part of'>
 
-						<InstanceLink instance={surTheatre} />
+						<InstanceLink instance={surVenue} />
 
 					</InstanceFacet>
 				)
 			}
 
 			{
-				subTheatres?.length > 0 && (
+				subVenues?.length > 0 && (
 					<InstanceFacet labelText='Comprises'>
 
-						<List instances={subTheatres} />
+						<List instances={subVenues} />
 
 					</InstanceFacet>
 				)
@@ -53,4 +53,4 @@ const Theatre = props => {
 
 };
 
-export default Theatre;
+export default Venue;

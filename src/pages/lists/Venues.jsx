@@ -2,7 +2,7 @@ import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { App, List } from '../../components';
 
-const Theatres = props => {
+const Venues = props => {
 
 	const { documentTitle, pageTitle, theatres } = props;
 
@@ -16,4 +16,4 @@ const Theatres = props => {
 
 };
 
-export default Theatres;
+export default Venues;
