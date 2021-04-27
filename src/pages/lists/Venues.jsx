@@ -4,12 +4,12 @@ import { App, List } from '../../components';
 
 const Venues = props => {
 
-	const { documentTitle, pageTitle, theatres } = props;
+	const { documentTitle, pageTitle, venues } = props;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<List instances={theatres} />
+			<List instances={venues} />
 
 		</App>
 	);
