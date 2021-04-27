@@ -3,7 +3,7 @@ import Company from './Company';
 import Material from './Material';
 import Person from './Person';
 import Production from './Production';
-import Theatre from './Theatre';
+import Venue from './Venue';
 
 export {
 	Character,
@@ -11,5 +11,5 @@ export {
 	Material,
 	Person,
 	Production,
-	Theatre
+	Venue
 };

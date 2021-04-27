@@ -21,7 +21,7 @@ const Production = props => {
 		startDate,
 		pressDate,
 		endDate,
-		theatre,
+		venue,
 		producerCredits,
 		cast,
 		creativeCredits,
@@ -88,16 +88,16 @@ const Production = props => {
 			}
 
 			{
-				theatre && (
-					<InstanceFacet labelText='Theatre'>
+				venue && (
+					<InstanceFacet labelText='Venue'>
 
 						{
-							theatre.surTheatre && (
-								<span><InstanceLink instance={theatre.surTheatre} />: </span>
+							venue.surVenue && (
+								<span><InstanceLink instance={venue.surVenue} />: </span>
 							)
 						}
 
-						<InstanceLink instance={theatre} />
+						<InstanceLink instance={venue} />
 
 					</InstanceFacet>
 				)

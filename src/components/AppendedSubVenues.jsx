@@ -2,9 +2,9 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { InstanceLink } from '.';
 
-const AppendedSubTheatres = props => {
+const AppendedSubVenues = props => {
 
-	const { subTheatres } = props;
+	const { subVenues } = props;
 
 	return (
 		<Fragment>
@@ -12,9 +12,9 @@ const AppendedSubTheatres = props => {
 			<Fragment>:&nbsp;</Fragment>
 
 			{
-				subTheatres
-					.map((subTheatre, index) =>
-						<InstanceLink key={index} instance={subTheatre} />
+				subVenues
+					.map((subVenue, index) =>
+						<InstanceLink key={index} instance={subVenue} />
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])
 			}
@@ -24,4 +24,4 @@ const AppendedSubTheatres = props => {
 
 };
 
-export default AppendedSubTheatres;
+export default AppendedSubVenues;
