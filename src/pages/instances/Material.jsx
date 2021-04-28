@@ -63,7 +63,7 @@ const Material = props => {
 									<Fragment>
 
 										{
-											!!characterGroups[0].name && (
+											Boolean(characterGroups[0].name) && (
 												instanceFacetSubheader(characterGroups[0].name)
 											)
 										}
@@ -80,7 +80,7 @@ const Material = props => {
 												<li key={index} className="instance-facet-group">
 
 													{
-														!!characterGroup.name && (
+														Boolean(characterGroup.name) && (
 															instanceFacetSubheader(characterGroup.name)
 														)
 													}
