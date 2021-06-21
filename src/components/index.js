@@ -4,7 +4,7 @@ import AppendedCreditedEmployerCompany from './AppendedCreditedEmployerCompany';
 import AppendedCreditedMembers from './AppendedCreditedMembers';
 import AppendedDepictions from './AppendedDepictions';
 import AppendedEntities from './AppendedEntities';
-import AppendedFormat from './AppendedFormat';
+import AppendedFormatAndYear from './AppendedFormatAndYear';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
 import AppendedProductionDates from './AppendedProductionDates';
@@ -39,7 +39,7 @@ export {
 	AppendedCreditedMembers,
 	AppendedDepictions,
 	AppendedEntities,
-	AppendedFormat,
+	AppendedFormatAndYear,
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
 	AppendedProductionDates,

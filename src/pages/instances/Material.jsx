@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
-	AppendedFormat,
+	AppendedFormatAndYear,
 	AppendedWritingCredits,
 	InstanceFacet,
 	InstanceLink,
@@ -18,6 +18,7 @@ const Material = props => {
 	const {
 		model,
 		format,
+		year,
 		writingCredits,
 		characterGroups,
 		originalVersionMaterial,
@@ -38,6 +39,16 @@ const Material = props => {
 					<InstanceFacet labelText='Format'>
 
 						<Fragment>{ capitalise(format) }</Fragment>
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				year && (
+					<InstanceFacet labelText='Year'>
+
+						<Fragment>{ year }</Fragment>
 
 					</InstanceFacet>
 				)
@@ -106,8 +117,11 @@ const Material = props => {
 						<InstanceLink instance={originalVersionMaterial} />
 
 						{
-							originalVersionMaterial.format && (
-								<AppendedFormat format={originalVersionMaterial.format} />
+							(originalVersionMaterial.format || originalVersionMaterial.year) && (
+								<AppendedFormatAndYear
+									format={originalVersionMaterial.format}
+									year={originalVersionMaterial.year}
+								/>
 							)
 						}
 

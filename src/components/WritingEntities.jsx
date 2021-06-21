@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormat, InstanceLink, WritingCredits } from '.';
+import { AppendedFormatAndYear, InstanceLink, WritingCredits } from '.';
 
 const WritingEntities = props => {
 
@@ -21,8 +21,8 @@ const WritingEntities = props => {
 							}
 
 							{
-								entity.format && (
-									<AppendedFormat format={entity.format} />
+								(entity.format || entity.year) && (
+									<AppendedFormatAndYear format={entity.format} year={entity.year} />
 								)
 							}
 
