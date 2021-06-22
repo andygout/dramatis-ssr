@@ -3,7 +3,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 import {
 	AppendedDepictions,
 	AppendedEntities,
-	AppendedFormat,
+	AppendedFormatAndYear,
 	AppendedPerformers,
 	AppendedProductionDates,
 	AppendedProducerCredits,
@@ -33,8 +33,8 @@ const List = props => {
 						}
 
 						{
-							instance.format && (
-								<AppendedFormat format={instance.format} />
+							(instance.format || instance.year) && (
+								<AppendedFormatAndYear format={instance.format} year={instance.year} />
 							)
 						}
 

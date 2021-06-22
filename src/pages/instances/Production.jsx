@@ -2,7 +2,7 @@ import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
-	AppendedFormat,
+	AppendedFormatAndYear,
 	AppendedWritingCredits,
 	InstanceFacet,
 	InstanceLink,
@@ -40,8 +40,8 @@ const Production = props => {
 						<InstanceLink instance={material} />
 
 							{
-								material.format && (
-									<AppendedFormat format={material.format} />
+								(material.format || material.year) && (
+									<AppendedFormatAndYear format={material.format} year={material.year} />
 								)
 							}
 
