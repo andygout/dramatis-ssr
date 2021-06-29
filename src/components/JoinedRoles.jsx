@@ -26,6 +26,12 @@ const JoinedRoles = props => {
 								)
 							}
 
+							{
+								instance.isAlternate && (
+									<Fragment>&nbsp;(alt)</Fragment>
+								)
+							}
+
 						</Fragment>
 					)
 					.reduce((prev, curr) => [prev, ' / ', curr])
