@@ -32,6 +32,12 @@ const AppendedPerformers = props => {
 									)
 								}
 
+								{
+									performer.isAlternate && (
+										<Fragment>&nbsp;(alt)</Fragment>
+									)
+								}
+
 							</span>
 
 							{
