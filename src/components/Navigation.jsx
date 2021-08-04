@@ -9,6 +9,8 @@ const Navigation = () => {
 
 				<li><a href='/'>Home</a></li>
 
+				<li><a href='/awards'>Awards</a></li>
+
 				<li><a href='/characters'>Characters</a></li>
 
 				<li><a href='/companies'>Companies</a></li>

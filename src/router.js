@@ -9,6 +9,8 @@ import {
 const router = new Router();
 
 router.get('/', (request, response) => homeController(response));
+router.get('/awards', (request, response, next) => listsController(request, response, next));
+router.get('/awards/:uuid', (request, response, next) => instancesController(request, response, next));
 router.get('/characters', (request, response, next) => listsController(request, response, next));
 router.get('/characters/:uuid', (request, response, next) => instancesController(request, response, next));
 router.get('/companies', (request, response, next) => listsController(request, response, next));
