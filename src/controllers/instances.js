@@ -1,11 +1,10 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
 import getDifferentiatorSuffix from '../lib/get-differentiator-suffix';
-import { getModelFromRoute } from '../lib/get-model';
-import { pascalCasify } from '../lib/strings';
 import { instancePages } from '../pages';
+import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_PAGE_COMPONENT_MAP, MODEL_TO_PROP_NAME_MAP } from '../utils/constants';
 
-export default async (request, response, next) => {
+export default async (request, response, next, model) => {
 
 	const apiPath = request.path;
 
@@ -15,15 +14,7 @@ export default async (request, response, next) => {
 
 		const { name, differentiator } = instance;
 
-		const modelRoute =
-			request.route.path.split('/')
-				.filter(routeComponent => routeComponent !== ':uuid')
-				.filter(Boolean)
-				.join('/');
-
-		const model = getModelFromRoute(modelRoute);
-
-		let documentTitle = `${name} (${model})`;
+		let documentTitle = `${name} (${MODEL_TO_DISPLAY_NAME_MAP[model]})`;
 
 		let pageTitle = name;
 
@@ -40,10 +31,10 @@ export default async (request, response, next) => {
 		const props = {
 			documentTitle,
 			pageTitle,
-			[model]: instance
+			[MODEL_TO_PROP_NAME_MAP[model]]: instance
 		};
 
-		const PageComponent = instancePages[pascalCasify(model)];
+		const PageComponent = instancePages[MODEL_TO_PAGE_COMPONENT_MAP[model]];
 
 		return sendResponse(response, PageComponent, props);
 

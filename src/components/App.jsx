@@ -23,7 +23,7 @@ const App = props => {
 
 						{
 							model && (
-								<InstanceLabel text={model} />
+								<InstanceLabel model={model} />
 							)
 						}
 

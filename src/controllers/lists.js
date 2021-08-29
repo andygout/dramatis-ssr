@@ -1,10 +1,13 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
-import { getPluralisedModelFromRoute } from '../lib/get-model';
-import { pascalCasify } from '../lib/strings';
 import { listPages } from '../pages';
+import {
+	PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP,
+	PLURALISED_MODEL_TO_PROP_NAME_MAP,
+	PLURALISED_MODEL_TO_TITLE_MAP
+} from '../utils/constants';
 
-export default async (request, response, next) => {
+export default async (request, response, next, pluralisedModel) => {
 
 	const apiPath = request.path;
 
@@ -12,23 +15,15 @@ export default async (request, response, next) => {
 
 		const list = await fetchFromApi(apiPath);
 
-		const modelRoute =
-			request.route.path.split('/')
-				.filter(routeComponent => routeComponent !== ':uuid')
-				.filter(Boolean)
-				.join('/');
-
-		const pluralisedModel = getPluralisedModelFromRoute(modelRoute);
-
-		const title = pascalCasify(pluralisedModel);
+		const title = PLURALISED_MODEL_TO_TITLE_MAP[pluralisedModel];
 
 		const props = {
 			documentTitle: title,
 			pageTitle: title,
-			[pluralisedModel]: list
+			[PLURALISED_MODEL_TO_PROP_NAME_MAP[pluralisedModel]]: list
 		};
 
-		const PageComponent = listPages[pascalCasify(pluralisedModel)];
+		const PageComponent = listPages[PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP[pluralisedModel]];
 
 		return sendResponse(response, PageComponent, props);
 
