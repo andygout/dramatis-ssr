@@ -26,6 +26,7 @@ import JoinedRoles from './JoinedRoles';
 import List from './List';
 import Navigation from './Navigation';
 import PageTitle from './PageTitle';
+import PrependedAward from './PrependedAward';
 import PrependedCreditedMembers from './PrependedCreditedMembers';
 import ProducerCredits from './ProducerCredits';
 import ProducerEntities from './ProducerEntities';
@@ -61,6 +62,7 @@ export {
 	List,
 	Navigation,
 	PageTitle,
+	PrependedAward,
 	PrependedCreditedMembers,
 	ProducerCredits,
 	ProducerEntities,

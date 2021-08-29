@@ -1,6 +1,7 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
-import { capitalise } from '../lib/strings';
+import { getPluralisedModelFromRoute } from '../lib/get-model';
+import { pascalCasify } from '../lib/strings';
 import { listPages } from '../pages';
 
 export default async (request, response, next) => {
@@ -11,9 +12,15 @@ export default async (request, response, next) => {
 
 		const list = await fetchFromApi(apiPath);
 
-		const pluralisedModel = request.path.split('/')[1];
+		const modelRoute =
+			request.route.path.split('/')
+				.filter(routeComponent => routeComponent !== ':uuid')
+				.filter(Boolean)
+				.join('/');
 
-		const title = capitalise(pluralisedModel);
+		const pluralisedModel = getPluralisedModelFromRoute(modelRoute);
+
+		const title = pascalCasify(pluralisedModel);
 
 		const props = {
 			documentTitle: title,
@@ -21,7 +28,7 @@ export default async (request, response, next) => {
 			[pluralisedModel]: list
 		};
 
-		const PageComponent = listPages[capitalise(pluralisedModel)];
+		const PageComponent = listPages[pascalCasify(pluralisedModel)];
 
 		return sendResponse(response, PageComponent, props);
 

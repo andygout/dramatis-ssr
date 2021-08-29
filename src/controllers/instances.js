@@ -1,7 +1,8 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
 import getDifferentiatorSuffix from '../lib/get-differentiator-suffix';
-import { capitalise, singularise } from '../lib/strings';
+import { getModelFromRoute } from '../lib/get-model';
+import { pascalCasify } from '../lib/strings';
 import { instancePages } from '../pages';
 
 export default async (request, response, next) => {
@@ -14,9 +15,13 @@ export default async (request, response, next) => {
 
 		const { name, differentiator } = instance;
 
-		const pluralisedModel = request.path.split('/')[1];
+		const modelRoute =
+			request.route.path.split('/')
+				.filter(routeComponent => routeComponent !== ':uuid')
+				.filter(Boolean)
+				.join('/');
 
-		const model = singularise(pluralisedModel);
+		const model = getModelFromRoute(modelRoute);
 
 		let documentTitle = `${name} (${model})`;
 
@@ -38,7 +43,7 @@ export default async (request, response, next) => {
 			[model]: instance
 		};
 
-		const PageComponent = instancePages[capitalise(model)];
+		const PageComponent = instancePages[pascalCasify(model)];
 
 		return sendResponse(response, PageComponent, props);
 
