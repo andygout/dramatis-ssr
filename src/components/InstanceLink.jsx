@@ -1,14 +1,12 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { pluralise } from '../lib/strings';
+import { getRouteFromModel } from '../lib/get-route';
 
 const InstanceLink = props => {
 
 	const { instance: { model, uuid, name } } = props;
 
-	const pluralisedModel = pluralise(model);
-
-	const instancePath = `/${pluralisedModel}/${uuid}`;
+	const instancePath = `/${getRouteFromModel(model)}/${uuid}`;
 
 	return (
 		<a href={instancePath}>

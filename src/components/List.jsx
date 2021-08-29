@@ -12,6 +12,7 @@ import {
 	AppendedSubVenues,
 	AppendedVenue,
 	AppendedWritingCredits,
+	PrependedAward,
 	InstanceLink
 } from '.';
 
@@ -25,6 +26,12 @@ const List = props => {
 			{
 				instances.map((instance, index) =>
 					<li key={index}>
+
+						{
+							instance.award && (
+								<PrependedAward award={instance.award} />
+							)
+						}
 
 						{
 							instance.uuid

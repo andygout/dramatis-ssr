@@ -11,6 +11,8 @@ const Navigation = () => {
 
 				<li><a href='/awards'>Awards</a></li>
 
+				<li><a href='/awards/ceremonies'>Award ceremonies</a></li>
+
 				<li><a href='/characters'>Characters</a></li>
 
 				<li><a href='/companies'>Companies</a></li>
