@@ -1,12 +1,12 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { getRouteFromModel } from '../lib/get-route';
+import { MODEL_TO_ROUTE_MAP } from '../utils/constants';
 
 const InstanceLink = props => {
 
 	const { instance: { model, uuid, name } } = props;
 
-	const instancePath = `/${getRouteFromModel(model)}/${uuid}`;
+	const instancePath = `/${MODEL_TO_ROUTE_MAP[model]}/${uuid}`;
 
 	return (
 		<a href={instancePath}>

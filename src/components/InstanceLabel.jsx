@@ -1,12 +1,14 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
+import { MODEL_TO_DISPLAY_NAME_MAP } from '../utils/constants';
+
 const InstanceLabel = props => {
 
-	const { text } = props;
+	const { model } = props;
 
 	return (
 		<div className="instance-label">
-			{ text }
+			{ MODEL_TO_DISPLAY_NAME_MAP[model] }
 		</div>
 	);
 
