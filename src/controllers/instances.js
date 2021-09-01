@@ -1,10 +1,13 @@
 import sendResponse from './helpers/send-response';
 import fetchFromApi from '../lib/fetch-from-api';
 import getDifferentiatorSuffix from '../lib/get-differentiator-suffix';
+import getInstanceTitle from '../lib/get-instance-title';
 import { instancePages } from '../pages';
 import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_PAGE_COMPONENT_MAP, MODEL_TO_PROP_NAME_MAP } from '../utils/constants';
 
-export default async (request, response, next, model) => {
+const compressTitleComponents = components => components.filter(Boolean).join(' ');
+
+export default async (request, response, next) => {
 
 	const apiPath = request.path;
 
@@ -12,21 +15,22 @@ export default async (request, response, next, model) => {
 
 		const instance = await fetchFromApi(apiPath);
 
-		const { name, differentiator } = instance;
+		const { model, differentiator } = instance;
 
-		let documentTitle = `${name} (${MODEL_TO_DISPLAY_NAME_MAP[model]})`;
+		const title = getInstanceTitle(instance);
 
-		let pageTitle = name;
+		const differentiatorSuffix = getDifferentiatorSuffix(differentiator);
 
-		if (differentiator) {
+		const documentTitle = compressTitleComponents([
+			title,
+			`(${MODEL_TO_DISPLAY_NAME_MAP[model]})`,
+			differentiatorSuffix
+		]);
 
-			const differentiatorSuffix = getDifferentiatorSuffix(differentiator);
-
-			documentTitle += differentiatorSuffix;
-
-			pageTitle += differentiatorSuffix;
-
-		}
+		const pageTitle = compressTitleComponents([
+			title,
+			differentiatorSuffix
+		]);
 
 		const props = {
 			documentTitle,

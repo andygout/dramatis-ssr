@@ -4,16 +4,9 @@ import { App, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Venue = props => {
 
-	let { documentTitle, pageTitle } = props;
+	const { documentTitle, pageTitle, venue } = props;
 
-	const { venue: { model, surVenue, subVenues, productions } } = props;
-
-	if (surVenue) {
-
-		documentTitle = `${surVenue.name}: ${documentTitle}`;
-		pageTitle = `${surVenue.name}: ${pageTitle}`;
-
-	}
+	const { model, surVenue, subVenues, productions } = venue;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
