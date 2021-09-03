@@ -8,6 +8,10 @@ export default instance => {
 
 	switch (instance.model) {
 
+		case MODELS.AWARD_CEREMONY:
+			if (instance.award) title = `${instance.award.name} ${title}`;
+			return title;
+
 		case MODELS.VENUE:
 			if (instance.surVenue) title = `${instance.surVenue.name}: ${title}`;
 			return title;
