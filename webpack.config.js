@@ -30,7 +30,7 @@ const serverConfig = {
 								'@babel/preset-env',
 								{
 									targets: {
-										node: '14'
+										node: '16'
 									}
 								}
 							]
@@ -73,9 +73,7 @@ const clientConfig = {
 			{
 				test: /\.scss$/,
 				use: [
-					{
-						loader: MiniCssExtractPlugin.loader
-					},
+					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'sass-loader'
 				]
