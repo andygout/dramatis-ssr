@@ -1,6 +1,13 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, List } from '../../components';
+import {
+	App,
+	AppendedNominatedEmployerCompany,
+	AppendedCoNominatedEntities,
+	InstanceFacet,
+	InstanceLink,
+	List
+} from '../../components';
 
 const Person = props => {
 
@@ -15,7 +22,8 @@ const Person = props => {
 		producerProductions,
 		castMemberProductions,
 		creativeProductions,
-		crewProductions
+		crewProductions,
+		awards
 	} = person;
 
 	return (
@@ -96,6 +104,70 @@ const Person = props => {
 					<InstanceFacet labelText='Productions as crew member'>
 
 						<List instances={crewProductions} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				awards?.length > 0 && (
+					<InstanceFacet labelText='Awards'>
+
+						{
+							awards.map((award, index) =>
+								<Fragment key={index}>
+									<InstanceLink instance={award} />
+
+									<ul className="list">
+
+										{
+											award.ceremonies.map((ceremony, index) =>
+												<li key={index}>
+													<InstanceLink instance={ceremony} />{': '}
+
+													{
+														ceremony.categories
+															.map((category, index) =>
+																<Fragment key={index}>
+																	{ category.name }{': '}
+
+																	{
+																		category.nominations
+																			.map((nomination, index) =>
+																				<Fragment key={index}>
+																					{'Nomination'}
+
+																					{
+																						nomination.nominatedEmployerCompany && (
+																							<AppendedNominatedEmployerCompany
+																								nominatedEmployerCompany={nomination.nominatedEmployerCompany}
+																							/>
+																						)
+																					}
+
+																					{
+																						nomination.coNominatedEntities.length > 0 && (
+																							<AppendedCoNominatedEntities
+																								coNominatedEntities={nomination.coNominatedEntities}
+																							/>
+																						)
+																					}
+																				</Fragment>
+																			)
+																			.reduce((prev, curr) => [prev, ', ', curr])
+																	}
+																</Fragment>
+															)
+															.reduce((prev, curr) => [prev, '; ', curr])
+													}
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
 
 					</InstanceFacet>
 				)
