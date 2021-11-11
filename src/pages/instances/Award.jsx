@@ -6,16 +6,16 @@ const Award = props => {
 
 	const { documentTitle, pageTitle, award } = props;
 
-	const { model, awardCeremonies } = award;
+	const { model, ceremonies } = award;
 
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
-				awardCeremonies?.length > 0 && (
+				ceremonies?.length > 0 && (
 					<InstanceFacet labelText='Ceremonies'>
 
-						<List instances={awardCeremonies} />
+						<List instances={ceremonies} />
 
 					</InstanceFacet>
 				)

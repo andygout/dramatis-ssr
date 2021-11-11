@@ -1,10 +1,13 @@
 import App from './App';
 import AppendedCoCreditedEntities from './AppendedCoCreditedEntities';
+import AppendedCoNominatedEntities from './AppendedCoNominatedEntities';
 import AppendedCreditedEmployerCompany from './AppendedCreditedEmployerCompany';
 import AppendedCreditedMembers from './AppendedCreditedMembers';
 import AppendedDepictions from './AppendedDepictions';
 import AppendedEntities from './AppendedEntities';
 import AppendedFormatAndYear from './AppendedFormatAndYear';
+import AppendedNominatedEmployerCompany from './AppendedNominatedEmployerCompany';
+import AppendedNominatedMembers from './AppendedNominatedMembers';
 import AppendedPerformers from './AppendedPerformers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
 import AppendedProductionDates from './AppendedProductionDates';
@@ -25,6 +28,7 @@ import InstanceLink from './InstanceLink';
 import JoinedRoles from './JoinedRoles';
 import List from './List';
 import Navigation from './Navigation';
+import NominatedEntities from './NominatedEntities';
 import PageTitle from './PageTitle';
 import PrependedAward from './PrependedAward';
 import PrependedCreditedMembers from './PrependedCreditedMembers';
@@ -36,11 +40,14 @@ import WritingEntities from './WritingEntities';
 export {
 	App,
 	AppendedCoCreditedEntities,
+	AppendedCoNominatedEntities,
 	AppendedCreditedEmployerCompany,
 	AppendedCreditedMembers,
 	AppendedDepictions,
 	AppendedEntities,
 	AppendedFormatAndYear,
+	AppendedNominatedEmployerCompany,
+	AppendedNominatedMembers,
 	AppendedPerformers,
 	AppendedPerformerOtherRoles,
 	AppendedProductionDates,
@@ -61,6 +68,7 @@ export {
 	JoinedRoles,
 	List,
 	Navigation,
+	NominatedEntities,
 	PageTitle,
 	PrependedAward,
 	PrependedCreditedMembers,

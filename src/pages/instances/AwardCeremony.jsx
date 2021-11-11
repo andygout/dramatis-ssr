@@ -1,6 +1,6 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, InstanceLink, List } from '../../components';
+import { App, InstanceFacet, InstanceLink, NominatedEntities } from '../../components';
 
 const AwardCeremony = props => {
 
@@ -25,7 +25,25 @@ const AwardCeremony = props => {
 				categories?.length > 0 && (
 					<InstanceFacet labelText='Categories'>
 
-						<List instances={categories} />
+						{
+							categories.map((category, index) =>
+								<Fragment key={index}>
+									{ category.name }
+
+									<ul className="list">
+
+										{
+											category.nominations.map((nomination, index) =>
+												<li key={index}>
+													<NominatedEntities nominatedEntities={nomination.entities} />
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
 
 					</InstanceFacet>
 				)
