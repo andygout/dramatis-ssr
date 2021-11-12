@@ -1,8 +1,8 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, PrependedMembers } from '.';
+import { AppendedMembers, InstanceLink } from '.';
 
-const ProducerEntities = props => {
+const Entities = props => {
 
 	const { entities } = props;
 
@@ -14,16 +14,12 @@ const ProducerEntities = props => {
 					.map((entity, index) =>
 						<Fragment key={index}>
 
-							{
-								entity.members?.length > 0 && (
-									<PrependedMembers members={entity.members} />
-								)
-							}
+							<InstanceLink instance={entity} />
 
 							{
-								entity.uuid
-									? <InstanceLink instance={entity} />
-									: entity.name
+								entity.members?.length > 0 && (
+									<AppendedMembers members={entity.members} />
+								)
 							}
 
 						</Fragment>
@@ -36,4 +32,4 @@ const ProducerEntities = props => {
 
 };
 
-export default ProducerEntities;
+export default Entities;

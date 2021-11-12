@@ -2,9 +2,9 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { CommaSeparatedInstanceLinks, InstanceLink } from '.';
 
-const AppendedNominatedEmployerCompany = props => {
+const AppendedEmployerCompany = props => {
 
-	const { nominatedEmployerCompany } = props;
+	const { employerCompany } = props;
 
 	return (
 		<Fragment>
@@ -12,12 +12,12 @@ const AppendedNominatedEmployerCompany = props => {
 			<Fragment>&nbsp;(</Fragment>
 
 			{
-				nominatedEmployerCompany.coNominatedMembers?.length > 0 && (
+				employerCompany.coMembers?.length > 0 && (
 					<Fragment>
 
 						<Fragment>with&nbsp;</Fragment>
 
-						<CommaSeparatedInstanceLinks instances={nominatedEmployerCompany.coNominatedMembers} />
+						<CommaSeparatedInstanceLinks instances={employerCompany.coMembers} />
 
 						<Fragment>&nbsp;</Fragment>
 
@@ -27,7 +27,7 @@ const AppendedNominatedEmployerCompany = props => {
 
 			<Fragment>for&nbsp;</Fragment>
 
-			<InstanceLink instance={nominatedEmployerCompany} />
+			<InstanceLink instance={employerCompany} />
 
 			<Fragment>)</Fragment>
 
@@ -36,4 +36,4 @@ const AppendedNominatedEmployerCompany = props => {
 
 };
 
-export default AppendedNominatedEmployerCompany;
+export default AppendedEmployerCompany;

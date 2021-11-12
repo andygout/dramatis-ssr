@@ -2,16 +2,16 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { CommaSeparatedInstanceLinks } from '.';
 
-const AppendedNominatedMembers = props => {
+const AppendedMembers = props => {
 
-	const { nominatedMembers } = props;
+	const { members } = props;
 
 	return (
 		<Fragment>
 
 			<Fragment>&nbsp;(</Fragment>
 
-			<CommaSeparatedInstanceLinks instances={nominatedMembers} />
+			<CommaSeparatedInstanceLinks instances={members} />
 
 			<Fragment>)</Fragment>
 
@@ -20,4 +20,4 @@ const AppendedNominatedMembers = props => {
 
 };
 
-export default AppendedNominatedMembers;
+export default AppendedMembers;

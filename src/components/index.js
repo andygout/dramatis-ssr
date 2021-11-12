@@ -1,24 +1,21 @@
 import App from './App';
-import AppendedCoCreditedEntities from './AppendedCoCreditedEntities';
-import AppendedCoNominatedEntities from './AppendedCoNominatedEntities';
-import AppendedCreditedEmployerCompany from './AppendedCreditedEmployerCompany';
-import AppendedCreditedMembers from './AppendedCreditedMembers';
+import AppendedCoEntities from './AppendedCoEntities';
 import AppendedDepictions from './AppendedDepictions';
+import AppendedEmployerCompany from './AppendedEmployerCompany';
 import AppendedEntities from './AppendedEntities';
 import AppendedFormatAndYear from './AppendedFormatAndYear';
-import AppendedNominatedEmployerCompany from './AppendedNominatedEmployerCompany';
-import AppendedNominatedMembers from './AppendedNominatedMembers';
-import AppendedPerformers from './AppendedPerformers';
+import AppendedMembers from './AppendedMembers';
 import AppendedPerformerOtherRoles from './AppendedPerformerOtherRoles';
-import AppendedProductionDates from './AppendedProductionDates';
+import AppendedPerformers from './AppendedPerformers';
 import AppendedProducerCredits from './AppendedProducerCredits';
+import AppendedProductionDates from './AppendedProductionDates';
 import AppendedProductionTeamCredits from './AppendedProductionTeamCredits';
 import AppendedRoles from './AppendedRoles';
 import AppendedSubVenues from './AppendedSubVenues';
 import AppendedVenue from './AppendedVenue';
 import AppendedWritingCredits from './AppendedWritingCredits';
 import CommaSeparatedInstanceLinks from './CommaSeparatedInstanceLinks';
-import CreditedEntities from './CreditedEntities';
+import Entities from './Entities';
 import Footer from './Footer';
 import Head from './Head';
 import Header from './Header';
@@ -28,10 +25,9 @@ import InstanceLink from './InstanceLink';
 import JoinedRoles from './JoinedRoles';
 import List from './List';
 import Navigation from './Navigation';
-import NominatedEntities from './NominatedEntities';
 import PageTitle from './PageTitle';
 import PrependedAward from './PrependedAward';
-import PrependedCreditedMembers from './PrependedCreditedMembers';
+import PrependedMembers from './PrependedMembers';
 import ProducerCredits from './ProducerCredits';
 import ProducerEntities from './ProducerEntities';
 import WritingCredits from './WritingCredits';
@@ -39,26 +35,23 @@ import WritingEntities from './WritingEntities';
 
 export {
 	App,
-	AppendedCoCreditedEntities,
-	AppendedCoNominatedEntities,
-	AppendedCreditedEmployerCompany,
-	AppendedCreditedMembers,
+	AppendedCoEntities,
 	AppendedDepictions,
+	AppendedEmployerCompany,
 	AppendedEntities,
 	AppendedFormatAndYear,
-	AppendedNominatedEmployerCompany,
-	AppendedNominatedMembers,
-	AppendedPerformers,
+	AppendedMembers,
 	AppendedPerformerOtherRoles,
-	AppendedProductionDates,
+	AppendedPerformers,
 	AppendedProducerCredits,
+	AppendedProductionDates,
 	AppendedProductionTeamCredits,
 	AppendedRoles,
 	AppendedSubVenues,
 	AppendedVenue,
 	AppendedWritingCredits,
 	CommaSeparatedInstanceLinks,
-	CreditedEntities,
+	Entities,
 	Footer,
 	Head,
 	Header,
@@ -68,10 +61,9 @@ export {
 	JoinedRoles,
 	List,
 	Navigation,
-	NominatedEntities,
 	PageTitle,
 	PrependedAward,
-	PrependedCreditedMembers,
+	PrependedMembers,
 	ProducerCredits,
 	ProducerEntities,
 	WritingCredits,

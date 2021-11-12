@@ -2,14 +2,14 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { CommaSeparatedInstanceLinks } from '.';
 
-const PrependedCreditedMembers = props => {
+const PrependedMembers = props => {
 
-	const { creditedMembers } = props;
+	const { members } = props;
 
 	return (
 		<Fragment>
 
-			<CommaSeparatedInstanceLinks instances={creditedMembers} />
+			<CommaSeparatedInstanceLinks instances={members} />
 
 			<Fragment>&nbsp;for&nbsp;</Fragment>
 
@@ -18,4 +18,4 @@ const PrependedCreditedMembers = props => {
 
 };
 
-export default PrependedCreditedMembers;
+export default PrependedMembers;

@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { CreditedEntities } from '.';
+import { Entities } from '.';
 
 const AppendedEntities = props => {
 
@@ -11,7 +11,7 @@ const AppendedEntities = props => {
 
 			<Fragment>&nbsp;…&nbsp;</Fragment>
 
-			<CreditedEntities creditedEntities={entities} />
+			<Entities entities={entities} />
 
 		</Fragment>
 	);
