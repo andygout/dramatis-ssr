@@ -1,13 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import {
-	App,
-	AppendedCoNominatedEntities,
-	AppendedNominatedMembers,
-	InstanceFacet,
-	InstanceLink,
-	List
-} from '../../components';
+import { App, AppendedCoEntities, AppendedMembers, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Company = props => {
 
@@ -127,17 +120,17 @@ const Company = props => {
 																					{'Nomination'}
 
 																					{
-																						nomination.nominatedMembers?.length > 0 && (
-																							<AppendedNominatedMembers
-																								nominatedMembers={nomination.nominatedMembers}
+																						nomination.members?.length > 0 && (
+																							<AppendedMembers
+																								members={nomination.members}
 																							/>
 																						)
 																					}
 
 																					{
-																						nomination.coNominatedEntities.length > 0 && (
-																							<AppendedCoNominatedEntities
-																								coNominatedEntities={nomination.coNominatedEntities}
+																						nomination.coEntities.length > 0 && (
+																							<AppendedCoEntities
+																								coEntities={nomination.coEntities}
 																							/>
 																						)
 																					}

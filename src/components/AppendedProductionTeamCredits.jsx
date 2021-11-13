@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedCoCreditedEntities, AppendedCreditedEmployerCompany, AppendedCreditedMembers } from '.';
+import { AppendedCoEntities, AppendedEmployerCompany, AppendedMembers } from '.';
 
 const AppendedProductionTeamCredits = props => {
 
@@ -19,24 +19,20 @@ const AppendedProductionTeamCredits = props => {
 							<Fragment>{ credit.name }</Fragment>
 
 							{
-								credit.creditedMembers?.length > 0 && (
-									<AppendedCreditedMembers creditedMembers={credit.creditedMembers} />
+								credit.members?.length > 0 && (
+									<AppendedMembers members={credit.members} />
 								)
 							}
 
 							{
-								credit.creditedEmployerCompany && (
-									<AppendedCreditedEmployerCompany
-										creditedEmployerCompany={credit.creditedEmployerCompany}
-									/>
+								credit.employerCompany && (
+									<AppendedEmployerCompany employerCompany={credit.employerCompany} />
 								)
 							}
 
 							{
-								credit.coCreditedEntities.length > 0 && (
-									<AppendedCoCreditedEntities
-										coCreditedEntities={credit.coCreditedEntities}
-									/>
+								credit.coEntities.length > 0 && (
+									<AppendedCoEntities coEntities={credit.coEntities} />
 								)
 							}
 
