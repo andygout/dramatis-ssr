@@ -128,7 +128,11 @@ const Person = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					{'Nomination'}
+																					{
+																						nomination.isWinner
+																							? (<span>{'Winner'}</span>)
+																							: (<span>{'Nomination'}</span>)
+																					}
 
 																					{
 																						nomination.employerCompany && (
