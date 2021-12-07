@@ -1,13 +1,15 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
 	AppendedFormatAndYear,
 	AppendedWritingCredits,
+	Entities,
 	InstanceFacet,
 	InstanceLink,
 	List,
-	ProducerCredits
+	ProducerCredits,
+	Productions
 } from '../../components';
 import { formatDate } from '../../lib/format-date';
 
@@ -25,7 +27,8 @@ const Production = props => {
 		producerCredits,
 		cast,
 		creativeCredits,
-		crewCredits
+		crewCredits,
+		awards
 	} = production;
 
 	const dateFormatOptions = { weekday: 'long', month: 'long' };
@@ -138,6 +141,81 @@ const Production = props => {
 					<InstanceFacet labelText='Crew'>
 
 						<List instances={crewCredits} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				awards?.length > 0 && (
+					<InstanceFacet labelText='Awards'>
+
+						{
+							awards.map((award, index) =>
+								<Fragment key={index}>
+									<InstanceLink instance={award} />
+
+									<ul className="list">
+
+										{
+											award.ceremonies.map((ceremony, index) =>
+												<li key={index}>
+													<InstanceLink instance={ceremony} />{': '}
+
+													{
+														ceremony.categories
+															.map((category, index) =>
+																<Fragment key={index}>
+																	{ category.name }{': '}
+
+																	{
+																		category.nominations
+																			.map((nomination, index) =>
+																				<Fragment key={index}>
+																					{
+																						nomination.isWinner
+																							? (<span>{'Winner'}</span>)
+																							: (<span>{'Nomination'}</span>)
+																					}
+
+																					{
+																						nomination.entities.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Entities
+																									entities={nomination.entities}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.coProductions.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' (with '}</Fragment>
+																								<Productions
+																									productions={nomination.coProductions}
+																								/>
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+																				</Fragment>
+																			)
+																			.reduce((prev, curr) => [prev, ', ', curr])
+																	}
+																</Fragment>
+															)
+															.reduce((prev, curr) => [prev, '; ', curr])
+													}
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
 
 					</InstanceFacet>
 				)
