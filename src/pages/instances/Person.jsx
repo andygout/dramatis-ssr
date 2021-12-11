@@ -1,6 +1,14 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, AppendedEmployerCompany, AppendedCoEntities, InstanceFacet, InstanceLink, List } from '../../components';
+import {
+	App,
+	AppendedEmployerCompany,
+	AppendedCoEntities,
+	InstanceFacet,
+	InstanceLink,
+	List,
+	Productions
+} from '../../components';
 
 const Person = props => {
 
@@ -147,6 +155,17 @@ const Person = props => {
 																							<AppendedCoEntities
 																								coEntities={nomination.coEntities}
 																							/>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Productions
+																									productions={nomination.productions}
+																								/>
+																							</Fragment>
 																						)
 																					}
 																				</Fragment>

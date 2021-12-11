@@ -30,6 +30,7 @@ import PrependedAward from './PrependedAward';
 import PrependedMembers from './PrependedMembers';
 import ProducerCredits from './ProducerCredits';
 import ProducerEntities from './ProducerEntities';
+import Productions from './Productions';
 import WritingCredits from './WritingCredits';
 import WritingEntities from './WritingEntities';
 
@@ -66,6 +67,7 @@ export {
 	PrependedMembers,
 	ProducerCredits,
 	ProducerEntities,
+	Productions,
 	WritingCredits,
 	WritingEntities
 };
