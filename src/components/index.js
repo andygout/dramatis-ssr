@@ -24,6 +24,7 @@ import InstanceLabel from './InstanceLabel';
 import InstanceLink from './InstanceLink';
 import JoinedRoles from './JoinedRoles';
 import List from './List';
+import Materials from './Materials';
 import Navigation from './Navigation';
 import PageTitle from './PageTitle';
 import PrependedAward from './PrependedAward';
@@ -61,6 +62,7 @@ export {
 	InstanceLink,
 	JoinedRoles,
 	List,
+	Materials,
 	Navigation,
 	PageTitle,
 	PrependedAward,
