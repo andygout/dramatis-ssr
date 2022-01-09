@@ -4,9 +4,12 @@ import {
 	App,
 	AppendedFormatAndYear,
 	AppendedWritingCredits,
+	Entities,
 	InstanceFacet,
 	InstanceLink,
 	List,
+	Materials,
+	Productions,
 	WritingCredits
 } from '../../components';
 import { capitalise } from '../../lib/strings';
@@ -25,7 +28,8 @@ const Material = props => {
 		subsequentVersionMaterials,
 		productions,
 		sourcingMaterials,
-		sourcingMaterialProductions
+		sourcingMaterialProductions,
+		awards
 	} = material;
 
 	const instanceFacetSubheader = subheaderText =>
@@ -170,6 +174,99 @@ const Material = props => {
 					<InstanceFacet labelText='Productions of materials as source material'>
 
 						<List instances={sourcingMaterialProductions} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				awards?.length > 0 && (
+					<InstanceFacet labelText='Awards'>
+
+						{
+							awards.map((award, index) =>
+								<Fragment key={index}>
+									<InstanceLink instance={award} />
+
+									<ul className="list">
+
+										{
+											award.ceremonies.map((ceremony, index) =>
+												<li key={index}>
+													<InstanceLink instance={ceremony} />{': '}
+
+													{
+														ceremony.categories
+															.map((category, index) =>
+																<Fragment key={index}>
+																	{ category.name }{': '}
+
+																	{
+																		category.nominations
+																			.map((nomination, index) =>
+																				<Fragment key={index}>
+																					{
+																						nomination.isWinner
+																							? (<span>{'Winner'}</span>)
+																							: (<span>{'Nomination'}</span>)
+																					}
+
+																					{
+																						nomination.entities.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Entities
+																									entities={nomination.entities}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Productions
+																									productions={nomination.productions}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 &&
+																						nomination.coMaterials.length > 0 && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.coMaterials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' (with '}</Fragment>
+																								<Materials
+																									materials={nomination.coMaterials}
+																								/>
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+																				</Fragment>
+																			)
+																			.reduce((prev, curr) => [prev, ', ', curr])
+																	}
+																</Fragment>
+															)
+															.reduce((prev, curr) => [prev, '; ', curr])
+													}
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
 
 					</InstanceFacet>
 				)

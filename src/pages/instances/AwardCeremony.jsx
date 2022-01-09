@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, Entities, InstanceFacet, InstanceLink, Productions } from '../../components';
+import { App, Entities, InstanceFacet, InstanceLink, Materials, Productions } from '../../components';
 
 const AwardCeremony = props => {
 
@@ -48,7 +48,11 @@ const AwardCeremony = props => {
 													}
 
 													{
-														nomination.entities.length > 0 && nomination.productions.length > 0 && (
+														nomination.entities.length > 0 &&
+														(
+															nomination.productions.length > 0 ||
+															nomination.materials.length > 0
+														) && (
 															<Fragment>{' for '}</Fragment>
 														)
 													}
@@ -56,6 +60,19 @@ const AwardCeremony = props => {
 													{
 														nomination.productions.length > 0 && (
 															<Productions productions={nomination.productions} />
+														)
+													}
+
+													{
+														nomination.productions.length > 0 &&
+														nomination.materials.length > 0 && (
+															<Fragment>{'; '}</Fragment>
+														)
+													}
+
+													{
+														nomination.materials.length > 0 && (
+															<Materials materials={nomination.materials} />
 														)
 													}
 												</li>

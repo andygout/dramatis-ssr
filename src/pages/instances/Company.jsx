@@ -7,6 +7,7 @@ import {
 	InstanceFacet,
 	InstanceLink,
 	List,
+	Materials,
 	Productions
 } from '../../components';
 
@@ -153,6 +154,24 @@ const Company = props => {
 																								<Fragment>{' for '}</Fragment>
 																								<Productions
 																									productions={nomination.productions}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 &&
+																						nomination.materials.length > 0 && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.materials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Materials
+																									materials={nomination.materials}
 																								/>
 																							</Fragment>
 																						)

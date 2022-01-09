@@ -8,6 +8,7 @@ import {
 	InstanceFacet,
 	InstanceLink,
 	List,
+	Materials,
 	ProducerCredits,
 	Productions
 } from '../../components';
@@ -197,6 +198,24 @@ const Production = props => {
 																									productions={nomination.coProductions}
 																								/>
 																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.coProductions.length > 0 &&
+																						nomination.materials.length > 0 && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.materials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Materials
+																									materials={nomination.materials}
+																								/>
 																							</Fragment>
 																						)
 																					}
