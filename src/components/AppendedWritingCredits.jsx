@@ -4,14 +4,14 @@ import { WritingCredits } from '.';
 
 const AppendedWritingCredits = props => {
 
-	const { writingCredits } = props;
+	const { credits } = props;
 
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;</Fragment>
+			<Fragment>{' '}</Fragment>
 
-			<WritingCredits writingCredits={writingCredits} isAppendage={true} />
+			<WritingCredits credits={credits} isAppendage={true} />
 
 		</Fragment>
 	);

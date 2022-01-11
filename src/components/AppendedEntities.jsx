@@ -9,7 +9,7 @@ const AppendedEntities = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;…&nbsp;</Fragment>
+			<Fragment>{' … '}</Fragment>
 
 			<Entities entities={entities} />
 

@@ -14,19 +14,19 @@ const AppendedDepictions = props => {
 
 							{
 								depiction.displayName && (
-									<Fragment>&nbsp;(as <span className="role-text">{ depiction.displayName }</span>)</Fragment>
+									<Fragment>{' (as '}<span className="role-text">{ depiction.displayName }</span>)</Fragment>
 								)
 							}
 
 							{
 								depiction.qualifier && (
-									<Fragment>&nbsp;({ depiction.qualifier })</Fragment>
+									<Fragment>{` (${depiction.qualifier})`}</Fragment>
 								)
 							}
 
 							{
 								depiction.group && (
-									<Fragment>&nbsp;({ depiction.group })</Fragment>
+									<Fragment>{` (${depiction.group})`}</Fragment>
 								)
 							}
 

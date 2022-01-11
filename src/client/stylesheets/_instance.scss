@@ -1,11 +1,16 @@
-.instance-label {
-	margin-bottom: 20px;
+@mixin label {
 	padding: 0 5px;
 	display: inline-block;
 	border-radius: 2px;
-	border: 2px solid $border-color;
 	background-color: $box-shadow-color;
 	font-weight: bold;
+	border: solid $border-color;
+}
+
+.instance-label {
+	@include label;
+	margin-bottom: 20px;
+	border-width: 2px;
 	text-transform: uppercase;
 }
 
@@ -14,13 +19,9 @@
 }
 
 .instance-facet-label {
+	@include label;
 	margin-bottom: 5px;
-	padding: 0 5px;
-	display: inline-block;
-	border-radius: 2px;
-	background-color: $box-shadow-color;
-	font-weight: bold;
-	border: 1px solid $border-color;
+	border-width: 1px;
 }
 
 .instance-facet-content {

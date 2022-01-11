@@ -9,11 +9,11 @@ const AppendedMembers = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;(</Fragment>
+			<Fragment>{' ('}</Fragment>
 
 			<CommaSeparatedInstanceLinks instances={members} />
 
-			<Fragment>)</Fragment>
+			<Fragment>{')'}</Fragment>
 
 		</Fragment>
 	);

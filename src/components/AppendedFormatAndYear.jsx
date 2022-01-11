@@ -7,7 +7,7 @@ const AppendedFormatAndYear = props => {
 	const displayText = [format, year].filter(Boolean).join(', ');
 
 	return (
-		<Fragment>&nbsp;({ displayText })</Fragment>
+		<Fragment>{` (${displayText})`}</Fragment>
 	);
 
 };

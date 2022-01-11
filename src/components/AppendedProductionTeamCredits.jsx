@@ -9,7 +9,7 @@ const AppendedProductionTeamCredits = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;…&nbsp;</Fragment>
+			<Fragment>{' … '}</Fragment>
 
 			{
 				credits
@@ -31,7 +31,7 @@ const AppendedProductionTeamCredits = props => {
 							}
 
 							{
-								credit.coEntities.length > 0 && (
+								credit.coEntities?.length > 0 && (
 									<AppendedCoEntities coEntities={credit.coEntities} />
 								)
 							}
