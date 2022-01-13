@@ -51,7 +51,7 @@ const Production = props => {
 
 						{
 							material.writingCredits?.length > 0 && (
-								<AppendedWritingCredits writingCredits={material.writingCredits} />
+								<AppendedWritingCredits credits={material.writingCredits} />
 							)
 						}
 
@@ -66,7 +66,7 @@ const Production = props => {
 						{
 							startDate && (
 								<div>
-									<b>Starts:</b>&nbsp;{ formatDate(startDate, dateFormatOptions) }
+									<b>Starts:</b>{` ${formatDate(startDate, dateFormatOptions)}`}
 								</div>
 							)
 						}
@@ -74,7 +74,7 @@ const Production = props => {
 						{
 							pressDate && (
 								<div>
-									<b>Press:</b>&nbsp;{ formatDate(pressDate, dateFormatOptions) }
+									<b>Press:</b>{` ${formatDate(pressDate, dateFormatOptions)}`}
 								</div>
 							)
 						}
@@ -82,7 +82,7 @@ const Production = props => {
 						{
 							endDate && (
 								<div>
-									<b>Ends:</b>&nbsp;{ formatDate(endDate, dateFormatOptions) }
+									<b>Ends:</b>{` ${formatDate(endDate, dateFormatOptions)}`}
 								</div>
 							)
 						}

@@ -52,6 +52,7 @@ const serverConfig = {
 	plugins: [
 		new FaviconsWebpackPlugin({
 			logo: './src/client/assets/favicon.ico',
+			mode: 'light' // Generates only a single favicon for fast compilation time in development mode.
 		})
 	],
 	resolve: {

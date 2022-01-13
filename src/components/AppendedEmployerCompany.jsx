@@ -9,27 +9,27 @@ const AppendedEmployerCompany = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;(</Fragment>
+			<Fragment>{' ('}</Fragment>
 
 			{
 				employerCompany.coMembers?.length > 0 && (
 					<Fragment>
 
-						<Fragment>with&nbsp;</Fragment>
+						<Fragment>{'with '}</Fragment>
 
 						<CommaSeparatedInstanceLinks instances={employerCompany.coMembers} />
 
-						<Fragment>&nbsp;</Fragment>
+						<Fragment>{' '}</Fragment>
 
 					</Fragment>
 				)
 			}
 
-			<Fragment>for&nbsp;</Fragment>
+			<Fragment>{'for '}</Fragment>
 
 			<InstanceLink instance={employerCompany} />
 
-			<Fragment>)</Fragment>
+			<Fragment>{')'}</Fragment>
 
 		</Fragment>
 	);

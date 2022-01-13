@@ -5,15 +5,15 @@ import {
 	AppendedEntities,
 	AppendedFormatAndYear,
 	AppendedPerformers,
-	AppendedProductionDates,
 	AppendedProducerCredits,
+	AppendedProductionDates,
 	AppendedProductionTeamCredits,
 	AppendedRoles,
 	AppendedSubVenues,
 	AppendedVenue,
 	AppendedWritingCredits,
-	PrependedAward,
-	InstanceLink
+	InstanceLink,
+	PrependedAward
 } from '.';
 
 const List = props => {
@@ -36,7 +36,7 @@ const List = props => {
 						{
 							instance.uuid
 								? <InstanceLink instance={instance} />
-								: <Fragment>{ instance.name }</Fragment>
+								: instance.name
 						}
 
 						{
@@ -64,7 +64,7 @@ const List = props => {
 						}
 
 						{
-							instance.startDate && instance.endDate && (
+							(instance.startDate || instance.endDate) && (
 								<AppendedProductionDates startDate={instance.startDate} endDate={instance.endDate} />
 							)
 						}
@@ -77,7 +77,7 @@ const List = props => {
 
 						{
 							instance.writingCredits?.length > 0 && (
-								<AppendedWritingCredits writingCredits={instance.writingCredits} />
+								<AppendedWritingCredits credits={instance.writingCredits} />
 							)
 						}
 
@@ -119,7 +119,7 @@ const List = props => {
 
 						{
 							instance.qualifier && (
-								<Fragment>&nbsp;({instance.qualifier})</Fragment>
+								<Fragment>{` (${instance.qualifier})`}</Fragment>
 							)
 						}
 

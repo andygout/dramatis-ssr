@@ -9,11 +9,11 @@ const AppendedCoEntities = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;(with&nbsp;</Fragment>
+			<Fragment>{' (with '}</Fragment>
 
 			<Entities entities={coEntities} />
 
-			<Fragment>)</Fragment>
+			<Fragment>{')'}</Fragment>
 
 		</Fragment>
 	);

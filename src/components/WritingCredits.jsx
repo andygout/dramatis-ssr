@@ -5,28 +5,29 @@ import { capitalise } from '../lib/strings';
 
 const WritingCredits = props => {
 
-	const { writingCredits, isAppendage } = props;
+	const { credits, isAppendage } = props;
 
 	return (
 		<Fragment>
 
 			{
-				writingCredits
-					.map((writingCredit, index) => {
+				credits
+					.map((credit, index) => {
 
-						const writingCreditName = !isAppendage && index === 0
-							? capitalise(writingCredit.name)
-							: writingCredit.name;
+						const creditName = !isAppendage && index === 0
+							? capitalise(credit.name)
+							: credit.name;
 
 						return (
 							<Fragment key={index}>
 
-								<Fragment>{ writingCreditName }&nbsp;</Fragment>
+								<Fragment>{`${creditName} `}</Fragment>
 
-								<WritingEntities entities={writingCredit.entities} />
+								<WritingEntities entities={credit.entities} />
 
 							</Fragment>
 						);
+
 					})
 					.reduce((prev, curr) => [prev, '; ', curr])
 			}

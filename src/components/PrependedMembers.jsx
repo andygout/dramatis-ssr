@@ -11,7 +11,7 @@ const PrependedMembers = props => {
 
 			<CommaSeparatedInstanceLinks instances={members} />
 
-			<Fragment>&nbsp;for&nbsp;</Fragment>
+			<Fragment>{' for '}</Fragment>
 
 		</Fragment>
 	);

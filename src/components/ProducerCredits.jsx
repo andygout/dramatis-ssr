@@ -21,7 +21,7 @@ const ProducerCredits = props => {
 						return (
 							<Fragment key={index}>
 
-								<Fragment>{ creditName }&nbsp;</Fragment>
+								<Fragment>{`${creditName} `}</Fragment>
 
 								<ProducerEntities entities={credit.entities} />
 

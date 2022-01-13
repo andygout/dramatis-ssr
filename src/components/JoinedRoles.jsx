@@ -22,13 +22,13 @@ const JoinedRoles = props => {
 
 							{
 								instance.qualifier && (
-									<Fragment>&nbsp;({ instance.qualifier })</Fragment>
+									<Fragment>{` (${instance.qualifier})`}</Fragment>
 								)
 							}
 
 							{
 								instance.isAlternate && (
-									<Fragment>&nbsp;(alt)</Fragment>
+									<Fragment>{' (alt)'}</Fragment>
 								)
 							}
 

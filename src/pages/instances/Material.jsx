@@ -62,7 +62,7 @@ const Material = props => {
 				writingCredits?.length > 0 && (
 					<InstanceFacet labelText='Writers'>
 
-						<WritingCredits writingCredits={writingCredits} isAppendage={false} />
+						<WritingCredits credits={writingCredits} isAppendage={false} />
 
 					</InstanceFacet>
 				)
@@ -131,7 +131,7 @@ const Material = props => {
 
 						{
 							originalVersionMaterial.writingCredits?.length > 0 && (
-								<AppendedWritingCredits writingCredits={originalVersionMaterial.writingCredits} />
+								<AppendedWritingCredits credits={originalVersionMaterial.writingCredits} />
 							)
 						}
 

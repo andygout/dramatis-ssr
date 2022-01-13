@@ -10,6 +10,6 @@ export const formatDate = (dateString, customOptions = {}) => {
 
 	const options = Object.assign({}, defaultOptions, customOptions);
 
-	return new Intl.DateTimeFormat('en-GB', options).format(date);
+	return new Intl.DateTimeFormat('en-GB', options).format(date).replace('Sept', 'Sep');
 
 };

@@ -83,7 +83,7 @@ const Person = props => {
 
 			{
 				castMemberProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions'>
+					<InstanceFacet labelText='Productions as cast member'>
 
 						<List instances={castMemberProductions} />
 

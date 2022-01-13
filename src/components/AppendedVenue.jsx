@@ -9,11 +9,11 @@ const AppendedVenue = props => {
 	return (
 		<Fragment>
 
-			<Fragment>&nbsp;-&nbsp;</Fragment>
+			<Fragment>{' - '}</Fragment>
 
 			{
 				venue.surVenue && (
-					<Fragment><InstanceLink instance={venue.surVenue} />:&nbsp;</Fragment>
+					<Fragment><InstanceLink instance={venue.surVenue} />{': '}</Fragment>
 				)
 			}
 
