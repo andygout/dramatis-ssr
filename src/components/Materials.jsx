@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormatAndYear, InstanceLink } from '.';
+import { AppendedFormatAndYear, AppendedWritingCredits, InstanceLink } from '.';
 
 const Materials = props => {
 
@@ -19,6 +19,12 @@ const Materials = props => {
 							{
 								(material.format || material.year) && (
 									<AppendedFormatAndYear format={material.format} year={material.year} />
+								)
+							}
+
+							{
+								material.writingCredits?.length > 0 && (
+									<AppendedWritingCredits credits={material.writingCredits} />
 								)
 							}
 
