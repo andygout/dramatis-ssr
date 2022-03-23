@@ -29,7 +29,9 @@ const Material = props => {
 		productions,
 		sourcingMaterials,
 		sourcingMaterialProductions,
-		awards
+		awards,
+		subsequentVersionMaterialAwards,
+		sourcingMaterialAwards
 	} = material;
 
 	const instanceFacetSubheader = subheaderText =>
@@ -246,6 +248,214 @@ const Material = props => {
 																								<Fragment>{' (with '}</Fragment>
 																								<Materials
 																									materials={nomination.coMaterials}
+																								/>
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+																				</Fragment>
+																			)
+																			.reduce((prev, curr) => [prev, ', ', curr])
+																	}
+																</Fragment>
+															)
+															.reduce((prev, curr) => [prev, '; ', curr])
+													}
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				subsequentVersionMaterialAwards?.length > 0 && (
+					<InstanceFacet labelText='Awards for subsequent versions'>
+
+						{
+							subsequentVersionMaterialAwards.map((subsequentVersionMaterialAward, index) =>
+								<Fragment key={index}>
+									<InstanceLink instance={subsequentVersionMaterialAward} />
+
+									<ul className="list">
+
+										{
+											subsequentVersionMaterialAward.ceremonies.map((ceremony, index) =>
+												<li key={index}>
+													<InstanceLink instance={ceremony} />{': '}
+
+													{
+														ceremony.categories
+															.map((category, index) =>
+																<Fragment key={index}>
+																	{ category.name }{': '}
+
+																	{
+																		category.nominations
+																			.map((nomination, index) =>
+																				<Fragment key={index}>
+																					{
+																						nomination.isWinner
+																							? (<span>{'Winner'}</span>)
+																							: (<span>{'Nomination'}</span>)
+																					}
+
+																					{
+																						nomination.subsequentVersionMaterials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Materials
+																									materials={nomination.subsequentVersionMaterials}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.entities.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Entities
+																									entities={nomination.entities}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Productions
+																									productions={nomination.productions}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 &&
+																						nomination.materials.length > 0 && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.materials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' (with '}</Fragment>
+																								<Materials
+																									materials={nomination.materials}
+																								/>
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+																				</Fragment>
+																			)
+																			.reduce((prev, curr) => [prev, ', ', curr])
+																	}
+																</Fragment>
+															)
+															.reduce((prev, curr) => [prev, '; ', curr])
+													}
+												</li>
+											)
+										}
+
+									</ul>
+								</Fragment>
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				sourcingMaterialAwards?.length > 0 && (
+					<InstanceFacet labelText='Awards for materials as source material'>
+
+						{
+							sourcingMaterialAwards.map((sourcingMaterialAward, index) =>
+								<Fragment key={index}>
+									<InstanceLink instance={sourcingMaterialAward} />
+
+									<ul className="list">
+
+										{
+											sourcingMaterialAward.ceremonies.map((ceremony, index) =>
+												<li key={index}>
+													<InstanceLink instance={ceremony} />{': '}
+
+													{
+														ceremony.categories
+															.map((category, index) =>
+																<Fragment key={index}>
+																	{ category.name }{': '}
+
+																	{
+																		category.nominations
+																			.map((nomination, index) =>
+																				<Fragment key={index}>
+																					{
+																						nomination.isWinner
+																							? (<span>{'Winner'}</span>)
+																							: (<span>{'Nomination'}</span>)
+																					}
+
+																					{
+																						nomination.sourcingMaterials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Materials
+																									materials={nomination.sourcingMaterials}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.entities.length > 0 && (
+																							<Fragment>
+																								<Fragment>{': '}</Fragment>
+																								<Entities
+																									entities={nomination.entities}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' for '}</Fragment>
+																								<Productions
+																									productions={nomination.productions}
+																								/>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.productions.length > 0 &&
+																						nomination.materials.length > 0 && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.materials.length > 0 && (
+																							<Fragment>
+																								<Fragment>{' (with '}</Fragment>
+																								<Materials
+																									materials={nomination.materials}
 																								/>
 																								<Fragment>{')'}</Fragment>
 																							</Fragment>
