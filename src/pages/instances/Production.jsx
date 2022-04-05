@@ -174,9 +174,11 @@ const Production = props => {
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
 																					{
-																						nomination.isWinner
-																							? (<span>{'Winner'}</span>)
-																							: (<span>{'Nomination'}</span>)
+																						nomination.customType
+																							? (<span>{nomination.customType}</span>)
+																							: nomination.isWinner
+																								? (<span>{'Winner'}</span>)
+																								: (<span>{'Nomination'}</span>)
 																					}
 
 																					{
