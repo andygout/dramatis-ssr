@@ -130,13 +130,7 @@ const Company = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					{
-																						nomination.customType
-																							? (<span>{nomination.customType}</span>)
-																							: nomination.isWinner
-																								? (<span>{'Winner'}</span>)
-																								: (<span>{'Nomination'}</span>)
-																					}
+																					<span>{nomination.type}</span>
 
 																					{
 																						nomination.members?.length > 0 && (
@@ -229,13 +223,7 @@ const Company = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					{
-																						nomination.customType
-																							? (<span>{nomination.customType}</span>)
-																							: nomination.isWinner
-																								? (<span>{'Winner'}</span>)
-																								: (<span>{'Nomination'}</span>)
-																					}
+																					<span>{nomination.type}</span>
 
 																					{
 																						nomination.subsequentVersionMaterials.length > 0 && (
@@ -331,13 +319,7 @@ const Company = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					{
-																						nomination.customType
-																							? (<span>{nomination.customType}</span>)
-																							: nomination.isWinner
-																								? (<span>{'Winner'}</span>)
-																								: (<span>{'Nomination'}</span>)
-																					}
+																					<span>{nomination.type}</span>
 
 																					{
 																						nomination.sourcingMaterials.length > 0 && (
@@ -433,13 +415,7 @@ const Company = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					{
-																						nomination.customType
-																							? (<span>{nomination.customType}</span>)
-																							: nomination.isWinner
-																								? (<span>{'Winner'}</span>)
-																								: (<span>{'Nomination'}</span>)
-																					}
+																					<span>{nomination.type}</span>
 
 																					{
 																						nomination.rightsGrantorMaterials.length > 0 && (
