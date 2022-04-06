@@ -141,7 +141,9 @@ const Person = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					<span>{nomination.type}</span>
+																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+																						{nomination.type}
+																					</span>
 
 																					{
 																						nomination.employerCompany && (
@@ -234,7 +236,9 @@ const Person = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					<span>{nomination.type}</span>
+																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+																						{nomination.type}
+																					</span>
 
 																					{
 																						nomination.subsequentVersionMaterials.length > 0 && (
@@ -330,7 +334,9 @@ const Person = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					<span>{nomination.type}</span>
+																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+																						{nomination.type}
+																					</span>
 
 																					{
 																						nomination.sourcingMaterials.length > 0 && (
@@ -426,7 +432,9 @@ const Person = props => {
 																		category.nominations
 																			.map((nomination, index) =>
 																				<Fragment key={index}>
-																					<span>{nomination.type}</span>
+																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+																						{nomination.type}
+																					</span>
 
 																					{
 																						nomination.rightsGrantorMaterials.length > 0 && (

@@ -35,7 +35,9 @@ const AwardCeremony = props => {
 										{
 											category.nominations.map((nomination, index) =>
 												<li key={index}>
-													<span>{`${nomination.type}: `}</span>
+													<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+														{`${nomination.type}: `}
+													</span>
 
 													{
 														nomination.entities.length > 0 && (
