@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormatAndYear, AppendedWritingCredits, InstanceLink } from '.';
+import { AppendedFormatAndYear, AppendedWritingCredits, InstanceLink, PrependedSurMaterial } from '.';
 
 const Materials = props => {
 
@@ -13,6 +13,12 @@ const Materials = props => {
 				materials
 					.map((material, index) =>
 						<Fragment key={index}>
+
+							{
+								material.surMaterial && (
+									<PrependedSurMaterial surMaterial={material.surMaterial} />
+								)
+							}
 
 							<InstanceLink instance={material} />
 

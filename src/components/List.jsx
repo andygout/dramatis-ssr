@@ -13,7 +13,8 @@ import {
 	AppendedVenue,
 	AppendedWritingCredits,
 	InstanceLink,
-	PrependedAward
+	PrependedAward,
+	PrependedSurMaterial
 } from '.';
 
 const List = props => {
@@ -30,6 +31,12 @@ const List = props => {
 						{
 							instance.award && (
 								<PrependedAward award={instance.award} />
+							)
+						}
+
+						{
+							instance.surMaterial && (
+								<PrependedSurMaterial surMaterial={instance.surMaterial} />
 							)
 						}
 
