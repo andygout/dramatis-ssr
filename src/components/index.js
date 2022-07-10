@@ -29,6 +29,7 @@ import Navigation from './Navigation';
 import PageTitle from './PageTitle';
 import PrependedAward from './PrependedAward';
 import PrependedMembers from './PrependedMembers';
+import PrependedSurMaterial from './PrependedSurMaterial';
 import ProducerCredits from './ProducerCredits';
 import ProducerEntities from './ProducerEntities';
 import Productions from './Productions';
@@ -67,6 +68,7 @@ export {
 	PageTitle,
 	PrependedAward,
 	PrependedMembers,
+	PrependedSurMaterial,
 	ProducerCredits,
 	ProducerEntities,
 	Productions,

@@ -12,6 +12,10 @@ export default instance => {
 			if (instance.award) title = `${instance.award.name} ${title}`;
 			return title;
 
+		case MODELS.MATERIAL:
+			if (instance.surMaterial) title = `${instance.surMaterial.name}: ${title}`;
+			return title;
+
 		case MODELS.VENUE:
 			if (instance.surVenue) title = `${instance.surVenue.name}: ${title}`;
 			return title;

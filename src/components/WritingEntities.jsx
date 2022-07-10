@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormatAndYear, InstanceLink, WritingCredits } from '.';
+import { AppendedFormatAndYear, InstanceLink, PrependedSurMaterial, WritingCredits } from '.';
 
 const WritingEntities = props => {
 
@@ -13,6 +13,12 @@ const WritingEntities = props => {
 				entities
 					.map((entity, index) =>
 						<Fragment key={index}>
+
+							{
+								entity.surMaterial && (
+									<PrependedSurMaterial surMaterial={entity.surMaterial} />
+								)
+							}
 
 							{
 								entity.uuid

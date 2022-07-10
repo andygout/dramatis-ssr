@@ -9,6 +9,7 @@ import {
 	InstanceLink,
 	List,
 	Materials,
+	PrependedSurMaterial,
 	ProducerCredits,
 	Productions
 } from '../../components';
@@ -41,13 +42,19 @@ const Production = props => {
 				material && (
 					<InstanceFacet labelText='Material'>
 
+						{
+							material.surMaterial && (
+								<PrependedSurMaterial surMaterial={material.surMaterial} />
+							)
+						}
+
 						<InstanceLink instance={material} />
 
-							{
-								(material.format || material.year) && (
-									<AppendedFormatAndYear format={material.format} year={material.year} />
-								)
-							}
+						{
+							(material.format || material.year) && (
+								<AppendedFormatAndYear format={material.format} year={material.year} />
+							)
+						}
 
 						{
 							material.writingCredits?.length > 0 && (

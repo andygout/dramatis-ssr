@@ -23,6 +23,8 @@ const Material = props => {
 		format,
 		year,
 		writingCredits,
+		surMaterial,
+		subMaterials,
 		characterGroups,
 		originalVersionMaterial,
 		subsequentVersionMaterials,
@@ -65,6 +67,41 @@ const Material = props => {
 					<InstanceFacet labelText='Writers'>
 
 						<WritingCredits credits={writingCredits} isAppendage={false} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				surMaterial && (
+					<InstanceFacet labelText='Part of'>
+
+						<InstanceLink instance={surMaterial} />
+
+						{
+							(surMaterial.format || surMaterial.year) && (
+								<AppendedFormatAndYear
+									format={surMaterial.format}
+									year={surMaterial.year}
+								/>
+							)
+						}
+
+						{
+							surMaterial.writingCredits?.length > 0 && (
+								<AppendedWritingCredits credits={surMaterial.writingCredits} />
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				subMaterials?.length > 0 && (
+					<InstanceFacet labelText='Comprises'>
+
+						<List instances={subMaterials} />
 
 					</InstanceFacet>
 				)
@@ -235,6 +272,31 @@ const Material = props => {
 
 																					{
 																						nomination.productions.length > 0 &&
+																						(nomination.recipientMaterial || nomination.coMaterials.length > 0) && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.recipientMaterial && (
+																							<Fragment>
+																								<Fragment>{' (for '}</Fragment>
+																								<InstanceLink instance={nomination.recipientMaterial} />
+																								{
+																									(nomination.recipientMaterial.format || nomination.recipientMaterial.year) && (
+																										<AppendedFormatAndYear
+																											format={nomination.recipientMaterial.format}
+																											year={nomination.recipientMaterial.year}
+																										/>
+																									)
+																								}
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.recipientMaterial &&
 																						nomination.coMaterials.length > 0 && (
 																							<Fragment>{';'}</Fragment>
 																						)
