@@ -1,8 +1,10 @@
+@use 'lib/color-variables';
+
 .title-text {
 	margin: 0 5px 20px 5px;
 	padding-bottom: 0px;
 	font-size: xx-large;
-	color: $theme-color;
+	color: color-variables.$theme-color;
 }
 
 .role-text {

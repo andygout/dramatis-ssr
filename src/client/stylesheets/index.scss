@@ -1,11 +1,11 @@
-@import 'lib/color-variables';
+@use 'lib/color-variables';
 
-@import 'normalize';
+@use 'normalize';
 
-@import 'footer';
-@import 'header';
-@import 'instance';
-@import 'list';
-@import 'navigation';
-@import 'page';
-@import 'text';
+@use 'footer';
+@use 'header';
+@use 'instance';
+@use 'list';
+@use 'navigation';
+@use 'page';
+@use 'text';
