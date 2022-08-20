@@ -1,15 +1,17 @@
+@use 'lib/color-variables';
+
 .header {
-	background-color: $header-background-color;
+	background-color: color-variables.$header-background-color;
 	padding: 0 10px;
 }
 
 .header__home-link {
 	font-size: 65px;
 	font-weight: bold;
-	color: $header-text-color;
+	color: color-variables.$header-text-color;
 	transition: color 0.5s;
 
 	&:hover {
-		color: $header-text-color-hover;
+		color: color-variables.$header-text-color-hover;
 	}
 }

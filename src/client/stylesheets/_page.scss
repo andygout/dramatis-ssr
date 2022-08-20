@@ -1,15 +1,17 @@
+@use 'lib/color-variables';
+
 * {
 	margin: 0;
 	padding: 0;
 	font-family: arial, sans-serif;
-	color: $default-text-color;
+	color: color-variables.$default-text-color;
 	text-decoration: none;
 }
 
 html {
 	height: 100%;
 	text-align: center;
-	background-color: $html-background-color;
+	background-color: color-variables.$html-background-color;
 }
 
 body {
@@ -19,10 +21,10 @@ body {
 }
 
 a {
-	color: $theme-color;
+	color: color-variables.$theme-color;
 
 	&:hover {
-		color: $default-text-color;
+		color: color-variables.$default-text-color;
 	}
 }
 
@@ -32,11 +34,11 @@ a {
 	margin: 0 auto;
 	width: 1000px;
 	flex-direction: column;
-	background-color: $content-background-color;
-	border-left: solid $border-color;
-	border-right: solid $border-color;
+	background-color: color-variables.$content-background-color;
+	border-left: solid color-variables.$border-color;
+	border-right: solid color-variables.$border-color;
 	border-width: 0 2px 2px;
-	box-shadow:  5px 5px 100px $border-color, 5px 5px 100px $box-shadow-color;
+	box-shadow:  5px 5px 100px color-variables.$border-color, 5px 5px 100px color-variables.$box-shadow-color;
 	text-align: left;
 }
 

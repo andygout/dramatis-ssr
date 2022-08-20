@@ -1,10 +1,12 @@
+@use 'lib/color-variables';
+
 @mixin label {
 	padding: 0 5px;
 	display: inline-block;
 	border-radius: 2px;
-	background-color: $box-shadow-color;
+	background-color: color-variables.$box-shadow-color;
 	font-weight: bold;
-	border: solid $border-color;
+	border: solid color-variables.$border-color;
 }
 
 .instance-label {

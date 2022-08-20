@@ -1,6 +1,8 @@
+@use 'lib/color-variables';
+
 .footer {
 	height: 20px;
-	background-color: $header-background-color;
+	background-color: color-variables.$header-background-color;
 	font-weight: bold;
 }
 
@@ -8,7 +10,7 @@
 	margin-top: 4px;
 	padding: 0 10px;
 	font-size: x-small;
-	color: $header-text-color;
+	color: color-variables.$header-text-color;
 }
 
 .footer__text--left {
