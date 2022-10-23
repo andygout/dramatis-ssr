@@ -4,12 +4,12 @@ import { App, InstanceFacet, InstanceLink, List } from '../../components';
 
 const Venue = props => {
 
-	const { documentTitle, pageTitle, venue } = props;
+	const { currentPath, documentTitle, pageTitle, venue } = props;
 
 	const { model, surVenue, subVenues, productions } = venue;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				surVenue && (

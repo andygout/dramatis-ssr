@@ -4,12 +4,12 @@ import { App, InstanceFacet, List } from '../../components';
 
 const Award = props => {
 
-	const { documentTitle, pageTitle, award } = props;
+	const { currentPath, documentTitle, pageTitle, award } = props;
 
 	const { model, ceremonies } = award;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				ceremonies?.length > 0 && (

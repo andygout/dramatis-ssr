@@ -1,10 +1,11 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
+import { CurrentPath } from '../contexts';
 
 const App = props => {
 
-	const { documentTitle, pageTitle, model, children } = props;
+	const { currentPath, documentTitle, pageTitle, model, children } = props;
 
 	return (
 		<html>
@@ -29,7 +30,11 @@ const App = props => {
 
 						<PageTitle text={pageTitle} />
 
-						{ children }
+						<CurrentPath.Provider value={currentPath}>
+
+							{ children }
+
+						</CurrentPath.Provider>
 
 					</main>
 

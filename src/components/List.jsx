@@ -40,11 +40,7 @@ const List = props => {
 							)
 						}
 
-						{
-							instance.uuid
-								? <InstanceLink instance={instance} />
-								: instance.name
-						}
+						<InstanceLink instance={instance} />
 
 						{
 							(instance.format || instance.year) && (

@@ -9,11 +9,11 @@ const compressTitleComponents = components => components.filter(Boolean).join(' 
 
 export default async (request, response, next) => {
 
-	const apiPath = request.path;
+	const { path } = request;
 
 	try {
 
-		const instance = await fetchFromApi(apiPath);
+		const instance = await fetchFromApi(path);
 
 		const { model, differentiator } = instance;
 
@@ -33,6 +33,7 @@ export default async (request, response, next) => {
 		]);
 
 		const props = {
+			currentPath: path,
 			documentTitle,
 			pageTitle,
 			[MODEL_TO_PROP_NAME_MAP[model]]: instance

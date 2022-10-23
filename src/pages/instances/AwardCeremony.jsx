@@ -4,12 +4,12 @@ import { App, Entities, InstanceFacet, InstanceLink, Materials, Productions } fr
 
 const AwardCeremony = props => {
 
-	const { documentTitle, pageTitle, awardCeremony } = props;
+	const { currentPath, documentTitle, pageTitle, awardCeremony } = props;
 
 	const { model, award, categories } = awardCeremony;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				award && (

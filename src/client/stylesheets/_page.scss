@@ -26,6 +26,14 @@ a {
 	&:hover {
 		color: color-variables.$default-text-color;
 	}
+
+	&.active {
+		color: color-variables.$default-text-color;
+
+		&:hover {
+			cursor: auto;
+		}
+	}
 }
 
 .page-container {
