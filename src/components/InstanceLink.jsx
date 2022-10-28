@@ -1,4 +1,7 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { useContext } from 'preact/hooks';
+
+import { CurrentPath } from '../contexts';
 
 import { MODEL_TO_ROUTE_MAP } from '../utils/constants';
 
@@ -8,8 +11,14 @@ const InstanceLink = props => {
 
 	const instancePath = `/${MODEL_TO_ROUTE_MAP[model]}/${uuid}`;
 
+	const currentPath = useContext(CurrentPath);
+
 	return (
-		<a href={instancePath}>
+		<a
+			href={instancePath === currentPath ? null : instancePath}
+			className={instancePath === currentPath ? 'active' : null}
+			aria-current={instancePath === currentPath ? 'page' : null}
+		>
 			{ name }
 		</a>
 	);

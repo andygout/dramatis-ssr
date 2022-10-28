@@ -4,12 +4,12 @@ import { App, InstanceFacet, JoinedRoles, List } from '../../components';
 
 const Character = props => {
 
-	const { documentTitle, pageTitle, character } = props;
+	const { currentPath, documentTitle, pageTitle, character } = props;
 
 	const { model, variantNamedDepictions, materials, variantNamedPortrayals, productions } = character;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				variantNamedDepictions?.length > 0 && (

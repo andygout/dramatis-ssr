@@ -17,7 +17,7 @@ import { formatDate } from '../../lib/format-date';
 
 const Production = props => {
 
-	const { documentTitle, pageTitle, production } = props;
+	const { currentPath, documentTitle, pageTitle, production } = props;
 
 	const {
 		model,
@@ -36,7 +36,7 @@ const Production = props => {
 	const dateFormatOptions = { weekday: 'long', month: 'long' };
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				material && (

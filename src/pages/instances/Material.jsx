@@ -16,7 +16,7 @@ import { capitalise } from '../../lib/strings';
 
 const Material = props => {
 
-	const { documentTitle, pageTitle, material } = props;
+	const { currentPath, documentTitle, pageTitle, material } = props;
 
 	const {
 		model,
@@ -40,7 +40,7 @@ const Material = props => {
 		<div className="instance-facet-subheader">{ subheaderText }</div>;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				format && (

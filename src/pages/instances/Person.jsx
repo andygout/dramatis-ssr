@@ -14,7 +14,7 @@ import {
 
 const Person = props => {
 
-	const { documentTitle, pageTitle, person } = props;
+	const { currentPath, documentTitle, pageTitle, person } = props;
 
 	const {
 		model,
@@ -33,7 +33,7 @@ const Person = props => {
 	} = person;
 
 	return (
-		<App documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
 
 			{
 				materials?.length > 0 && (
