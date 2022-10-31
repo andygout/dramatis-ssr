@@ -20,7 +20,7 @@ const AppendedPerformers = props => {
 
 							<Fragment>{' … '}</Fragment>
 
-							<span className="role-text">
+							<span className="fictional-name-text">
 
 								{
 									performer.roleName

@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, JoinedRoles, List } from '../../components';
+import { App, InstanceFacet, List } from '../../components';
 
 const Character = props => {
 
@@ -15,7 +15,11 @@ const Character = props => {
 				variantNamedDepictions?.length > 0 && (
 					<InstanceFacet labelText='Variant named depictions'>
 
-						<JoinedRoles instances={variantNamedDepictions} />
+						<span className="fictional-name-text">
+
+							{ variantNamedDepictions.join(' / ') }
+
+						</span>
 
 					</InstanceFacet>
 				)
@@ -35,7 +39,11 @@ const Character = props => {
 				variantNamedPortrayals?.length > 0 && (
 					<InstanceFacet labelText='Variant named portrayals'>
 
-						<JoinedRoles instances={variantNamedPortrayals} />
+						<span className="fictional-name-text">
+
+							{ variantNamedPortrayals.join(' / ') }
+
+						</span>
 
 					</InstanceFacet>
 				)

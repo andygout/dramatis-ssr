@@ -7,7 +7,7 @@ const JoinedRoles = props => {
 	const { instances } = props;
 
 	return (
-		<span className="role-text">
+		<span className="fictional-name-text">
 
 			{
 				instances
@@ -17,7 +17,7 @@ const JoinedRoles = props => {
 							{
 								instance.uuid
 									? <InstanceLink instance={instance} />
-									: instance.name || instance
+									: instance.name
 							}
 
 							{
