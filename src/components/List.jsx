@@ -14,7 +14,7 @@ import {
 	AppendedWritingCredits,
 	InstanceLink,
 	PrependedAward,
-	PrependedSurMaterial
+	PrependedSurInstance
 } from '.';
 
 const List = props => {
@@ -36,7 +36,13 @@ const List = props => {
 
 						{
 							instance.surMaterial && (
-								<PrependedSurMaterial surMaterial={instance.surMaterial} />
+								<PrependedSurInstance surInstance={instance.surMaterial} />
+							)
+						}
+
+						{
+							instance.surProduction && (
+								<PrependedSurInstance surInstance={instance.surProduction} />
 							)
 						}
 

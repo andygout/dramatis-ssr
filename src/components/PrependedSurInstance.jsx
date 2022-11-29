@@ -2,14 +2,14 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import { InstanceLink } from '.';
 
-const PrependedSurMaterial = props => {
+const PrependedSurInstance = props => {
 
-	const { surMaterial } = props;
+	const { surInstance } = props;
 
 	return (
 		<Fragment>
 
-			<InstanceLink instance={surMaterial} />
+			<InstanceLink instance={surInstance} />
 
 			<Fragment>{': '}</Fragment>
 
@@ -18,4 +18,4 @@ const PrependedSurMaterial = props => {
 
 };
 
-export default PrependedSurMaterial;
+export default PrependedSurInstance;

@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedVenue, InstanceLink } from '.';
+import { AppendedVenue, InstanceLink, PrependedSurInstance } from '.';
 
 const Productions = props => {
 
@@ -13,6 +13,12 @@ const Productions = props => {
 				productions
 					.map((production, index) =>
 						<Fragment key={index}>
+
+							{
+								production.surProduction && (
+									<PrependedSurInstance surInstance={production.surProduction} />
+								)
+							}
 
 							<InstanceLink instance={production} />
 
