@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormatAndYear, InstanceLink, PrependedSurMaterial, WritingCredits } from '.';
+import { AppendedFormatAndYear, InstanceLink, PrependedSurInstance, WritingCredits } from '.';
 
 const WritingEntities = props => {
 
@@ -16,7 +16,7 @@ const WritingEntities = props => {
 
 							{
 								entity.surMaterial && (
-									<PrependedSurMaterial surMaterial={entity.surMaterial} />
+									<PrependedSurInstance surInstance={entity.surMaterial} />
 								)
 							}
 

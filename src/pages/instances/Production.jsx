@@ -3,13 +3,15 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 import {
 	App,
 	AppendedFormatAndYear,
+	AppendedProductionDates,
+	AppendedVenue,
 	AppendedWritingCredits,
 	Entities,
 	InstanceFacet,
 	InstanceLink,
 	List,
 	Materials,
-	PrependedSurMaterial,
+	PrependedSurInstance,
 	ProducerCredits,
 	Productions
 } from '../../components';
@@ -26,6 +28,8 @@ const Production = props => {
 		pressDate,
 		endDate,
 		venue,
+		surProduction,
+		subProductions,
 		producerCredits,
 		cast,
 		creativeCredits,
@@ -44,7 +48,7 @@ const Production = props => {
 
 						{
 							material.surMaterial && (
-								<PrependedSurMaterial surMaterial={material.surMaterial} />
+								<PrependedSurInstance surInstance={material.surMaterial} />
 							)
 						}
 
@@ -109,6 +113,41 @@ const Production = props => {
 						}
 
 						<InstanceLink instance={venue} />
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				surProduction && (
+					<InstanceFacet labelText='Part of'>
+
+						<InstanceLink instance={surProduction} />
+
+						{
+							surProduction.venue && (
+								<AppendedVenue venue={surProduction.venue} />
+							)
+						}
+
+						{
+							(surProduction.startDate || surProduction.endDate) && (
+								<AppendedProductionDates
+									startDate={surProduction.startDate}
+									endDate={surProduction.endDate}
+								/>
+							)
+						}
+
+					</InstanceFacet>
+				)
+			}
+
+			{
+				subProductions?.length > 0 && (
+					<InstanceFacet labelText='Comprises'>
+
+						<List instances={subProductions} />
 
 					</InstanceFacet>
 				)
