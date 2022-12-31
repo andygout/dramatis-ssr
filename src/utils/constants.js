@@ -61,7 +61,7 @@ const MODEL_TO_PROP_NAME_MAP = {
 
 const MODEL_TO_ROUTE_MAP = {
 	[AWARD]: 'awards',
-	[AWARD_CEREMONY]: 'awards/ceremonies',
+	[AWARD_CEREMONY]: 'award-ceremonies',
 	[CHARACTER]: 'characters',
 	[COMPANY]: 'companies',
 	[MATERIAL]: 'materials',
