@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, List } from '../../components';
+import { App, InstanceFacet, InstanceLinksList } from '../../components';
 
 const Award = props => {
 
@@ -15,7 +15,7 @@ const Award = props => {
 				ceremonies?.length > 0 && (
 					<InstanceFacet labelText='Ceremonies'>
 
-						<List instances={ceremonies} />
+						<InstanceLinksList instances={ceremonies} />
 
 					</InstanceFacet>
 				)

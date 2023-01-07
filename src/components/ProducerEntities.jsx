@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, PrependedMembers } from '.';
+import { CommaSeparatedInstanceLinks, InstanceLink } from '.';
 
 const ProducerEntities = props => {
 
@@ -16,7 +16,13 @@ const ProducerEntities = props => {
 
 							{
 								entity.members?.length > 0 && (
-									<PrependedMembers members={entity.members} />
+									<Fragment>
+
+										<CommaSeparatedInstanceLinks instances={entity.members} />
+
+										<Fragment>{' for '}</Fragment>
+
+									</Fragment>
 								)
 							}
 

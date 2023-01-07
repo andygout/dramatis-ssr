@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, AppendedPerformerOtherRoles } from '.';
+import { InstanceLink, JoinedRoles } from '.';
 
 const AppendedPerformers = props => {
 
@@ -42,7 +42,13 @@ const AppendedPerformers = props => {
 
 							{
 								performer.otherRoles.length > 0 && (
-									<AppendedPerformerOtherRoles otherRoles={performer.otherRoles} />
+									<Fragment>
+
+										<Fragment>{'; also performed: '}</Fragment>
+
+										<JoinedRoles instances={performer.otherRoles} />
+
+									</Fragment>
 								)
 							}
 

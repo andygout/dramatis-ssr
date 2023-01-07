@@ -1,6 +1,14 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, List } from '../../components';
+import {
+	App,
+	AppendedDepictions,
+	AppendedPerformers,
+	InstanceFacet,
+	ListWrapper,
+	MaterialLinkWithContext,
+	ProductionLinkWithContext
+} from '../../components';
 
 const Character = props => {
 
@@ -29,7 +37,25 @@ const Character = props => {
 				materials?.length > 0 && (
 					<InstanceFacet labelText='Materials'>
 
-						<List instances={materials} />
+						<ListWrapper>
+
+							{
+								materials.map((material, index) =>
+									<li key={index}>
+
+										<MaterialLinkWithContext material={material} />
+
+										{
+											material.depictions?.length > 0 && (
+												<AppendedDepictions depictions={material.depictions} />
+											)
+										}
+
+									</li>
+								)
+							}
+
+						</ListWrapper>
 
 					</InstanceFacet>
 				)
@@ -53,7 +79,25 @@ const Character = props => {
 				productions?.length > 0 && (
 					<InstanceFacet labelText='Productions'>
 
-						<List instances={productions} />
+						<ListWrapper>
+
+							{
+								productions.map((production, index) =>
+									<li key={index}>
+
+										<ProductionLinkWithContext production={production} />
+
+										{
+											production.performers?.length > 0 && (
+												<AppendedPerformers performers={production.performers} />
+											)
+										}
+
+									</li>
+								)
+							}
+
+						</ListWrapper>
 
 					</InstanceFacet>
 				)
