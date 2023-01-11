@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, InstanceLink, List } from '../../components';
+import { App, InstanceFacet, InstanceLink, InstanceLinksList, ProductionsList } from '../../components';
 
 const Venue = props => {
 
@@ -25,7 +25,7 @@ const Venue = props => {
 				subVenues?.length > 0 && (
 					<InstanceFacet labelText='Comprises'>
 
-						<List instances={subVenues} />
+						<InstanceLinksList instances={subVenues} />
 
 					</InstanceFacet>
 				)
@@ -35,7 +35,7 @@ const Venue = props => {
 				productions?.length > 0 && (
 					<InstanceFacet labelText='Productions'>
 
-						<List instances={productions} />
+						<ProductionsList productions={productions} />
 
 					</InstanceFacet>
 				)

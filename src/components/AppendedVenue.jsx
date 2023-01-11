@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink } from '.';
+import { VenueLinkWithContext } from '.';
 
 const AppendedVenue = props => {
 
@@ -11,13 +11,7 @@ const AppendedVenue = props => {
 
 			<Fragment>{' - '}</Fragment>
 
-			{
-				venue.surVenue && (
-					<Fragment><InstanceLink instance={venue.surVenue} />{': '}</Fragment>
-				)
-			}
-
-			<InstanceLink instance={venue} />
+			<VenueLinkWithContext venue={venue} />
 
 		</Fragment>
 	);

@@ -1,6 +1,14 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, Entities, InstanceFacet, InstanceLink, Materials, Productions } from '../../components';
+import {
+	App,
+	CommaSeparatedMaterials,
+	CommaSeparatedProductions,
+	Entities,
+	InstanceFacet,
+	InstanceLink,
+	ListWrapper
+} from '../../components';
 
 const AwardCeremony = props => {
 
@@ -30,7 +38,7 @@ const AwardCeremony = props => {
 								<Fragment key={index}>
 									{ category.name }
 
-									<ul className="list">
+									<ListWrapper>
 
 										{
 											category.nominations.map((nomination, index) =>
@@ -57,7 +65,9 @@ const AwardCeremony = props => {
 
 													{
 														nomination.productions.length > 0 && (
-															<Productions productions={nomination.productions} />
+															<CommaSeparatedProductions
+																productions={nomination.productions}
+															/>
 														)
 													}
 
@@ -70,14 +80,14 @@ const AwardCeremony = props => {
 
 													{
 														nomination.materials.length > 0 && (
-															<Materials materials={nomination.materials} />
+															<CommaSeparatedMaterials materials={nomination.materials} />
 														)
 													}
 												</li>
 											)
 										}
 
-									</ul>
+									</ListWrapper>
 								</Fragment>
 							)
 						}

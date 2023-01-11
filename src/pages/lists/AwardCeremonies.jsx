@@ -1,6 +1,6 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, List } from '../../components';
+import { App, InstanceLink, ListWrapper } from '../../components';
 
 const AwardCeremonies = props => {
 
@@ -9,7 +9,31 @@ const AwardCeremonies = props => {
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<List instances={awardCeremonies} />
+			<ListWrapper>
+
+				{
+					awardCeremonies.map((awardCeremony, index) =>
+						<li key={index}>
+
+							{
+								awardCeremony.award && (
+									<Fragment>
+
+										<InstanceLink instance={awardCeremony.award} />
+
+										<Fragment>{': '}</Fragment>
+
+									</Fragment>
+								)
+							}
+
+							<InstanceLink instance={awardCeremony} />
+
+						</li>
+					)
+				}
+
+			</ListWrapper>
 
 		</App>
 	);

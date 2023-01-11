@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, List } from '../../components';
+import { App, InstanceLinksList } from '../../components';
 
 const Characters = props => {
 
@@ -9,7 +9,7 @@ const Characters = props => {
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<List instances={characters} />
+			<InstanceLinksList instances={characters} />
 
 		</App>
 	);

@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink } from '.';
+import { AppendedQualifier, InstanceLink } from '.';
 
 const JoinedRoles = props => {
 
@@ -22,7 +22,7 @@ const JoinedRoles = props => {
 
 							{
 								instance.qualifier && (
-									<Fragment>{` (${instance.qualifier})`}</Fragment>
+									<AppendedQualifier qualifier={instance.qualifier} />
 								)
 							}
 

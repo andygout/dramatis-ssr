@@ -1,6 +1,6 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, List } from '../../components';
+import { App, InstanceLink, ListWrapper } from '../../components';
 
 const Venues = props => {
 
@@ -9,7 +9,37 @@ const Venues = props => {
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<List instances={venues} />
+			<ListWrapper>
+
+				{
+					venues.map((venue, index) =>
+						<li key={index}>
+
+							<InstanceLink instance={venue} />
+
+							{
+								venue.subVenues?.length > 0 && (
+									<Fragment>
+
+										<Fragment>{': '}</Fragment>
+
+										{
+											venue.subVenues
+												.map((subVenue, index) =>
+													<InstanceLink key={index} instance={subVenue} />
+												)
+												.reduce((prev, curr) => [prev, ' / ', curr])
+										}
+
+									</Fragment>
+								)
+							}
+
+						</li>
+					)
+				}
+
+			</ListWrapper>
 
 		</App>
 	);
