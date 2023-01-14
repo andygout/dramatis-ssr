@@ -42,7 +42,25 @@ const WritingEntities = props => {
 
 						</Fragment>
 					)
-					.reduce((prev, curr) => [prev, ', ', curr])
+					.reduce((prev, curr, currentIndex) => {
+
+						let separator = ', ';
+
+						if (entities.length === 2) {
+
+							separator = ' and ';
+
+						} else {
+
+							const isFinalIteration = currentIndex === entities.length - 1;
+
+							if (isFinalIteration) separator = ', and ';
+
+						}
+
+						return [prev, separator, curr];
+
+					})
 			}
 
 		</Fragment>
