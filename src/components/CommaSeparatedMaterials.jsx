@@ -18,7 +18,7 @@ const CommaSeparatedMaterials = props => {
 
 						</Fragment>
 					)
-					.reduce((prev, curr) => [prev, ', ', curr])
+					.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 			}
 
 		</Fragment>

@@ -215,11 +215,11 @@ const Person = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
@@ -313,11 +313,11 @@ const Person = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
@@ -411,11 +411,11 @@ const Person = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
@@ -509,11 +509,11 @@ const Person = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
