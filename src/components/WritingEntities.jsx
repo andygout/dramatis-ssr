@@ -42,7 +42,7 @@ const WritingEntities = props => {
 
 						</Fragment>
 					)
-					.reduce((prev, curr, currentIndex) => {
+					.reduce((accumulator, currentValue, currentIndex) => {
 
 						let separator = ', ';
 
@@ -58,7 +58,7 @@ const WritingEntities = props => {
 
 						}
 
-						return [prev, separator, curr];
+						return [accumulator, separator, currentValue];
 
 					})
 			}

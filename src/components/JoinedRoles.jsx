@@ -34,7 +34,7 @@ const JoinedRoles = props => {
 
 						</Fragment>
 					)
-					.reduce((prev, curr) => [prev, ' / ', curr])
+					.reduce((accumulator, currentValue) => [accumulator, ' / ', currentValue])
 			}
 
 		</span>

@@ -29,7 +29,7 @@ const WritingCredits = props => {
 						);
 
 					})
-					.reduce((prev, curr) => [prev, '; ', curr])
+					.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 			}
 
 		</Fragment>

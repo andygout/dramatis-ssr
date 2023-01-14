@@ -28,7 +28,7 @@ const Venues = props => {
 												.map((subVenue, index) =>
 													<InstanceLink key={index} instance={subVenue} />
 												)
-												.reduce((prev, curr) => [prev, ' / ', curr])
+												.reduce((accumulator, currentValue) => [accumulator, ' / ', currentValue])
 										}
 
 									</Fragment>

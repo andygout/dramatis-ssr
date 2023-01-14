@@ -293,11 +293,11 @@ const Material = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
@@ -395,11 +395,11 @@ const Material = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
@@ -497,11 +497,11 @@ const Material = props => {
 																					}
 																				</Fragment>
 																			)
-																			.reduce((prev, curr) => [prev, ', ', curr])
+																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
 																	}
 																</Fragment>
 															)
-															.reduce((prev, curr) => [prev, '; ', curr])
+															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
 													}
 												</li>
 											)
