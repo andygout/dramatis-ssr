@@ -21,7 +21,7 @@ body {
 }
 
 a {
-	color: color-variables.$theme-color;
+	color: color-variables.$interactive-text-color;
 
 	&:hover {
 		color: color-variables.$default-text-color;
