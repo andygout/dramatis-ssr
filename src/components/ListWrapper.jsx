@@ -2,10 +2,10 @@ import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
 const ListWrapper = props => {
 
-	const { children } = props;
+	const { isNested, children } = props;
 
 	return (
-		<ul className="list">
+		<ul className={isNested ? 'list--nested' : 'list'}>
 
 			{ children }
 

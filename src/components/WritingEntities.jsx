@@ -15,6 +15,12 @@ const WritingEntities = props => {
 						<Fragment key={index}>
 
 							{
+								entity.surMaterial?.surMaterial && (
+									<PrependedSurInstance surInstance={entity.surMaterial.surMaterial} />
+								)
+							}
+
+							{
 								entity.surMaterial && (
 									<PrependedSurInstance surInstance={entity.surMaterial} />
 								)

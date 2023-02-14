@@ -1,5 +1,9 @@
 .list {
 	list-style: disc inside;
+
+	& .list--nested {
+		margin-left: 20px;
+	}
 }
 
 .list--no-bullets {
