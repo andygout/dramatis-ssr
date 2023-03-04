@@ -10,6 +10,12 @@ const ProductionLinkWithContext = props => {
 		<Fragment>
 
 			{
+				production.surProduction?.surProduction && (
+					<PrependedSurInstance surInstance={production.surProduction.surProduction} />
+				)
+			}
+
+			{
 				production.surProduction && (
 					<PrependedSurInstance surInstance={production.surProduction} />
 				)
