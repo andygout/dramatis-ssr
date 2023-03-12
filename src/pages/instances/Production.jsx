@@ -2,7 +2,9 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
+	AppendedProductionDates,
 	AppendedRoles,
+	AppendedVenue,
 	CommaSeparatedMaterials,
 	CommaSeparatedProductions,
 	Entities,
@@ -215,6 +217,37 @@ const Production = props => {
 																					}
 
 																					{
+																						nomination.entities.length > 0 && nomination.recipientProduction && (
+																							<Fragment>{';'}</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.recipientProduction && (
+																							<Fragment>
+																								<Fragment>{' (for '}</Fragment>
+																								<InstanceLink instance={nomination.recipientProduction} />
+																								{
+																									nomination.recipientProduction.venue && (
+																										<AppendedVenue venue={nomination.recipientProduction.venue} />
+																									)
+																								}
+
+																								{
+																									(nomination.recipientProduction.startDate || nomination.recipientProduction.endDate) && (
+																										<AppendedProductionDates
+																											startDate={nomination.recipientProduction.startDate}
+																											endDate={nomination.recipientProduction.endDate}
+																										/>
+																									)
+																								}
+																								<Fragment>{')'}</Fragment>
+																							</Fragment>
+																						)
+																					}
+
+																					{
+																						nomination.recipientProduction &&
 																						nomination.coProductions.length > 0 && (
 																							<Fragment>
 																								<Fragment>{' (with '}</Fragment>
