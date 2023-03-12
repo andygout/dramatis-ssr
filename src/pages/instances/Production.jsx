@@ -247,7 +247,6 @@ const Production = props => {
 																					}
 
 																					{
-																						nomination.recipientProduction &&
 																						nomination.coProductions.length > 0 && (
 																							<Fragment>
 																								<Fragment>{' (with '}</Fragment>
