@@ -37,3 +37,11 @@
 .instance-facet-group:not(:last-child) {
 	margin-bottom: 20px;
 }
+
+.nested-instance {
+	margin-bottom: 20px;
+	padding: 10px 10px 0px;
+	background-color: color-variables.$nested-instance-background-color;
+	border: 2px solid color-variables.$border-color;
+	border-radius: 5px;
+}

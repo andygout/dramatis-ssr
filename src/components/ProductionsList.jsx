@@ -4,22 +4,16 @@ import { ListWrapper, ProductionLinkWithContext } from '.';
 
 const ProductionsList = props => {
 
-	const { productions, isNested } = props;
+	const { productions } = props;
 
 	return (
-		<ListWrapper isNested={isNested}>
+		<ListWrapper>
 
 			{
 				productions.map((production, index) =>
 					<li key={index}>
 
 						<ProductionLinkWithContext production={production} />
-
-						{
-							production.subProductions?.length > 0 && (
-								<ProductionsList productions={production.subProductions} isNested={true} />
-							)
-						}
 
 					</li>
 				)

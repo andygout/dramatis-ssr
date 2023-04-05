@@ -13,8 +13,6 @@ import {
 	ListWrapper,
 	MaterialLinkWithContext,
 	ProducerCredits,
-	ProductionLinkWithContext,
-	ProductionsList,
 	ProductionTeamCreditsList,
 	VenueLinkWithContext
 } from '../../components';
@@ -24,276 +22,318 @@ const Production = props => {
 
 	const { currentPath, documentTitle, pageTitle, production } = props;
 
-	const {
-		model,
-		material,
-		startDate,
-		pressDate,
-		endDate,
-		venue,
-		surProduction,
-		subProductions,
-		producerCredits,
-		cast,
-		creativeCredits,
-		crewCredits,
-		awards
-	} = production;
-
 	const dateFormatOptions = { weekday: 'long', month: 'long' };
 
-	return (
-		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+	const renderProduction = production => {
 
-			{
-				material && (
-					<InstanceFacet labelText='Material'>
+		const {
+			material,
+			startDate,
+			pressDate,
+			endDate,
+			venue,
+			surProduction,
+			subProductions,
+			producerCredits,
+			cast,
+			creativeCredits,
+			crewCredits,
+			awards
+		} = production;
 
-						<MaterialLinkWithContext material={material} />
+		return (
+			<Fragment>
 
-					</InstanceFacet>
-				)
-			}
+				{
+					material && (
+						<InstanceFacet labelText='Material'>
 
-			{
-				(startDate || pressDate || endDate) && (
-					<InstanceFacet labelText='Dates'>
+							<MaterialLinkWithContext material={material} />
 
-						{
-							startDate && (
-								<div>
-									<b>Starts:</b>{` ${formatDate(startDate, dateFormatOptions)}`}
-								</div>
-							)
-						}
+						</InstanceFacet>
+					)
+				}
 
-						{
-							pressDate && (
-								<div>
-									<b>Press:</b>{` ${formatDate(pressDate, dateFormatOptions)}`}
-								</div>
-							)
-						}
-
-						{
-							endDate && (
-								<div>
-									<b>Ends:</b>{` ${formatDate(endDate, dateFormatOptions)}`}
-								</div>
-							)
-						}
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				venue && (
-					<InstanceFacet labelText='Venue'>
-
-						<VenueLinkWithContext venue={venue} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				surProduction && (
-					<InstanceFacet labelText='Part of'>
-
-						<ProductionLinkWithContext production={surProduction} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				subProductions?.length > 0 && (
-					<InstanceFacet labelText='Comprises'>
-
-						<ProductionsList productions={subProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				producerCredits?.length > 0 && (
-					<InstanceFacet labelText='Producers'>
-
-						<ProducerCredits credits={producerCredits} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				cast?.length > 0 && (
-					<InstanceFacet labelText='Cast'>
-
-						<ListWrapper>
+				{
+					(startDate || pressDate || endDate) && (
+						<InstanceFacet labelText='Dates'>
 
 							{
-								cast.map((castMember, index) =>
-									<li key={index}>
-
-										<InstanceLink instance={castMember} />
-
-										{
-											castMember.roles?.length > 0 && (
-												<AppendedRoles roles={castMember.roles} />
-											)
-										}
-
-									</li>
+								startDate && (
+									<div>
+										<b>Starts:</b>{` ${formatDate(startDate, dateFormatOptions)}`}
+									</div>
 								)
 							}
 
-						</ListWrapper>
+							{
+								pressDate && (
+									<div>
+										<b>Press:</b>{` ${formatDate(pressDate, dateFormatOptions)}`}
+									</div>
+								)
+							}
 
-					</InstanceFacet>
-				)
-			}
+							{
+								endDate && (
+									<div>
+										<b>Ends:</b>{` ${formatDate(endDate, dateFormatOptions)}`}
+									</div>
+								)
+							}
 
-			{
-				creativeCredits?.length > 0 && (
-					<InstanceFacet labelText='Creative Team'>
+						</InstanceFacet>
+					)
+				}
 
-						<ProductionTeamCreditsList credits={creativeCredits} />
+				{
+					venue && (
+						<InstanceFacet labelText='Venue'>
 
-					</InstanceFacet>
-				)
-			}
+							<VenueLinkWithContext venue={venue} />
 
-			{
-				crewCredits?.length > 0 && (
-					<InstanceFacet labelText='Crew'>
+						</InstanceFacet>
+					)
+				}
 
-						<ProductionTeamCreditsList credits={crewCredits} />
+				{
+					surProduction && (
+						<InstanceFacet labelText='Part of'>
 
-					</InstanceFacet>
-				)
-			}
+							<div className="nested-instance">
 
-			{
-				awards?.length > 0 && (
-					<InstanceFacet labelText='Awards'>
+								<InstanceFacet labelText='Production'>
+
+									<InstanceLink instance={surProduction} />
+
+								</InstanceFacet>
+
+								{
+									renderProduction(surProduction)
+								}
+
+							</div>
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					subProductions?.length > 0 && (
+						<InstanceFacet labelText='Comprises'>
 
 						{
-							awards.map((award, index) =>
-								<Fragment key={index}>
-									<InstanceLink instance={award} />
+							subProductions
+								.map((subProduction, index) =>
+									<div key={index} className="nested-instance">
 
-									<ListWrapper>
+										<InstanceFacet labelText='Production'>
+
+											<InstanceLink instance={subProduction} />
+
+										</InstanceFacet>
 
 										{
-											award.ceremonies.map((ceremony, index) =>
-												<li key={index}>
-													<InstanceLink instance={ceremony} />{': '}
-
-													{
-														ceremony.categories
-															.map((category, index) =>
-																<Fragment key={index}>
-																	{ category.name }{': '}
-
-																	{
-																		category.nominations
-																			.map((nomination, index) =>
-																				<Fragment key={index}>
-																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-																						{nomination.type}
-																					</span>
-
-																					{
-																						nomination.entities.length > 0 && (
-																							<Fragment>
-																								<Fragment>{': '}</Fragment>
-																								<Entities
-																									entities={nomination.entities}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.entities.length > 0 && nomination.recipientProduction && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.recipientProduction && (
-																							<Fragment>
-																								<Fragment>{' (for '}</Fragment>
-																								<InstanceLink instance={nomination.recipientProduction} />
-																								{
-																									nomination.recipientProduction.venue && (
-																										<AppendedVenue venue={nomination.recipientProduction.venue} />
-																									)
-																								}
-
-																								{
-																									(nomination.recipientProduction.startDate || nomination.recipientProduction.endDate) && (
-																										<AppendedProductionDates
-																											startDate={nomination.recipientProduction.startDate}
-																											endDate={nomination.recipientProduction.endDate}
-																										/>
-																									)
-																								}
-																								<Fragment>{')'}</Fragment>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.coProductions.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' (with '}</Fragment>
-																								<CommaSeparatedProductions
-																									productions={nomination.coProductions}
-																								/>
-																								<Fragment>{')'}</Fragment>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.coProductions.length > 0 &&
-																						nomination.materials.length > 0 && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.materials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.materials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-																				</Fragment>
-																			)
-																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
-																	}
-																</Fragment>
-															)
-															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
-													}
-												</li>
-											)
+											renderProduction(subProduction)
 										}
 
-									</ListWrapper>
-								</Fragment>
-							)
+									</div>
+								)
 						}
 
-					</InstanceFacet>
-				)
+						</InstanceFacet>
+					)
+				}
+
+				{
+					producerCredits?.length > 0 && (
+						<InstanceFacet labelText='Producers'>
+
+							<ProducerCredits credits={producerCredits} />
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					cast?.length > 0 && (
+						<InstanceFacet labelText='Cast'>
+
+							<ListWrapper>
+
+								{
+									cast.map((castMember, index) =>
+										<li key={index}>
+
+											<InstanceLink instance={castMember} />
+
+											{
+												castMember.roles?.length > 0 && (
+													<AppendedRoles roles={castMember.roles} />
+												)
+											}
+
+										</li>
+									)
+								}
+
+							</ListWrapper>
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					creativeCredits?.length > 0 && (
+						<InstanceFacet labelText='Creative Team'>
+
+							<ProductionTeamCreditsList credits={creativeCredits} />
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					crewCredits?.length > 0 && (
+						<InstanceFacet labelText='Crew'>
+
+							<ProductionTeamCreditsList credits={crewCredits} />
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					awards?.length > 0 && (
+						<InstanceFacet labelText='Awards'>
+
+							{
+								awards.map((award, index) =>
+									<Fragment key={index}>
+										<InstanceLink instance={award} />
+
+										<ListWrapper>
+
+											{
+												award.ceremonies.map((ceremony, index) =>
+													<li key={index}>
+														<InstanceLink instance={ceremony} />{': '}
+
+														{
+															ceremony.categories
+																.map((category, index) =>
+																	<Fragment key={index}>
+																		{ category.name }{': '}
+
+																		{
+																			category.nominations
+																				.map((nomination, index) =>
+																					<Fragment key={index}>
+																						<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+																							{nomination.type}
+																						</span>
+
+																						{
+																							nomination.entities.length > 0 && (
+																								<Fragment>
+																									<Fragment>{': '}</Fragment>
+																									<Entities
+																										entities={nomination.entities}
+																									/>
+																								</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.entities.length > 0 && nomination.recipientProduction && (
+																								<Fragment>{';'}</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.recipientProduction && (
+																								<Fragment>
+																									<Fragment>{' (for '}</Fragment>
+																									<InstanceLink instance={nomination.recipientProduction} />
+																									{
+																										nomination.recipientProduction.venue && (
+																											<AppendedVenue venue={nomination.recipientProduction.venue} />
+																										)
+																									}
+
+																									{
+																										(nomination.recipientProduction.startDate || nomination.recipientProduction.endDate) && (
+																											<AppendedProductionDates
+																												startDate={nomination.recipientProduction.startDate}
+																												endDate={nomination.recipientProduction.endDate}
+																											/>
+																										)
+																									}
+																									<Fragment>{')'}</Fragment>
+																								</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.coProductions.length > 0 && (
+																								<Fragment>
+																									<Fragment>{' (with '}</Fragment>
+																									<CommaSeparatedProductions
+																										productions={nomination.coProductions}
+																									/>
+																									<Fragment>{')'}</Fragment>
+																								</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.coProductions.length > 0 &&
+																							nomination.materials.length > 0 && (
+																								<Fragment>{';'}</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.materials.length > 0 && (
+																								<Fragment>
+																									<Fragment>{' for '}</Fragment>
+																									<CommaSeparatedMaterials
+																										materials={nomination.materials}
+																									/>
+																								</Fragment>
+																							)
+																						}
+																					</Fragment>
+																				)
+																				.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
+																		}
+																	</Fragment>
+																)
+																.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
+														}
+													</li>
+												)
+											}
+
+										</ListWrapper>
+									</Fragment>
+								)
+							}
+
+						</InstanceFacet>
+					)
+				}
+
+			</Fragment>
+		);
+
+	};
+
+	return (
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={production.model}>
+
+			{
+				renderProduction(production)
 			}
 
 		</App>
