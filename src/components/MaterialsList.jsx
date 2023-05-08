@@ -4,22 +4,16 @@ import { ListWrapper, MaterialLinkWithContext } from '.';
 
 const MaterialsList = props => {
 
-	const { materials, isNested } = props;
+	const { materials } = props;
 
 	return (
-		<ListWrapper isNested={isNested}>
+		<ListWrapper>
 
 			{
 				materials.map((material, index) =>
 					<li key={index}>
 
 						<MaterialLinkWithContext material={material} />
-
-						{
-							material.subMaterials?.length > 0 && (
-								<MaterialsList materials={material.subMaterials} isNested={true} />
-							)
-						}
 
 					</li>
 				)
