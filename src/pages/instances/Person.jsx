@@ -265,11 +265,11 @@ const Person = props => {
 																					</span>
 
 																					{
-																						nomination.subsequentVersionMaterials.length > 0 && (
+																						nomination.recipientSubsequentVersionMaterials.length > 0 && (
 																							<Fragment>
 																								<Fragment>{': '}</Fragment>
 																								<CommaSeparatedMaterials
-																									materials={nomination.subsequentVersionMaterials}
+																									materials={nomination.recipientSubsequentVersionMaterials}
 																								/>
 																							</Fragment>
 																						)
@@ -363,11 +363,11 @@ const Person = props => {
 																					</span>
 
 																					{
-																						nomination.sourcingMaterials.length > 0 && (
+																						nomination.recipientSourcingMaterials.length > 0 && (
 																							<Fragment>
 																								<Fragment>{': '}</Fragment>
 																								<CommaSeparatedMaterials
-																									materials={nomination.sourcingMaterials}
+																									materials={nomination.recipientSourcingMaterials}
 																								/>
 																							</Fragment>
 																						)
@@ -461,11 +461,11 @@ const Person = props => {
 																					</span>
 
 																					{
-																						nomination.rightsGrantorMaterials.length > 0 && (
+																						nomination.recipientRightsGrantorMaterials.length > 0 && (
 																							<Fragment>
 																								<Fragment>{': '}</Fragment>
 																								<CommaSeparatedMaterials
-																									materials={nomination.rightsGrantorMaterials}
+																									materials={nomination.recipientRightsGrantorMaterials}
 																								/>
 																							</Fragment>
 																						)
