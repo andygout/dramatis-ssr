@@ -2,7 +2,6 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
-	AppendedFormatAndYear,
 	CharactersList,
 	CommaSeparatedMaterials,
 	CommaSeparatedProductions,
@@ -280,31 +279,25 @@ const Material = props => {
 
 																						{
 																							nomination.productions.length > 0 &&
-																							(nomination.recipientMaterial || nomination.coMaterials.length > 0) && (
+																							(nomination.recipientMaterials.length > 0 || nomination.coMaterials.length > 0) && (
 																								<Fragment>{';'}</Fragment>
 																							)
 																						}
 
 																						{
-																							nomination.recipientMaterial && (
+																							nomination.recipientMaterials.length > 0 && (
 																								<Fragment>
 																									<Fragment>{' (for '}</Fragment>
-																									<InstanceLink instance={nomination.recipientMaterial} />
-																									{
-																										(nomination.recipientMaterial.format || nomination.recipientMaterial.year) && (
-																											<AppendedFormatAndYear
-																												format={nomination.recipientMaterial.format}
-																												year={nomination.recipientMaterial.year}
-																											/>
-																										)
-																									}
+																									<CommaSeparatedMaterials
+																										materials={nomination.recipientMaterials}
+																									/>
 																									<Fragment>{')'}</Fragment>
 																								</Fragment>
 																							)
 																						}
 
 																						{
-																							nomination.recipientMaterial &&
+																							nomination.recipientMaterials.length > 0 &&
 																							nomination.coMaterials.length > 0 && (
 																								<Fragment>{';'}</Fragment>
 																							)

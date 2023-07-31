@@ -2,9 +2,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
-	AppendedProductionDates,
 	AppendedRoles,
-	AppendedVenue,
 	CommaSeparatedMaterials,
 	CommaSeparatedProductions,
 	Entities,
@@ -245,32 +243,28 @@ const Production = props => {
 																						}
 
 																						{
-																							nomination.entities.length > 0 && nomination.recipientProduction && (
+																							nomination.entities.length > 0 &&
+																							(nomination.recipientProductions.length > 0 || nomination.coProductions.length > 0) && (
 																								<Fragment>{';'}</Fragment>
 																							)
 																						}
 
 																						{
-																							nomination.recipientProduction && (
+																							nomination.recipientProductions.length > 0 && (
 																								<Fragment>
 																									<Fragment>{' (for '}</Fragment>
-																									<InstanceLink instance={nomination.recipientProduction} />
-																									{
-																										nomination.recipientProduction.venue && (
-																											<AppendedVenue venue={nomination.recipientProduction.venue} />
-																										)
-																									}
-
-																									{
-																										(nomination.recipientProduction.startDate || nomination.recipientProduction.endDate) && (
-																											<AppendedProductionDates
-																												startDate={nomination.recipientProduction.startDate}
-																												endDate={nomination.recipientProduction.endDate}
-																											/>
-																										)
-																									}
+																									<CommaSeparatedProductions
+																										productions={nomination.recipientProductions}
+																									/>
 																									<Fragment>{')'}</Fragment>
 																								</Fragment>
+																							)
+																						}
+
+																						{
+																							nomination.recipientProductions.length > 0 &&
+																							nomination.coProductions.length > 0 && (
+																								<Fragment>{';'}</Fragment>
 																							)
 																						}
 
