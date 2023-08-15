@@ -5,6 +5,7 @@ import Companies from './Companies';
 import Materials from './Materials';
 import People from './People';
 import Productions from './Productions';
+import Seasons from './Seasons';
 import Venues from './Venues';
 
 export {
@@ -15,5 +16,6 @@ export {
 	Materials,
 	People,
 	Productions,
+	Seasons,
 	Venues
 };

@@ -23,6 +23,8 @@ const Navigation = () => {
 
 				<li><a href='/productions'>Productions</a></li>
 
+				<li><a href='/seasons'>Seasons</a></li>
+
 				<li><a href='/venues'>Venues</a></li>
 
 			</ul>
