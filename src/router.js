@@ -53,6 +53,12 @@ router.get('/productions', (request, response, next) =>
 router.get('/productions/:uuid', (request, response, next) =>
 	instancesController(request, response, next));
 
+router.get('/seasons', (request, response, next) =>
+	listsController(request, response, next, PLURALISED_MODELS.SEASONS));
+
+router.get('/seasons/:uuid', (request, response, next) =>
+	instancesController(request, response, next));
+
 router.get('/venues', (request, response, next) =>
 	listsController(request, response, next, PLURALISED_MODELS.VENUES));
 

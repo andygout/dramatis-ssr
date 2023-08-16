@@ -12,6 +12,8 @@ const PERSON = 'PERSON';
 const PEOPLE = 'PEOPLE';
 const PRODUCTION = 'PRODUCTION';
 const PRODUCTIONS = 'PRODUCTIONS';
+const SEASON = 'SEASON';
+const SEASONS = 'SEASONS';
 const VENUE = 'VENUE';
 const VENUES = 'VENUES';
 
@@ -23,6 +25,7 @@ const MODELS = {
 	[MATERIAL]: MATERIAL,
 	[PERSON]: PERSON,
 	[PRODUCTION]: PRODUCTION,
+	[SEASON]: SEASON,
 	[VENUE]: VENUE
 };
 
@@ -34,6 +37,7 @@ const MODEL_TO_DISPLAY_NAME_MAP = {
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
+	[SEASON]: 'season',
 	[VENUE]: 'venue'
 };
 
@@ -45,6 +49,7 @@ const MODEL_TO_PAGE_COMPONENT_MAP = {
 	[MATERIAL]: 'Material',
 	[PERSON]: 'Person',
 	[PRODUCTION]: 'Production',
+	[SEASON]: 'Season',
 	[VENUE]: 'Venue'
 };
 
@@ -56,6 +61,7 @@ const MODEL_TO_PROP_NAME_MAP = {
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
+	[SEASON]: 'season',
 	[VENUE]: 'venue'
 };
 
@@ -67,6 +73,7 @@ const MODEL_TO_ROUTE_MAP = {
 	[MATERIAL]: 'materials',
 	[PERSON]: 'people',
 	[PRODUCTION]: 'productions',
+	[SEASON]: 'seasons',
 	[VENUE]: 'venues'
 };
 
@@ -78,6 +85,7 @@ const PLURALISED_MODELS = {
 	[MATERIALS]: MATERIALS,
 	[PEOPLE]: PEOPLE,
 	[PRODUCTIONS]: PRODUCTIONS,
+	[SEASONS]: SEASONS,
 	[VENUES]: VENUES
 };
 
@@ -89,6 +97,7 @@ const PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP = {
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',
+	[SEASONS]: 'Seasons',
 	[VENUES]: 'Venues'
 };
 
@@ -100,6 +109,7 @@ const PLURALISED_MODEL_TO_PROP_NAME_MAP = {
 	[MATERIALS]: 'materials',
 	[PEOPLE]: 'people',
 	[PRODUCTIONS]: 'productions',
+	[SEASONS]: 'seasons',
 	[VENUES]: 'venues'
 };
 
@@ -111,6 +121,7 @@ const PLURALISED_MODEL_TO_TITLE_MAP = {
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',
+	[SEASONS]: 'Seasons',
 	[VENUES]: 'Venues'
 };
 
