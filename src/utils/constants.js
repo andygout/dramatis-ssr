@@ -6,6 +6,8 @@ const CHARACTER = 'CHARACTER';
 const CHARACTERS = 'CHARACTERS';
 const COMPANY = 'COMPANY';
 const COMPANIES = 'COMPANIES';
+const FESTIVAL = 'FESTIVAL';
+const FESTIVALS = 'FESTIVALS';
 const MATERIAL = 'MATERIAL';
 const MATERIALS = 'MATERIALS';
 const PERSON = 'PERSON';
@@ -22,6 +24,7 @@ const MODELS = {
 	[AWARD_CEREMONY]: AWARD_CEREMONY,
 	[CHARACTER]: CHARACTER,
 	[COMPANY]: COMPANY,
+	[FESTIVAL]: FESTIVAL,
 	[MATERIAL]: MATERIAL,
 	[PERSON]: PERSON,
 	[PRODUCTION]: PRODUCTION,
@@ -34,6 +37,7 @@ const MODEL_TO_DISPLAY_NAME_MAP = {
 	[AWARD_CEREMONY]: 'award ceremony',
 	[CHARACTER]: 'character',
 	[COMPANY]: 'company',
+	[FESTIVAL]: 'festival',
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
@@ -46,6 +50,7 @@ const MODEL_TO_PAGE_COMPONENT_MAP = {
 	[AWARD_CEREMONY]: 'AwardCeremony',
 	[CHARACTER]: 'Character',
 	[COMPANY]: 'Company',
+	[FESTIVAL]: 'Festival',
 	[MATERIAL]: 'Material',
 	[PERSON]: 'Person',
 	[PRODUCTION]: 'Production',
@@ -58,6 +63,7 @@ const MODEL_TO_PROP_NAME_MAP = {
 	[AWARD_CEREMONY]: 'awardCeremony',
 	[CHARACTER]: 'character',
 	[COMPANY]: 'company',
+	[FESTIVAL]: 'festival',
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
@@ -70,6 +76,7 @@ const MODEL_TO_ROUTE_MAP = {
 	[AWARD_CEREMONY]: 'award-ceremonies',
 	[CHARACTER]: 'characters',
 	[COMPANY]: 'companies',
+	[FESTIVAL]: 'festivals',
 	[MATERIAL]: 'materials',
 	[PERSON]: 'people',
 	[PRODUCTION]: 'productions',
@@ -82,6 +89,7 @@ const PLURALISED_MODELS = {
 	[AWARD_CEREMONIES]: AWARD_CEREMONIES,
 	[CHARACTERS]: CHARACTERS,
 	[COMPANIES]: COMPANIES,
+	[FESTIVALS]: FESTIVALS,
 	[MATERIALS]: MATERIALS,
 	[PEOPLE]: PEOPLE,
 	[PRODUCTIONS]: PRODUCTIONS,
@@ -94,6 +102,7 @@ const PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP = {
 	[AWARD_CEREMONIES]: 'AwardCeremonies',
 	[CHARACTERS]: 'Characters',
 	[COMPANIES]: 'Companies',
+	[FESTIVALS]: 'Festivals',
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',
@@ -106,6 +115,7 @@ const PLURALISED_MODEL_TO_PROP_NAME_MAP = {
 	[AWARD_CEREMONIES]: 'awardCeremonies',
 	[CHARACTERS]: 'characters',
 	[COMPANIES]: 'companies',
+	[FESTIVALS]: 'festivals',
 	[MATERIALS]: 'materials',
 	[PEOPLE]: 'people',
 	[PRODUCTIONS]: 'productions',
@@ -118,6 +128,7 @@ const PLURALISED_MODEL_TO_TITLE_MAP = {
 	[AWARD_CEREMONIES]: 'Award ceremonies',
 	[CHARACTERS]: 'Characters',
 	[COMPANIES]: 'Companies',
+	[FESTIVALS]: 'Festivals',
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',

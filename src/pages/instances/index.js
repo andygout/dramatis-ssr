@@ -2,6 +2,7 @@ import Award from './Award';
 import AwardCeremony from './AwardCeremony';
 import Character from './Character';
 import Company from './Company';
+import Festival from './Festival';
 import Material from './Material';
 import Person from './Person';
 import Production from './Production';
@@ -13,6 +14,7 @@ export {
 	AwardCeremony,
 	Character,
 	Company,
+	Festival,
 	Material,
 	Person,
 	Production,
