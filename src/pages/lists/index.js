@@ -3,6 +3,7 @@ import AwardCeremonies from './AwardCeremonies';
 import Characters from './Characters';
 import Companies from './Companies';
 import Festivals from './Festivals';
+import FestivalSerieses from './FestivalSerieses';
 import Materials from './Materials';
 import People from './People';
 import Productions from './Productions';
@@ -15,6 +16,7 @@ export {
 	Characters,
 	Companies,
 	Festivals,
+	FestivalSerieses,
 	Materials,
 	People,
 	Productions,

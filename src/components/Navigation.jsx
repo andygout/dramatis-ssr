@@ -17,6 +17,8 @@ const Navigation = () => {
 
 				<li><a href='/companies'>Companies</a></li>
 
+				<li><a href='/festival-serieses'>Festival serieses</a></li>
+
 				<li><a href='/festivals'>Festivals</a></li>
 
 				<li><a href='/materials'>Materials</a></li>
