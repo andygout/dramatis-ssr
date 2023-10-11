@@ -41,6 +41,12 @@ router.get('/festivals', (request, response, next) =>
 router.get('/festivals/:uuid', (request, response, next) =>
 	instancesController(request, response, next));
 
+router.get('/festival-serieses', (request, response, next) =>
+	listsController(request, response, next, PLURALISED_MODELS.FESTIVAL_SERIESES));
+
+router.get('/festival-serieses/:uuid', (request, response, next) =>
+	instancesController(request, response, next));
+
 router.get('/materials', (request, response, next) =>
 	listsController(request, response, next, PLURALISED_MODELS.MATERIALS));
 

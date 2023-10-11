@@ -8,6 +8,8 @@ const COMPANY = 'COMPANY';
 const COMPANIES = 'COMPANIES';
 const FESTIVAL = 'FESTIVAL';
 const FESTIVALS = 'FESTIVALS';
+const FESTIVAL_SERIES = 'FESTIVAL_SERIES';
+const FESTIVAL_SERIESES = 'FESTIVAL_SERIESES';
 const MATERIAL = 'MATERIAL';
 const MATERIALS = 'MATERIALS';
 const PERSON = 'PERSON';
@@ -25,6 +27,7 @@ const MODELS = {
 	[CHARACTER]: CHARACTER,
 	[COMPANY]: COMPANY,
 	[FESTIVAL]: FESTIVAL,
+	[FESTIVAL_SERIES]: FESTIVAL_SERIES,
 	[MATERIAL]: MATERIAL,
 	[PERSON]: PERSON,
 	[PRODUCTION]: PRODUCTION,
@@ -38,6 +41,7 @@ const MODEL_TO_DISPLAY_NAME_MAP = {
 	[CHARACTER]: 'character',
 	[COMPANY]: 'company',
 	[FESTIVAL]: 'festival',
+	[FESTIVAL_SERIES]: 'festival series',
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
@@ -51,6 +55,7 @@ const MODEL_TO_PAGE_COMPONENT_MAP = {
 	[CHARACTER]: 'Character',
 	[COMPANY]: 'Company',
 	[FESTIVAL]: 'Festival',
+	[FESTIVAL_SERIES]: 'FestivalSeries',
 	[MATERIAL]: 'Material',
 	[PERSON]: 'Person',
 	[PRODUCTION]: 'Production',
@@ -64,6 +69,7 @@ const MODEL_TO_PROP_NAME_MAP = {
 	[CHARACTER]: 'character',
 	[COMPANY]: 'company',
 	[FESTIVAL]: 'festival',
+	[FESTIVAL_SERIES]: 'festivalSeries',
 	[MATERIAL]: 'material',
 	[PERSON]: 'person',
 	[PRODUCTION]: 'production',
@@ -77,6 +83,7 @@ const MODEL_TO_ROUTE_MAP = {
 	[CHARACTER]: 'characters',
 	[COMPANY]: 'companies',
 	[FESTIVAL]: 'festivals',
+	[FESTIVAL_SERIES]: 'festival-serieses',
 	[MATERIAL]: 'materials',
 	[PERSON]: 'people',
 	[PRODUCTION]: 'productions',
@@ -90,6 +97,7 @@ const PLURALISED_MODELS = {
 	[CHARACTERS]: CHARACTERS,
 	[COMPANIES]: COMPANIES,
 	[FESTIVALS]: FESTIVALS,
+	[FESTIVAL_SERIESES]: FESTIVAL_SERIESES,
 	[MATERIALS]: MATERIALS,
 	[PEOPLE]: PEOPLE,
 	[PRODUCTIONS]: PRODUCTIONS,
@@ -103,6 +111,7 @@ const PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP = {
 	[CHARACTERS]: 'Characters',
 	[COMPANIES]: 'Companies',
 	[FESTIVALS]: 'Festivals',
+	[FESTIVAL_SERIESES]: 'FestivalSerieses',
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',
@@ -116,6 +125,7 @@ const PLURALISED_MODEL_TO_PROP_NAME_MAP = {
 	[CHARACTERS]: 'characters',
 	[COMPANIES]: 'companies',
 	[FESTIVALS]: 'festivals',
+	[FESTIVAL_SERIESES]: 'festivalSerieses',
 	[MATERIALS]: 'materials',
 	[PEOPLE]: 'people',
 	[PRODUCTIONS]: 'productions',
@@ -129,6 +139,7 @@ const PLURALISED_MODEL_TO_TITLE_MAP = {
 	[CHARACTERS]: 'Characters',
 	[COMPANIES]: 'Companies',
 	[FESTIVALS]: 'Festivals',
+	[FESTIVAL_SERIESES]: 'Festival serieses',
 	[MATERIALS]: 'Materials',
 	[PEOPLE]: 'People',
 	[PRODUCTIONS]: 'Productions',
