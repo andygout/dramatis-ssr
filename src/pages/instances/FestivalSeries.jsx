@@ -1,15 +1,27 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App } from '../../components';
+import { App, InstanceFacet, InstanceLinksList } from '../../components';
 
 const FestivalSeries = props => {
 
 	const { currentPath, documentTitle, pageTitle, festivalSeries } = props;
 
-	const { model } = festivalSeries;
+	const { model, festivals } = festivalSeries;
 
 	return (
-		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model} />
+		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+
+			{
+				festivals?.length > 0 && (
+					<InstanceFacet labelText='Comprises'>
+
+						<InstanceLinksList instances={festivals} />
+
+					</InstanceFacet>
+				)
+			}
+
+		</App>
 	);
 
 };
