@@ -1,6 +1,6 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceLinksList } from '../../components';
+import { App, InstanceLink, ListWrapper } from '../../components';
 
 const Festivals = props => {
 
@@ -9,7 +9,31 @@ const Festivals = props => {
 	return (
 		<App documentTitle={documentTitle} pageTitle={pageTitle}>
 
-			<InstanceLinksList instances={festivals} />
+			<ListWrapper>
+
+				{
+					festivals.map((festival, index) =>
+						<li key={index}>
+
+							{
+								festival.festivalSeries && (
+									<Fragment>
+
+										<InstanceLink instance={festival.festivalSeries} />
+
+										<Fragment>{': '}</Fragment>
+
+									</Fragment>
+								)
+							}
+
+							<InstanceLink instance={festival} />
+
+						</li>
+					)
+				}
+
+			</ListWrapper>
 
 		</App>
 	);

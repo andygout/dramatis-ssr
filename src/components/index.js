@@ -18,6 +18,7 @@ import CommaSeparatedProductions from './CommaSeparatedProductions';
 import CreativeProductionsList from './CreativeProductionsList';
 import CrewProductionsList from './CrewProductionsList';
 import Entities from './Entities';
+import FestivalLinkWithContext from './FestivalLinkWithContext';
 import Footer from './Footer';
 import Head from './Head';
 import Header from './Header';
@@ -63,6 +64,7 @@ export {
 	CreativeProductionsList,
 	CrewProductionsList,
 	Entities,
+	FestivalLinkWithContext,
 	Footer,
 	Head,
 	Header,
