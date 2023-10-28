@@ -32,13 +32,13 @@ const AppendedPerformers = props => {
 									)
 								}
 
-								{
-									performer.isAlternate && (
-										<Fragment>{' (alt)'}</Fragment>
-									)
-								}
-
 							</span>
+
+							{
+								performer.isAlternate && (
+									<Fragment>{' [alt]'}</Fragment>
+								)
+							}
 
 							{
 								performer.otherRoles.length > 0 && (
