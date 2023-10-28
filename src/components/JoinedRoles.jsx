@@ -7,28 +7,32 @@ const JoinedRoles = props => {
 	const { instances } = props;
 
 	return (
-		<span className="fictional-name-text">
+		<Fragment>
 
 			{
 				instances
 					.map((instance, index) =>
 						<Fragment key={index}>
 
-							{
-								instance.uuid
-									? <InstanceLink instance={instance} />
-									: instance.name
-							}
+							<span className="fictional-name-text">
 
-							{
-								instance.qualifier && (
-									<AppendedQualifier qualifier={instance.qualifier} />
-								)
-							}
+								{
+									instance.uuid
+										? <InstanceLink instance={instance} />
+										: instance.name
+								}
+
+								{
+									instance.qualifier && (
+										<AppendedQualifier qualifier={instance.qualifier} />
+									)
+								}
+
+							</span>
 
 							{
 								instance.isAlternate && (
-									<Fragment>{' (alt)'}</Fragment>
+									<Fragment>{' [alt]'}</Fragment>
 								)
 							}
 
@@ -37,7 +41,7 @@ const JoinedRoles = props => {
 					.reduce((accumulator, currentValue) => [accumulator, ' / ', currentValue])
 			}
 
-		</span>
+		</Fragment>
 	);
 
 };
