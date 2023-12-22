@@ -32,7 +32,7 @@ export default async apiPath => {
 		// If fetch is unsuccessful its error will not have a `status` attribute
 		// but instead have a `code` attribute whose value is 'ECONNREFUSED',
 		// making a 500 response code the most instructive for this scenario.
-		const internalServerError = new Error('Internal Server Error');
+		const internalServerError = new Error('Internal Server Error', { cause: error });
 
 		internalServerError.status = 500;
 
