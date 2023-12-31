@@ -31,9 +31,9 @@ const Material = props => {
 			characterGroups,
 			originalVersionMaterial,
 			subsequentVersionMaterials,
-			subsequentVersionMaterialProductions,
-			productions,
 			sourcingMaterials,
+			productions,
+			subsequentVersionMaterialProductions,
 			sourcingMaterialProductions,
 			awards,
 			subsequentVersionMaterialAwards,
@@ -197,10 +197,10 @@ const Material = props => {
 				}
 
 				{
-					subsequentVersionMaterialProductions?.length > 0 && (
-						<InstanceFacet labelText='Productions of subsequent versions'>
+					sourcingMaterials?.length > 0 && (
+						<InstanceFacet labelText='Materials as source material'>
 
-							<ProductionsList productions={subsequentVersionMaterialProductions} />
+							<MaterialsList materials={sourcingMaterials} />
 
 						</InstanceFacet>
 					)
@@ -217,10 +217,10 @@ const Material = props => {
 				}
 
 				{
-					sourcingMaterials?.length > 0 && (
-						<InstanceFacet labelText='Materials as source material'>
+					subsequentVersionMaterialProductions?.length > 0 && (
+						<InstanceFacet labelText='Productions of subsequent versions'>
 
-							<MaterialsList materials={sourcingMaterials} />
+							<ProductionsList productions={subsequentVersionMaterialProductions} />
 
 						</InstanceFacet>
 					)
