@@ -18,7 +18,7 @@ import { capitalise } from '../../lib/strings';
 
 const Material = props => {
 
-	const { currentPath, documentTitle, pageTitle, material } = props;
+	const { currentPath, documentTitle, pageTitle, pageSubtitle, material } = props;
 
 	const renderMaterial = material => {
 
@@ -83,6 +83,12 @@ const Material = props => {
 
 									<InstanceLink instance={surMaterial} />
 
+									{
+										surMaterial.subtitle && (
+											<p>{ surMaterial.subtitle }</p>
+										)
+									}
+
 								</InstanceFacet>
 
 								{
@@ -107,6 +113,12 @@ const Material = props => {
 										<InstanceFacet labelText='Material'>
 
 											<InstanceLink instance={subMaterial} />
+
+											{
+												subMaterial.subtitle && (
+													<p>{ subMaterial.subtitle }</p>
+												)
+											}
 
 										</InstanceFacet>
 
@@ -556,7 +568,13 @@ const Material = props => {
 	};
 
 	return (
-		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={material.model}>
+		<App
+			currentPath={currentPath}
+			documentTitle={documentTitle}
+			pageTitle={pageTitle}
+			pageSubtitle={pageSubtitle}
+			model={material.model}
+		>
 
 			{
 				renderMaterial(material)

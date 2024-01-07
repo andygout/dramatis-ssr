@@ -19,7 +19,7 @@ import { formatDate } from '../../lib/format-date';
 
 const Production = props => {
 
-	const { currentPath, documentTitle, pageTitle, production } = props;
+	const { currentPath, documentTitle, pageTitle, pageSubtitle, production } = props;
 
 	const dateFormatOptions = { weekday: 'long', month: 'long' };
 
@@ -127,6 +127,12 @@ const Production = props => {
 
 									<InstanceLink instance={surProduction} />
 
+									{
+										surProduction.subtitle && (
+											<p>{ surProduction.subtitle }</p>
+										)
+									}
+
 								</InstanceFacet>
 
 								{
@@ -151,6 +157,12 @@ const Production = props => {
 										<InstanceFacet labelText='Production'>
 
 											<InstanceLink instance={subProduction} />
+
+											{
+												subProduction.subtitle && (
+													<p>{ subProduction.subtitle }</p>
+												)
+											}
 
 										</InstanceFacet>
 
@@ -347,7 +359,13 @@ const Production = props => {
 	};
 
 	return (
-		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={production.model}>
+		<App
+			currentPath={currentPath}
+			documentTitle={documentTitle}
+			pageTitle={pageTitle}
+			pageSubtitle={pageSubtitle}
+			model={production.model}
+		>
 
 			{
 				renderProduction(production)

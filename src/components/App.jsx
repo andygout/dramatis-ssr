@@ -1,11 +1,11 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { Footer, Head, Header, InstanceLabel, Navigation, PageTitle } from '.';
+import { Footer, Head, Header, InstanceLabel, Navigation, PageSubtitle, PageTitle } from '.';
 import { CurrentPath } from '../contexts';
 
 const App = props => {
 
-	const { currentPath, documentTitle, pageTitle, model, children } = props;
+	const { currentPath, documentTitle, pageTitle, pageSubtitle, model, children } = props;
 
 	return (
 		<html>
@@ -29,6 +29,12 @@ const App = props => {
 						}
 
 						<PageTitle text={pageTitle} />
+
+						{
+							pageSubtitle && (
+								<PageSubtitle text={pageSubtitle} />
+							)
+						}
 
 						<CurrentPath.Provider value={currentPath}>
 
