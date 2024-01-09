@@ -31,6 +31,7 @@ import ListWrapper from './ListWrapper';
 import MaterialLinkWithContext from './MaterialLinkWithContext';
 import MaterialsList from './MaterialsList';
 import Navigation from './Navigation';
+import PageSubtitle from './PageSubtitle';
 import PageTitle from './PageTitle';
 import PrependedSurInstance from './PrependedSurInstance';
 import ProducerCredits from './ProducerCredits';
@@ -77,6 +78,7 @@ export {
 	MaterialLinkWithContext,
 	MaterialsList,
 	Navigation,
+	PageSubtitle,
 	PageTitle,
 	PrependedSurInstance,
 	ProducerCredits,

@@ -19,6 +19,8 @@ export default async (request, response, next) => {
 
 		const title = getInstanceTitle(instance);
 
+		const pageSubtitle = instance.subtitle;
+
 		const differentiatorSuffix = getDifferentiatorSuffix(differentiator);
 
 		const documentTitle = compressTitleComponents([
@@ -36,6 +38,7 @@ export default async (request, response, next) => {
 			currentPath: path,
 			documentTitle,
 			pageTitle,
+			pageSubtitle,
 			[MODEL_TO_PROP_NAME_MAP[model]]: instance
 		};
 
