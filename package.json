@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.jsx src/ test/",
     "lintspaces": "git ls-files ':!:*.ico' | xargs lintspaces -e .editorconfig",
     "lint-check": "npm run lint && npm run lintspaces",
-    "unit-test": "mocha --require @babel/register test/**/*.test.js",
+    "unit-test": "mocha --config test/.mocharc.json",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "npm run watch & nodemon --require source-map-support/register built/main.js"
