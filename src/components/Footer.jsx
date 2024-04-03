@@ -6,7 +6,7 @@ const Footer = () => {
 		<footer className="footer">
 
 			<div className="footer__text footer__text--left">
-				TheatreBase
+				Dramatis
 			</div>
 
 			<div className="footer__text footer__text--right">

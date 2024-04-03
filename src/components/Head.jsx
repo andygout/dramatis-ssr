@@ -6,7 +6,7 @@ const Head = props => {
 
 	return (
 		<head>
-			<title>{`${documentTitle} | TheatreBase`}</title>
+			<title>{`${documentTitle} | Dramatis`}</title>
 			<link rel="stylesheet" href="/main.css" />
 			<script src="/main.js" />
 		</head>
