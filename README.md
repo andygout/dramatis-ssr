@@ -1,4 +1,4 @@
-# theatrebase-ssr [![CircleCI](https://circleci.com/gh/andygout/theatrebase-spa/tree/main.svg?style=svg)](https://circleci.com/gh/andygout/theatrebase-ssr/tree/main)
+# dramatis-ssr [![CircleCI](https://circleci.com/gh/andygout/dramatis-spa/tree/main.svg?style=svg)](https://circleci.com/gh/andygout/dramatis-ssr/tree/main)
 
 Server-side rendered (SSR) application that provides listings for theatrical productions, materials, and associated data.
 
@@ -9,7 +9,7 @@ Server-side rendered (SSR) application that provides listings for theatrical pro
 - Compile code: `$ npm run build`
 
 ## To run locally
-- Ensure an instance of [`theatrebase-api`](https://github.com/andygout/theatrebase-api) is running on `http://localhost:3000`
+- Ensure an instance of [`dramatis-api`](https://github.com/andygout/dramatis-api) is running on `http://localhost:3000`
 - Run server using `$ npm start` and visit homepage at `http://localhost:3003`
 
 ## To run linting checks
