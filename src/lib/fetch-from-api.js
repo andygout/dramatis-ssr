@@ -6,7 +6,7 @@ export default async apiPath => {
 
 	try {
 
-		const response = await fetch(apiUrl);
+		const response = await fetch(apiUrl, { mode: 'cors' });
 
 		if (response.status !== 200) {
 
