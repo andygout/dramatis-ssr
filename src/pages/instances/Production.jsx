@@ -2,6 +2,7 @@ import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
 import {
 	App,
+	AppendedDate,
 	AppendedRoles,
 	CommaSeparatedMaterials,
 	CommaSeparatedProductions,
@@ -39,6 +40,7 @@ const Production = props => {
 			cast,
 			creativeCredits,
 			crewCredits,
+			reviews,
 			awards
 		} = production;
 
@@ -231,6 +233,46 @@ const Production = props => {
 						<InstanceFacet labelText='Crew'>
 
 							<ProductionTeamCreditsList credits={crewCredits} />
+
+						</InstanceFacet>
+					)
+				}
+
+				{
+					reviews?.length > 0 && (
+						<InstanceFacet labelText='Reviews'>
+
+							<ListWrapper>
+
+								{
+									reviews.map((review, index) =>
+										<li key={index}>
+
+											<InstanceLink instance={review.critic} />
+
+											{', '}
+
+											<InstanceLink instance={review.publication} />
+
+											{
+												(review.date) && (
+													<AppendedDate date={review.date} />
+												)
+											}
+
+											{': '}
+
+											<a
+												href={review.url}
+												target="_blank"
+												rel="noopener noreferrer"
+											>{'link'}</a>
+
+										</li>
+									)
+								}
+
+							</ListWrapper>
 
 						</InstanceFacet>
 					)
