@@ -27,11 +27,57 @@ async function getSearchResults (searchTerm) {
 
 }
 
-function suggestionTemplate (option) {
+function highlightSuggestion (suggestion, query) {
+
+	const result = suggestion.split('');
+
+	const matchIndex = suggestion.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
+
+	return result.map((character, index) => {
+
+		let shouldHighlight = false;
+
+		const hasMatched = matchIndex > -1;
+
+		const characterIsWithinMatch =
+			index >= matchIndex &&
+			index <= matchIndex + query.length - 1;
+
+		if (hasMatched && characterIsWithinMatch) {
+
+			shouldHighlight = true;
+
+		}
+
+		return [character, shouldHighlight];
+
+	});
+
+}
+
+function suggestionTemplate (option, query) {
+
+	const characters = highlightSuggestion(option.name, query || option.name);
+
+	let highlightedOptionName = '';
+
+	for (const [character, shoudHighlight] of characters) {
+
+		if (shoudHighlight) {
+
+			highlightedOptionName += `<span class="o-autocomplete__option--highlight">${character}</span>`;
+
+		} else {
+
+			highlightedOptionName += `${character}`;
+
+		}
+
+	}
 
 	return `
 		<div>
-			<span class="o-autocomplete__option-text">${option.name}</span>
+			<span">${highlightedOptionName}</span>
 			${' '}
 			<span class="o-autocomplete__option-suffix">${`(${MODEL_TO_DISPLAY_NAME_MAP[option.model]})`}</span>
 		</div>
