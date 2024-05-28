@@ -19,12 +19,12 @@
     "unit-test"
   ],
   "engines": {
-    "node": "20.5.0",
-    "npm": "10.2.1"
+    "node": "22.2.0",
+    "npm": "10.7.0"
   },
   "volta": {
-    "node": "20.5.0",
-    "npm": "10.2.1"
+    "node": "22.2.0",
+    "npm": "10.7.0"
   },
   "dependencies": {
     "@financial-times/o-autocomplete": "^1.10.0",
