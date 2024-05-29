@@ -1,7 +1,0 @@
-{
-  "watch": [
-    "built",
-    "public"
-  ],
-  "ext": "css js"
-}
