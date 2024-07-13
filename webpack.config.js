@@ -1,8 +1,13 @@
-const path = require('path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const nodeExternals = require('webpack-node-externals');
+const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle
+const __dirname = path.dirname(__filename); // eslint-disable-line no-underscore-dangle
+
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as sass from 'sass';
+import nodeExternals from 'webpack-node-externals';
 
 const serverConfig = {
 	mode: 'none', // i.e. not production or development (see: https://webpack.js.org/configuration/mode).
@@ -83,7 +88,7 @@ const clientConfig = {
 						loader: 'sass-loader',
 						options: {
 							// Prefer `dart-sass`
-							implementation: require('sass')
+							implementation: sass
 						}
 					}
 				]
@@ -95,7 +100,7 @@ const clientConfig = {
 	]
 };
 
-module.exports = [
+export default [
 	serverConfig,
 	clientConfig
 ];

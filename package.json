@@ -1,6 +1,7 @@
 {
   "name": "dramatis-ssr",
   "version": "0.0.0",
+  "type": "module",
   "description": "Server-side rendered (SSR) application that provides listings for theatrical productions, materials, and associated data.",
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
@@ -12,7 +13,11 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "npm run watch & node --watch-path=built --watch-path=public --require source-map-support/register built/main.js"
+    "start": "npm run watch & node --watch-path=built --watch-path=public --require source-map-support/register src/app.js",
+    "transpile-components": "babel src/components-jsx --out-dir src/components-js",
+    "transpile-pages": "babel src/pages-jsx --out-dir src/pages-js",
+    "transpile-contexts": "babel src/contexts-jsx --out-dir src/contexts-js",
+    "transpile-controller-helpers": "babel src/controllers/helpers/render-component-to-string.jsx --out-file src/controllers/helpers/render-component-to-string.js"
   },
   "pre-commit": [
     "lint-check",
@@ -39,6 +44,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
+    "@babel/cli": "^7.24.8",
     "@babel/core": "7.24.6",
     "@babel/plugin-transform-react-jsx": "7.24.6",
     "@babel/preset-env": "7.24.6",

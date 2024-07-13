@@ -1,7 +1,7 @@
 import oAutocomplete from '@financial-times/o-autocomplete';
 import { debounce } from '@financial-times/o-utils';
 
-import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants';
+import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants.js';
 
 const URL_BASE = 'http://localhost:3003';
 

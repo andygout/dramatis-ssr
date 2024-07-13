@@ -3,9 +3,19 @@
 		[
 			"@babel/preset-env",
 			{
+				"modules": false,
 				"targets": {
 					"node": "22"
 				}
+			}
+		]
+	],
+	"plugins": [
+		[
+			"@babel/plugin-transform-react-jsx",
+			{
+				"pragma": "h",
+				"pragmaFrag": "Fragment"
 			}
 		]
 	]

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { formatDate } from '../../../src/lib/format-date';
+import { formatDate } from '../../../src/lib/format-date.js';
 
 describe('Format Date module', () => {
 
