@@ -1,14 +1,14 @@
-import Award from './Award';
-import AwardCeremony from './AwardCeremony';
-import Character from './Character';
-import Company from './Company';
-import Festival from './Festival';
-import FestivalSeries from './FestivalSeries';
-import Material from './Material';
-import Person from './Person';
-import Production from './Production';
-import Season from './Season';
-import Venue from './Venue';
+import Award from './Award.jsx';
+import AwardCeremony from './AwardCeremony.jsx';
+import Character from './Character.jsx';
+import Company from './Company.jsx';
+import Festival from './Festival.jsx';
+import FestivalSeries from './FestivalSeries.jsx';
+import Material from './Material.jsx';
+import Person from './Person.jsx';
+import Production from './Production.jsx';
+import Season from './Season.jsx';
+import Venue from './Venue.jsx';
 
 export {
 	Award,

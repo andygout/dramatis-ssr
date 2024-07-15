@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { ProducerCredits, ProductionLinkWithContext, ListWrapper } from '.';
+import { ProducerCredits, ProductionLinkWithContext, ListWrapper } from './index.js';
 
 const ProducerProductionsList = props => {
 

@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedProductionTeamCredits, ProductionLinkWithContext, ListWrapper } from '.';
+import { AppendedProductionTeamCredits, ProductionLinkWithContext, ListWrapper } from './index.js';
 
 const CreativeProductionsList = props => {
 

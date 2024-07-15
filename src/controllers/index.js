@@ -1,8 +1,8 @@
-import errors from './errors';
-import home from './home';
-import instances from './instances';
-import lists from './lists';
-import search from './search';
+import errors from './errors.js';
+import home from './home.js';
+import instances from './instances.js';
+import lists from './lists.js';
+import search from './search.js';
 
 export {
 	errors,

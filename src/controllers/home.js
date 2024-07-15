@@ -1,5 +1,5 @@
-import sendResponse from './helpers/send-response';
-import { Home } from '../pages';
+import sendResponse from './helpers/send-response.js';
+import { Home } from '../pages/index.js';
 
 export default response => {
 

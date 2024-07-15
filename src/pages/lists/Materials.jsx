@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, MaterialsList } from '../../components';
+import { App, MaterialsList } from '../../components/index.js';
 
 const Materials = props => {
 

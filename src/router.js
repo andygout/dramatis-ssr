@@ -4,8 +4,8 @@ import {
 	home as homeController,
 	instances as instancesController,
 	lists as listsController
-} from './controllers';
-import { PLURALISED_MODELS } from './utils/constants';
+} from './controllers/index.js';
+import { PLURALISED_MODELS } from './utils/constants.js';
 
 const router = new Router();
 

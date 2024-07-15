@@ -8,7 +8,7 @@ import {
 	InstanceFacet,
 	InstanceLink,
 	ListWrapper
-} from '../../components';
+} from '../../components/index.js';
 
 const AwardCeremony = props => {
 

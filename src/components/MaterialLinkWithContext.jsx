@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedFormatAndYear, InstanceLink, PrependedSurInstance, WritingCredits } from '.';
+import { AppendedFormatAndYear, InstanceLink, PrependedSurInstance, WritingCredits } from './index.js';
 
 const MaterialLinkWithContext = props => {
 

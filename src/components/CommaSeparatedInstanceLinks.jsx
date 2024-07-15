@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink } from '.';
+import { InstanceLink } from './index.js';
 
 const CommaSeparatedInstanceLinks = props => {
 

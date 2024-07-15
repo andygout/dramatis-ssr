@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceFacet, ProductionsList } from '../../components';
+import { App, InstanceFacet, ProductionsList } from '../../components/index.js';
 
 const Season = props => {
 

@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { CommaSeparatedInstanceLinks } from '.';
+import { CommaSeparatedInstanceLinks } from './index.js';
 
 const AppendedMembers = props => {
 

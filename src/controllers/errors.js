@@ -1,5 +1,5 @@
-import sendResponse from './helpers/send-response';
-import { ErrorPage } from '../pages';
+import sendResponse from './helpers/send-response.js';
+import { ErrorPage } from '../pages/index.js';
 
 export default (error, request, response) => {
 

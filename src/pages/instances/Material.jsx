@@ -13,8 +13,8 @@ import {
 	MaterialsList,
 	ProductionsList,
 	WritingCredits
-} from '../../components';
-import { capitalise } from '../../lib/strings';
+} from '../../components/index.js';
+import { capitalise } from '../../lib/strings.js';
 
 const Material = props => {
 

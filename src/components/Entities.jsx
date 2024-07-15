@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedMembers, InstanceLink } from '.';
+import { AppendedMembers, InstanceLink } from './index.js';
 
 const Entities = props => {
 

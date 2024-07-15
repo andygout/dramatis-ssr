@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { search as searchController } from './controllers';
+import { search as searchController } from './controllers/index.js';
 
 const router = new Router();
 

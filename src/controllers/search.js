@@ -1,4 +1,4 @@
-import fetchFromApi from '../lib/fetch-from-api';
+import fetchFromApi from '../lib/fetch-from-api.js';
 
 export default async (request, response, next) => {
 

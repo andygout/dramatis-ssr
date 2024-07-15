@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { ProductionLinkWithContext } from '.';
+import { ProductionLinkWithContext } from './index.js';
 
 const CommaSeparatedProductions = props => {
 

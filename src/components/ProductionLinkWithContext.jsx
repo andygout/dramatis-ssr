@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedProductionDates, AppendedVenue, InstanceLink, PrependedSurInstance } from '.';
+import { AppendedProductionDates, AppendedVenue, InstanceLink, PrependedSurInstance } from './index.js';
 
 const ProductionLinkWithContext = props => {
 
