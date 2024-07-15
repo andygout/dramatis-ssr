@@ -1,9 +1,9 @@
-import sendResponse from './helpers/send-response';
-import fetchFromApi from '../lib/fetch-from-api';
-import getDifferentiatorSuffix from '../lib/get-differentiator-suffix';
-import getInstanceTitle from '../lib/get-instance-title';
-import { instancePages } from '../pages';
-import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_PAGE_COMPONENT_MAP, MODEL_TO_PROP_NAME_MAP } from '../utils/constants';
+import sendResponse from './helpers/send-response.js';
+import fetchFromApi from '../lib/fetch-from-api.js';
+import getDifferentiatorSuffix from '../lib/get-differentiator-suffix.js';
+import getInstanceTitle from '../lib/get-instance-title.js';
+import { instancePages } from '../pages/index.js';
+import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_PAGE_COMPONENT_MAP, MODEL_TO_PROP_NAME_MAP } from '../utils/constants.js';
 
 const compressTitleComponents = components => components.filter(Boolean).join(' ');
 

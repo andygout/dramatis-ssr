@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import getDifferentiatorSuffix from '../../../src/lib/get-differentiator-suffix';
+import getDifferentiatorSuffix from '../../../src/lib/get-differentiator-suffix.js';
 
 describe('Get Differentiator Suffix module', () => {
 

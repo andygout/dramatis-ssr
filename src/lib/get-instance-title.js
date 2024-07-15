@@ -1,4 +1,4 @@
-import { MODELS } from '../utils/constants';
+import { MODELS } from '../utils/constants.js';
 
 export default instance => {
 

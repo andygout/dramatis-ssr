@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { MaterialLinkWithContext } from '.';
+import { MaterialLinkWithContext } from './index.js';
 
 const CommaSeparatedMaterials = props => {
 

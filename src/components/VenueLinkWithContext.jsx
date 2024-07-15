@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, PrependedSurInstance } from '.';
+import { InstanceLink, PrependedSurInstance } from './index.js';
 
 const VenueLinkWithContext = props => {
 

@@ -1,4 +1,4 @@
-import { errors as errorsController } from '../controllers';
+import { errors as errorsController } from '../controllers/index.js';
 
 export default (error, request, response, next) => {
 

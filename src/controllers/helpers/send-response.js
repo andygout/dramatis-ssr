@@ -1,4 +1,4 @@
-import renderComponentToString from './render-component-to-string';
+import renderComponentToString from './render-component-to-string.jsx';
 
 export default async (response, PageComponent, props) => {
 
