@@ -12,7 +12,7 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "npm run watch & node --watch-path=built --watch-path=public --require source-map-support/register built/main.js"
+    "start": "npm run watch & node --watch-path=built --watch-path=public --watch-preserve-output --require source-map-support/register built/main.js"
   },
   "pre-commit": [
     "lint-check",
