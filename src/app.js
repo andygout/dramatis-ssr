@@ -1,14 +1,18 @@
 import http from 'node:http';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle
+const __dirname = path.dirname(__filename); // eslint-disable-line no-underscore-dangle
 
 import express from 'express';
 import session from 'express-session';
 import logger from 'morgan';
 import favicon from 'serve-favicon';
 
-import { errorHandler } from './middleware';
-import apiRouter from './api-router';
-import router from './router';
+import { errorHandler } from './middleware/index.js';
+import apiRouter from './api-router.js';
+import router from './router.js';
 
 const app = express();
 

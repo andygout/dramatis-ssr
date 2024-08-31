@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { App, InstanceLink, ListWrapper } from '../../components';
+import { App, InstanceLink, ListWrapper } from '../../components/index.js';
 
 const AwardCeremonies = props => {
 

@@ -18,7 +18,7 @@ import {
 	ProducerProductionsList,
 	ProductionLinkWithContext,
 	ProductionsList
-} from '../../components';
+} from '../../components/index.js';
 
 const Person = props => {
 

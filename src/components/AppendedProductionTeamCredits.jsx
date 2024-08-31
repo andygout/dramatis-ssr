@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedCoEntities, AppendedEmployerCompany, AppendedMembers } from '.';
+import { AppendedCoEntities, AppendedEmployerCompany, AppendedMembers } from './index.js';
 
 const AppendedProductionTeamCredits = props => {
 

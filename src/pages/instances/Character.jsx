@@ -8,7 +8,7 @@ import {
 	ListWrapper,
 	MaterialLinkWithContext,
 	ProductionLinkWithContext
-} from '../../components';
+} from '../../components/index.js';
 
 const Character = props => {
 

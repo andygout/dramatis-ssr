@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedEntities, ListWrapper } from '.';
+import { AppendedEntities, ListWrapper } from './index.js';
 
 const ProductionTeamCreditsList = props => {
 

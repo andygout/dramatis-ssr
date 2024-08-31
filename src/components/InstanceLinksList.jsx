@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { InstanceLink, ListWrapper } from '.';
+import { InstanceLink, ListWrapper } from './index.js';
 
 const InstanceLinksList = props => {
 

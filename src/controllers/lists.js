@@ -1,11 +1,11 @@
-import sendResponse from './helpers/send-response';
-import fetchFromApi from '../lib/fetch-from-api';
-import { listPages } from '../pages';
+import sendResponse from './helpers/send-response.js';
+import fetchFromApi from '../lib/fetch-from-api.js';
+import { listPages } from '../pages/index.js';
 import {
 	PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP,
 	PLURALISED_MODEL_TO_PROP_NAME_MAP,
 	PLURALISED_MODEL_TO_TITLE_MAP
-} from '../utils/constants';
+} from '../utils/constants.js';
 
 export default async (request, response, next, pluralisedModel) => {
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import getInstanceTitle from '../../../src/lib/get-instance-title';
+import getInstanceTitle from '../../../src/lib/get-instance-title.js';
 
 describe('Get Instance Title module', () => {
 

@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { formatDate } from '../lib/format-date';
+import { formatDate } from '../lib/format-date.js';
 
 const AppendedDate = props => {
 

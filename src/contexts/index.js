@@ -1,4 +1,4 @@
-import CurrentPath from './CurrentPath';
+import CurrentPath from './CurrentPath.jsx';
 
 export {
 	CurrentPath

@@ -1,7 +1,7 @@
 import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { ProducerEntities } from '.';
-import { capitalise } from '../lib/strings';
+import { ProducerEntities } from './index.js';
+import { capitalise } from '../lib/strings.js';
 
 const ProducerCredits = props => {
 

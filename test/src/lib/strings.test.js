@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { capitalise } from '../../../src/lib/strings';
+import { capitalise } from '../../../src/lib/strings.js';
 
 describe('Strings module', () => {
 

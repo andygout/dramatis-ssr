@@ -1,6 +1,6 @@
 import { h } from 'preact'; // eslint-disable-line no-unused-vars
 
-import { AppendedQualifier, InstanceLink, ListWrapper } from '.';
+import { AppendedQualifier, InstanceLink, ListWrapper } from './index.js';
 
 const CharactersList = props => {
 
