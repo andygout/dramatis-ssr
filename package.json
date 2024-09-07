@@ -13,7 +13,7 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "rollup --config",
     "watch": "rollup --config --watch",
-    "start": "npm run watch & node --watch-path=built --watch-path=public --watch-preserve-output --require source-map-support/register built/main.js"
+    "start": "npm run watch & node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --require source-map-support/register built/main.js"
   },
   "pre-commit": [
     "lint-check",
