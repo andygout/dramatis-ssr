@@ -13,7 +13,7 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "rollup --config",
     "watch": "rollup --config --watch",
-    "start": "npm run watch & node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --require source-map-support/register built/main.js"
+    "start": "npm run watch & node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js"
   },
   "pre-commit": [
     "lint-check",
@@ -36,8 +36,7 @@
     "morgan": "1.10.0",
     "preact": "10.22.0",
     "preact-render-to-string": "6.5.3",
-    "serve-favicon": "2.5.0",
-    "source-map-support": "0.5.21"
+    "serve-favicon": "2.5.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "26.0.1",
