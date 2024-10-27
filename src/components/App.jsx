@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 import { Footer, Head, Header, InstanceLabel, Navigation, PageSubtitle, PageTitle } from './index.js';
 import { CurrentPath } from '../contexts/index.js';
 

@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 import { App } from '../components/index.js';
 
 const Home = props => {

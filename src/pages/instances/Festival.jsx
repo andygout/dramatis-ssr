@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 import { App, InstanceFacet, InstanceLink, ProductionsList } from '../../components/index.js';
 
 const Festival = props => {
