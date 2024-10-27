@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment } from 'preact';
 
 import { AppendedProductionDates, AppendedVenue, InstanceLink, PrependedSurInstance } from './index.js';
 

@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact'; // eslint-disable-line no-unused-vars
+import { Fragment } from 'preact';
 
 import { App, InstanceLink, ListWrapper } from '../../components/index.js';
 

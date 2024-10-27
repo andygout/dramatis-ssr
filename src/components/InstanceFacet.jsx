@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 const InstanceFacet = props => {
 
 	const { labelText, children } = props;

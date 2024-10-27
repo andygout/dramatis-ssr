@@ -20,13 +20,15 @@ const serverBundle = {
 		'node:http',
 		'preact',
 		'preact-render-to-string',
-		'preact/hooks'
+		'preact/hooks',
+		'react/jsx-runtime'
 	],
 	watch: {
 		clearScreen: false
 	},
 	plugins: [
 		esbuild({
+			jsx: 'automatic',
 			jsxFactory: 'h',
 			jsxFragment: 'Fragment'
 		}),

@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 import { App, InstanceLinksList } from '../../components/index.js';
 
 const Characters = props => {

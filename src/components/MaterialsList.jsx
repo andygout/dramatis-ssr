@@ -1,5 +1,3 @@
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
-
 import { ListWrapper, MaterialLinkWithContext } from './index.js';
 
 const MaterialsList = props => {
