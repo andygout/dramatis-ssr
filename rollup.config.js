@@ -18,10 +18,13 @@ const serverBundle = {
 		'express-session',
 		'morgan',
 		'node:http',
+		'node:path',
+		'node:url',
 		'preact',
 		'preact-render-to-string',
 		'preact/hooks',
-		'react/jsx-runtime'
+		'react/jsx-runtime',
+		'serve-favicon'
 	],
 	watch: {
 		clearScreen: false
