@@ -28,9 +28,7 @@ const serverBundle = {
 	},
 	plugins: [
 		esbuild({
-			jsx: 'automatic',
-			jsxFactory: 'h',
-			jsxFragment: 'Fragment'
+			jsx: 'automatic'
 		}),
 		copy({
 			targets: [
