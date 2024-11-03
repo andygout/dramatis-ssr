@@ -1,4 +1,10 @@
-import { Footer, Head, Header, InstanceLabel, Navigation, PageSubtitle, PageTitle } from './index.js';
+import Footer from './Footer.jsx';
+import Head from './Head.jsx';
+import Header from './Header.jsx';
+import InstanceLabel from './InstanceLabel.jsx';
+import Navigation from './Navigation.jsx';
+import PageSubtitle from './PageSubtitle.jsx';
+import PageTitle from './PageTitle.jsx';
 import { CurrentPath } from '../contexts/index.js';
 
 const App = props => {

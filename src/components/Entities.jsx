@@ -1,6 +1,7 @@
 import { Fragment } from 'preact';
 
-import { AppendedMembers, InstanceLink } from './index.js';
+import AppendedMembers from './AppendedMembers.jsx';
+import InstanceLink from './InstanceLink.jsx';
 
 const Entities = props => {
 

@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { Entities } from './index.js';
+import Entities from './Entities.jsx';
 
 const AppendedEntities = props => {
 

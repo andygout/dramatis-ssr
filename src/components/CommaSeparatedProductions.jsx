@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { ProductionLinkWithContext } from './index.js';
+import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
 
 const CommaSeparatedProductions = props => {
 

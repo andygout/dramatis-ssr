@@ -1,4 +1,6 @@
-import { AppendedProductionTeamCredits, ProductionLinkWithContext, ListWrapper } from './index.js';
+import AppendedProductionTeamCredits from './AppendedProductionTeamCredits.jsx';
+import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
+import ListWrapper from './ListWrapper.jsx';
 
 const CrewProductionsList = props => {
 

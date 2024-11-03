@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { MaterialLinkWithContext } from './index.js';
+import MaterialLinkWithContext from './MaterialLinkWithContext.jsx';
 
 const CommaSeparatedMaterials = props => {
 

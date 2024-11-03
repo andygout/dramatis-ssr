@@ -1,6 +1,7 @@
 import { Fragment } from 'preact';
 
-import { InstanceLink, JoinedRoles } from './index.js';
+import InstanceLink from './InstanceLink.jsx';
+import JoinedRoles from './JoinedRoles.jsx';
 
 const AppendedPerformers = props => {
 
