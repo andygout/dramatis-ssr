@@ -1,6 +1,9 @@
 import { Fragment } from 'preact';
 
-import { AppendedFormatAndYear, InstanceLink, PrependedSurInstance, WritingCredits } from './index.js';
+import AppendedFormatAndYear from './AppendedFormatAndYear.jsx';
+import InstanceLink from './InstanceLink.jsx';
+import PrependedSurInstance from './PrependedSurInstance.jsx';
+import WritingCredits from './WritingCredits.jsx';
 
 const WritingEntities = props => {
 

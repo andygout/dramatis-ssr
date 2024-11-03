@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { CommaSeparatedInstanceLinks } from './index.js';
+import CommaSeparatedInstanceLinks from './CommaSeparatedInstanceLinks.jsx';
 
 const AppendedMembers = props => {
 

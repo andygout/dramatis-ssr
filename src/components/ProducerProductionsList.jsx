@@ -1,6 +1,8 @@
 import { Fragment } from 'preact';
 
-import { ProducerCredits, ProductionLinkWithContext, ListWrapper } from './index.js';
+import ProducerCredits from './ProducerCredits.jsx';
+import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
+import ListWrapper from './ListWrapper.jsx';
 
 const ProducerProductionsList = props => {
 

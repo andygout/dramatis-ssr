@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { JoinedRoles } from './index.js';
+import JoinedRoles from './JoinedRoles.jsx';
 
 const AppendedRoles = props => {
 

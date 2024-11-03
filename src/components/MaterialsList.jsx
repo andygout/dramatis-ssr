@@ -1,4 +1,5 @@
-import { ListWrapper, MaterialLinkWithContext } from './index.js';
+import ListWrapper from './ListWrapper.jsx';
+import MaterialLinkWithContext from './MaterialLinkWithContext.jsx';
 
 const MaterialsList = props => {
 

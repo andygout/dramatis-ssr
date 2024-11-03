@@ -1,4 +1,5 @@
-import { ListWrapper, ProductionLinkWithContext } from './index.js';
+import ListWrapper from './ListWrapper.jsx';
+import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
 
 const ProductionsList = props => {
 

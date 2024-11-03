@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { InstanceLink } from './index.js';
+import InstanceLink from './InstanceLink.jsx';
 
 const PrependedSurInstance = props => {
 

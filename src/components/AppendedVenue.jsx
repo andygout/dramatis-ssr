@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 
-import { VenueLinkWithContext } from './index.js';
+import VenueLinkWithContext from './VenueLinkWithContext.jsx';
 
 const AppendedVenue = props => {
 

@@ -1,7 +1,7 @@
 import { Fragment } from 'preact';
 
-import { WritingEntities } from './index.js';
 import { capitalise } from '../lib/strings.js';
+import WritingEntities from './WritingEntities.jsx';
 
 const WritingCredits = props => {
 

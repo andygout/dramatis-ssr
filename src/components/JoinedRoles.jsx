@@ -1,6 +1,7 @@
 import { Fragment } from 'preact';
 
-import { AppendedQualifier, InstanceLink } from './index.js';
+import AppendedQualifier from './AppendedQualifier.jsx';
+import InstanceLink from './InstanceLink.jsx';
 
 const JoinedRoles = props => {
 
