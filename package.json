@@ -13,7 +13,8 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "rollup --config",
     "watch": "rollup --config --watch",
-    "start": "npm run watch & node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js"
+    "node": "node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js" ,
+    "start": "concurrently --names \"watch,node\" --prefixColors \"yellow,green\" \"npm run watch\" \"npm run node\""
   },
   "pre-commit": [
     "lint-check",
@@ -40,9 +41,10 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "26.0.1",
-    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-commonjs": "28.0.1",
+    "@rollup/plugin-node-resolve": "15.3.0",
     "chai": "4.4.1",
+    "concurrently": "9.1.0",
     "eslint": "8.57.0",
     "eslint-plugin-mocha": "^10.4.3",
     "eslint-plugin-no-only-tests": "3.1.0",
@@ -50,7 +52,7 @@
     "lintspaces-cli": "0.8.0",
     "mocha": "10.4.0",
     "pre-commit": "1.2.2",
-    "rollup": "4.18.1",
+    "rollup": "4.28.1",
     "rollup-plugin-copy": "3.5.0",
     "rollup-plugin-esbuild": "6.1.1",
     "rollup-plugin-watch-globs": "2.0.1",
