@@ -2,10 +2,9 @@ import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
 import esbuild from 'rollup-plugin-esbuild';
+import scss from 'rollup-plugin-scss';
 import watchGlobs from 'rollup-plugin-watch-globs';
 import * as sass from 'sass';
-
-import scss from './rollup-plugin-scss.js';
 
 const serverBundle = {
 	input: 'src/app.js',
