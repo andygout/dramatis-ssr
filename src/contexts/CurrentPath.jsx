@@ -1,4 +1,4 @@
-import { createContext } from 'preact'; // eslint-disable-line no-unused-vars
+import { createContext } from 'preact';
 
 const CurrentPath = createContext();
 
