@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle
+const __dirname = path.dirname(__filename); // eslint-disable-line no-underscore-dangle
 
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
@@ -47,7 +47,7 @@ export default [
 			'comma-dangle': 2,
 			eqeqeq: 2,
 			'guard-for-in': 2,
-			'new-cap': 0,
+			'new-cap': 2,
 			'no-caller': 2,
 			'no-console': 2,
 			'no-extend-native': 2,
@@ -56,7 +56,7 @@ export default [
 			'no-multi-spaces': 2,
 			'no-multiple-empty-lines': [2, { max: 1 }],
 			'no-undef': 2,
-			'no-underscore-dangle': 0,
+			'no-underscore-dangle': 2,
 			'no-unused-vars': 2,
 			'no-var': 2,
 			'one-var': [2, 'never'],
