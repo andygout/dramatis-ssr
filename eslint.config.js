@@ -47,7 +47,7 @@ export default [
 			'comma-dangle': 2,
 			eqeqeq: 2,
 			'guard-for-in': 2,
-			'new-cap': 0,
+			'new-cap': 2,
 			'no-caller': 2,
 			'no-console': 2,
 			'no-extend-native': 2,

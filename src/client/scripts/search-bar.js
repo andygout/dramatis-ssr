@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () { // eslint-disable-li
 
 	const oAutocompleteElement = document.getElementById('autocomplete'); // eslint-disable-line no-undef
 
-	new oAutocomplete(oAutocompleteElement, {
+	new oAutocomplete(oAutocompleteElement, { // eslint-disable-line new-cap
 		suggestionTemplate,
 		mapOptionToSuggestedValue,
 		onConfirm,
