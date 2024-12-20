@@ -89,6 +89,16 @@ export default [
 	},
 	{
 		files: [
+			'src/client/**/*.js'
+		],
+		languageOptions: {
+			globals: {
+				...globals.browser
+			}
+		}
+	},
+	{
+		files: [
 			'test/**/*.test.js'
 		],
 		languageOptions: {

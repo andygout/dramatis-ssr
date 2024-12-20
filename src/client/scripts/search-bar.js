@@ -101,7 +101,7 @@ function onConfirm (selectedOption) {
 
 	const instancePath = `/${MODEL_TO_ROUTE_MAP[model]}/${uuid}`;
 
-	location.href = instancePath; // eslint-disable-line no-undef
+	location.href = instancePath;
 
 }
 
@@ -121,9 +121,9 @@ async function customSearchResults (searchTerm, populateOptions) {
 
 }
 
-document.addEventListener('DOMContentLoaded', function () { // eslint-disable-line no-undef
+document.addEventListener('DOMContentLoaded', function () {
 
-	const oAutocompleteElement = document.getElementById('autocomplete'); // eslint-disable-line no-undef
+	const oAutocompleteElement = document.getElementById('autocomplete');
 
 	new oAutocomplete(oAutocompleteElement, { // eslint-disable-line new-cap
 		suggestionTemplate,
