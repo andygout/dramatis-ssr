@@ -13,7 +13,7 @@
     "unit-test": "mocha --config test/.mocharc.json",
     "build": "rollup --config",
     "watch": "rollup --config --watch",
-    "node": "node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js" ,
+    "node": "node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js",
     "start": "concurrently --names \"watch,node\" --prefixColors \"yellow,green\" \"npm run watch\" \"npm run node\""
   },
   "pre-commit": [
