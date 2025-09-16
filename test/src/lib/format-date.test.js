@@ -18,7 +18,7 @@ describe('Format Date module', () => {
 
 		it('returns a date formatted by factoring in the custom options', () => {
 
-			expect(formatDate('2021-04-09', { weekday: 'long', month: 'long' })).to.equal('Friday 09 April 2021');
+			expect(formatDate('2021-04-09', { weekday: 'long', month: 'long' })).to.equal('Friday, 09 April 2021');
 
 		});
 
