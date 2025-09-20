@@ -10,6 +10,27 @@ export const formatDate = (dateString, customOptions = {}) => {
 
 	const options = Object.assign({}, defaultOptions, customOptions);
 
-	return new Intl.DateTimeFormat('en-GB', options).format(date).replace('Sept', 'Sep');
+	const dateFormatter = new Intl.DateTimeFormat('en-GB', options);
+
+	return dateFormatter
+		.formatToParts(date)
+		.map(part => {
+			// Strip commas from literal parts.
+			if (part.type === 'literal') {
+				return part.value.replace(/,/g, '');
+			}
+
+			// Converts September's short form from 'Sept' to 'Sep'.
+			if (
+				part.type === 'month' &&
+				options.month === 'short' &&
+				part.value === 'Sept'
+			) {
+				return 'Sep';
+			}
+
+			return part.value;
+		})
+		.join('');
 
 };
