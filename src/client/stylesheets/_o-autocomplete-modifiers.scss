@@ -5,8 +5,12 @@
 }
 
 .o-autocomplete__input {
+	min-height: inherit !important;
 	padding-left: 12px !important;
 	border-radius: 6px !important;
+	font-family: inherit !important;
+	font-size: medium !important;
+	line-height: inherit !important;
 	color: color-variables.$default-text-color;
 }
 
@@ -23,6 +27,10 @@
 
 .o-autocomplete__menu--overlay {
 	top: calc(100% + 2px) !important;
+}
+
+.o-autocomplete__option {
+	font-size: medium;
 }
 
 .o-autocomplete__option--focused,
