@@ -32,7 +32,7 @@
     "@financial-times/o-autocomplete": "1.10.0",
     "@financial-times/o-forms": "9.12.1",
     "@financial-times/o-utils": "2.2.1",
-    "express": "4.21.2",
+    "express": "5.1.0",
     "express-session": "1.18.2",
     "morgan": "1.10.1",
     "preact": "10.27.2",
