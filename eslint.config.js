@@ -19,9 +19,9 @@ const compat = new FlatCompat({
 export default [
 	...compat.extends(
 		'eslint:recommended',
-		'plugin:mocha/recommended',
 		'plugin:react/recommended'
 	),
+	mochaPlugin.configs.recommended,
 	{
 		ignores: [
 			'built/*',
