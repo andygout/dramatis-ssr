@@ -77,7 +77,7 @@ router.get('/venues', (request, response, next) =>
 router.get('/venues/:uuid', (request, response, next) =>
 	instancesController(request, response, next));
 
-router.get('*', (request, response, next) => {
+router.use((request, response, next) => {
 
 	const error = new Error('Not Found');
 	error.status = 404;
