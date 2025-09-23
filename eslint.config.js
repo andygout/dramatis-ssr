@@ -1,25 +1,17 @@
 import js from '@eslint/js';
+import preactConfig from 'eslint-config-preact';
 import mochaPlugin from 'eslint-plugin-mocha';
-import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
 
 export default [
 	js.configs.recommended,
 	mochaPlugin.configs.recommended,
-	reactPlugin.configs.flat.recommended,
-	reactPlugin.configs.flat['jsx-runtime'],
+	...preactConfig,
 	{
 		ignores: [
 			'built/*',
 			'public/*'
 		]
-	},
-	{
-		settings: {
-			react: {
-				version: 'detect'
-			}
-		}
 	},
 	{
 		languageOptions: {
@@ -57,20 +49,7 @@ export default [
 	{
 		files: [
 			'**/*.jsx'
-		],
-		languageOptions: {
-			parserOptions: {
-				ecmaFeatures: {
-					jsx: true
-				}
-			}
-		},
-		plugins: {
-			react: reactPlugin
-		},
-		rules: {
-			'react/prop-types': 'off'
-		}
+		]
 	},
 	{
 		files: [
@@ -80,6 +59,9 @@ export default [
 			globals: {
 				...globals.browser
 			}
+		},
+		rules: {
+			'prefer-arrow-callback': 'off'
 		}
 	},
 	{
