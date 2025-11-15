@@ -27,37 +27,9 @@ async function getSearchResults (searchTerm) {
 
 }
 
-function highlightSuggestion (suggestion, query) {
+function suggestionTemplate (option, query, highlightSuggestion, isHighlightCorrespondingToMatch) {
 
-	const result = suggestion.split('');
-
-	const matchIndex = suggestion.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
-
-	return result.map((character, index) => {
-
-		let shouldHighlight = false;
-
-		const hasMatched = matchIndex > -1;
-
-		const characterIsWithinMatch =
-			index >= matchIndex &&
-			index <= matchIndex + query.length - 1;
-
-		if (hasMatched && characterIsWithinMatch) {
-
-			shouldHighlight = true;
-
-		}
-
-		return [character, shouldHighlight];
-
-	});
-
-}
-
-function suggestionTemplate (option, query) {
-
-	const characters = highlightSuggestion(option.name, query || option.name);
+	const characters = highlightSuggestion(option.name, query || option.name, isHighlightCorrespondingToMatch);
 
 	let highlightedOptionName = '';
 
@@ -127,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	new oAutocomplete(oAutocompleteElement, { // eslint-disable-line new-cap
 		suggestionTemplate,
+		isHighlightCorrespondingToMatch: true,
 		mapOptionToSuggestedValue,
 		onConfirm,
 		source: debounce(customSearchResults, 1000)
