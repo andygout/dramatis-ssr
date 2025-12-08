@@ -1,6 +1,6 @@
 import { MODELS } from '../utils/constants.js';
 
-export default instance => {
+const getInstanceTitle = instance => {
 
 	const { name } = instance;
 
@@ -26,3 +26,5 @@ export default instance => {
 	}
 
 };
+
+export default getInstanceTitle;

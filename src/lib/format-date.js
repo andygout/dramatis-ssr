@@ -1,4 +1,4 @@
-export const formatDate = (dateString, customOptions = {}) => {
+const formatDate = (dateString, customOptions = {}) => {
 
 	const date = new Date(dateString);
 
@@ -34,3 +34,5 @@ export const formatDate = (dateString, customOptions = {}) => {
 		.join('');
 
 };
+
+export default formatDate;

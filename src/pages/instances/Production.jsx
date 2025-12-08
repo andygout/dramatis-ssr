@@ -16,7 +16,7 @@ import {
 	ProductionTeamCreditsList,
 	VenueLinkWithContext
 } from '../../components/index.js';
-import { formatDate } from '../../lib/format-date.js';
+import formatDate from '../../lib/format-date.js';
 
 const Production = props => {
 
