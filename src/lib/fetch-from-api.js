@@ -1,6 +1,6 @@
 const API_URL_BASE = 'http://localhost:3000';
 
-export default async apiPath => {
+const fetchFromApi = async apiPath => {
 
 	const apiUrl = `${API_URL_BASE}${apiPath}`;
 
@@ -41,3 +41,5 @@ export default async apiPath => {
 	}
 
 };
+
+export default fetchFromApi;

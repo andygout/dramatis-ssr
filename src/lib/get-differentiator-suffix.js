@@ -1,4 +1,4 @@
-export default differentiator => {
+const getDifferentiatorSuffix = differentiator => {
 
 	if (!differentiator) return '';
 
@@ -7,3 +7,5 @@ export default differentiator => {
 	return ` (${differentiatorDisplayValue})`;
 
 };
+
+export default getDifferentiatorSuffix;
