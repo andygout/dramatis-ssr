@@ -1,16 +1,14 @@
-@use 'lib/color-variables';
-
-@mixin label {
+.instance-label,
+.instance-facet-label {
 	padding: 0 5px;
 	display: inline-block;
 	border-radius: 2px;
-	background-color: color-variables.$box-shadow-color;
+	background-color: var(--box-shadow-color);
 	font-weight: bold;
-	border: solid color-variables.$border-color;
+	border: solid var(--border-color);
 }
 
 .instance-label {
-	@include label;
 	margin-bottom: 20px;
 	border-width: 2px;
 	text-transform: uppercase;
@@ -21,7 +19,6 @@
 }
 
 .instance-facet-label {
-	@include label;
 	margin-bottom: 5px;
 	border-width: 1px;
 }
@@ -41,7 +38,7 @@
 .nested-instance {
 	margin-bottom: 20px;
 	padding: 10px 10px 0px;
-	background-color: color-variables.$nested-instance-background-color;
-	border: 2px solid color-variables.$border-color;
+	background-color: var(--nested-instance-background-color);
+	border: 2px solid var(--border-color);
 	border-radius: 5px;
 }

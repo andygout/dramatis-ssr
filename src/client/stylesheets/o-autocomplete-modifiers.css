@@ -1,0 +1,46 @@
+.o-autocomplete {
+	width: 100%;
+
+	.o-autocomplete__input {
+		min-height: inherit;
+		padding-left: 12px;
+		border-radius: 6px;
+		font-family: inherit;
+		font-size: medium;
+		line-height: inherit;
+		color: var(--default-text-color);
+	}
+
+	.o-autocomplete__menu {
+		padding: 8px;
+		border-radius: 6px;
+		color: var(--default-text-color);
+	}
+
+	.o-autocomplete__menu-loading-container {
+		top: calc(100% + 2px);
+		border-radius: 6px;
+	}
+
+	.o-autocomplete__menu--overlay {
+		top: calc(100% + 2px);
+	}
+
+	.o-autocomplete__option {
+		font-size: medium;
+	}
+
+	.o-autocomplete__option--focused,
+	.o-autocomplete__option:hover {
+		background-color: var(--autocomplete-selected-option-background-color);
+		border-color: var(--autocomplete-selected-option-background-color);
+
+		.o-autocomplete__option-suffix {
+			color: var(--autocomplete-selected-option-color);
+		}
+	}
+
+	.o-autocomplete__option-suffix {
+		color: var(--autocomplete-option-suffix-color);
+	}
+}
