@@ -1,20 +1,7 @@
 $system-code: '$$$-no-bizops-system-code-$$$'; // Required for Origami components.
 
-@use 'lib/color-variables';
-
-@use 'normalize';
-
-@use 'footer';
-@use 'header';
-@use 'instance';
-@use 'list';
-@use 'navigation';
-@use 'page';
-@use 'text';
-
-@use 'o-autocomplete-modifiers';
-@use 'o-forms-modifiers';
 @import '@financial-times/o-autocomplete/main';
 @import '@financial-times/o-forms/main';
+
 @include oAutocomplete();
 @include oForms();
