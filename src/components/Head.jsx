@@ -19,7 +19,7 @@ const Head = props => {
 			<link rel="stylesheet" href="/stylesheets/page.css" />
 			<link rel="stylesheet" href="/stylesheets/text.css" />
 
-			<link rel="stylesheet" href="/stylesheets/origami.css" />
+			<link rel="stylesheet" href="/stylesheets/scss-imports.css" />
 
 			<link rel="stylesheet" href="/stylesheets/o-autocomplete-modifiers.css" />
 			<link rel="stylesheet" href="/stylesheets/o-forms-modifiers.css" />
