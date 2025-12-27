@@ -19,7 +19,7 @@ async function performFetch (url) {
 
 async function getSearchResults (searchTerm) {
 
-	const url = `${URL_BASE}/api/search?searchTerm=${encodeURIComponent(searchTerm)}`;
+	const url = `${URL_BASE}/api/search?searchTerm=${encodeURIComponent(searchTerm.trim())}`;
 
 	const searchResults = await performFetch(url);
 

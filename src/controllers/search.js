@@ -4,9 +4,11 @@ export default async (request, response, next) => {
 
 	const { query: { searchTerm } } = request;
 
+	if (!searchTerm) return response.send([]);
+
 	try {
 
-		const searchResults = await fetchFromApi(`/search?searchTerm=${encodeURIComponent(searchTerm)}`);
+		const searchResults = await fetchFromApi(`/search?searchTerm=${encodeURIComponent(searchTerm.trim())}`);
 
 		return response.send(searchResults);
 
