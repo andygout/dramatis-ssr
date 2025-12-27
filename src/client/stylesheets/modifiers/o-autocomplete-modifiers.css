@@ -2,8 +2,11 @@
 	width: 100%;
 
 	.o-autocomplete__input {
+		--clear-input-button-width: 25px;
+
 		min-height: inherit;
 		padding-left: 12px;
+		padding-right: var(--clear-input-button-width);
 		border-radius: 6px;
 		font-family: inherit;
 		font-size: medium;
