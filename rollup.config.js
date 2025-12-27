@@ -86,8 +86,8 @@ const clientStylesBundle = {
 	]
 };
 
-const clientOrigamiStylesBundle = {
-	input: 'src/client/stylesheets/origami.scss',
+const clientScssImportsStylesBundle = {
+	input: 'src/client/stylesheets/scss-imports/index.scss',
 	output: {
 		dir: 'public'
 	},
@@ -96,10 +96,10 @@ const clientOrigamiStylesBundle = {
 	},
 	plugins: [
 		watchGlobs([
-			'src/client/stylesheets/origami.scss'
+			'src/client/stylesheets/scss-imports/**/*.scss'
 		]),
 		sassPlugin({
-			output: 'public/stylesheets/origami.css',
+			output: 'public/stylesheets/scss-imports.css',
 			api: 'modern',
 			runtime: sass,
 			options: {
@@ -122,5 +122,5 @@ export default [
 	serverBundle,
 	clientScriptsBundle,
 	clientStylesBundle,
-	clientOrigamiStylesBundle
+	clientScssImportsStylesBundle
 ];
