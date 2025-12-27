@@ -6,7 +6,7 @@ export default async (request, response, next) => {
 
 	try {
 
-		const searchResults = await fetchFromApi(`/search?searchTerm=${searchTerm}`);
+		const searchResults = await fetchFromApi(`/search?searchTerm=${encodeURIComponent(searchTerm)}`);
 
 		return response.send(searchResults);
 
