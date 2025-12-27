@@ -3,7 +3,11 @@ const Header = () => {
 	return (
 		<header className="header">
 
-			<a href='/' className="header__component header__home-link">Dramatis</a>
+			<div className="header__component">
+
+				<a href='/' className="header__home-link">Dramatis</a>
+
+			</div>
 
 			<span className="header__component o-forms-input o-forms-input--text">
 				<span id="autocomplete" className="o-autocomplete">
