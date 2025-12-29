@@ -21,8 +21,8 @@ const Head = props => {
 
 			<link rel="stylesheet" href="/stylesheets/scss-imports.css" />
 
-			<link rel="stylesheet" href="/stylesheets/o-autocomplete-modifiers.css" />
-			<link rel="stylesheet" href="/stylesheets/o-forms-modifiers.css" />
+			<link rel="stylesheet" href="/stylesheets/o-autocomplete-overrides.css" />
+			<link rel="stylesheet" href="/stylesheets/o-forms-overrides.css" />
 
 			<script src="/scripts/main.js" />
 		</head>
