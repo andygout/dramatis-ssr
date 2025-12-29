@@ -33,10 +33,17 @@
 		font-size: medium;
 	}
 
-	.o-autocomplete__option--focused,
 	.o-autocomplete__option:hover {
+		background-color: var(--autocomplete-option-background-color-hover);
+		border-color: var(--autocomplete-option-background-color-hover);
+		color: var(--default-text-color);
+	}
+
+	.o-autocomplete__option--focused,
+	.o-autocomplete__option--focused:hover {
 		background-color: var(--autocomplete-selected-option-background-color);
 		border-color: var(--autocomplete-selected-option-background-color);
+		color: var(--autocomplete-selected-option-color);
 
 		.o-autocomplete__option-suffix {
 			color: var(--autocomplete-selected-option-color);
