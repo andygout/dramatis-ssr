@@ -53,4 +53,9 @@
 	.o-autocomplete__option-suffix {
 		color: var(--autocomplete-option-suffix-color);
 	}
+
+	.o-autocomplete__option--no-results {
+		background-color: inherit;
+		color: inherit;
+	}
 }

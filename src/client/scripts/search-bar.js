@@ -101,7 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		suggestionTemplate,
 		isHighlightCorrespondingToMatch: true,
 		mapOptionToSuggestedValue,
+		confirmOnBlur: false,
 		onConfirm,
+		showNoOptionsFound: true,
 		source: debounce(customSearchResults, 1000)
 	});
 
