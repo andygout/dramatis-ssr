@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		suggestionTemplate,
 		isHighlightCorrespondingToMatch: true,
 		mapOptionToSuggestedValue,
+		reopenOnFocusWhenValid: true,
 		confirmOnBlur: false,
 		onConfirm,
 		showNoOptionsFound: true,
