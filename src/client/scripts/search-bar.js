@@ -1,4 +1,4 @@
-import oAutocomplete from '@financial-times/o-autocomplete';
+import Autocomplete from 'autocomplete';
 import { debounce } from '@financial-times/o-utils';
 
 import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants.js';
@@ -95,9 +95,9 @@ async function customSearchResults (searchTerm, populateOptions) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	const oAutocompleteElement = document.getElementById('autocomplete');
+	const autocompleteElement = document.getElementById('autocomplete');
 
-	new oAutocomplete(oAutocompleteElement, { // eslint-disable-line new-cap
+	new Autocomplete(autocompleteElement, {
 		suggestionTemplate,
 		isHighlightCorrespondingToMatch: true,
 		mapOptionToSuggestedValue,
