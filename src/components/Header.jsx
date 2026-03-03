@@ -9,7 +9,7 @@ const Header = () => {
 
 			</div>
 
-			<span className="header__component o-forms-input o-forms-input--text">
+			<span className="header__component autocomplete__wrapper">
 				<span id="autocomplete" className="o-autocomplete">
 					<input id="autocomplete-input" type="text" placeholder="Search Dramatis…" />
 				</span>

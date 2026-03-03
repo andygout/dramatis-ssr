@@ -1,7 +1,5 @@
 $system-code: 'image-service'; // Required for Origami components.
 
-@import '@financial-times/o-forms/main';
 @import 'autocomplete/main';
 
 @include oAutocomplete();
-@include oForms();
