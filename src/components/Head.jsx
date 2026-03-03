@@ -11,6 +11,7 @@ const Head = props => {
 
 			<link rel="stylesheet" href="/stylesheets/color-variables.css" />
 
+			<link rel="stylesheet" href="/stylesheets/autocomplete.css" />
 			<link rel="stylesheet" href="/stylesheets/footer.css" />
 			<link rel="stylesheet" href="/stylesheets/header.css" />
 			<link rel="stylesheet" href="/stylesheets/instance.css" />
@@ -22,7 +23,6 @@ const Head = props => {
 			<link rel="stylesheet" href="/stylesheets/scss-imports.css" />
 
 			<link rel="stylesheet" href="/stylesheets/o-autocomplete-overrides.css" />
-			<link rel="stylesheet" href="/stylesheets/o-forms-overrides.css" />
 
 			<script src="/scripts/main.js" />
 		</head>

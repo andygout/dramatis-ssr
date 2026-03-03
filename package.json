@@ -29,7 +29,6 @@
     "npm": "11.6.0"
   },
   "dependencies": {
-    "@financial-times/o-forms": "10.0.4",
     "@financial-times/o-utils": "2.2.1",
     "autocomplete": "github:andygout/autocomplete#v1.1.2",
     "express": "5.1.0",
