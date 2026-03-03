@@ -1,12 +1,9 @@
-import path from 'node:path';
-
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import postcssImport from 'postcss-import';
 import copy from 'rollup-plugin-copy';
 import esbuild from 'rollup-plugin-esbuild';
-import sassPlugin from 'rollup-plugin-sass';
-import watchGlobs from 'rollup-plugin-watch-globs';
-import * as sass from 'sass';
+import postcss from 'rollup-plugin-postcss';
 
 const serverBundle = {
 	input: 'src/app.js',
@@ -61,8 +58,6 @@ const clientScriptsBundle = {
 };
 
 const clientStylesBundle = {
-	// Rollup requires a JavaScript entry point.
-	// index.js is a placeholder for this purpose.
 	input: 'src/client/stylesheets/index.js',
 	output: {
 		dir: 'public'
@@ -71,49 +66,15 @@ const clientStylesBundle = {
 		clearScreen: false
 	},
 	plugins: [
-		watchGlobs([
-			'src/client/stylesheets/**/*.css'
-		]),
-		copy({
-			targets: [
-				{
-					src: 'src/client/stylesheets/**/*.css',
-					dest: 'public/stylesheets',
-					flatten: false
-				}
-			]
-		})
-	]
-};
-
-const clientScssImportsStylesBundle = {
-	input: 'src/client/stylesheets/scss-imports/index.scss',
-	output: {
-		dir: 'public'
-	},
-	watch: {
-		clearScreen: false
-	},
-	plugins: [
-		watchGlobs([
-			'src/client/stylesheets/scss-imports/**/*.scss'
-		]),
-		sassPlugin({
-			output: 'public/stylesheets/scss-imports.css',
-			api: 'modern',
-			runtime: sass,
-			options: {
-				// Let @import find packages' stylesheets by looking in node_modules directory.
-				loadPaths: [
-					path.resolve('node_modules')
-				],
-				// Until dependencies have migrated to Sass's modern compiler API.
-				silenceDeprecations: [
-					'import',
-					'global-builtin',
-					'color-functions'
-				]
-			}
+		nodeResolve({
+			browser: true
+		}),
+		postcss({
+			plugins: [
+				postcssImport()
+			],
+			extract: 'stylesheets/main.css',
+			minimize: false
 		})
 	]
 };
@@ -121,6 +82,5 @@ const clientScssImportsStylesBundle = {
 export default [
 	serverBundle,
 	clientScriptsBundle,
-	clientStylesBundle,
-	clientScssImportsStylesBundle
+	clientStylesBundle
 ];
