@@ -1,5 +1,6 @@
 import Autocomplete from 'autocomplete';
-import { debounce } from '@financial-times/o-utils';
+
+import debounce from './debounce';
 
 import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants.js';
 
