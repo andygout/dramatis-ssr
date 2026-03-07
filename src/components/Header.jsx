@@ -9,8 +9,8 @@ const Header = () => {
 
 			</div>
 
-			<span className="header__component autocomplete__wrapper">
-				<span id="autocomplete" className="o-autocomplete">
+			<span className="header__component">
+				<span id="autocomplete" className="autocomplete">
 					<input id="autocomplete-input" type="text" placeholder="Search Dramatis…" />
 				</span>
 			</span>

@@ -1,5 +1,4 @@
-import Autocomplete from 'autocomplete';
-
+import Autocomplete from './autocomplete';
 import debounce from './debounce';
 
 import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants.js';
@@ -38,7 +37,7 @@ function suggestionTemplate (option, query, highlightSuggestion, isHighlightCorr
 
 		if (shoudHighlight) {
 
-			highlightedOptionName += `<span class="o-autocomplete__option--highlight">${character}</span>`;
+			highlightedOptionName += `<span class="autocomplete__option--highlight">${character}</span>`;
 
 		} else {
 
@@ -52,7 +51,7 @@ function suggestionTemplate (option, query, highlightSuggestion, isHighlightCorr
 		<div>
 			<span">${highlightedOptionName}</span>
 			${' '}
-			<span class="o-autocomplete__option-suffix">${`(${MODEL_TO_DISPLAY_NAME_MAP[option.model]})`}</span>
+			<span class="autocomplete__option-suffix">${`(${MODEL_TO_DISPLAY_NAME_MAP[option.model]})`}</span>
 		</div>
 	`;
 
