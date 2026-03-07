@@ -11,6 +11,3 @@
 @import './navigation.css';
 @import './page.css';
 @import './text.css';
-
-@import 'autocomplete/main.css';
-@import './overrides/o-autocomplete-overrides.css';
