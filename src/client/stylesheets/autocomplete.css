@@ -1,5 +1,191 @@
-.autocomplete__wrapper input {
-	border: 1px;
-	padding: 0.5rem 1rem;
+.autocomplete {
+	position: relative;
+	display: inline-grid;
 	width: 100%;
+}
+
+.autocomplete__listbox-container {
+	line-height: 1.25rem;
+	grid-row: 1;
+	grid-column: 1;
+}
+
+.autocomplete__visually-hidden {
+	position: absolute;
+	width: 2px;
+	height: 2px;
+	overflow: hidden;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	clip: rect(0 0 0 0);
+	clip-path: polygon(0 0, 0 0);
+	white-space: nowrap;
+}
+
+.autocomplete__clear {
+	display: inline-block;
+	grid-row: 1;
+	grid-column: 1;
+	align-self: center;
+	justify-self: end;
+	vertical-align: baseline;
+	width: 25px;
+	height: 25px;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	background-image: url("https://images.ft.com/v3/image/raw/fticon-v1:cross?source=image-service&tint=%2333302E,%2333302E&format=svg");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: 50%;
+	appearance: none;
+	z-index: 1;
+}
+
+.autocomplete__input {
+	--clear-input-button-width: 25px;
+
+	width: 100%;
+	min-height: inherit;
+	padding: 0.5rem var(--clear-input-button-width) 0.5rem 12px;
+	box-sizing: border-box;
+	border: 1px;
+	border-radius: 6px;
+	line-height: inherit;
+	font-family: inherit;
+	font-size: medium;
+	color: var(--default-text-color);
+}
+
+.autocomplete__menu {
+	top: 4px;
+	width: 100%;
+	max-height: 200px;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 8px;
+	border-top: 0;
+	border-radius: 6px;
+	box-shadow: 0 1px 4px rgba(77, 72, 69, 0.15), 0 8px 14px rgba(77, 72, 69, 0.2);
+	background-color: var(--content-background-color);
+	color: var(--default-text-color);
+}
+
+.autocomplete__menu--visible {
+	display: block;
+}
+
+.autocomplete__menu--loading {
+	display: none;
+}
+
+.autocomplete__menu--hidden {
+	display: none;
+}
+
+.autocomplete__menu--overlay {
+	top: calc(100% + 2px);
+	box-sizing: border-box;
+	box-shadow: 0 1px 4px rgba(77, 72, 69, 0.15), 0 8px 14px rgba(77, 72, 69, 0.2);
+}
+
+.autocomplete__option {
+	position: relative;
+	display: block;
+	padding: 8px 4px;
+	border-bottom: 1px solid #E3E3E3;
+	border-width: 1px 0;
+	font-size: medium;
+	cursor: pointer;
+}
+
+.autocomplete__option > * {
+	pointer-events: none;
+}
+
+.autocomplete__option:first-of-type {
+	border-top-width: 0;
+}
+
+.autocomplete__option:last-of-type {
+	border-bottom-width: 0;
+}
+
+.autocomplete__option:hover {
+	outline: none;
+	border-color: var(--autocomplete-option-background-color-hover);
+	background-color: var(--autocomplete-option-background-color-hover);
+	color: var(--default-text-color);
+}
+
+.autocomplete__option--focused,
+.autocomplete__option--focused:hover {
+	outline: none;
+	border-color: var(--autocomplete-selected-option-background-color);
+	background-color: var(--autocomplete-selected-option-background-color);
+	color: var(--autocomplete-selected-option-color);
+
+	.autocomplete__option-suffix {
+		color: var(--autocomplete-selected-option-color);
+	}
+}
+
+.autocomplete__option-suffix {
+	color: var(--autocomplete-option-suffix-color);
+}
+
+.autocomplete__option--highlight {
+	font-weight: bolder;
+}
+
+.autocomplete__option--no-results {
+	background-color: inherit;
+	color: inherit;
+	cursor: not-allowed;
+}
+
+@keyframes loading-spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.autocomplete__menu-loading {
+	display: inline-block;
+	grid-row: 2;
+	width: 12px;
+	height: 12px;
+	border: 2px solid rgba(51, 48, 46, 0.25);
+	border-radius: 50%;
+	border-top-color: var(--loading-spinner-color);
+	animation: loading-spinner 1s infinite linear;
+}
+
+.autocomplete__menu-loading-container {
+	top: calc(100% + 2px);
+	min-height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	box-sizing: border-box;
+	box-shadow: 0 1px 4px rgba(77, 72, 69, 0.15), 0 8px 14px rgba(77, 72, 69, 0.2);
+	border-radius: 6px;
+	background-color: var(--content-background-color);
+}
+
+.autocomplete__menu-loading-container,
+.autocomplete__menu--overlay {
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 0;
+	right: 0;
+	z-index: 100;
 }
