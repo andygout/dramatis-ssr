@@ -1,5 +1,4 @@
 import Autocomplete from './autocomplete';
-import debounce from './debounce';
 
 import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/constants.js';
 
@@ -90,6 +89,25 @@ async function customSearchResults (searchTerm, populateOptions) {
 	const searchResults = await getSearchResults(searchTerm);
 
 	populateOptions(searchResults);
+
+}
+
+function debounce (func, wait) {
+
+	let timeout;
+
+	return function (...args) {
+
+		const later = () => {
+			timeout = null;
+			func.apply(this, args);
+		};
+
+		clearTimeout(timeout);
+
+		timeout = setTimeout(later, wait);
+
+	};
 
 }
 
