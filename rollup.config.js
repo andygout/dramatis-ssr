@@ -39,6 +39,26 @@ const serverBundle = {
 	]
 };
 
+const clientAssetsBundle = {
+	input: 'src/client/assets/index.js',
+	output: {
+		dir: 'public'
+	},
+	watch: {
+		clearScreen: false
+	},
+	plugins: [
+		copy({
+			targets: [
+				{
+					src: './src/client/assets/*',
+					dest: 'public/assets'
+				}
+			]
+		})
+	]
+};
+
 const clientScriptsBundle = {
 	input: 'src/client/scripts/index.js',
 	output: {
@@ -81,6 +101,7 @@ const clientStylesBundle = {
 
 export default [
 	serverBundle,
+	clientAssetsBundle,
 	clientScriptsBundle,
 	clientStylesBundle
 ];
