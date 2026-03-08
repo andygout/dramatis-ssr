@@ -1,4 +1,6 @@
 :root {
+	--autocomplete-clear-icon-color: #404040;
+	--autocomplete-clear-icon-color-hover-focus: #000000;
 	--autocomplete-option-suffix-color: #949494;
 	--autocomplete-option-background-color-hover: color-mix(
 		in srgb,
