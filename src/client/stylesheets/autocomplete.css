@@ -68,7 +68,7 @@
 	line-height: inherit;
 	font-family: inherit;
 	font-size: medium;
-	color: var(--default-text-color);
+	color: inherit;
 }
 
 .autocomplete__menu {
@@ -82,7 +82,6 @@
 	border-radius: 6px;
 	box-shadow: 0 1px 4px rgba(77, 72, 69, 0.15), 0 8px 14px rgba(77, 72, 69, 0.2);
 	background-color: var(--content-background-color);
-	color: var(--default-text-color);
 }
 
 .autocomplete__menu--visible {
@@ -129,7 +128,6 @@
 	outline: none;
 	border-color: var(--autocomplete-option-background-color-hover);
 	background-color: var(--autocomplete-option-background-color-hover);
-	color: var(--default-text-color);
 }
 
 .autocomplete__option--focused,
