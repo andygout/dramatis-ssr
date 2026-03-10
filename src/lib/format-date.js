@@ -1,5 +1,4 @@
 const formatDate = (dateString, customOptions = {}) => {
-
 	const date = new Date(dateString);
 
 	const defaultOptions = {
@@ -14,25 +13,20 @@ const formatDate = (dateString, customOptions = {}) => {
 
 	return dateFormatter
 		.formatToParts(date)
-		.map(part => {
+		.map((part) => {
 			// Strip commas from literal parts.
 			if (part.type === 'literal') {
 				return part.value.replace(/,/g, '');
 			}
 
 			// Converts September's short form from 'Sept' to 'Sep'.
-			if (
-				part.type === 'month' &&
-				options.month === 'short' &&
-				part.value === 'Sept'
-			) {
+			if (part.type === 'month' && options.month === 'short' && part.value === 'Sept') {
 				return 'Sep';
 			}
 
 			return part.value;
 		})
 		.join('');
-
 };
 
 export default formatDate;

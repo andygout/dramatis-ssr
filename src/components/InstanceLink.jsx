@@ -4,9 +4,10 @@ import { CurrentPath } from '../contexts/index.js';
 
 import { MODEL_TO_ROUTE_MAP } from '../utils/constants.js';
 
-const InstanceLink = props => {
-
-	const { instance: { model, uuid, name } } = props;
+const InstanceLink = (props) => {
+	const {
+		instance: { model, uuid, name }
+	} = props;
 
 	const instancePath = `/${MODEL_TO_ROUTE_MAP[model]}/${uuid}`;
 
@@ -18,10 +19,9 @@ const InstanceLink = props => {
 			className={instancePath === currentPath ? 'active' : null}
 			aria-current={instancePath === currentPath ? 'page' : null}
 		>
-			{ name }
+			{name}
 		</a>
 	);
-
 };
 
 export default InstanceLink;

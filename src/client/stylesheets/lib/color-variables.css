@@ -8,16 +8,16 @@
 		transparent 90%
 	);
 	--autocomplete-selected-option-background-color: #006699;
-	--autocomplete-selected-option-color: #FFFFFF;
+	--autocomplete-selected-option-color: #ffffff;
 	--border-color: #949494;
-	--box-shadow-color: #D0D0D0;
-	--content-background-color: #FFFFFF;
+	--box-shadow-color: #d0d0d0;
+	--content-background-color: #ffffff;
 	--default-text-color: #404040;
 	--header-background-color: #000000;
-	--header-text-color: #1975A3;
-	--header-text-color-hover: #3083AC;
-	--html-background-color: #F0F0F0;
+	--header-text-color: #1975a3;
+	--header-text-color-hover: #3083ac;
+	--html-background-color: #f0f0f0;
 	--interactive-text-color: #006699;
 	--loading-spinner-color: #404040;
-	--nested-instance-background-color: #F8F8F8;
+	--nested-instance-background-color: #f8f8f8;
 }

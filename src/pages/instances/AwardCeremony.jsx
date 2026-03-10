@@ -10,95 +10,59 @@ import {
 	ListWrapper
 } from '../../components/index.js';
 
-const AwardCeremony = props => {
-
+const AwardCeremony = (props) => {
 	const { currentPath, documentTitle, pageTitle, awardCeremony } = props;
 
 	const { model, award, categories } = awardCeremony;
 
 	return (
 		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{award && (
+				<InstanceFacet labelText="Award">
+					<InstanceLink instance={award} />
+				</InstanceFacet>
+			)}
 
-			{
-				award && (
-					<InstanceFacet labelText='Award'>
+			{categories?.length > 0 && (
+				<InstanceFacet labelText="Categories">
+					{categories.map((category, index) => (
+						<Fragment key={index}>
+							{category.name}
 
-						<InstanceLink instance={award} />
+							<ListWrapper>
+								{category.nominations.map((nomination, index) => (
+									<li key={index}>
+										<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
+											{`${nomination.type}: `}
+										</span>
 
-					</InstanceFacet>
-				)
-			}
+										{nomination.entities.length > 0 && <Entities entities={nomination.entities} />}
 
-			{
-				categories?.length > 0 && (
-					<InstanceFacet labelText='Categories'>
+										{nomination.entities.length > 0 &&
+											(nomination.productions.length > 0 || nomination.materials.length > 0) && (
+												<Fragment>{' for '}</Fragment>
+											)}
 
-						{
-							categories.map((category, index) =>
-								<Fragment key={index}>
-									{ category.name }
+										{nomination.productions.length > 0 && (
+											<CommaSeparatedProductions productions={nomination.productions} />
+										)}
 
-									<ListWrapper>
+										{nomination.productions.length > 0 && nomination.materials.length > 0 && (
+											<Fragment>{'; '}</Fragment>
+										)}
 
-										{
-											category.nominations.map((nomination, index) =>
-												<li key={index}>
-													<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-														{`${nomination.type}: `}
-													</span>
-
-													{
-														nomination.entities.length > 0 && (
-															<Entities entities={nomination.entities} />
-														)
-													}
-
-													{
-														nomination.entities.length > 0 &&
-														(
-															nomination.productions.length > 0 ||
-															nomination.materials.length > 0
-														) && (
-															<Fragment>{' for '}</Fragment>
-														)
-													}
-
-													{
-														nomination.productions.length > 0 && (
-															<CommaSeparatedProductions
-																productions={nomination.productions}
-															/>
-														)
-													}
-
-													{
-														nomination.productions.length > 0 &&
-														nomination.materials.length > 0 && (
-															<Fragment>{'; '}</Fragment>
-														)
-													}
-
-													{
-														nomination.materials.length > 0 && (
-															<CommaSeparatedMaterials materials={nomination.materials} />
-														)
-													}
-												</li>
-											)
-										}
-
-									</ListWrapper>
-								</Fragment>
-							)
-						}
-
-					</InstanceFacet>
-				)
-			}
-
+										{nomination.materials.length > 0 && (
+											<CommaSeparatedMaterials materials={nomination.materials} />
+										)}
+									</li>
+								))}
+							</ListWrapper>
+						</Fragment>
+					))}
+				</InstanceFacet>
+			)}
 		</App>
 	);
-
 };
 
 export default AwardCeremony;

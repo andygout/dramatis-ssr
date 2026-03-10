@@ -3,64 +3,40 @@ import { Fragment } from 'preact';
 import InstanceLink from './InstanceLink.jsx';
 import JoinedRoles from './JoinedRoles.jsx';
 
-const AppendedPerformers = props => {
-
+const AppendedPerformers = (props) => {
 	const { performers } = props;
 
 	return (
 		<Fragment>
-
 			<Fragment>{' — performed by: '}</Fragment>
 
-			{
-				performers
-					.map((performer, index) =>
-						<Fragment key={index}>
+			{performers
+				.map((performer, index) => (
+					<Fragment key={index}>
+						<InstanceLink instance={performer} />
 
-							<InstanceLink instance={performer} />
+						<Fragment>{' … '}</Fragment>
 
-							<Fragment>{' … '}</Fragment>
+						<span className="fictional-name-text">
+							{performer.roleName}
 
-							<span className="fictional-name-text">
+							{performer.qualifier && <Fragment>{` (${performer.qualifier})`}</Fragment>}
+						</span>
 
-								{
-									performer.roleName
-								}
+						{performer.isAlternate && <Fragment>{' [alt]'}</Fragment>}
 
-								{
-									performer.qualifier && (
-										<Fragment>{` (${performer.qualifier})`}</Fragment>
-									)
-								}
+						{performer.otherRoles.length > 0 && (
+							<Fragment>
+								<Fragment>{'; also performed: '}</Fragment>
 
-							</span>
-
-							{
-								performer.isAlternate && (
-									<Fragment>{' [alt]'}</Fragment>
-								)
-							}
-
-							{
-								performer.otherRoles.length > 0 && (
-									<Fragment>
-
-										<Fragment>{'; also performed: '}</Fragment>
-
-										<JoinedRoles instances={performer.otherRoles} />
-
-									</Fragment>
-								)
-							}
-
-						</Fragment>
-					)
-					.reduce((accumulator, currentValue) => [accumulator, ' / ', currentValue])
-			}
-
+								<JoinedRoles instances={performer.otherRoles} />
+							</Fragment>
+						)}
+					</Fragment>
+				))
+				.reduce((accumulator, currentValue) => [accumulator, ' / ', currentValue])}
 		</Fragment>
 	);
-
 };
 
 export default AppendedPerformers;

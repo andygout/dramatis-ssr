@@ -20,8 +20,7 @@ import {
 	ProductionsList
 } from '../../components/index.js';
 
-const Person = props => {
-
+const Person = (props) => {
 	const { currentPath, documentTitle, pageTitle, person } = props;
 
 	const {
@@ -47,577 +46,458 @@ const Person = props => {
 
 	return (
 		<App currentPath={currentPath} documentTitle={documentTitle} pageTitle={pageTitle} model={model}>
+			{materials?.length > 0 && (
+				<InstanceFacet labelText="Materials">
+					<MaterialsList materials={materials} />
+				</InstanceFacet>
+			)}
 
-			{
-				materials?.length > 0 && (
-					<InstanceFacet labelText='Materials'>
+			{subsequentVersionMaterials?.length > 0 && (
+				<InstanceFacet labelText="Subsequent versions of their materials">
+					<MaterialsList materials={subsequentVersionMaterials} />
+				</InstanceFacet>
+			)}
 
-						<MaterialsList materials={materials} />
+			{sourcingMaterials?.length > 0 && (
+				<InstanceFacet labelText="Materials as source material writer">
+					<MaterialsList materials={sourcingMaterials} />
+				</InstanceFacet>
+			)}
 
-					</InstanceFacet>
-				)
-			}
+			{rightsGrantorMaterials?.length > 0 && (
+				<InstanceFacet labelText="Materials as rights grantor">
+					<MaterialsList materials={rightsGrantorMaterials} />
+				</InstanceFacet>
+			)}
 
-			{
-				subsequentVersionMaterials?.length > 0 && (
-					<InstanceFacet labelText='Subsequent versions of their materials'>
+			{materialProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions of materials">
+					<ProductionsList productions={materialProductions} />
+				</InstanceFacet>
+			)}
 
-						<MaterialsList materials={subsequentVersionMaterials} />
+			{subsequentVersionMaterialProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions of subsequent versions of their materials">
+					<ProductionsList productions={subsequentVersionMaterialProductions} />
+				</InstanceFacet>
+			)}
 
-					</InstanceFacet>
-				)
-			}
+			{sourcingMaterialProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions of materials as source material writer">
+					<ProductionsList productions={sourcingMaterialProductions} />
+				</InstanceFacet>
+			)}
 
-			{
-				sourcingMaterials?.length > 0 && (
-					<InstanceFacet labelText='Materials as source material writer'>
+			{rightsGrantorMaterialProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions of materials as rights grantor">
+					<ProductionsList productions={rightsGrantorMaterialProductions} />
+				</InstanceFacet>
+			)}
 
-						<MaterialsList materials={sourcingMaterials} />
+			{producerProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions as producer">
+					<ProducerProductionsList productions={producerProductions} />
+				</InstanceFacet>
+			)}
 
-					</InstanceFacet>
-				)
-			}
+			{castMemberProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions as cast member">
+					<ListWrapper>
+						{castMemberProductions.map((castMemberProduction, index) => (
+							<li key={index}>
+								<ProductionLinkWithContext production={castMemberProduction} />
 
-			{
-				rightsGrantorMaterials?.length > 0 && (
-					<InstanceFacet labelText='Materials as rights grantor'>
+								{castMemberProduction.roles?.length > 0 && (
+									<AppendedRoles roles={castMemberProduction.roles} />
+								)}
+							</li>
+						))}
+					</ListWrapper>
+				</InstanceFacet>
+			)}
 
-						<MaterialsList materials={rightsGrantorMaterials} />
+			{creativeProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions as creative team member">
+					<CreativeProductionsList productions={creativeProductions} />
+				</InstanceFacet>
+			)}
 
-					</InstanceFacet>
-				)
-			}
+			{crewProductions?.length > 0 && (
+				<InstanceFacet labelText="Productions as crew member">
+					<CrewProductionsList productions={crewProductions} />
+				</InstanceFacet>
+			)}
 
-			{
-				materialProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions of materials'>
+			{reviewCriticProductions?.length > 0 && (
+				<InstanceFacet labelText="Reviewed productions">
+					<ListWrapper>
+						{reviewCriticProductions.map((reviewCriticProduction, index) => (
+							<li key={index}>
+								<ProductionLinkWithContext production={reviewCriticProduction} />
 
-						<ProductionsList productions={materialProductions} />
+								{' — reviewed for '}
 
-					</InstanceFacet>
-				)
-			}
+								<InstanceLink instance={reviewCriticProduction.review.publication} />
 
-			{
-				subsequentVersionMaterialProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions of subsequent versions of their materials'>
+								{reviewCriticProduction.review.date && (
+									<AppendedDate date={reviewCriticProduction.review.date} />
+								)}
 
-						<ProductionsList productions={subsequentVersionMaterialProductions} />
+								{': '}
 
-					</InstanceFacet>
-				)
-			}
+								<a href={reviewCriticProduction.review.url} target="_blank" rel="noopener noreferrer">
+									{'link'}
+								</a>
+							</li>
+						))}
+					</ListWrapper>
+				</InstanceFacet>
+			)}
 
-			{
-				sourcingMaterialProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions of materials as source material writer'>
+			{awards?.length > 0 && (
+				<InstanceFacet labelText="Awards">
+					{awards.map((award, index) => (
+						<Fragment key={index}>
+							<InstanceLink instance={award} />
 
-						<ProductionsList productions={sourcingMaterialProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				rightsGrantorMaterialProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions of materials as rights grantor'>
-
-						<ProductionsList productions={rightsGrantorMaterialProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				producerProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions as producer'>
-
-						<ProducerProductionsList productions={producerProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				castMemberProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions as cast member'>
-
-						<ListWrapper>
-
-							{
-								castMemberProductions.map((castMemberProduction, index) =>
+							<ListWrapper>
+								{award.ceremonies.map((ceremony, index) => (
 									<li key={index}>
-
-										<ProductionLinkWithContext production={castMemberProduction} />
-
-										{
-											castMemberProduction.roles?.length > 0 && (
-												<AppendedRoles roles={castMemberProduction.roles} />
-											)
-										}
-
-									</li>
-								)
-							}
-
-						</ListWrapper>
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				creativeProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions as creative team member'>
-
-						<CreativeProductionsList productions={creativeProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				crewProductions?.length > 0 && (
-					<InstanceFacet labelText='Productions as crew member'>
-
-						<CrewProductionsList productions={crewProductions} />
-
-					</InstanceFacet>
-				)
-			}
-
-			{
-				reviewCriticProductions?.length > 0 && (
-					<InstanceFacet labelText='Reviewed productions'>
-
-						<ListWrapper>
-
-							{
-								reviewCriticProductions.map((reviewCriticProduction, index) =>
-									<li key={index}>
-
-										<ProductionLinkWithContext production={reviewCriticProduction} />
-
-										{' — reviewed for '}
-
-										<InstanceLink instance={reviewCriticProduction.review.publication} />
-
-										{
-											(reviewCriticProduction.review.date) && (
-												<AppendedDate date={reviewCriticProduction.review.date} />
-											)
-										}
-
+										<InstanceLink instance={ceremony} />
 										{': '}
 
-										<a
-											href={reviewCriticProduction.review.url}
-											target="_blank"
-											rel="noopener noreferrer"
-										>{'link'}</a>
+										{ceremony.categories
+											.map((category, index) => (
+												<Fragment key={index}>
+													{category.name}
+													{': '}
 
+													{category.nominations
+														.map((nomination, index) => (
+															<Fragment key={index}>
+																<span
+																	className={
+																		nomination.isWinner
+																			? 'nomination-winner-text'
+																			: ''
+																	}
+																>
+																	{nomination.type}
+																</span>
+
+																{nomination.employerCompany && (
+																	<AppendedEmployerCompany
+																		employerCompany={nomination.employerCompany}
+																	/>
+																)}
+
+																{nomination.coEntities.length > 0 && (
+																	<AppendedCoEntities
+																		coEntities={nomination.coEntities}
+																	/>
+																)}
+
+																{nomination.productions.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedProductions
+																			productions={nomination.productions}
+																		/>
+																	</Fragment>
+																)}
+
+																{nomination.productions.length > 0 &&
+																	nomination.materials.length > 0 && (
+																		<Fragment>{';'}</Fragment>
+																	)}
+
+																{nomination.materials.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={nomination.materials}
+																		/>
+																	</Fragment>
+																)}
+															</Fragment>
+														))
+														.reduce((accumulator, currentValue) => [
+															accumulator,
+															', ',
+															currentValue
+														])}
+												</Fragment>
+											))
+											.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])}
 									</li>
-								)
-							}
+								))}
+							</ListWrapper>
+						</Fragment>
+					))}
+				</InstanceFacet>
+			)}
 
-						</ListWrapper>
+			{subsequentVersionMaterialAwards?.length > 0 && (
+				<InstanceFacet labelText="Awards for subsequent versions of their material">
+					{subsequentVersionMaterialAwards.map((subsequentVersionMaterialAward, index) => (
+						<Fragment key={index}>
+							<InstanceLink instance={subsequentVersionMaterialAward} />
 
-					</InstanceFacet>
-				)
-			}
+							<ListWrapper>
+								{subsequentVersionMaterialAward.ceremonies.map((ceremony, index) => (
+									<li key={index}>
+										<InstanceLink instance={ceremony} />
+										{': '}
 
-			{
-				awards?.length > 0 && (
-					<InstanceFacet labelText='Awards'>
+										{ceremony.categories
+											.map((category, index) => (
+												<Fragment key={index}>
+													{category.name}
+													{': '}
 
-						{
-							awards.map((award, index) =>
-								<Fragment key={index}>
-									<InstanceLink instance={award} />
-
-									<ListWrapper>
-
-										{
-											award.ceremonies.map((ceremony, index) =>
-												<li key={index}>
-													<InstanceLink instance={ceremony} />{': '}
-
-													{
-														ceremony.categories
-															.map((category, index) =>
-																<Fragment key={index}>
-																	{ category.name }{': '}
-
-																	{
-																		category.nominations
-																			.map((nomination, index) =>
-																				<Fragment key={index}>
-																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-																						{nomination.type}
-																					</span>
-
-																					{
-																						nomination.employerCompany && (
-																							<AppendedEmployerCompany
-																								employerCompany={nomination.employerCompany}
-																							/>
-																						)
-																					}
-
-																					{
-																						nomination.coEntities.length > 0 && (
-																							<AppendedCoEntities
-																								coEntities={nomination.coEntities}
-																							/>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedProductions
-																									productions={nomination.productions}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 &&
-																						nomination.materials.length > 0 && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.materials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.materials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-																				</Fragment>
-																			)
-																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
+													{category.nominations
+														.map((nomination, index) => (
+															<Fragment key={index}>
+																<span
+																	className={
+																		nomination.isWinner
+																			? 'nomination-winner-text'
+																			: ''
 																	}
-																</Fragment>
-															)
-															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
-													}
-												</li>
-											)
-										}
+																>
+																	{nomination.type}
+																</span>
 
-									</ListWrapper>
-								</Fragment>
-							)
-						}
+																{nomination.recipientSubsequentVersionMaterials.length >
+																	0 && (
+																	<Fragment>
+																		<Fragment>{': '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={
+																				nomination.recipientSubsequentVersionMaterials
+																			}
+																		/>
+																	</Fragment>
+																)}
 
-					</InstanceFacet>
-				)
-			}
+																{nomination.entities.length > 0 && (
+																	<AppendedEntities entities={nomination.entities} />
+																)}
 
-			{
-				subsequentVersionMaterialAwards?.length > 0 && (
-					<InstanceFacet labelText='Awards for subsequent versions of their material'>
+																{nomination.productions.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedProductions
+																			productions={nomination.productions}
+																		/>
+																	</Fragment>
+																)}
 
-						{
-							subsequentVersionMaterialAwards.map((subsequentVersionMaterialAward, index) =>
-								<Fragment key={index}>
-									<InstanceLink instance={subsequentVersionMaterialAward} />
+																{nomination.productions.length > 0 &&
+																	nomination.materials.length > 0 && (
+																		<Fragment>{';'}</Fragment>
+																	)}
 
-									<ListWrapper>
+																{nomination.materials.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={nomination.materials}
+																		/>
+																	</Fragment>
+																)}
+															</Fragment>
+														))
+														.reduce((accumulator, currentValue) => [
+															accumulator,
+															', ',
+															currentValue
+														])}
+												</Fragment>
+											))
+											.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])}
+									</li>
+								))}
+							</ListWrapper>
+						</Fragment>
+					))}
+				</InstanceFacet>
+			)}
 
-										{
-											subsequentVersionMaterialAward.ceremonies.map((ceremony, index) =>
-												<li key={index}>
-													<InstanceLink instance={ceremony} />{': '}
+			{sourcingMaterialAwards?.length > 0 && (
+				<InstanceFacet labelText="Awards for materials as source material writer">
+					{sourcingMaterialAwards.map((sourcingMaterialAward, index) => (
+						<Fragment key={index}>
+							<InstanceLink instance={sourcingMaterialAward} />
 
-													{
-														ceremony.categories
-															.map((category, index) =>
-																<Fragment key={index}>
-																	{ category.name }{': '}
+							<ListWrapper>
+								{sourcingMaterialAward.ceremonies.map((ceremony, index) => (
+									<li key={index}>
+										<InstanceLink instance={ceremony} />
+										{': '}
 
-																	{
-																		category.nominations
-																			.map((nomination, index) =>
-																				<Fragment key={index}>
-																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-																						{nomination.type}
-																					</span>
+										{ceremony.categories
+											.map((category, index) => (
+												<Fragment key={index}>
+													{category.name}
+													{': '}
 
-																					{
-																						nomination.recipientSubsequentVersionMaterials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{': '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.recipientSubsequentVersionMaterials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.entities.length > 0 && (
-																							<AppendedEntities
-																								entities={nomination.entities}
-																							/>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedProductions
-																									productions={nomination.productions}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 &&
-																						nomination.materials.length > 0 && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.materials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.materials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-																				</Fragment>
-																			)
-																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
+													{category.nominations
+														.map((nomination, index) => (
+															<Fragment key={index}>
+																<span
+																	className={
+																		nomination.isWinner
+																			? 'nomination-winner-text'
+																			: ''
 																	}
-																</Fragment>
-															)
-															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
-													}
-												</li>
-											)
-										}
+																>
+																	{nomination.type}
+																</span>
 
-									</ListWrapper>
-								</Fragment>
-							)
-						}
+																{nomination.recipientSourcingMaterials.length > 0 && (
+																	<Fragment>
+																		<Fragment>{': '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={
+																				nomination.recipientSourcingMaterials
+																			}
+																		/>
+																	</Fragment>
+																)}
 
-					</InstanceFacet>
-				)
-			}
+																{nomination.entities.length > 0 && (
+																	<AppendedEntities entities={nomination.entities} />
+																)}
 
-			{
-				sourcingMaterialAwards?.length > 0 && (
-					<InstanceFacet labelText='Awards for materials as source material writer'>
+																{nomination.productions.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedProductions
+																			productions={nomination.productions}
+																		/>
+																	</Fragment>
+																)}
 
-						{
-							sourcingMaterialAwards.map((sourcingMaterialAward, index) =>
-								<Fragment key={index}>
-									<InstanceLink instance={sourcingMaterialAward} />
+																{nomination.productions.length > 0 &&
+																	nomination.materials.length > 0 && (
+																		<Fragment>{';'}</Fragment>
+																	)}
 
-									<ListWrapper>
+																{nomination.materials.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={nomination.materials}
+																		/>
+																	</Fragment>
+																)}
+															</Fragment>
+														))
+														.reduce((accumulator, currentValue) => [
+															accumulator,
+															', ',
+															currentValue
+														])}
+												</Fragment>
+											))
+											.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])}
+									</li>
+								))}
+							</ListWrapper>
+						</Fragment>
+					))}
+				</InstanceFacet>
+			)}
 
-										{
-											sourcingMaterialAward.ceremonies.map((ceremony, index) =>
-												<li key={index}>
-													<InstanceLink instance={ceremony} />{': '}
+			{rightsGrantorMaterialAwards?.length > 0 && (
+				<InstanceFacet labelText="Awards for materials as rights grantor">
+					{rightsGrantorMaterialAwards.map((rightsGrantorMaterialAward, index) => (
+						<Fragment key={index}>
+							<InstanceLink instance={rightsGrantorMaterialAward} />
 
-													{
-														ceremony.categories
-															.map((category, index) =>
-																<Fragment key={index}>
-																	{ category.name }{': '}
+							<ListWrapper>
+								{rightsGrantorMaterialAward.ceremonies.map((ceremony, index) => (
+									<li key={index}>
+										<InstanceLink instance={ceremony} />
+										{': '}
 
-																	{
-																		category.nominations
-																			.map((nomination, index) =>
-																				<Fragment key={index}>
-																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-																						{nomination.type}
-																					</span>
+										{ceremony.categories
+											.map((category, index) => (
+												<Fragment key={index}>
+													{category.name}
+													{': '}
 
-																					{
-																						nomination.recipientSourcingMaterials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{': '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.recipientSourcingMaterials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.entities.length > 0 && (
-																							<AppendedEntities
-																								entities={nomination.entities}
-																							/>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedProductions
-																									productions={nomination.productions}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 &&
-																						nomination.materials.length > 0 && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.materials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.materials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-																				</Fragment>
-																			)
-																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
+													{category.nominations
+														.map((nomination, index) => (
+															<Fragment key={index}>
+																<span
+																	className={
+																		nomination.isWinner
+																			? 'nomination-winner-text'
+																			: ''
 																	}
-																</Fragment>
-															)
-															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
-													}
-												</li>
-											)
-										}
+																>
+																	{nomination.type}
+																</span>
 
-									</ListWrapper>
-								</Fragment>
-							)
-						}
+																{nomination.recipientRightsGrantorMaterials.length >
+																	0 && (
+																	<Fragment>
+																		<Fragment>{': '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={
+																				nomination.recipientRightsGrantorMaterials
+																			}
+																		/>
+																	</Fragment>
+																)}
 
-					</InstanceFacet>
-				)
-			}
+																{nomination.entities.length > 0 && (
+																	<AppendedEntities entities={nomination.entities} />
+																)}
 
-			{
-				rightsGrantorMaterialAwards?.length > 0 && (
-					<InstanceFacet labelText='Awards for materials as rights grantor'>
+																{nomination.productions.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedProductions
+																			productions={nomination.productions}
+																		/>
+																	</Fragment>
+																)}
 
-						{
-							rightsGrantorMaterialAwards.map((rightsGrantorMaterialAward, index) =>
-								<Fragment key={index}>
-									<InstanceLink instance={rightsGrantorMaterialAward} />
+																{nomination.productions.length > 0 &&
+																	nomination.materials.length > 0 && (
+																		<Fragment>{';'}</Fragment>
+																	)}
 
-									<ListWrapper>
-
-										{
-											rightsGrantorMaterialAward.ceremonies.map((ceremony, index) =>
-												<li key={index}>
-													<InstanceLink instance={ceremony} />{': '}
-
-													{
-														ceremony.categories
-															.map((category, index) =>
-																<Fragment key={index}>
-																	{ category.name }{': '}
-
-																	{
-																		category.nominations
-																			.map((nomination, index) =>
-																				<Fragment key={index}>
-																					<span className={nomination.isWinner ? 'nomination-winner-text' : ''}>
-																						{nomination.type}
-																					</span>
-
-																					{
-																						nomination.recipientRightsGrantorMaterials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{': '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.recipientRightsGrantorMaterials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.entities.length > 0 && (
-																							<AppendedEntities
-																								entities={nomination.entities}
-																							/>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedProductions
-																									productions={nomination.productions}
-																								/>
-																							</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.productions.length > 0 &&
-																						nomination.materials.length > 0 && (
-																							<Fragment>{';'}</Fragment>
-																						)
-																					}
-
-																					{
-																						nomination.materials.length > 0 && (
-																							<Fragment>
-																								<Fragment>{' for '}</Fragment>
-																								<CommaSeparatedMaterials
-																									materials={nomination.materials}
-																								/>
-																							</Fragment>
-																						)
-																					}
-																				</Fragment>
-																			)
-																			.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])
-																	}
-																</Fragment>
-															)
-															.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])
-													}
-												</li>
-											)
-										}
-
-									</ListWrapper>
-								</Fragment>
-							)
-						}
-
-					</InstanceFacet>
-				)
-			}
-
+																{nomination.materials.length > 0 && (
+																	<Fragment>
+																		<Fragment>{' for '}</Fragment>
+																		<CommaSeparatedMaterials
+																			materials={nomination.materials}
+																		/>
+																	</Fragment>
+																)}
+															</Fragment>
+														))
+														.reduce((accumulator, currentValue) => [
+															accumulator,
+															', ',
+															currentValue
+														])}
+												</Fragment>
+											))
+											.reduce((accumulator, currentValue) => [accumulator, '; ', currentValue])}
+									</li>
+								))}
+							</ListWrapper>
+						</Fragment>
+					))}
+				</InstanceFacet>
+			)}
 		</App>
 	);
-
 };
 
 export default Person;

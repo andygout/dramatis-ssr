@@ -48,7 +48,9 @@ button {
 	border-left: solid var(--border-color);
 	border-right: solid var(--border-color);
 	border-width: 0 2px 2px;
-	box-shadow: 5px 5px 100px var(--border-color), 5px 5px 100px var(--box-shadow-color);
+	box-shadow:
+		5px 5px 100px var(--border-color),
+		5px 5px 100px var(--box-shadow-color);
 	text-align: left;
 }
 

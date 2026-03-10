@@ -1,13 +1,11 @@
 import { MODELS } from '../utils/constants.js';
 
-const getInstanceTitle = instance => {
-
+const getInstanceTitle = (instance) => {
 	const { name } = instance;
 
 	let title = name;
 
 	switch (instance.model) {
-
 		case MODELS.AWARD_CEREMONY:
 			if (instance.award) title = `${instance.award.name} ${title}`;
 			return title;
@@ -22,9 +20,7 @@ const getInstanceTitle = instance => {
 
 		default:
 			return title;
-
 	}
-
 };
 
 export default getInstanceTitle;

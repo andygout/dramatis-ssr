@@ -8,11 +8,9 @@ import {
 } from '../utils/constants.js';
 
 export default async (request, response, next, pluralisedModel) => {
-
 	const apiPath = request.path;
 
 	try {
-
 		const list = await fetchFromApi(apiPath);
 
 		const title = PLURALISED_MODEL_TO_TITLE_MAP[pluralisedModel];
@@ -26,11 +24,7 @@ export default async (request, response, next, pluralisedModel) => {
 		const PageComponent = listPages[PLURALISED_MODEL_TO_PAGE_COMPONENT_MAP[pluralisedModel]];
 
 		return sendResponse(response, PageComponent, props);
-
 	} catch (error) {
-
 		return next(error);
-
 	}
-
 };

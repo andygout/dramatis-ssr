@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import preactConfig from 'eslint-config-preact';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import mochaPlugin from 'eslint-plugin-mocha';
 import globals from 'globals';
 
@@ -8,10 +9,7 @@ export default [
 	mochaPlugin.configs.recommended,
 	...preactConfig,
 	{
-		ignores: [
-			'built/*',
-			'public/*'
-		]
+		ignores: ['built/*', 'public/*']
 	},
 	{
 		languageOptions: {
@@ -47,14 +45,10 @@ export default [
 		}
 	},
 	{
-		files: [
-			'**/*.jsx'
-		]
+		files: ['**/*.jsx']
 	},
 	{
-		files: [
-			'src/client/**/*.js'
-		],
+		files: ['src/client/**/*.js'],
 		languageOptions: {
 			globals: {
 				...globals.browser
@@ -65,9 +59,7 @@ export default [
 		}
 	},
 	{
-		files: [
-			'test/**/*.test.js'
-		],
+		files: ['test/**/*.test.js'],
 		languageOptions: {
 			globals: {
 				...globals.mocha
@@ -80,5 +72,6 @@ export default [
 			'mocha/no-exclusive-tests': 'error',
 			'mocha/no-mocha-arrows': 'off'
 		}
-	}
+	},
+	eslintConfigPrettier
 ];

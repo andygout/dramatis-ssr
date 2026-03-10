@@ -32,9 +32,7 @@ const serverBundle = {
 			jsx: 'automatic'
 		}),
 		copy({
-			targets: [
-				{ src: './src/assets/favicon.ico', dest: 'built/assets' }
-			]
+			targets: [{ src: './src/assets/favicon.ico', dest: 'built/assets' }]
 		})
 	]
 };
@@ -90,18 +88,11 @@ const clientStylesBundle = {
 			browser: true
 		}),
 		postcss({
-			plugins: [
-				postcssImport()
-			],
+			plugins: [postcssImport()],
 			extract: 'stylesheets/main.css',
 			minimize: false
 		})
 	]
 };
 
-export default [
-	serverBundle,
-	clientAssetsBundle,
-	clientScriptsBundle,
-	clientStylesBundle
-];
+export default [serverBundle, clientAssetsBundle, clientScriptsBundle, clientStylesBundle];
