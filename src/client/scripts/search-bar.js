@@ -4,8 +4,7 @@ import { MODEL_TO_DISPLAY_NAME_MAP, MODEL_TO_ROUTE_MAP } from '../../utils/const
 
 const URL_BASE = 'http://localhost:3003';
 
-async function performFetch (url) {
-
+async function performFetch(url) {
 	const response = await fetch(url, { mode: 'same-origin' });
 
 	if (response.status !== 200) throw new Error(response.statusText);
@@ -13,37 +12,27 @@ async function performFetch (url) {
 	const searchResults = response.json();
 
 	return searchResults;
-
 }
 
-async function getSearchResults (searchTerm) {
-
+async function getSearchResults(searchTerm) {
 	const url = `${URL_BASE}/api/search?searchTerm=${encodeURIComponent(searchTerm.trim())}`;
 
 	const searchResults = await performFetch(url);
 
 	return searchResults;
-
 }
 
-function suggestionTemplate (option, query, highlightSuggestion, isHighlightCorrespondingToMatch) {
-
+function suggestionTemplate(option, query, highlightSuggestion, isHighlightCorrespondingToMatch) {
 	const characters = highlightSuggestion(option.name, query || option.name, isHighlightCorrespondingToMatch);
 
 	let highlightedOptionName = '';
 
 	for (const [character, shoudHighlight] of characters) {
-
 		if (shoudHighlight) {
-
 			highlightedOptionName += `<span class="autocomplete__option--highlight">${character}</span>`;
-
 		} else {
-
 			highlightedOptionName += `${character}`;
-
 		}
-
 	}
 
 	return `
@@ -53,51 +42,40 @@ function suggestionTemplate (option, query, highlightSuggestion, isHighlightCorr
 			<span class="autocomplete__option-suffix">${`(${MODEL_TO_DISPLAY_NAME_MAP[option.model]})`}</span>
 		</div>
 	`;
-
 }
 
-function mapOptionToSuggestedValue (option) {
-
+function mapOptionToSuggestedValue(option) {
 	const { name } = option;
 
 	const suggestedValue = name;
 
 	return suggestedValue;
-
 }
 
-function onConfirm (selectedOption) {
-
+function onConfirm(selectedOption) {
 	const { model, uuid } = selectedOption;
 
 	const instancePath = `/${MODEL_TO_ROUTE_MAP[model]}/${uuid}`;
 
 	location.href = instancePath;
-
 }
 
-async function customSearchResults (searchTerm, populateOptions) {
-
+async function customSearchResults(searchTerm, populateOptions) {
 	if (searchTerm === '') {
-
 		populateOptions([]);
 
 		return;
-
 	}
 
 	const searchResults = await getSearchResults(searchTerm);
 
 	populateOptions(searchResults);
-
 }
 
-function debounce (func, wait) {
-
+function debounce(func, wait) {
 	let timeout;
 
 	return function (...args) {
-
 		const later = () => {
 			timeout = null;
 			func.apply(this, args);
@@ -106,13 +84,10 @@ function debounce (func, wait) {
 		clearTimeout(timeout);
 
 		timeout = setTimeout(later, wait);
-
 	};
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-
 	const autocompleteElement = document.getElementById('autocomplete');
 
 	new Autocomplete(autocompleteElement, {
@@ -125,5 +100,4 @@ document.addEventListener('DOMContentLoaded', function () {
 		showNoOptionsFound: true,
 		source: debounce(customSearchResults, 1000)
 	});
-
 });

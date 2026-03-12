@@ -1,5 +1,4 @@
-const Head = props => {
-
+const Head = (props) => {
 	const { documentTitle } = props;
 
 	return (
@@ -11,7 +10,6 @@ const Head = props => {
 			<script src="/scripts/main.js" />
 		</head>
 	);
-
 };
 
 export default Head;

@@ -1,8 +1,7 @@
 import sendResponse from './helpers/send-response.js';
 import { Home } from '../pages/index.js';
 
-export default response => {
-
+export default (response) => {
 	const title = 'Home';
 
 	const props = {
@@ -13,5 +12,4 @@ export default response => {
 	const PageComponent = Home;
 
 	return sendResponse(response, PageComponent, props);
-
 };

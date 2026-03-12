@@ -5,76 +5,50 @@ import InstanceLink from './InstanceLink.jsx';
 import PrependedSurInstance from './PrependedSurInstance.jsx';
 import WritingCredits from './WritingCredits.jsx';
 
-const WritingEntities = props => {
-
+const WritingEntities = (props) => {
 	const { entities } = props;
 
 	return (
 		<Fragment>
+			{entities
+				.map((entity, index) => (
+					<Fragment key={index}>
+						{entity.surMaterial?.surMaterial && (
+							<PrependedSurInstance surInstance={entity.surMaterial.surMaterial} />
+						)}
 
-			{
-				entities
-					.map((entity, index) =>
-						<Fragment key={index}>
+						{entity.surMaterial && <PrependedSurInstance surInstance={entity.surMaterial} />}
 
-							{
-								entity.surMaterial?.surMaterial && (
-									<PrependedSurInstance surInstance={entity.surMaterial.surMaterial} />
-								)
-							}
+						<InstanceLink instance={entity} />
 
-							{
-								entity.surMaterial && (
-									<PrependedSurInstance surInstance={entity.surMaterial} />
-								)
-							}
+						{(entity.format || entity.year) && (
+							<AppendedFormatAndYear format={entity.format} year={entity.year} />
+						)}
 
-							<InstanceLink instance={entity} />
+						{entity.writingCredits?.length > 0 && (
+							<Fragment>
+								<Fragment> </Fragment>
 
-							{
-								(entity.format || entity.year) && (
-									<AppendedFormatAndYear format={entity.format} year={entity.year} />
-								)
-							}
+								<WritingCredits credits={entity.writingCredits} isAppendage={true} />
+							</Fragment>
+						)}
+					</Fragment>
+				))
+				.reduce((accumulator, currentValue, currentIndex) => {
+					let separator = ', ';
 
-							{
-								entity.writingCredits?.length > 0 && (
-									<Fragment>
+					if (entities.length === 2) {
+						separator = ' and ';
+					} else {
+						const isFinalIteration = currentIndex === entities.length - 1;
 
-										<Fragment>{' '}</Fragment>
+						if (isFinalIteration) separator = ', and ';
+					}
 
-										<WritingCredits credits={entity.writingCredits} isAppendage={true} />
-
-									</Fragment>
-								)
-							}
-
-						</Fragment>
-					)
-					.reduce((accumulator, currentValue, currentIndex) => {
-
-						let separator = ', ';
-
-						if (entities.length === 2) {
-
-							separator = ' and ';
-
-						} else {
-
-							const isFinalIteration = currentIndex === entities.length - 1;
-
-							if (isFinalIteration) separator = ', and ';
-
-						}
-
-						return [accumulator, separator, currentValue];
-
-					})
-			}
-
+					return [accumulator, separator, currentValue];
+				})}
 		</Fragment>
 	);
-
 };
 
 export default WritingEntities;

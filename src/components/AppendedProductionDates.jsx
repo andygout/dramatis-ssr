@@ -2,8 +2,7 @@ import { Fragment } from 'preact';
 
 import formatDate from '../lib/format-date.js';
 
-const AppendedProductionDates = props => {
-
+const AppendedProductionDates = (props) => {
 	const { startDate, endDate } = props;
 
 	const displayText = (() => {
@@ -19,10 +18,7 @@ const AppendedProductionDates = props => {
 		}
 	})();
 
-	return (
-		<Fragment>{` (${displayText})`}</Fragment>
-	);
-
+	return <Fragment>{` (${displayText})`}</Fragment>;
 };
 
 export default AppendedProductionDates;

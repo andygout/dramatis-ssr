@@ -1,13 +1,11 @@
 import accessibleAutocomplete from 'accessible-autocomplete';
 
-function highlightSuggestion (suggestion, query, isHighlightCorrespondingToMatch) {
-
+function highlightSuggestion(suggestion, query, isHighlightCorrespondingToMatch) {
 	const result = suggestion.split('');
 
 	const matchIndex = suggestion.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
 
 	return result.map(function (character, index) {
-
 		let shouldHighlight = !isHighlightCorrespondingToMatch;
 
 		const hasMatched = matchIndex > -1;
@@ -15,19 +13,14 @@ function highlightSuggestion (suggestion, query, isHighlightCorrespondingToMatch
 		const characterIsWithinMatch = index >= matchIndex && index <= matchIndex + query.length - 1;
 
 		if (hasMatched && characterIsWithinMatch) {
-
 			shouldHighlight = isHighlightCorrespondingToMatch;
-
 		}
 
 		return [character, shouldHighlight];
-
 	});
-
 }
 
-function createLoadingContainer () {
-
+function createLoadingContainer() {
 	const fragment = document.createRange().createContextualFragment(`
 		<div class="autocomplete__menu-loading-container">
 			<div class="autocomplete__menu-loading"></div>
@@ -35,43 +28,31 @@ function createLoadingContainer () {
 	`);
 
 	return fragment.querySelector('*');
-
 }
 
-function showLoadingPane (instance) {
-
+function showLoadingPane(instance) {
 	instance.container.appendChild(instance.loadingContainer);
 
 	const menu = instance.container.querySelector('.autocomplete__menu');
 
 	if (menu) {
-
 		menu.classList.add('autocomplete__menu--loading');
-
 	}
-
 }
 
-function hideLoadingPane (instance) {
-
+function hideLoadingPane(instance) {
 	if (instance.container.contains(instance.loadingContainer)) {
-
 		instance.container.removeChild(instance.loadingContainer);
-
 	}
 
 	const menu = instance.container.querySelector('.autocomplete__menu');
 
 	if (menu) {
-
 		menu.classList.remove('autocomplete__menu--loading');
-
 	}
-
 }
 
-function createClearButton (id) {
-
+function createClearButton(id) {
 	const fragment = document.createRange().createContextualFragment(`
 		<button class="autocomplete__clear" type="button" aria-controls="${id}" title="Clear input">
 			<span class="autocomplete__visually-hidden">Clear input</span>
@@ -79,11 +60,9 @@ function createClearButton (id) {
 	`);
 
 	return fragment.querySelector('*');
-
 }
 
-function initClearButton (instance) {
-
+function initClearButton(instance) {
 	const input = instance.autocompleteEl.querySelector('input');
 
 	const clearButton = createClearButton(input.id);
@@ -91,7 +70,6 @@ function initClearButton (instance) {
 	let timeout = null;
 
 	clearButton.addEventListener('click', () => {
-
 		// Remove the loading pane, in-case of a slow response.
 		hideLoadingPane(instance);
 
@@ -108,50 +86,34 @@ function initClearButton (instance) {
 		// value and would instead write the old value back into the input.
 		// https://github.com/alphagov/accessible-autocomplete/blob/935f0d43aea1c606e6b38985e3fe7049ddbe98be/src/autocomplete.js#L107-L125
 		if (!timeout) {
-
 			// The user could press the button multiple times
 			// whilst the setTimeout handler has yet to execute
 			// We only want to call the handler once
 			timeout = setTimeout(() => {
-
 				input.focus();
 
 				timeout = null;
-
 			}, 110);
-
 		}
-
 	});
 
 	input.addEventListener('input', () => {
-
 		const textInInput = input.value.length > 0;
 
 		const clearButtonOnPage = instance.autocompleteEl.contains(clearButton);
 
 		if (textInInput) {
-
 			if (!clearButtonOnPage) {
-
 				instance.autocompleteEl.appendChild(clearButton);
-
 			}
-
 		} else if (clearButtonOnPage) {
-
 			clearButton.parentElement.removeChild(clearButton);
-
 		}
-
 	});
-
 }
 
 class Autocomplete {
-
-	constructor (autocompleteEl, options) {
-
+	constructor(autocompleteEl, options) {
 		this.autocompleteEl = autocompleteEl;
 
 		const opts = options || Autocomplete.getDataAttributes(autocompleteEl);
@@ -159,22 +121,16 @@ class Autocomplete {
 		this.options = {};
 
 		if (opts.source) {
-
 			this.options.source = opts.source;
 			this.options.defaultValue = opts.defaultValue;
-
 		}
 
 		if (opts.mapOptionToSuggestedValue) {
-
 			this.options.mapOptionToSuggestedValue = opts.mapOptionToSuggestedValue;
-
 		}
 
 		if (opts.onConfirm) {
-
 			this.options.onConfirm = opts.onConfirm;
-
 		}
 
 		this.options.showNoOptionsFound = opts.showNoOptionsFound || false;
@@ -182,17 +138,13 @@ class Autocomplete {
 		this.options.confirmOnBlur = opts.confirmOnBlur ?? true;
 
 		if (opts.suggestionTemplate) {
-
 			this.options.suggestionTemplate = opts.suggestionTemplate;
-
 		}
 
 		this.options.isHighlightCorrespondingToMatch = Boolean(opts.isHighlightCorrespondingToMatch);
 
 		if (opts.autoselect) {
-
 			this.options.autoselect = opts.autoselect;
-
 		}
 
 		const container = document.createElement('div');
@@ -204,23 +156,25 @@ class Autocomplete {
 		const selectInputElement = autocompleteEl.querySelector('select');
 
 		if (!this.options.source && !selectInputElement) {
-
-			throw new Error('Could not find a source for auto-completion options. Add a `select` element to your markup, or configure a `source` function to fetch autocomplete options.');
-
+			throw new Error(
+				'Could not find a source for auto-completion options. Add a `select` element to your markup, or configure a `source` function to fetch autocomplete options.'
+			);
 		}
 
 		if (this.options.source) {
-
 			// If source is a string, then it is the name of a global function to use.
 			// If source is not a string, then it is a function to use.
-			const customSource = typeof this.options.source === 'string' ? window[this.options.source] : this.options.source;
+			const customSource =
+				typeof this.options.source === 'string' ? window[this.options.source] : this.options.source;
 
 			// If mapOptionToSuggestedValue is a string, then it is the name of a global function to use.
 			// If mapOptionToSuggestedValue is not a string, then it is a function to use.
-			this.mapOptionToSuggestedValue = typeof this.options.mapOptionToSuggestedValue === 'string' ? window[this.options.mapOptionToSuggestedValue] : this.options.mapOptionToSuggestedValue;
+			this.mapOptionToSuggestedValue =
+				typeof this.options.mapOptionToSuggestedValue === 'string'
+					? window[this.options.mapOptionToSuggestedValue]
+					: this.options.mapOptionToSuggestedValue;
 
 			this.options.source = (query, populateOptions) => {
-
 				// One way this function can be invoked is following a clearButton click event.
 
 				// The consumer-provided `customSource()` function can be wrapped in `debounce()`, creating the potential
@@ -231,17 +185,14 @@ class Autocomplete {
 
 				// A clearButton click event will hide the loading pane and set the input value as an empty string.
 				if (query) {
-
 					// Therefore only show the loading pane if a `query` (i.e. input) value is present
 					// so as to avoid temporarily re-showing the loading pane prior to this function's callback hiding it once again.
 					showLoadingPane(this);
-
 				}
 
 				// A clearButton click event will blur the input field, resulting in the listbox of options becoming hidden
 				// (but without de-populating the options).
 				if (!query) {
-
 					// If the accessible-autocomplete poll occurs after a clearButton click event
 					// but before this function's callback is invoked then the listbox and its options will be re-displayed.
 					// When the callback eventually runs, it will de-populate the options, consequently re-hiding the listbox.
@@ -249,14 +200,11 @@ class Autocomplete {
 					// (where, logically, there will be no corresponding options),
 					// immediately de-populate the options rather than waiting for the callback to do so.
 					populateOptions([]);
-
 				}
 
 				const callback = (options) => {
-
 					hideLoadingPane(this);
 					populateOptions(options);
-
 				};
 
 				customSource(query, callback);
@@ -269,9 +217,9 @@ class Autocomplete {
 			const isRequired = input.hasAttribute('required');
 
 			if (!id) {
-
-				throw new Error('Missing `id` attribute on the autocomplete input. An `id` needs to be set as it is used within the autocomplete to implement the accessibility features.');
-
+				throw new Error(
+					'Missing `id` attribute on the autocomplete input. An `id` needs to be set as it is used within the autocomplete to implement the accessibility features.'
+				);
 			}
 
 			this.autocompleteEl.innerHTML = '';
@@ -284,13 +232,9 @@ class Autocomplete {
 				placeholder,
 				required: isRequired,
 				onConfirm: (option) => {
-
 					if (option && this.options.onConfirm) {
-
 						this.options.onConfirm(option);
-
 					}
-
 				},
 				reopenOnFocusWhenValid: this.options.reopenOnFocusWhenValid,
 				confirmOnBlur: this.options.confirmOnBlur,
@@ -302,24 +246,20 @@ class Autocomplete {
 				autoselect: this.options.autoselect || false,
 				templates: {
 					suggestion: (option, query) => {
-
 						const isHighlightCorrespondingToMatch = this.options.isHighlightCorrespondingToMatch;
 
 						// If the suggestionTemplate override option is provided,
 						// use that to render the suggestion.
-						if(typeof this.options.suggestionTemplate === 'function') {
-
+						if (typeof this.options.suggestionTemplate === 'function') {
 							return this.options.suggestionTemplate(
 								option,
 								query,
 								highlightSuggestion,
 								isHighlightCorrespondingToMatch
 							);
-
 						}
 
 						if (typeof option === 'object') {
-
 							// If the `mapOptionToSuggestedValue` function is defined
 							// Apply the function to the option. This is a way for the
 							// consuming application to decide what text should be
@@ -328,25 +268,20 @@ class Autocomplete {
 							// For example, if the option is an object which contains a property
 							// which should be used as the suggestion string.
 							if (typeof this.mapOptionToSuggestedValue === 'function') {
-
 								option = this.mapOptionToSuggestedValue(option);
-
 							}
-
 						}
 
 						if (typeof option !== 'string' && typeof option !== 'undefined') {
-
-							throw new Error(`The option trying to be displayed as a suggestion is not a string, it is "${typeof option}". autocomplete can only display strings as suggestions. Define a \`mapOptionToSuggestedValue\` function to convert the option into a string to be used as the suggestion.`);
-
+							throw new Error(
+								`The option trying to be displayed as a suggestion is not a string, it is "${typeof option}". autocomplete can only display strings as suggestions. Define a \`mapOptionToSuggestedValue\` function to convert the option into a string to be used as the suggestion.`
+							);
 						}
 
 						return this.suggestionTemplate(option, isHighlightCorrespondingToMatch);
 					},
 					inputValue: (option) => {
-
 						if (typeof option === 'object') {
-
 							// If the `mapOptionToSuggestedValue` function is defined
 							// Apply the function to the option. This is a way for the
 							// consuming application to decide what text should be
@@ -355,37 +290,29 @@ class Autocomplete {
 							// For example, if the option is an object which contains a property
 							// which should be used as the suggestion string.
 							if (typeof this.mapOptionToSuggestedValue === 'function') {
-
 								option = this.mapOptionToSuggestedValue(option);
-
 							}
-
 						}
 
 						if (typeof option !== 'string' && typeof option !== 'undefined') {
-
-							throw new Error(`The option trying to be displayed as a suggestion is not a string, it is "${typeof option}". autocomplete can only display strings as suggestions. Define a \`mapOptionToSuggestedValue\` function to convert the option into a string to be used as the suggestion.`);
-
+							throw new Error(
+								`The option trying to be displayed as a suggestion is not a string, it is "${typeof option}". autocomplete can only display strings as suggestions. Define a \`mapOptionToSuggestedValue\` function to convert the option into a string to be used as the suggestion.`
+							);
 						}
 
 						return option;
-
 					}
-
 				}
-
 			});
-
 		} else {
-
 			const id = selectInputElement.getAttribute('id');
 			const name = selectInputElement.getAttribute('name');
 			const isRequired = selectInputElement.hasAttribute('required');
 
 			if (!id) {
-
-				throw new Error('Missing `id` attribute on the autocomplete input. An `id` needs to be set as it is used within the autocomplete to implement the accessibility features.');
-
+				throw new Error(
+					'Missing `id` attribute on the autocomplete input. An `id` needs to be set as it is used within the autocomplete to implement the accessibility features.'
+				);
 			}
 
 			this.autocompleteEl.appendChild(this.container);
@@ -396,13 +323,9 @@ class Autocomplete {
 				name,
 				required: isRequired,
 				onConfirm: (option) => {
-
 					if (option && this.options.onConfirm) {
-
 						this.options.onConfirm(option);
-
 					}
-
 				},
 				autoselect: this.options.autoselect || false,
 				// To fallback with JS an enhanced element's default value should
@@ -422,11 +345,9 @@ class Autocomplete {
 		this.loadingContainer = createLoadingContainer();
 
 		initClearButton(this);
-
 	}
 
-	suggestionTemplate (suggestedValue, isHighlightCorrespondingToMatch) {
-
+	suggestionTemplate(suggestedValue, isHighlightCorrespondingToMatch) {
 		// autocomplete has a UI design to highlight characters in the suggestions.
 		const input = this.autocompleteEl.querySelector('input');
 
@@ -439,17 +360,11 @@ class Autocomplete {
 		let output = '';
 
 		for (const [character, shoudHighlight] of characters) {
-
 			if (shoudHighlight) {
-
 				output += `<span class="autocomplete__option--highlight">${character}</span>`;
-
 			} else {
-
 				output += `${character}`;
-
 			}
-
 		}
 
 		const span = document.createElement('span');
@@ -460,30 +375,24 @@ class Autocomplete {
 		return span.outerHTML;
 	}
 
-	static init (rootElement, options) {
-
+	static init(rootElement, options) {
 		if (!rootElement) {
-
 			rootElement = document.body;
-
 		}
 
 		if (!(rootElement instanceof HTMLElement)) {
-
 			rootElement = document.querySelector(rootElement);
-
 		}
 
 		if (rootElement instanceof HTMLElement && rootElement.matches('[data-component=autocomplete]')) {
-
 			return new Autocomplete(rootElement, options);
-
 		}
 
-		return Array.from(rootElement.querySelectorAll('[data-component="autocomplete"]'), rootEl => new Autocomplete(rootEl, options));
-
+		return Array.from(
+			rootElement.querySelectorAll('[data-component="autocomplete"]'),
+			(rootEl) => new Autocomplete(rootEl, options)
+		);
 	}
-
 }
 
 export default Autocomplete;

@@ -1,5 +1,3 @@
 import CurrentPath from './CurrentPath.jsx';
 
-export {
-	CurrentPath
-};
+export { CurrentPath };
