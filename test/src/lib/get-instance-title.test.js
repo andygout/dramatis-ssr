@@ -1,6 +1,9 @@
-import { expect } from 'chai';
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
 import getInstanceTitle from '../../../src/lib/get-instance-title.js';
+
+const context = describe;
 
 describe('Get Instance Title module', () => {
 	context('instance model is AWARD_CEREMONY', () => {
@@ -12,7 +15,7 @@ describe('Get Instance Title module', () => {
 					award: null
 				};
 
-				expect(getInstanceTitle(instance)).to.equal('2020');
+				assert.equal(getInstanceTitle(instance), '2020');
 			});
 		});
 
@@ -26,7 +29,7 @@ describe('Get Instance Title module', () => {
 					}
 				};
 
-				expect(getInstanceTitle(instance)).to.equal('Laurence Olivier Awards 2020');
+				assert.equal(getInstanceTitle(instance), 'Laurence Olivier Awards 2020');
 			});
 		});
 	});
@@ -40,7 +43,7 @@ describe('Get Instance Title module', () => {
 					surVenue: null
 				};
 
-				expect(getInstanceTitle(instance)).to.equal('New Theatre');
+				assert.equal(getInstanceTitle(instance), 'New Theatre');
 			});
 		});
 
@@ -54,7 +57,7 @@ describe('Get Instance Title module', () => {
 					}
 				};
 
-				expect(getInstanceTitle(instance)).to.equal('Sheffield Theatres: Studio Theatre');
+				assert.equal(getInstanceTitle(instance), 'Sheffield Theatres: Studio Theatre');
 			});
 		});
 	});
@@ -66,7 +69,7 @@ describe('Get Instance Title module', () => {
 				name: 'Paul Higgins'
 			};
 
-			expect(getInstanceTitle(instance)).to.equal('Paul Higgins');
+			assert.equal(getInstanceTitle(instance), 'Paul Higgins');
 		});
 	});
 });
