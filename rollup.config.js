@@ -6,7 +6,7 @@ import esbuild from 'rollup-plugin-esbuild';
 import postcss from 'rollup-plugin-postcss';
 
 const serverBundle = {
-	input: 'src/app.js',
+	input: 'src/server.js',
 	output: {
 		file: 'built/main.js',
 		sourcemap: 'inline'
