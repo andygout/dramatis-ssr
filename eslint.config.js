@@ -1,12 +1,10 @@
 import js from '@eslint/js';
 import preactConfig from 'eslint-config-preact';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import mochaPlugin from 'eslint-plugin-mocha';
 import globals from 'globals';
 
 export default [
 	js.configs.recommended,
-	mochaPlugin.configs.recommended,
 	...preactConfig,
 	{
 		ignores: ['built/*', 'public/*']
@@ -56,21 +54,6 @@ export default [
 		},
 		rules: {
 			'prefer-arrow-callback': 'off'
-		}
-	},
-	{
-		files: ['test/**/*.test.js'],
-		languageOptions: {
-			globals: {
-				...globals.mocha
-			}
-		},
-		plugins: {
-			mocha: mochaPlugin
-		},
-		rules: {
-			'mocha/no-exclusive-tests': 'error',
-			'mocha/no-mocha-arrows': 'off'
 		}
 	},
 	eslintConfigPrettier
