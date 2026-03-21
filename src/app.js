@@ -6,8 +6,8 @@ import session from 'express-session';
 import logger from 'morgan';
 import favicon from 'serve-favicon';
 
-import { errorHandler } from './middleware/index.js';
 import apiRouter from './api-router.js';
+import { errorHandler } from './middleware/index.js';
 import router from './router.js';
 
 const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle

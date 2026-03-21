@@ -1,5 +1,5 @@
 import commonjs from '@rollup/plugin-commonjs';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcssImport from 'postcss-import';
 import copy from 'rollup-plugin-copy';
 import esbuild from 'rollup-plugin-esbuild';

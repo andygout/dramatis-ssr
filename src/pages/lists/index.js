@@ -1,5 +1,5 @@
-import Awards from './Awards.jsx';
 import AwardCeremonies from './AwardCeremonies.jsx';
+import Awards from './Awards.jsx';
 import Characters from './Characters.jsx';
 import Companies from './Companies.jsx';
 import Festivals from './Festivals.jsx';

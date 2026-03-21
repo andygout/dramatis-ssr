@@ -1,7 +1,7 @@
 import { Fragment } from 'preact';
 
-import { capitalise } from '../lib/strings.js';
 import WritingEntities from './WritingEntities.jsx';
+import { capitalise } from '../lib/strings.js';
 
 const WritingCredits = (props) => {
 	const { credits, isAppendage } = props;
