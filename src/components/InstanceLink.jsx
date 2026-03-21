@@ -1,7 +1,6 @@
 import { useContext } from 'preact/hooks';
 
 import { CurrentPath } from '../contexts/index.js';
-
 import { MODEL_TO_ROUTE_MAP } from '../utils/constants.js';
 
 const InstanceLink = (props) => {

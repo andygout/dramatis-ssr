@@ -1,7 +1,7 @@
 import { Fragment } from 'preact';
 
-import { capitalise } from '../lib/strings.js';
 import ProducerEntities from './ProducerEntities.jsx';
+import { capitalise } from '../lib/strings.js';
 
 const ProducerCredits = (props) => {
 	const { credits } = props;

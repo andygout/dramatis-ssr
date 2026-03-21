@@ -1,6 +1,6 @@
 import AppendedProductionTeamCredits from './AppendedProductionTeamCredits.jsx';
-import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
 import ListWrapper from './ListWrapper.jsx';
+import ProductionLinkWithContext from './ProductionLinkWithContext.jsx';
 
 const CreativeProductionsList = (props) => {
 	const { productions } = props;

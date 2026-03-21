@@ -47,6 +47,7 @@
     "eslint": "9.36.0",
     "eslint-config-preact": "2.0.0",
     "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import": "2.32.0",
     "globals": "16.4.0",
     "lintspaces-cli": "1.0.0",
     "postcss-import": "16.1.1",
