@@ -5,7 +5,7 @@
   "description": "Server-side rendered (SSR) application that provides listings for theatrical productions, materials, and associated data.",
   "author": "https://github.com/andygout",
   "license": "MS-RSL",
-  "main": "src/app.js",
+  "main": "src/server.js",
   "scripts": {
     "format": "prettier \"**/*.{js,jsx,json,css,md,yml}\" --write",
     "lint": "eslint",
