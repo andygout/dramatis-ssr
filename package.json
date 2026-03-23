@@ -11,15 +11,26 @@
     "lint": "eslint",
     "lintspaces": "git ls-files ':!:*.ico' | xargs lintspaces -e .editorconfig",
     "lint-check": "npm run lint && npm run lintspaces",
+    "lint-staged": "lint-staged",
     "unit-test": "node --test",
     "build": "rollup --config",
     "watch": "rollup --config --watch",
     "node": "node --watch-path=built --watch-preserve-output --watch-path=public --watch-preserve-output --enable-source-maps built/main.js",
     "start": "concurrently --names \"watch,node\" --prefixColors \"yellow,green\" \"npm run watch\" \"npm run node\""
   },
+  "lint-staged": {
+    "*.{js,jsx,json,css,md,yml}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint"
+    ],
+    "*": [
+      "lintspaces -e .editorconfig"
+    ]
+  },
   "pre-commit": [
-    "format",
-    "lint-check",
+    "lint-staged",
     "unit-test"
   ],
   "engines": {
@@ -49,6 +60,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "globals": "16.4.0",
+    "lint-staged": "16.4.0",
     "lintspaces-cli": "1.0.0",
     "postcss-import": "16.1.1",
     "pre-commit": "1.2.2",
