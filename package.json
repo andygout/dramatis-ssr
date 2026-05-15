@@ -36,12 +36,12 @@
     "unit-test"
   ],
   "engines": {
-    "node": "24.8.0",
-    "npm": "11.6.0"
+    "node": "26.1.0",
+    "npm": "11.14.1"
   },
   "volta": {
-    "node": "24.8.0",
-    "npm": "11.6.0"
+    "node": "26.1.0",
+    "npm": "11.14.1"
   },
   "dependencies": {
     "accessible-autocomplete": "github:andygout/accessible-autocomplete#v2.0.1",
