@@ -21,3 +21,35 @@ Server-side rendered (SSR) application that provides listings for theatrical pro
 ## To run unit tests
 
 - `$ npm run unit-test`
+
+## Architecture
+
+```mermaid
+flowchart LR
+	%% Containers and components
+	subgraph CLIENT_SIDE[Client-side]
+		BROWSER(Browser)
+	end
+
+	subgraph SERVER_SIDE[Server-side]
+		DRAMATIS_API(dramatis-api)
+		DRAMATIS_SSR(dramatis-ssr)
+	end
+
+	%% Relationships
+	BROWSER -- 1. GET data --> DRAMATIS_SSR
+
+	DRAMATIS_SSR -- 2. GET data --> DRAMATIS_API
+
+	%% Style Definitions
+	classDef browser fill:#c2ad01,stroke:#625800,color:#FFFFFF
+
+	classDef dramatisSsr fill:#bc6e2a,stroke:#864206,color:#FFFFFF
+
+	classDef dramatisApi fill:#006699,stroke:#042c53,color:#FFFFFF
+
+	%% Apply Styles
+	class DRAMATIS_API dramatisApi
+	class DRAMATIS_SSR dramatisSsr
+	class BROWSER browser
+```
