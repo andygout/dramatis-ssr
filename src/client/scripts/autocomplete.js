@@ -31,7 +31,9 @@ function createLoadingContainer() {
 }
 
 function showLoadingPane(instance) {
-	instance.container.appendChild(instance.loadingContainer);
+	if (!instance.container.contains(instance.loadingContainer)) {
+		instance.container.appendChild(instance.loadingContainer);
+	}
 
 	const menu = instance.container.querySelector('.autocomplete__menu');
 
