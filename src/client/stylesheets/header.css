@@ -3,7 +3,7 @@
 	justify-content: space-between;
 	align-items: center;
 	background-color: var(--header-background-color);
-	padding: 0 10px;
+	padding-right: 10px;
 }
 
 .header__component {
@@ -11,6 +11,10 @@
 }
 
 .header__home-link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	line-height: 1;
 	font-size: 65px;
 	font-weight: bold;
 	color: var(--header-text-color);
@@ -19,4 +23,15 @@
 	&:hover {
 		color: var(--header-text-color-hover);
 	}
+
+	&:hover .header__home-link-icon {
+		background-color: var(--header-text-color-hover);
+	}
+}
+
+.header__home-link-icon {
+	width: 1.2em;
+	height: 1.2em;
+	background-color: var(--header-text-color);
+	transition: background-color 0.5s;
 }
