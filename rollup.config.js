@@ -32,7 +32,7 @@ const serverBundle = {
 			jsx: 'automatic'
 		}),
 		copy({
-			targets: [{ src: './src/assets/favicon.ico', dest: 'built/assets' }]
+			targets: [{ src: './src/assets/favicon.png', dest: 'built/assets' }]
 		})
 	]
 };
