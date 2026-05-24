@@ -24,15 +24,12 @@
 	&:hover {
 		color: var(--header-text-color-hover);
 	}
-
-	&:hover .header__home-link-icon {
-		background-color: var(--header-text-color-hover);
-	}
 }
 
 .header__home-link-icon {
-	width: 1.2em;
-	height: 1.2em;
-	background-color: var(--header-text-color);
-	transition: background-color 0.5s;
+	margin: 5px;
+	width: 1em;
+	height: 1em;
+	background-color: currentColor;
+	mask: url('/assets/header-logo-icon.svg') center / contain no-repeat;
 }
