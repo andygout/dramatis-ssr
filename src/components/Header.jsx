@@ -3,7 +3,10 @@ const Header = () => {
 		<header className="header">
 			<div className="header__component">
 				<a href="/" className="header__home-link">
-					<span className="header__home-link-icon" aria-hidden="true" />
+					<span className="header__home-link-icon" aria-hidden="true">
+						<span className="header__home-link-icon-glow" />
+						<span className="header__home-link-icon-shape" />
+					</span>
 					Dramatis
 				</a>
 			</div>

@@ -4,6 +4,7 @@
 	align-items: center;
 	background-color: var(--header-background-color);
 	padding-right: 10px;
+	overflow: hidden;
 }
 
 .header__component {
@@ -11,6 +12,11 @@
 }
 
 .header__home-link {
+	--header-home-link-glow-color-1: color-mix(in srgb, var(--header-text-color-hover), transparent 5%);
+	--header-home-link-glow-color-2: color-mix(in srgb, var(--header-text-color-hover), transparent 30%);
+	--header-home-link-glow-color-3: color-mix(in srgb, var(--header-text-color-hover), transparent 55%);
+	--header-home-link-glow-color-4: color-mix(in srgb, var(--header-text-color-hover), transparent 75%);
+
 	display: inline-flex;
 	vertical-align: bottom;
 	align-items: center;
@@ -19,17 +25,66 @@
 	font-size: 65px;
 	font-weight: bold;
 	color: var(--header-text-color);
-	transition: color 0.5s;
+	text-shadow:
+		0 0 4px transparent,
+		0 0 10px transparent,
+		0 0 18px transparent,
+		0 0 32px transparent;
+	transition:
+		color 0.3s ease,
+		text-shadow 0.3s ease;
 
 	&:hover {
 		color: var(--header-text-color-hover);
+		text-shadow:
+			0 0 4px var(--header-home-link-glow-color-1),
+			0 0 10px var(--header-home-link-glow-color-2),
+			0 0 18px var(--header-home-link-glow-color-3),
+			0 0 32px var(--header-home-link-glow-color-4);
 	}
 }
 
 .header__home-link-icon {
+	display: block;
+	flex: 0 0 auto;
 	margin: 5px;
+	position: relative;
 	width: 1em;
 	height: 1em;
+}
+
+.header__home-link-icon-glow,
+.header__home-link-icon-shape {
+	display: block;
+	position: absolute;
+	inset: 0;
+}
+
+.header__home-link-icon-glow {
+	color: var(--header-text-color-hover);
+	filter: drop-shadow(0 0 4px var(--header-home-link-glow-color-1))
+		drop-shadow(0 0 10px var(--header-home-link-glow-color-2))
+		drop-shadow(0 0 18px var(--header-home-link-glow-color-3))
+		drop-shadow(0 0 32px var(--header-home-link-glow-color-4));
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.header__home-link:hover .header__home-link-icon-glow,
+.header__home-link:focus-visible .header__home-link-icon-glow {
+	opacity: 1;
+}
+
+.header__home-link-icon-shape {
+	z-index: 1;
+}
+
+.header__home-link-icon-glow::before,
+.header__home-link-icon-shape::before {
+	display: block;
+	width: 100%;
+	height: 100%;
 	background-color: currentColor;
+	content: '';
 	mask: url('/assets/header-logo-icon.svg') center / contain no-repeat;
 }
