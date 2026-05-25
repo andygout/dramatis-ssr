@@ -11,7 +11,8 @@
 }
 
 .header__home-link {
-	display: flex;
+	display: inline-flex;
+	vertical-align: bottom;
 	align-items: center;
 	gap: 10px;
 	line-height: 1;
