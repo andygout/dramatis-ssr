@@ -47,6 +47,10 @@ const Navigation = () => {
 				</li>
 
 				<li>
+					<a href="/times">Times</a>
+				</li>
+
+				<li>
 					<a href="/venues">Venues</a>
 				</li>
 			</ul>

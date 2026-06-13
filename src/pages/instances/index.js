@@ -8,6 +8,7 @@ import Material from './Material.jsx';
 import Person from './Person.jsx';
 import Production from './Production.jsx';
 import Season from './Season.jsx';
+import Time from './Time.jsx';
 import Venue from './Venue.jsx';
 
 export {
@@ -21,5 +22,6 @@ export {
 	Person,
 	Production,
 	Season,
+	Time,
 	Venue
 };
