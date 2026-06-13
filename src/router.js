@@ -67,6 +67,10 @@ router.get('/seasons', (request, response, next) =>
 
 router.get('/seasons/:uuid', (request, response, next) => instancesController(request, response, next));
 
+router.get('/times', (request, response, next) => listsController(request, response, next, PLURALISED_MODELS.TIMES));
+
+router.get('/times/:uuid', (request, response, next) => instancesController(request, response, next));
+
 router.get('/venues', (request, response, next) => listsController(request, response, next, PLURALISED_MODELS.VENUES));
 
 router.get('/venues/:uuid', (request, response, next) => instancesController(request, response, next));
