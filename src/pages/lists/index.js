@@ -6,6 +6,7 @@ import Festivals from './Festivals.jsx';
 import FestivalSerieses from './FestivalSerieses.jsx';
 import Materials from './Materials.jsx';
 import People from './People.jsx';
+import Places from './Places.jsx';
 import Productions from './Productions.jsx';
 import Seasons from './Seasons.jsx';
 import Times from './Times.jsx';
@@ -20,6 +21,7 @@ export {
 	FestivalSerieses,
 	Materials,
 	People,
+	Places,
 	Productions,
 	Seasons,
 	Times,
