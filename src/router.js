@@ -55,6 +55,10 @@ router.get('/people', (request, response, next) => listsController(request, resp
 
 router.get('/people/:uuid', (request, response, next) => instancesController(request, response, next));
 
+router.get('/places', (request, response, next) => listsController(request, response, next, PLURALISED_MODELS.PLACES));
+
+router.get('/places/:uuid', (request, response, next) => instancesController(request, response, next));
+
 router.get('/productions', (request, response, next) =>
 	listsController(request, response, next, PLURALISED_MODELS.PRODUCTIONS)
 );

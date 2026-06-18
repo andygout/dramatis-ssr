@@ -39,6 +39,10 @@ const Navigation = () => {
 				</li>
 
 				<li>
+					<a href="/places">Places</a>
+				</li>
+
+				<li>
 					<a href="/productions">Productions</a>
 				</li>
 
