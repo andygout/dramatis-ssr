@@ -31,6 +31,10 @@ const Navigation = () => {
 				</li>
 
 				<li>
+					<a href="/locales">Locales</a>
+				</li>
+
+				<li>
 					<a href="/materials">Materials</a>
 				</li>
 

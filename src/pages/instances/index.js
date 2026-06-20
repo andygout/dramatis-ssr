@@ -4,6 +4,7 @@ import Character from './Character.jsx';
 import Company from './Company.jsx';
 import Festival from './Festival.jsx';
 import FestivalSeries from './FestivalSeries.jsx';
+import Locale from './Locale.jsx';
 import Material from './Material.jsx';
 import Person from './Person.jsx';
 import Place from './Place.jsx';
@@ -19,6 +20,7 @@ export {
 	Company,
 	Festival,
 	FestivalSeries,
+	Locale,
 	Material,
 	Person,
 	Place,
