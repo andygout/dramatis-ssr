@@ -26,6 +26,7 @@ const Material = (props) => {
 			writingCredits,
 			surMaterial,
 			subMaterials,
+			settings,
 			characterGroups,
 			originalVersionMaterial,
 			subsequentVersionMaterials,
@@ -83,6 +84,36 @@ const Material = (props) => {
 								</InstanceFacet>
 
 								{renderMaterial(subMaterial)}
+							</div>
+						))}
+					</InstanceFacet>
+				)}
+
+				{settings?.length > 0 && (
+					<InstanceFacet labelText="Settings">
+						{settings.map((setting, index) => (
+							<div key={index} className="nested-instance">
+								<ListWrapper>
+									<Fragment>
+										{setting.locale && (
+											<InstanceFacet labelText="Time">
+												<InstanceLink instance={setting.time} />
+											</InstanceFacet>
+										)}
+
+										{setting.place && (
+											<InstanceFacet labelText="Place">
+												<InstanceLink instance={setting.place} />
+											</InstanceFacet>
+										)}
+
+										{setting.time && (
+											<InstanceFacet labelText="Locale">
+												<InstanceLink instance={setting.locale} />
+											</InstanceFacet>
+										)}
+									</Fragment>
+								</ListWrapper>
 							</div>
 						))}
 					</InstanceFacet>
