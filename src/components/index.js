@@ -11,6 +11,7 @@ import AppendedProductionDates from './AppendedProductionDates.jsx';
 import AppendedProductionTeamCredits from './AppendedProductionTeamCredits.jsx';
 import AppendedQualifier from './AppendedQualifier.jsx';
 import AppendedRoles from './AppendedRoles.jsx';
+import AppendedSettings from './AppendedSettings.jsx';
 import AppendedVenue from './AppendedVenue.jsx';
 import CharactersList from './CharactersList.jsx';
 import CommaSeparatedInstanceLinks from './CommaSeparatedInstanceLinks.jsx';
@@ -59,6 +60,7 @@ export {
 	AppendedProductionTeamCredits,
 	AppendedQualifier,
 	AppendedRoles,
+	AppendedSettings,
 	AppendedVenue,
 	CharactersList,
 	CommaSeparatedInstanceLinks,
