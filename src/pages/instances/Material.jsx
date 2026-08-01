@@ -95,7 +95,7 @@ const Material = (props) => {
 							<div key={index} className="nested-instance">
 								<ListWrapper>
 									<Fragment>
-										{setting.locale && (
+										{setting.time && (
 											<InstanceFacet labelText="Time">
 												<InstanceLink instance={setting.time} />
 											</InstanceFacet>
@@ -107,7 +107,7 @@ const Material = (props) => {
 											</InstanceFacet>
 										)}
 
-										{setting.time && (
+										{setting.locale && (
 											<InstanceFacet labelText="Locale">
 												<InstanceLink instance={setting.locale} />
 											</InstanceFacet>
