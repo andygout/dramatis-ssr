@@ -91,31 +91,34 @@ const Material = (props) => {
 
 				{settings?.length > 0 && (
 					<InstanceFacet labelText="Settings">
-						{settings.map((setting, index) => (
-							<div key={index} className="nested-instance">
-								<ListWrapper>
-									<Fragment>
-										{setting.time && (
-											<InstanceFacet labelText="Time">
+						<ListWrapper>
+							{settings.map((setting, index) => (
+								<li key={index}>
+									{[
+										setting.time && (
+											<Fragment>
+												{'Time: '}
 												<InstanceLink instance={setting.time} />
-											</InstanceFacet>
-										)}
-
-										{setting.place && (
-											<InstanceFacet labelText="Place">
+											</Fragment>
+										),
+										setting.place && (
+											<Fragment>
+												{'Place: '}
 												<InstanceLink instance={setting.place} />
-											</InstanceFacet>
-										)}
-
-										{setting.locale && (
-											<InstanceFacet labelText="Locale">
+											</Fragment>
+										),
+										setting.locale && (
+											<Fragment>
+												{'Locale: '}
 												<InstanceLink instance={setting.locale} />
-											</InstanceFacet>
-										)}
-									</Fragment>
-								</ListWrapper>
-							</div>
-						))}
+											</Fragment>
+										)
+									]
+										.filter(Boolean)
+										.reduce((accumulator, currentValue) => [accumulator, ', ', currentValue])}
+								</li>
+							))}
+						</ListWrapper>
 					</InstanceFacet>
 				)}
 
