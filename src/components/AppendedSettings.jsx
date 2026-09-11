@@ -14,19 +14,19 @@ const AppendedSettings = (props) => {
 					<Fragment key={index}>
 						{[
 							setting.time && (
-								<Fragment>
+								<Fragment key="time">
 									{'time: '}
 									<InstanceLink instance={setting.time} />
 								</Fragment>
 							),
 							setting.place && (
-								<Fragment>
+								<Fragment key="place">
 									{'place: '}
 									<InstanceLink instance={setting.place} />
 								</Fragment>
 							),
 							setting.locale && (
-								<Fragment>
+								<Fragment key="locale">
 									{'locale: '}
 									<InstanceLink instance={setting.locale} />
 								</Fragment>
