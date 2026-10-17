@@ -25,31 +25,40 @@ Server-side rendered (SSR) application that provides listings for theatrical pro
 ## Architecture
 
 ```mermaid
-flowchart LR
-	%% Containers and components
-	subgraph CLIENT_SIDE[Client-side]
-		BROWSER(Browser)
-	end
+---
+config:
+  theme: base
+  themeVariables:
+    actorBkg: "#E6E6E6"
+    actorBorder: "#808080"
+    actorTextColor: "#000000"
+---
+sequenceDiagram
+  %% Components and grouping boxes
+  actor CLIENT as Client
 
-	subgraph SERVER_SIDE[Server-side]
-		DRAMATIS_API(dramatis-api)
-		DRAMATIS_SSR(dramatis-ssr)
-	end
+  box rgb(237, 223, 211) SSR
+    participant DRAMATIS_SSR as dramatis-ssr
+  end
 
-	%% Relationships
-	BROWSER -- 1. GET data --> DRAMATIS_SSR
+  box rgb(218, 231, 242) API
+    participant DRAMATIS_API as dramatis-api
+  end
 
-	DRAMATIS_SSR -- 2. GET data --> DRAMATIS_API
+  box rgb(223, 240, 216) Database
+    participant NEO4J_DATABASE as Neo4j database
+  end
 
-	%% Style Definitions
-	classDef browser fill:#c2ad01,stroke:#625800,color:#FFFFFF
+  %% Relationships
+  CLIENT ->> DRAMATIS_SSR: GET request
 
-	classDef dramatisSsr fill:#bc6e2a,stroke:#864206,color:#FFFFFF
+  DRAMATIS_SSR ->> DRAMATIS_API: GET request
 
-	classDef dramatisApi fill:#006699,stroke:#042c53,color:#FFFFFF
+  DRAMATIS_API ->> NEO4J_DATABASE: Read data
 
-	%% Apply Styles
-	class DRAMATIS_API dramatisApi
-	class DRAMATIS_SSR dramatisSsr
-	class BROWSER browser
+  NEO4J_DATABASE -->> DRAMATIS_API: Return data
+
+  DRAMATIS_API -->> DRAMATIS_SSR: Return data
+
+  DRAMATIS_SSR -->> CLIENT: Return data
 ```
